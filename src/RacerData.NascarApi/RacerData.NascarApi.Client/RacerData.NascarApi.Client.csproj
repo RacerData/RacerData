@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>RacerData</Authors>
+    <Company>RacerData Software</Company>
+    <Description>NASCAR API SDK</Description>
+    <AssemblyVersion>1.0.14.0</AssemblyVersion>
+    <FileVersion>1.0.14.0</FileVersion>
+    <Version>1.0.14</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\LapAverages\EventLapAverages.cs" />
+    <Compile Remove="Models\LapAverages\NLapAverage.cs" />
+    <Compile Remove="Models\LapAverages\VehicleLapTime.cs" />
+    <Compile Remove="Models\LapAverages\VehicleLapTimes.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="RacerData.Commmon.Results" Version="1.0.1" />
+    <PackageReference Include="RacerData.NascarApi" Version="1.0.2" />
+  </ItemGroup>
+  
+  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
+   <Exec Command="nuget add &quot;$(ProjectDir)\bin\Debug\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
+  </Target>
+  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+   <Exec Command="nuget add &quot;$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
+  </Target>
+  
+</Project>

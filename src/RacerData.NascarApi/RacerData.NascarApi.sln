@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi", "RacerData.NascarApi\RacerData.NascarApi.csproj", "{626DD95A-A964-404E-8F78-5B450F3415D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.Client", "RacerData.NascarApi.Client\RacerData.NascarApi.Client.csproj", "{5E1735F6-268B-4808-90B5-2CAF871C2CCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{626DD95A-A964-404E-8F78-5B450F3415D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{626DD95A-A964-404E-8F78-5B450F3415D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{626DD95A-A964-404E-8F78-5B450F3415D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{626DD95A-A964-404E-8F78-5B450F3415D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E48DF80-5F34-470E-843B-01158CC96135}
+	EndGlobalSection
+EndGlobal

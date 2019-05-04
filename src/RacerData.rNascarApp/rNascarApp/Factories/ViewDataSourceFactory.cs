@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using RacerData.NascarApi.Client.Models.LiveFeed;
+using RacerData.NascarApi.Client.Models.LiveFlag;
+using RacerData.NascarApi.Client.Models.LivePit;
+using RacerData.NascarApi.Client.Models.LivePoints;
+using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.rNascarApp.Models;
 
 namespace RacerData.rNascarApp.Factories
@@ -13,20 +18,11 @@ namespace RacerData.rNascarApp.Factories
         {
             IList<ViewDataSource> sources = new List<ViewDataSource>();
 
-            var liveFeed = new NascarApi.Models.LiveFeed.RootObject();
-            var liveFeedType = liveFeed.GetType();
-            var liveFeedDataSource = GetDataSource("LiveFeedData", liveFeedType);
-            sources.Add(liveFeedDataSource);
-
-            var liveFlag = new NascarApi.Models.LiveFlagData.RootObject();
-            var liveFlagType = liveFlag.GetType();
-            var liveFlagDataSource = GetDataSource("LiveFlagData[]", liveFlagType);
-            sources.Add(liveFlagDataSource);
-
-            var livePoints = new NascarApi.Models.LivePoints.RootObject();
-            var livePointsType = livePoints.GetType();
-            var livePointsDataSource = GetDataSource("LivePointsData[]", livePointsType);
-            sources.Add(livePointsDataSource);
+            sources.Add(GetDataSource("LiveFeedData", typeof(LiveFeedData)));
+            sources.Add(GetDataSource("LivePitData[]", typeof(LivePitData)));
+            sources.Add(GetDataSource("LiveFlagData[]", typeof(LiveFlagData)));
+            sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData)));
+            sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData)));
 
             return sources;
         }
@@ -34,7 +30,7 @@ namespace RacerData.rNascarApp.Factories
         #endregion
 
         #region protected
-
+       
         protected virtual ViewDataSource GetDataSource(string name, Type dataSourceType)
         {
             ViewDataSource source = new ViewDataSource()
@@ -122,6 +118,5 @@ namespace RacerData.rNascarApp.Factories
         }
 
         #endregion
-
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace RacerData.rNascarApp.Settings
 {
@@ -15,6 +17,10 @@ namespace RacerData.rNascarApp.Settings
         public IList<ViewState> ViewStates { get; set; } = new List<ViewState>();
         public int GridRowCount { get; set; } = 4;
         public int GridColumnCount { get; set; } = 4;
+        public Size Size { get; set; }
+        public Point Location { get; set; }
+        public FormWindowState WindowState { get; set; }
+        public FormStartPosition StartPosition { get; set; }
         protected override string SettingsFileName => AppSettingsFileName;
 
         #endregion

@@ -113,6 +113,28 @@ namespace RacerData.rNascarApp
             InitializeComponent();
 
             Logger.Setup();
+
+            try
+            {
+                this.SuspendLayout();
+
+                this.WindowState = AppSettings.WindowState;
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    this.Size = AppSettings.Size;
+                    this.Location = AppSettings.Location;
+                    this.StartPosition = AppSettings.StartPosition;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                this.ResumeLayout();
+            }
+
         }
 
         protected override CreateParams CreateParams
@@ -260,6 +282,32 @@ namespace RacerData.rNascarApp
             }
 
             AppSettings.Save();
+        }
+
+        protected virtual void SaveAppState()
+        {
+            AppSettings.WindowState = this.WindowState;
+
+            if (AppSettings.WindowState == FormWindowState.Normal)
+            {
+                AppSettings.Size = this.Size;
+                AppSettings.Location = this.Location;
+                AppSettings.StartPosition = this.StartPosition;
+            }
+
+            AppSettings.Save();
+        }
+        protected virtual void BeforeFormCloses()
+        {
+            SaveAppState();
+
+            if (!_saveSettingsOnExit)
+                return;
+
+            if (UserSettings != null)
+                UserSettings.Save();
+
+            SaveViewStates();
         }
 
         #endregion
@@ -859,13 +907,7 @@ namespace RacerData.rNascarApp
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!_saveSettingsOnExit)
-                return;
-
-            if (UserSettings != null)
-                UserSettings.Save();
-
-            SaveViewStates();
+            BeforeFormCloses();
         }
 
         private void logFileToolStripMenuItem_Click(object sender, EventArgs e)

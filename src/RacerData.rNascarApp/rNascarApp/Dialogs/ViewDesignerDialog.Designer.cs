@@ -33,6 +33,8 @@
             this.trvDataSources = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlColumnDetails = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
+            this.cboSort = new System.Windows.Forms.ComboBox();
             this.txtDataPath = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.txtIndex = new System.Windows.Forms.TextBox();
@@ -90,8 +92,6 @@
             this.btnDiscardChanges = new System.Windows.Forms.Button();
             this.btnSaveChanges = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.label17 = new System.Windows.Forms.Label();
-            this.cboSort = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -112,8 +112,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.pnlDataSourceDetails);
             this.splitContainer1.Panel1.Controls.Add(this.trvDataSources);
+            this.splitContainer1.Panel1.Controls.Add(this.pnlDataSourceDetails);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             // 
             // splitContainer1.Panel2
@@ -139,7 +139,7 @@
             this.trvDataSources.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvDataSources.Location = new System.Drawing.Point(0, 24);
             this.trvDataSources.Name = "trvDataSources";
-            this.trvDataSources.Size = new System.Drawing.Size(323, 460);
+            this.trvDataSources.Size = new System.Drawing.Size(323, 360);
             this.trvDataSources.TabIndex = 1;
             this.trvDataSources.DoubleClick += new System.EventHandler(this.trvDataSources_DoubleClick);
             // 
@@ -186,6 +186,23 @@
             this.pnlColumnDetails.Name = "pnlColumnDetails";
             this.pnlColumnDetails.Size = new System.Drawing.Size(709, 137);
             this.pnlColumnDetails.TabIndex = 2;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(594, 9);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(40, 13);
+            this.label17.TabIndex = 36;
+            this.label17.Text = "Sorting";
+            // 
+            // cboSort
+            // 
+            this.cboSort.FormattingEnabled = true;
+            this.cboSort.Location = new System.Drawing.Point(597, 25);
+            this.cboSort.Name = "cboSort";
+            this.cboSort.Size = new System.Drawing.Size(88, 21);
+            this.cboSort.TabIndex = 35;
             // 
             // txtDataPath
             // 
@@ -752,23 +769,6 @@
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(594, 9);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(40, 13);
-            this.label17.TabIndex = 36;
-            this.label17.Text = "Sorting";
-            // 
-            // cboSort
-            // 
-            this.cboSort.FormattingEnabled = true;
-            this.cboSort.Location = new System.Drawing.Point(597, 25);
-            this.cboSort.Name = "cboSort";
-            this.cboSort.Size = new System.Drawing.Size(88, 21);
-            this.cboSort.TabIndex = 35;
             // 
             // ViewDesignerDialog
             // 

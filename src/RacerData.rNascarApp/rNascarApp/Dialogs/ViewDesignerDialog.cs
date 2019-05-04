@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using log4net;
-using RacerData.rNascarApp.Controls;
 using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;

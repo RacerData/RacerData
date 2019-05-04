@@ -76,36 +76,14 @@ namespace RacerData.NascarApi.Client.Mocks
             }
         }
 
-        public async Task<IResult<LiveFlagData>> GetLiveFlagDataAsync()
+        public Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync()
         {
-            try
-            {
-                var data = await _apiClient.GetLiveFlagDataAsync();
-
-                var mapped = _mapper.Map<LiveFlagData>(data);
-
-                return _resultFactory.Success(mapped);
-            }
-            catch (Exception ex)
-            {
-                return _resultFactory.Exception<LiveFlagData>(ex);
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<IResult<LivePitData>> GetLivePitDataAsync()
+        public Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync()
         {
-            try
-            {
-                var data = await _apiClient.GetLivePitDataAsync();
-
-                var mapped = _mapper.Map<LivePitData>(data);
-
-                return _resultFactory.Success(mapped);
-            }
-            catch (Exception ex)
-            {
-                return _resultFactory.Exception<LivePitData>(ex);
-            }
+            throw new NotImplementedException();
         }
 
         public Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()

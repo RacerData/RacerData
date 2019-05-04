@@ -2,27 +2,27 @@
 {
     public class LivePitData
     {
-        public string vehicle_number { get; set; }
-        public string driver_name { get; set; }
-        public string vehicle_manufacturer { get; set; }
-        public int leader_lap { get; set; }
-        public int lap_count { get; set; }
-        public int pit_in_flag_status { get; set; }
-        public int pit_out_flag_status { get; set; }
-        public double pit_in_race_time { get; set; }
-        public double pit_out_race_time { get; set; }
-        public double total_duration { get; set; }
-        public double box_stop_race_time { get; set; }
-        public double box_leave_race_time { get; set; }
-        public double pit_stop_duration { get; set; }
-        public double in_travel_duration { get; set; }
-        public double out_travel_duration { get; set; }
-        public string pit_stop_type { get; set; }
-        public bool left_front_tire_changed { get; set; }
-        public bool left_rear_tire_changed { get; set; }
-        public bool right_front_tire_changed { get; set; }
-        public bool right_rear_tire_changed { get; set; }
-        public int previous_lap_time { get; set; }
-        public int next_lap_time { get; set; }
+        public string CarNumber { get; set; }
+        public string FullName { get; set; }
+        public string VehicleManufacturer { get; set; }
+        public int LeaderLap { get; set; }
+        public int LapCount { get; set; }
+        public TrackState PitInFlagStatus { get; set; }
+        public TrackState PitOutFlagStatus { get; set; }
+        public double PitInRaceTime { get; set; }
+        public double PitOutRaceTime { get; set; }
+        public double TotalDuration { get; set; }
+        public double BoxStopRaceTime { get; set; }
+        public double BoxLeaveRaceTime { get; set; }
+        public double PitStopDuration { get; set; }
+        public double InTravelDuration { get; set; }
+        public double OutTravelDuration { get; set; }
+        public string PitStopType { get; set; }
+        public bool LFTireChanged { get; set; }
+        public bool LRTireChanged { get; set; }
+        public bool RFTireChanged { get; set; }
+        public bool RRTireChanged { get; set; }
+        public int PreviousLapTime { get; set; }
+        public int NextLapTime { get; set; }
     }
 }

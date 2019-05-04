@@ -14,7 +14,7 @@ namespace RacerData.NascarApi.Client.Ports
     {
         Task<IResult<LiveFeedData>> GetLiveFeedDataAsync();
         Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync();
-        Task<IResult<LivePitData>> GetLivePitDataAsync();
+        Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync();
         Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync();
         Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync();
         Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync();

@@ -94,12 +94,15 @@ namespace RacerData.NascarApi.Client.Mocks
         {
             throw new NotImplementedException();
         }
-
         public Task<List<Models.LivePitData.RootObject>> GetLivePitDataAsync(EventSettings settings)
         {
             throw new NotImplementedException();
         }
 
+        public Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync()
+        {
+            throw new NotImplementedException();
+        }
         public Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync(EventSettings settings)
         {
             throw new NotImplementedException();

@@ -111,6 +111,13 @@ namespace RacerData.NascarApi.Adapters
             return await GetDataAsync<List<Models.LivePitData.RootObject>>(url);
         }
 
+        public async Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync()
+        {
+            var settings = await GetLiveEventSettingsAsync();
+
+            return await GetLivePointsAsync(settings);
+        }
+
         public async Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync(EventSettings settings)
         {
             var url = _urlService.GetLivePointsUrl(settings);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using RacerData.Commmon.Results;
@@ -7,6 +8,7 @@ using RacerData.NascarApi.Client.Models.LapAverages;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
+using RacerData.NascarApi.Client.Models.LivePoints;
 using RacerData.NascarApi.Client.Ports;
 using RacerData.NascarApi.Ports;
 
@@ -83,6 +85,22 @@ namespace RacerData.NascarApi.Client.Adapters
             catch (Exception ex)
             {
                 return _resultFactory.Exception<LivePitData>(ex);
+            }
+        }
+
+        public async Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()
+        {
+            try
+            {
+                var data = await _apiClient.GetLivePointsAsync();
+
+                var mapped = _mapper.Map<IEnumerable<LivePointsData>>(data);
+
+                return _resultFactory.Success(mapped);
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<IEnumerable<LivePointsData>>(ex);
             }
         }
 

@@ -7,7 +7,7 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
     {
         public int LapNumber { get; set; }
         public int Elapsed { get; set; }
-        public int FlagState { get; set; }
+        public TrackState FlagState { get; set; }
         public int RaceId { get; set; }
         public int LapsInRace { get; set; }
         public int LapsToGo { get; set; }
@@ -19,7 +19,7 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
         public int TrackId { get; set; }
         public double TrackLength { get; set; }
         public string TrackName { get; set; }
-        public int RunType { get; set; }
+        public RunType RunType { get; set; }
         public int NumberOfCautions { get; set; }
         public int NumberOfCautionLaps { get; set; }
         public int NumberOfLeadChanges { get; set; }

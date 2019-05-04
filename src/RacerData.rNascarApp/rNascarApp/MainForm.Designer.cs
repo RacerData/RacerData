@@ -60,9 +60,6 @@
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
             this.btnFeedReader = new System.Windows.Forms.ToolStripButton();
             this.btnUnsubscribe = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.GridTable = new System.Windows.Forms.TableLayoutPanel();
             this.ctxGridTable = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -307,10 +304,7 @@
             // 
             this.MainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnFeedReader,
-            this.btnUnsubscribe,
-            this.toolStripButton4,
-            this.toolStripButton5,
-            this.toolStripButton1});
+            this.btnUnsubscribe});
             this.MainToolStrip.Location = new System.Drawing.Point(0, 24);
             this.MainToolStrip.Name = "MainToolStrip";
             this.MainToolStrip.Size = new System.Drawing.Size(1038, 25);
@@ -324,8 +318,8 @@
             this.btnFeedReader.Image = ((System.Drawing.Image)(resources.GetObject("btnFeedReader.Image")));
             this.btnFeedReader.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFeedReader.Name = "btnFeedReader";
-            this.btnFeedReader.Size = new System.Drawing.Size(75, 22);
-            this.btnFeedReader.Text = "Feed Reader";
+            this.btnFeedReader.Size = new System.Drawing.Size(35, 22);
+            this.btnFeedReader.Text = "Start";
             this.btnFeedReader.Click += new System.EventHandler(this.btnFeedReader_Click);
             // 
             // btnUnsubscribe
@@ -334,39 +328,9 @@
             this.btnUnsubscribe.Image = ((System.Drawing.Image)(resources.GetObject("btnUnsubscribe.Image")));
             this.btnUnsubscribe.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUnsubscribe.Name = "btnUnsubscribe";
-            this.btnUnsubscribe.Size = new System.Drawing.Size(76, 22);
-            this.btnUnsubscribe.Text = "Unsubscribe";
+            this.btnUnsubscribe.Size = new System.Drawing.Size(35, 22);
+            this.btnUnsubscribe.Text = "Stop";
             this.btnUnsubscribe.Click += new System.EventHandler(this.btnUnsubscribe_Click);
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(149, 22);
-            this.toolStripButton4.Text = "DataSourceList to Console";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(143, 22);
-            this.toolStripButton5.Text = "Load Sample Model Data";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // GridTable
             // 
@@ -486,12 +450,9 @@
         private System.Windows.Forms.ToolStripMenuItem viewDesignerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton btnFeedReader;
         private System.Windows.Forms.ToolStripButton btnUnsubscribe;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem resetViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

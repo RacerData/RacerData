@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using RacerData.NascarApi.Client.Models.LiveFeed;
+using RacerData.NascarApi.Client.Models.LivePoints;
 using RacerData.rNascarApp.Extensions;
 using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;
@@ -75,7 +77,8 @@ namespace RacerData.rNascarApp.Controls
 
         #region properties
 
-        public NascarApi.Models.LiveFeed.RootObject Model { get; set; } = new NascarApi.Models.LiveFeed.RootObject();
+        public LiveFeedData LiveFeedData { get; set; } = new LiveFeedData();
+        public LivePointsData LivePointsData { get; set; } = new LivePointsData();
 
         public ViewState State { get; set; }
 
@@ -202,12 +205,6 @@ namespace RacerData.rNascarApp.Controls
             if (State.ListSettings.Columns.Any(c => String.IsNullOrEmpty(c.DataMember)))
                 return viewData;
 
-            //if (Model == null)
-            //{
-            var sampleFile = System.IO.File.ReadAllText(@"C:\Users\Rob\source\repos\rNascar\NascarApi\Models\LiveFeed\sample.json");
-            NascarApi.Models.LiveFeed.RootObject Model = Newtonsoft.Json.JsonConvert.DeserializeObject<NascarApi.Models.LiveFeed.RootObject>(sampleFile);
-            //}
-
             // TODO: Handle feed as a list
 
             object[,] dataValues = new object[GridRows.Count, State.ListSettings.Columns.Count];
@@ -222,8 +219,8 @@ namespace RacerData.rNascarApp.Controls
                     var dataPathSections = dataFullPath.Split('\\');
 
                     // TODO: Handle different feeds as data source
-                    Type rootObjectType = Model.GetType();
-                    object rootObjectValue = Model;
+                    Type rootObjectType = LiveFeedData.GetType();
+                    object rootObjectValue = LiveFeedData;
 
                     string listPropertyName = String.Empty;
                     string lengthPropertyName = String.Empty;
@@ -342,7 +339,7 @@ namespace RacerData.rNascarApp.Controls
 
         public virtual void UpdateListRowsData(List<List<object>> viewData)
         {
-            var feedDataType = Model.GetType();
+            var feedDataType = LiveFeedData.GetType();
 
             var gridRows = pnlDetail.Controls
                 .OfType<ListRow>()

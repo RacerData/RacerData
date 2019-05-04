@@ -6,6 +6,10 @@ using System.Linq;
 using System.Windows.Forms;
 using log4net;
 using log4net.Core;
+using Microsoft.Extensions.DependencyInjection;
+using RacerData.NascarApi.Client.Models.LiveFeed;
+using RacerData.NascarApi.Service;
+using RacerData.NascarApi.Service.Ports;
 using RacerData.rNascarApp.Controls;
 using RacerData.rNascarApp.Dialogs;
 using RacerData.rNascarApp.Factories;
@@ -16,9 +20,11 @@ using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp
 {
-    public partial class MainForm : Form, INotifyPropertyChanged
+    public partial class MainForm : Form, INotifyPropertyChanged, IMonitorClient
     {
         #region events
+
+        public delegate void SafeCallDelegate(object sender, LiveFeedUpdatedEventArgs e);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -60,7 +66,7 @@ namespace RacerData.rNascarApp
         private Point _dragPoint = Point.Empty;
         private Panel _dragFrame;
         private bool _saveSettingsOnExit = false;
-        //private IFeedService _feedService;
+        private IMonitorService _feedService;
 
         #endregion
 
@@ -167,8 +173,9 @@ namespace RacerData.rNascarApp
 
                 LogInfo("rNascar Timing & Scoring App Started");
 
-                //_feedService = ServiceProvider.Instance.GetRequiredService<IFeedService>();
-                //_feedService.FeedException += _feedService_FeedException;
+                _feedService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
+
+                _feedService.Register(this);
 
                 Themes = UserThemeRepository.GetThemes();
 
@@ -950,29 +957,11 @@ namespace RacerData.rNascarApp
             DisplayViewDesignerDialog();
         }
 
-        #endregion
-
-        //LiveFeedDataSubscription _subscription;
         private void btnFeedReader_Click(object sender, EventArgs e)
         {
             try
             {
-                //EventSettings eventSettings = new EventSettings()
-                //{
-                //    eventId = 4780,
-                //    season = 2019,
-                //    seriesId = 1
-                //};
-
-                //_feedService.Event = eventSettings;
-
-                //_subscription = new LiveFeedDataSubscription()
-                //{
-                //    Feed = _feedService_LiveFeedDataEvent
-                //};
-
-                //_feedService.Register(_subscription);
-
+                _feedService.Start();
             }
             catch (Exception ex)
             {
@@ -980,99 +969,59 @@ namespace RacerData.rNascarApp
             }
         }
 
-        private void _feedService_FeedException(object sender, Exception e)
+        public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
         {
-            ExceptionHandler("Error from feed factory", e);
+
         }
 
-        private void _feedService_LiveFeedEvent(object sender, IDictionary<string, string> e)
+        public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
         {
-            foreach (var item in e)
+            if (this.InvokeRequired)
             {
-                Console.WriteLine($"Key={item.Key} Value={item.Value}");
+                var d = new SafeCallDelegate(Monitor_LiveFeedUpdated);
+                Invoke(d, new object[] { sender, e });
+            }
+            else
+            {
+                UpdateStatusLabel(e.LiveFeedData);
+
+                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                {
+                    controlBase.LiveFeedData = e.LiveFeedData;
+                    var data = controlBase.GetViewData();
+                    controlBase.UpdateListRowsData(data);
+                }
             }
         }
 
-        private void _feedService_LiveFeedDataEvent(object sender, NascarApi.Models.LiveFeed.RootObject e)
+        public void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
         {
-            UpdateStatusLabel(e);
 
-            foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
-            {
-                controlBase.Model = e;
-                //var data = controlBase.GetViewData();
-                //controlBase.UpdateListRowsData(data);
-            }
         }
 
-        private void UpdateStatusLabel(NascarApi.Models.LiveFeed.RootObject data)
+        public void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e)
         {
-            lblTrackName.Text = data.track_name;
-            lblEvent.Text = data.run_name;
-            lblSession.Text = data.run_type.ToString();
-            lblTrackState.Text = data.flag_state.ToString();
+
         }
 
-        private NascarApi.Models.LiveFeed.RootObject _data = new NascarApi.Models.LiveFeed.RootObject();
+        private void UpdateStatusLabel(LiveFeedData data)
+        {
+            var series = data.SeriesId == 1 ? "MENCS" : data.SeriesId == 2 ? "XFinity Series" : data.SeriesId == 3 ? "NGOTS" : "Other";
+            lblTrackName.Text = data.TrackName;
+            lblEvent.Text = $"{series} {data.RunName}";
+            lblSession.Text = data.RunType.ToString();
+            lblTrackState.Text = data.FlagState.ToString();
+        }
 
         private void btnUnsubscribe_Click(object sender, EventArgs e)
         {
             try
             {
-                //if (_subscription != null)
-                //    _feedService.Unregister(_subscription);
+                _feedService.Pause();
             }
             catch (Exception ex)
             {
                 ExceptionHandler("Error unsubscribing from feed reader", ex);
-            }
-        }
-
-        private void toolStripButton4_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var f = new ViewDataSourceFactory();
-
-                var s = f.GetList();
-
-                Print(s);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error unsubscribing from feed reader", ex);
-            }
-        }
-
-        private void Print(IList<ViewDataSource> sources)
-        {
-            foreach (ViewDataSource ds in sources)
-            {
-                Console.WriteLine($"{ds.Name} - {ds.AssemblyQualifiedName}");
-                foreach (ViewDataMember field in ds.Fields)
-                {
-                    Console.WriteLine($"{field.Name} - {field.AssemblyQualifiedName} - {field.Type}");
-                }
-                Console.WriteLine(">>");
-                Print(ds.NestedClasses);
-                Console.WriteLine("==");
-                Print(ds.Lists);
-            }
-        }
-
-        private void toolStripButton5_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
-                {
-                    var data = controlBase.GetViewData();
-                    controlBase.UpdateListRowsData(data);
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("", ex);
             }
         }
 
@@ -1081,28 +1030,6 @@ namespace RacerData.rNascarApp
             ResetViews();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //var s = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
-
-                //var model = new NascarApi.Client.Models.LapTimeModel()
-                //{
-                //    LapNumber = 38,
-                //    CarNumber = "1",
-                //    Driver = $"Driver1",
-                //    EventId = "1",
-                //    LapSpeed = 2.0,
-                //    LapTime = 0.5
-                //};
-
-                //s.InsertAsync(model);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        #endregion
     }
 }

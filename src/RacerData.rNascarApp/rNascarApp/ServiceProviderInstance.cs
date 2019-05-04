@@ -1,5 +1,9 @@
 ﻿using System;
+using AutoMapper;
+using log4net;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RacerData.NascarApi.Service;
 
 namespace RacerData.rNascarApp
 {
@@ -25,8 +29,23 @@ namespace RacerData.rNascarApp
         {
             var services = new ServiceCollection();
 
-            //services.AddNascarFeed();
-            //services.AddNascarFeedReader();
+            ILog log = LogManager.GetLogger("rNascarApp");
+
+            log.Info("rNascarApp Started");
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true)
+                .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton(log);
+            services.AddNascarApiService();
+            //services.AddLapAverageService();
+            //services.AddHarvesterService();
+
+            Mapper.Initialize(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services.BuildServiceProvider();
         }

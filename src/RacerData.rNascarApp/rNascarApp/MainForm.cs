@@ -6,10 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using log4net;
 using log4net.Core;
-using Microsoft.Extensions.DependencyInjection;
-using NascarApi.Client.Configuration;
-using NascarApi.Client.Ports;
-using NascarApi.Models;
 using RacerData.rNascarApp.Controls;
 using RacerData.rNascarApp.Dialogs;
 using RacerData.rNascarApp.Factories;
@@ -64,7 +60,7 @@ namespace RacerData.rNascarApp
         private Point _dragPoint = Point.Empty;
         private Panel _dragFrame;
         private bool _saveSettingsOnExit = false;
-        private IFeedService _feedService;
+        //private IFeedService _feedService;
 
         #endregion
 
@@ -149,8 +145,8 @@ namespace RacerData.rNascarApp
 
                 LogInfo("rNascar Timing & Scoring App Started");
 
-                _feedService = ServiceProvider.Instance.GetRequiredService<IFeedService>();
-                _feedService.FeedException += _feedService_FeedException;
+                //_feedService = ServiceProvider.Instance.GetRequiredService<IFeedService>();
+                //_feedService.FeedException += _feedService_FeedException;
 
                 Themes = UserThemeRepository.GetThemes();
 
@@ -914,26 +910,26 @@ namespace RacerData.rNascarApp
 
         #endregion
 
-        LiveFeedDataSubscription _subscription;
+        //LiveFeedDataSubscription _subscription;
         private void btnFeedReader_Click(object sender, EventArgs e)
         {
             try
             {
-                EventSettings eventSettings = new EventSettings()
-                {
-                    eventId = 4780,
-                    season = 2019,
-                    seriesId = 1
-                };
+                //EventSettings eventSettings = new EventSettings()
+                //{
+                //    eventId = 4780,
+                //    season = 2019,
+                //    seriesId = 1
+                //};
 
-                _feedService.Event = eventSettings;
+                //_feedService.Event = eventSettings;
 
-                _subscription = new LiveFeedDataSubscription()
-                {
-                    Feed = _feedService_LiveFeedDataEvent
-                };
+                //_subscription = new LiveFeedDataSubscription()
+                //{
+                //    Feed = _feedService_LiveFeedDataEvent
+                //};
 
-                _feedService.Register(_subscription);
+                //_feedService.Register(_subscription);
 
             }
             catch (Exception ex)
@@ -981,8 +977,8 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                if (_subscription != null)
-                    _feedService.Unregister(_subscription);
+                //if (_subscription != null)
+                //    _feedService.Unregister(_subscription);
             }
             catch (Exception ex)
             {
@@ -1047,19 +1043,19 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                var s = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
+                //var s = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
 
-                var model = new NascarApi.Client.Models.LapTimeModel()
-                {
-                    LapNumber = 38,
-                    CarNumber = "1",
-                    Driver = $"Driver1",
-                    EventId = "1",
-                    LapSpeed = 2.0,
-                    LapTime = 0.5
-                };
+                //var model = new NascarApi.Client.Models.LapTimeModel()
+                //{
+                //    LapNumber = 38,
+                //    CarNumber = "1",
+                //    Driver = $"Driver1",
+                //    EventId = "1",
+                //    LapSpeed = 2.0,
+                //    LapTime = 0.5
+                //};
 
-                s.InsertAsync(model);
+                //s.InsertAsync(model);
             }
             catch (Exception ex)
             {

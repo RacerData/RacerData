@@ -1,7 +1,5 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using NascarApi.Adapters;
-using NascarApi.Client;
 
 namespace RacerData.rNascarApp
 {
@@ -27,8 +25,8 @@ namespace RacerData.rNascarApp
         {
             var services = new ServiceCollection();
 
-            services.AddNascarFeed();
-            services.AddNascarFeedReader();
+            //services.AddNascarFeed();
+            //services.AddNascarFeedReader();
 
             return services.BuildServiceProvider();
         }

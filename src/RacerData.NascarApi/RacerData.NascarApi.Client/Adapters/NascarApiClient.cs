@@ -57,19 +57,19 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
-        public async Task<IResult<LiveFlagData>> GetLiveFlagDataAsync()
+        public async Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync()
         {
             try
             {
                 var data = await _apiClient.GetLiveFlagDataAsync();
 
-                var mapped = _mapper.Map<LiveFlagData>(data);
+                var mapped = _mapper.Map<IEnumerable<LiveFlagData>>(data);
 
                 return _resultFactory.Success(mapped);
             }
             catch (Exception ex)
             {
-                return _resultFactory.Exception<LiveFlagData>(ex);
+                return _resultFactory.Exception<IEnumerable<LiveFlagData>>(ex);
             }
         }
 

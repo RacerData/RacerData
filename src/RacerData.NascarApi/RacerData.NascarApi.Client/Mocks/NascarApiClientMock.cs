@@ -108,20 +108,9 @@ namespace RacerData.NascarApi.Client.Mocks
             }
         }
 
-        public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
+        public Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
         {
-            try
-            {
-                throw new NotImplementedException();
-
-                //var averages = new EventVehicleLapAverages();
-
-                //return await Task.FromResult(_resultFactory.Success(averages));
-            }
-            catch (Exception ex)
-            {
-                return _resultFactory.Exception<EventVehicleLapAverages>(ex);
-            }
+            throw new NotImplementedException();
         }
 
         public Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()

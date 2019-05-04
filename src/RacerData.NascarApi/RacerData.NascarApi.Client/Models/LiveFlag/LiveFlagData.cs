@@ -1,12 +1,14 @@
-﻿namespace RacerData.NascarApi.Client.Models.LiveFlag
+﻿using System;
+
+namespace RacerData.NascarApi.Client.Models.LiveFlag
 {
     public class LiveFlagData
     {
-        public int lap_number { get; set; }
-        public int flag_state { get; set; }
-        public double elapsed_time { get; set; }
-        public string comment { get; set; }
-        public string beneficiary { get; set; }
-        public double time_of_day { get; set; }
+        public int LapNumber { get; set; }
+        public TrackState FlagState { get; set; }
+        public double ElapsedTime { get; set; }
+        public string Comment { get; set; }
+        public string Beneficiary { get; set; }
+        public TimeSpan TimeOfDay { get; set; }
     }
 }

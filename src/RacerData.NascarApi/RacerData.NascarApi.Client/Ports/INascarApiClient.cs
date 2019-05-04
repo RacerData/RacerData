@@ -13,7 +13,7 @@ namespace RacerData.NascarApi.Client.Ports
     public interface INascarApiClient
     {
         Task<IResult<LiveFeedData>> GetLiveFeedDataAsync();
-        Task<IResult<LiveFlagData>> GetLiveFlagDataAsync();
+        Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync();
         Task<IResult<LivePitData>> GetLivePitDataAsync();
         Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync();
         Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync();

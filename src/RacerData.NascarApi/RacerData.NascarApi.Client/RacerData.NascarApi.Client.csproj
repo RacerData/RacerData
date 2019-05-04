@@ -6,9 +6,9 @@
     <Authors>RacerData</Authors>
     <Company>RacerData Software</Company>
     <Description>NASCAR API SDK</Description>
-    <AssemblyVersion>1.0.14.0</AssemblyVersion>
-    <FileVersion>1.0.14.0</FileVersion>
-    <Version>1.0.14</Version>
+    <AssemblyVersion>1.0.15.0</AssemblyVersion>
+    <FileVersion>1.0.15.0</FileVersion>
+    <Version>1.0.15</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="RacerData.Commmon.Results" Version="1.0.1" />
-    <PackageReference Include="RacerData.NascarApi" Version="1.0.4" />
+    <PackageReference Include="RacerData.NascarApi" Version="1.0.5" />
   </ItemGroup>
   
   <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">

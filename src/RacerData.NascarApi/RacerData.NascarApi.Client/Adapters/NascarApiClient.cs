@@ -9,6 +9,7 @@ using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
 using RacerData.NascarApi.Client.Models.LivePoints;
+using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.NascarApi.Client.Ports;
 using RacerData.NascarApi.Ports;
 
@@ -101,6 +102,22 @@ namespace RacerData.NascarApi.Client.Adapters
             catch (Exception ex)
             {
                 return _resultFactory.Exception<IEnumerable<LivePointsData>>(ex);
+            }
+        }
+
+        public async Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync()
+        {
+            try
+            {
+                var data = await _apiClient.GetLiveQualifyingDataAsync();
+
+                var mapped = _mapper.Map<IEnumerable<LiveQualifyingData>>(data);
+
+                return _resultFactory.Success(mapped);
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<IEnumerable<LiveQualifyingData>>(ex);
             }
         }
 

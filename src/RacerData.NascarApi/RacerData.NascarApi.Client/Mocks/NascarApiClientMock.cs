@@ -8,6 +8,8 @@ using RacerData.NascarApi.Client.Models.LapAverages;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
+using RacerData.NascarApi.Client.Models.LivePoints;
+using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.NascarApi.Client.Ports;
 using RacerData.NascarApi.Factories;
 using RacerData.NascarApi.Ports;
@@ -120,6 +122,16 @@ namespace RacerData.NascarApi.Client.Mocks
             {
                 return _resultFactory.Exception<EventVehicleLapAverages>(ex);
             }
+        }
+
+        public Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -17,6 +17,7 @@ namespace RacerData.NascarApi.Ports
         Task<List<Models.LivePitData.RootObject>> GetLivePitDataAsync(EventSettings settings);
         Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync();
         Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync(EventSettings settings);
+        Task<List<Models.LiveQualifyingData.RootObject>> GetLiveQualifyingDataAsync();
         Task<List<Models.LiveQualifyingData.RootObject>> GetLiveQualifyingDataAsync(EventSettings settings);
         Task<List<Models.PointStandings.RootObject>> GetPointsStandingsAsync(EventSettings settings);
         Task<List<Models.RaceResults.RootObject>> GetRaceResultsAsync(EventSettings settings);

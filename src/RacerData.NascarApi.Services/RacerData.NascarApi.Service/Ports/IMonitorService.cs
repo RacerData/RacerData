@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace RacerData.NascarApi.Service.Ports
 {
@@ -14,6 +15,7 @@ namespace RacerData.NascarApi.Service.Ports
 
         void Pause();
         void Start();
+        void Start(CancellationToken cancellationToken);
         void Sleep();
         void Sleep(DateTime wakeTimestamp);
         void Sleep(TimeSpan wakeTimeSpan);

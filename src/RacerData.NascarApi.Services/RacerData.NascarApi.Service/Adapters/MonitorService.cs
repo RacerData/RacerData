@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using AutoMapper;
@@ -8,6 +9,7 @@ using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Models;
 using RacerData.NascarApi.Ports;
 using RacerData.NascarApi.Service.Ports;
+using Timer = System.Timers.Timer;
 
 namespace RacerData.NascarApi.Service.Adapters
 {
@@ -74,7 +76,8 @@ namespace RacerData.NascarApi.Service.Adapters
         private ILog _log;
         private IMapper _mapper;
         private IApiClient _apiClient;
-        private EventSettings _eventSettings;
+        private CancellationToken _cancellationToken;
+        private CancellationTokenSource _cancellationTokenSource;
         private Timer _sleepTimer;
         private Timer _pollTimer;
         private int _pollInterval = DefaultPollInterval;
@@ -136,6 +139,13 @@ namespace RacerData.NascarApi.Service.Adapters
             State = ServiceState.Running;
         }
 
+        public void Start(CancellationToken cancellationToken)
+        {
+            _cancellationToken = cancellationToken;
+
+            State = ServiceState.Running;
+        }
+
         public void Sleep()
         {
             State = ServiceState.Sleep;
@@ -182,6 +192,15 @@ namespace RacerData.NascarApi.Service.Adapters
             State = ServiceState.Error;
         }
 
+        protected virtual CancellationToken GetCancellationToken()
+        {
+            if (_cancellationToken != null)
+                return _cancellationToken;
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            return _cancellationTokenSource.Token;
+        }
+
         protected virtual void StartSleepTimer()
         {
             if (WakeTarget == null)
@@ -217,28 +236,45 @@ namespace RacerData.NascarApi.Service.Adapters
 
         protected virtual async Task ReadLiveFeedDataAsync()
         {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLiveFeedDataAsync(cancellationToken);
+        }
+
+        protected virtual async Task ReadLiveFeedDataAsync(CancellationToken cancellationToken)
+        {
             try
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
                 OnServiceActivity("Requesting live event feed");
 
-                var newFeedData = await _apiClient.GetLiveFeedAsync();
+                var newFeedData = await _apiClient.GetLiveFeedAsync(cancellationToken);
 
                 if (_lastElapsedTime != null && _lastElapsedTime == newFeedData.elapsed_time)
                 {
-                    OnServiceActivity("Live feed not updated");
                     return;
                 }
                 else
                 {
-                    _pollTimer.Stop();
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        State = ServiceState.Canceled;
+                        return;
+                    }
 
-                    OnServiceActivity("Live feed updated");
+                    _pollTimer.Stop();
 
                     _lastElapsedTime = newFeedData.elapsed_time;
 
                     var mappedFeedData = _mapper.Map<LiveFeedData>(newFeedData);
 
-                    OnLiveFeedUpdated(mappedFeedData);
+                    if (!cancellationToken.IsCancellationRequested)
+                        OnLiveFeedUpdated(mappedFeedData);
                 }
             }
             catch (Exception ex)
@@ -247,31 +283,9 @@ namespace RacerData.NascarApi.Service.Adapters
             }
             finally
             {
-                _pollTimer.Start();
+                if (!cancellationToken.IsCancellationRequested)
+                    _pollTimer.Start();
             }
-        }
-
-        protected virtual async Task NewEventSettings(EventSettings eventSettings)
-        {
-            _eventSettings = eventSettings;
-
-            var liveFeedInfo = new LiveFeedInfo()
-            {
-                RaceId = eventSettings.race_id,
-                RunName = eventSettings.run_name,
-                RunId = eventSettings.run_id,
-                RunType = (RunType)eventSettings.run_type,
-                Season = eventSettings.season,
-                Series = (SeriesType)eventSettings.series_id,
-                TrackId = eventSettings.track_id,
-                TrackLength = eventSettings.track_length,
-            };
-
-            OnServiceActivity($"Live event found: {liveFeedInfo.RaceId}");
-
-            OnLiveFeedStarted(liveFeedInfo);
-
-            await ReadLiveFeedDataAsync();
         }
 
         #endregion
@@ -336,6 +350,12 @@ namespace RacerData.NascarApi.Service.Adapters
                 StopSleepTimer();
                 StopPollTimer();
                 OnServiceStatusChanged("Service Error! Polling suspended");
+            }
+            if (e.State == ServiceState.Canceled)
+            {
+                StopSleepTimer();
+                StopPollTimer();
+                OnServiceStatusChanged("Service Operation Cancelled");
             }
         }
 

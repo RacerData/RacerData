@@ -5,9 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>RacerData</Authors>
     <Description>Client for consuming the NASCAR API</Description>
-    <Version>1.0.5</Version>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
+    <Version>1.0.8</Version>
     <Company>RacerData Software</Company>
   </PropertyGroup>
 

@@ -5,6 +5,7 @@
         Paused,
         Running,
         Error,
-        Sleep
+        Sleep,
+        Canceled
     }
 }

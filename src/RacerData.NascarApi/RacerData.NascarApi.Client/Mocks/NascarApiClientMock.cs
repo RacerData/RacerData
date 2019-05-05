@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using RacerData.Commmon.Results;
@@ -60,6 +61,13 @@ namespace RacerData.NascarApi.Client.Mocks
 
         #region public
 
+        public async Task<IResult<LiveFeedData>> GetLiveFeedDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<LiveFeedData>>(cancellationToken);
+
+            return await GetLiveFeedDataAsync();
+        }
         public async Task<IResult<LiveFeedData>> GetLiveFeedDataAsync()
         {
             try
@@ -76,27 +84,62 @@ namespace RacerData.NascarApi.Client.Mocks
             }
         }
 
+        public async Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LiveFlagData>>>(cancellationToken);
+
+            return await GetLiveFlagDataAsync();
+        }
         public Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync()
         {
             throw new NotImplementedException();
         }
 
+        public async Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LivePitData>>>(cancellationToken);
+
+            return await GetLivePitDataAsync();
+        }
         public Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
+        public async Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LivePointsData>>>(cancellationToken);
 
+            return await GetLivePointsDataAsync();
+        }
         public Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()
         {
             throw new NotImplementedException();
         }
 
+        public async Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LiveQualifyingData>>>(cancellationToken);
+
+            return await GetLiveQualifyingDataAsync();
+        }
         public Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<EventVehicleLapAverages>>(cancellationToken);
+
+            return await GetLapAverageDataAsync();
+        }
+        public Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
         {
             throw new NotImplementedException();
         }

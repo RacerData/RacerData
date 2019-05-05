@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using RacerData.Commmon.Results;
@@ -41,6 +42,13 @@ namespace RacerData.NascarApi.Client.Adapters
 
         #region public
 
+        public async Task<IResult<LiveFeedData>> GetLiveFeedDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<LiveFeedData>>(cancellationToken);
+
+            return await GetLiveFeedDataAsync();
+        }
         public async Task<IResult<LiveFeedData>> GetLiveFeedDataAsync()
         {
             try
@@ -57,6 +65,13 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
+        public async Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LiveFlagData>>>(cancellationToken);
+
+            return await GetLiveFlagDataAsync();
+        }
         public async Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync()
         {
             try
@@ -73,6 +88,13 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
+        public async Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LivePitData>>>(cancellationToken);
+
+            return await GetLivePitDataAsync();
+        }
         public async Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync()
         {
             try
@@ -89,6 +111,13 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
+        public async Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LivePointsData>>>(cancellationToken);
+
+            return await GetLivePointsDataAsync();
+        }
         public async Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()
         {
             try
@@ -105,6 +134,13 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
+        public async Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<IEnumerable<LiveQualifyingData>>>(cancellationToken);
+
+            return await GetLiveQualifyingDataAsync();
+        }
         public async Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync()
         {
             try
@@ -121,6 +157,13 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
+        public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<EventVehicleLapAverages>>(cancellationToken);
+
+            return await GetLapAverageDataAsync();
+        }
         public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
         {
             try

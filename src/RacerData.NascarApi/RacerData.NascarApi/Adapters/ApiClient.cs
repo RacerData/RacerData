@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using RacerData.NascarApi.Models;
 using RacerData.NascarApi.Models.LiveFlagData;
@@ -53,22 +54,19 @@ namespace RacerData.NascarApi.Adapters
             return liveEvent;
         }
 
-        public async Task<string> GetRawJsonAsync(string url)
+        public async Task<Models.LiveFeed.RootObject> GetLiveFeedAsync(CancellationToken cancellationToken)
         {
-            var client = new RestClient(url);
-
-            IRestResponse response = await client.ExecuteTaskAsync(new RestRequest());
-
-            return response.Content;
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<Models.LiveFeed.RootObject>(cancellationToken);
+            else
+                return await GetLiveFeedAsync();
         }
-
         public async Task<Models.LiveFeed.RootObject> GetLiveFeedAsync()
         {
             var url = _urlService.GetLiveFeedUrl();
 
             return await GetDataAsync<Models.LiveFeed.RootObject>(url);
         }
-
         public async Task<Models.LiveFeed.RootObject> GetLiveFeedAsync(EventSettings settings)
         {
             var url = _urlService.GetLiveFeedUrl(settings);
@@ -76,6 +74,21 @@ namespace RacerData.NascarApi.Adapters
             return await GetDataAsync<Models.LiveFeed.RootObject>(url);
         }
 
+        public async Task<Models.LapAverage.RootObject> GetLapAveragesAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<Models.LapAverage.RootObject>(cancellationToken);
+            else
+            {
+                return await GetLapAveragesAsync();
+            }
+        }
+        public async Task<Models.LapAverage.RootObject> GetLapAveragesAsync()
+        {
+            var settings = await GetLiveEventSettingsAsync();
+
+            return await GetLapAveragesAsync(settings);
+        }
         public async Task<Models.LapAverage.RootObject> GetLapAveragesAsync(EventSettings settings)
         {
             var url = _urlService.GetLapAverageUrl(settings);
@@ -83,13 +96,15 @@ namespace RacerData.NascarApi.Adapters
             return await GetDataAsync<Models.LapAverage.RootObject>(url);
         }
 
-        public async Task<List<Models.EntryList.RootObject>> GetEntryListAsync(EventSettings settings)
+        public async Task<List<Models.LiveFlagData.RootObject>> GetLiveFlagDataAsync(CancellationToken cancellationToken)
         {
-            var url = _urlService.GetEntryListUrl(settings);
-
-            return await GetDataAsync<List<Models.EntryList.RootObject>>(url);
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<List<Models.LiveFlagData.RootObject>>(cancellationToken);
+            else
+            {
+                return await GetLiveFlagDataAsync();
+            }
         }
-
         public async Task<List<Models.LiveFlagData.RootObject>> GetLiveFlagDataAsync()
         {
             var url = _urlService.GetLiveFlagDataUrl();
@@ -97,13 +112,21 @@ namespace RacerData.NascarApi.Adapters
             return await GetDataAsync<List<Models.LiveFlagData.RootObject>>(url);
         }
 
+        public async Task<List<Models.LivePitData.RootObject>> GetLivePitDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<List<Models.LivePitData.RootObject>>(cancellationToken);
+            else
+            {
+                return await GetLivePitDataAsync();
+            }
+        }
         public async Task<List<Models.LivePitData.RootObject>> GetLivePitDataAsync()
         {
-            var settings =await GetLiveEventSettingsAsync();
+            var settings = await GetLiveEventSettingsAsync();
 
             return await GetLivePitDataAsync(settings);
         }
-
         public async Task<List<Models.LivePitData.RootObject>> GetLivePitDataAsync(EventSettings settings)
         {
             var url = _urlService.GetLivePitDataUrl(settings);
@@ -111,32 +134,56 @@ namespace RacerData.NascarApi.Adapters
             return await GetDataAsync<List<Models.LivePitData.RootObject>>(url);
         }
 
+        public async Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<List<Models.LivePoints.RootObject>>(cancellationToken);
+            else
+            {
+                return await GetLivePointsAsync();
+            }
+        }
         public async Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync()
         {
             var settings = await GetLiveEventSettingsAsync();
 
             return await GetLivePointsAsync(settings);
         }
-
         public async Task<List<Models.LivePoints.RootObject>> GetLivePointsAsync(EventSettings settings)
         {
             var url = _urlService.GetLivePointsUrl(settings);
 
             return await GetDataAsync<List<Models.LivePoints.RootObject>>(url);
         }
-        
+
+        public async Task<List<Models.LiveQualifyingData.RootObject>> GetLiveQualifyingDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<List<Models.LiveQualifyingData.RootObject>>(cancellationToken);
+            else
+            {
+                return await GetLiveQualifyingDataAsync();
+            }
+        }
         public async Task<List<Models.LiveQualifyingData.RootObject>> GetLiveQualifyingDataAsync()
         {
             var settings = await GetLiveEventSettingsAsync();
 
             return await GetLiveQualifyingDataAsync(settings);
         }
-
         public async Task<List<Models.LiveQualifyingData.RootObject>> GetLiveQualifyingDataAsync(EventSettings settings)
         {
             var url = _urlService.GetLiveQualifyingDataUrl(settings);
 
             return await GetDataAsync<List<Models.LiveQualifyingData.RootObject>>(url);
+        }
+
+
+        public async Task<List<Models.EntryList.RootObject>> GetEntryListAsync(EventSettings settings)
+        {
+            var url = _urlService.GetEntryListUrl(settings);
+
+            return await GetDataAsync<List<Models.EntryList.RootObject>>(url);
         }
 
         public async Task<List<Models.PointStandings.RootObject>> GetPointsStandingsAsync(EventSettings settings)
@@ -172,6 +219,15 @@ namespace RacerData.NascarApi.Adapters
             var url = _urlService.GetStageFeedUrl(settings);
 
             return await GetDataAsync<Models.StageFeed.RootObject>(url);
+        }
+
+        public async Task<string> GetRawJsonAsync(string url)
+        {
+            var client = new RestClient(url);
+
+            IRestResponse response = await client.ExecuteTaskAsync(new RestRequest());
+
+            return response.Content;
         }
 
         #endregion

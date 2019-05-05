@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,8 @@ namespace RacerData.LiveFeedMonitor
         private bool _isRunning = false;
         private ILog _log;
         private IMonitorService _monitorService;
+        private CancellationToken _cancellationToken;
+        private CancellationTokenSource _cancellationTokenSource;
 
         #endregion
 
@@ -101,6 +104,15 @@ namespace RacerData.LiveFeedMonitor
             Console.WriteLine(ex);
 #endif
             ConsoleErrorMessage($"{message}: {ex.Message}");
+        }
+
+        protected virtual CancellationToken GetCancellationToken()
+        {
+            if (_cancellationToken != null)
+                return _cancellationToken;
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            return _cancellationTokenSource.Token;
         }
 
         protected virtual void ConsoleInfoMessage(string message)
@@ -231,7 +243,9 @@ namespace RacerData.LiveFeedMonitor
 
         protected virtual void StartMonitor()
         {
-            _monitorService.Start();
+            _cancellationToken = GetCancellationToken();
+
+            _monitorService.Start(_cancellationToken);
         }
 
         protected virtual void SleepMonitor(DateTime wakeTarget)

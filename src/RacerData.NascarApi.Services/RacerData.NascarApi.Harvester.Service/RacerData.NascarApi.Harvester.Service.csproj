@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>RacerData</Authors>
+    <Version>1.0.18</Version>
     <Company>RacerData Software</Company>
+    <Authors>RacerData</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>NASCAR API live feed harvester</Description>
-    <Version>1.0.16</Version>
-    <AssemblyVersion>1.0.16.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,8 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.18" />
-    <PackageReference Include="RacerData.NascarApi.Service" Version="1.0.16" />
+    <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.21" />
+    <PackageReference Include="RacerData.NascarApi.Service" Version="1.0.18" />
   </ItemGroup>
 
   <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">

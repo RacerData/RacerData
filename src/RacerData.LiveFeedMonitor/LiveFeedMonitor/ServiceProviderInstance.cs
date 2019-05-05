@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.NascarApi.Harvester.Service;
 using RacerData.NascarApi.LapAverage.Service;
+using RacerData.NascarApi.LapTimes.Service;
 using RacerData.NascarApi.Service;
 
 namespace RacerData.LiveFeedMonitor
@@ -42,6 +43,7 @@ namespace RacerData.LiveFeedMonitor
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
             services.AddNascarApiService();
+            services.AddLapTimeService();
             services.AddLapAverageService();
             services.AddHarvesterService();
 

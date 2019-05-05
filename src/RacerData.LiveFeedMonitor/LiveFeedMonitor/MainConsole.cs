@@ -10,6 +10,7 @@ using RacerData.LiveFeedMonitor.Logging;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Harvester.Service.Ports;
 using RacerData.NascarApi.LapAverage.Service.Ports;
+using RacerData.NascarApi.LapTimes.Service.Ports;
 using RacerData.NascarApi.Service;
 using RacerData.NascarApi.Service.Ports;
 
@@ -65,9 +66,13 @@ namespace RacerData.LiveFeedMonitor
                 _monitorService.ServiceActivity += _monitorService_ServiceActivity;
                 _monitorService.ServiceStatusChanged += _monitorService_ServiceStatusChanged;
 
-                var awsDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
+                var lapAverageDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
 
-                _monitorService.Register(awsDataPump);
+                _monitorService.Register(lapAverageDataPump);
+
+                var lapTimeDataPump = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
+
+                _monitorService.Register(lapTimeDataPump);
 
                 var fileHarvester = ServiceProvider.Instance.GetRequiredService<INascarApiHarvester>();
 

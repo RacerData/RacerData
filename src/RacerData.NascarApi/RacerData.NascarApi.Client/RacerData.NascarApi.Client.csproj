@@ -6,7 +6,7 @@
     <Authors>RacerData</Authors>
     <Company>RacerData Software</Company>
     <Description>NASCAR API SDK</Description>
-    <Version>1.0.21</Version>
+    <Version>1.0.22</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +27,7 @@
     <PackageReference Include="RacerData.NascarApi" Version="1.0.8" />
   </ItemGroup>
   
-  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
+  <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
    <Exec Command="nuget add &quot;$(ProjectDir)\bin\Debug\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
   </Target>
   <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">

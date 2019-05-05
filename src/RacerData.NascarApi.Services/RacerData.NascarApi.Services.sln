@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.LapAver
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.Harvester.Service", "RacerData.NascarApi.Harvester.Service\RacerData.NascarApi.Harvester.Service.csproj", "{B7D2E480-9154-4694-82B7-6CD25523817B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.NascarApi.LapTimes.Service", "RacerData.NascarApi.LapTimes.Service\RacerData.NascarApi.LapTimes.Service.csproj", "{527DC457-AD68-45CF-8E40-65737479BF4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B7D2E480-9154-4694-82B7-6CD25523817B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7D2E480-9154-4694-82B7-6CD25523817B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7D2E480-9154-4694-82B7-6CD25523817B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{527DC457-AD68-45CF-8E40-65737479BF4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{527DC457-AD68-45CF-8E40-65737479BF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{527DC457-AD68-45CF-8E40-65737479BF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{527DC457-AD68-45CF-8E40-65737479BF4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -90,20 +90,23 @@
     <Reference Include="RacerData.Commmon.Results, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Commmon.Results.1.0.1\lib\netstandard2.0\RacerData.Commmon.Results.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.Data.Aws, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.Data.Aws.1.0.3\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
+    <Reference Include="RacerData.Data.Aws, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Aws.1.0.6\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.8\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.21.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.21\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.22\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Harvester.Service, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.Harvester.Service.1.0.18\lib\netstandard2.0\RacerData.NascarApi.Harvester.Service.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.LapAverage.Service, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.LapAverage.Service.1.0.18\lib\netstandard2.0\RacerData.NascarApi.LapAverage.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.LapAverage.Service, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.LapAverage.Service.1.0.19\lib\netstandard2.0\RacerData.NascarApi.LapAverage.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="RacerData.NascarApi.LapTimes.Service, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.LapTimes.Service.1.0.12\lib\netstandard2.0\RacerData.NascarApi.LapTimes.Service.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Service, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.Service.1.0.18\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>

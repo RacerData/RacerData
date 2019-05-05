@@ -21,7 +21,9 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="RacerData.Commmon.Results" Version="1.0.1" />
+    <PackageReference Include="RacerData.Data.Aws" Version="1.0.3" />
     <PackageReference Include="RacerData.NascarApi" Version="1.0.8" />
   </ItemGroup>
   

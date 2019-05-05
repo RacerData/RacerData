@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using log4net;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.LiveFeedMonitor.Dialogs;
 using RacerData.LiveFeedMonitor.Logging;
@@ -26,6 +27,7 @@ namespace RacerData.LiveFeedMonitor
         private static Color ActivityTextColor = Color.Cyan;
         private static Color ErrorTextColor = Color.Red;
 
+        private bool _verbose = false;
         private bool _autoStartService = false;
         private bool _isRunning = false;
         private ILog _log;
@@ -33,11 +35,58 @@ namespace RacerData.LiveFeedMonitor
 
         #endregion
 
-        #region ctor
+        #region ctor/load
 
         public MainConsole()
         {
             InitializeComponent();
+        }
+
+        private void MainConsole_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                Logger.Setup();
+
+                var configuration = ServiceProvider.Instance.GetRequiredService<IConfiguration>();
+
+                _autoStartService = configuration["monitor:autoStartService"] == "true";
+                _verbose = configuration["monitor:verbose"] == "true";
+
+                _monitorService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
+
+                _log = ServiceProvider.Instance.GetRequiredService<ILog>();
+
+                _monitorService.LiveFeedStarted += _monitorService_LiveFeedStarted;
+                _monitorService.ServiceStateChanged += _monitorService_ServiceStateChanged;
+                _monitorService.ServiceActivity += _monitorService_ServiceActivity;
+                _monitorService.ServiceStatusChanged += _monitorService_ServiceStatusChanged;
+
+                var awsDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
+
+                _monitorService.Register(awsDataPump);
+
+                var fileHarvester = ServiceProvider.Instance.GetRequiredService<INascarApiHarvester>();
+
+                _monitorService.Register(fileHarvester);
+
+                UpdateStatus("Live Feed Monitor ready");
+
+                foreach (ToolStripItem item in ctxWakeTarget.Items)
+                {
+                    item.ForeColor = btnSleep.ForeColor;
+                    item.BackColor = btnSleep.BackColor;
+                }
+
+                if (_autoStartService)
+                {
+                    StartMonitor();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error starting monitor", ex);
+            }
         }
 
         #endregion
@@ -72,6 +121,9 @@ namespace RacerData.LiveFeedMonitor
         {
             try
             {
+                if (!_verbose)
+                    return;
+
                 _log?.Info(message);
 
                 DisplayConsoleMessage(message, ActivityTextColor);
@@ -140,6 +192,7 @@ namespace RacerData.LiveFeedMonitor
             else
             {
                 lblStatus.Text = status;
+                lblActivity.Text = "";
             }
 
             ConsoleInfoMessage(status);
@@ -157,6 +210,10 @@ namespace RacerData.LiveFeedMonitor
                 if (activity.Contains("Error"))
                 {
                     ConsoleErrorMessage(activity);
+                }
+                else if (activity.Contains("sleep"))
+                {
+                    ConsoleInfoMessage(activity);
                 }
                 else
                 {
@@ -349,47 +406,6 @@ namespace RacerData.LiveFeedMonitor
             }
         }
 
-        private void MainConsole_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                Logger.Setup();
-
-                _monitorService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
-
-                _log = ServiceProvider.Instance.GetRequiredService<ILog>();
-
-                _monitorService.LiveFeedStarted += _monitorService_LiveFeedStarted;
-                _monitorService.ServiceStateChanged += _monitorService_ServiceStateChanged;
-                _monitorService.ServiceActivity += _monitorService_ServiceActivity;
-
-                var awsDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
-
-                _monitorService.Register(awsDataPump);
-
-                var fileHarvester = ServiceProvider.Instance.GetRequiredService<INascarApiHarvester>();
-
-                _monitorService.Register(fileHarvester);
-
-                UpdateStatus("Live Feed Monitor ready");
-
-                foreach (ToolStripItem item in ctxWakeTarget.Items)
-                {
-                    item.ForeColor = btnSleep.ForeColor;
-                    item.BackColor = btnSleep.BackColor;
-                }
-
-                if (_autoStartService)
-                {
-                    StartMonitor();
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error starting monitor", ex);
-            }
-        }
-
         private void btnLog_Click(object sender, EventArgs e)
         {
             try
@@ -438,6 +454,17 @@ namespace RacerData.LiveFeedMonitor
             }
         }
 
+        private void _monitorService_ServiceStatusChanged(object sender, ServiceStatusChangedEventArgs e)
+        {
+            try
+            {
+                UpdateStatus(e.ServiceStatus);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error updating monitor activity", ex);
+            }
+        }
         #endregion
     }
 }

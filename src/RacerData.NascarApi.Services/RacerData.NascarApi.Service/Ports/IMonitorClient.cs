@@ -10,5 +10,6 @@ namespace RacerData.NascarApi.Service.Ports
         void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e);
         void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e);
         void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e);
+        void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e);
     }
 }

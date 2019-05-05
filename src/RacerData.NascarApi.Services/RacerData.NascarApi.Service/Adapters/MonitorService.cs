@@ -59,6 +59,14 @@ namespace RacerData.NascarApi.Service.Adapters
                 handler.Invoke(this, new ServiceActivityEventArgs() { ServiceActivity = serviceActivity });
         }
 
+        public event EventHandler<ServiceStatusChangedEventArgs> ServiceStatusChanged;
+        protected virtual void OnServiceStatusChanged(string serviceStatus)
+        {
+            var handler = ServiceStatusChanged;
+            if (handler != null)
+                handler.Invoke(this, new ServiceStatusChangedEventArgs() { ServiceStatus = serviceStatus });
+        }
+
         #endregion
 
         #region fields
@@ -309,26 +317,25 @@ namespace RacerData.NascarApi.Service.Adapters
 
                 StopPollTimer();
                 StartSleepTimer();
-
-                OnServiceActivity($"Service sleeping until {WakeTarget}");
+                OnServiceStatusChanged($"Service sleeping until {WakeTarget}");
             }
             if (e.State == ServiceState.Running)
             {
                 StopSleepTimer();
                 StartPollTimer(_pollInterval);
-                OnServiceActivity("Service started");
+                OnServiceStatusChanged("Service started");
             }
             if (e.State == ServiceState.Paused)
             {
                 StopPollTimer();
                 StopSleepTimer();
-                OnServiceActivity("Service Stopped");
+                OnServiceStatusChanged("Service Stopped");
             }
             if (e.State == ServiceState.Error)
             {
                 StopSleepTimer();
                 StopPollTimer();
-                OnServiceActivity("Service Error! Polling suspended");
+                OnServiceStatusChanged("Service Error! Polling suspended");
             }
         }
 

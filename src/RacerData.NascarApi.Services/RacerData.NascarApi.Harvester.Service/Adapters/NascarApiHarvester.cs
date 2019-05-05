@@ -44,6 +44,11 @@ namespace RacerData.NascarApi.Harvester.Service.Adapters
 
         }
 
+        public void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e)
+        {
+            
+        }
+
         #endregion
     }
 }

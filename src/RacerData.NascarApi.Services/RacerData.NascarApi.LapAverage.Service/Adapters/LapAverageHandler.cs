@@ -84,6 +84,11 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
 
         }
 
+        public void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region protected

@@ -8,6 +8,7 @@ namespace RacerData.NascarApi.Service.Ports
         event EventHandler<LiveFeedUpdatedEventArgs> LiveFeedUpdated;
         event EventHandler<ServiceStateChangedEventArgs> ServiceStateChanged;
         event EventHandler<ServiceActivityEventArgs> ServiceActivity;
+        event EventHandler<ServiceStatusChangedEventArgs> ServiceStatusChanged;
 
         ServiceState State { get; }
 

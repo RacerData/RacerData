@@ -177,6 +177,12 @@
     <Compile Include="Controls\UserControlBase.Designer.cs">
       <DependentUpon>UserControlBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\DisplayFormatMapDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DisplayFormatMapDialog.Designer.cs">
+      <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FileViewerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,7 @@
     <Compile Include="Dialogs\InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\IViewDesigner.cs" />
     <Compile Include="Dialogs\ResizeControlDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,8 +214,16 @@
     <Compile Include="Dialogs\ViewDesignerDialog.Designer.cs">
       <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ViewDesignerDialog2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ViewDesignerDialog2.Designer.cs">
+      <DependentUpon>ViewDesignerDialog2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
+    <Compile Include="Factories\DisplayFormatMapService.cs" />
     <Compile Include="Factories\ViewDataSourceFactory.cs" />
+    <Compile Include="Factories\ViewDisplayFormatFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,9 +231,11 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Models\DataFormatMapItem.cs" />
     <Compile Include="Models\SortType.cs" />
     <Compile Include="Models\ViewDataMember.cs" />
     <Compile Include="Models\ViewDataSource.cs" />
+    <Compile Include="Models\ViewDisplayFormat.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Services\ColumnBuilderService.cs" />
     <Compile Include="Settings\AppSettings.cs" />
@@ -272,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UserControlBase.resx">
       <DependentUpon>UserControlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DisplayFormatMapDialog.resx">
+      <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\FileViewerDialog.resx">
       <DependentUpon>FileViewerDialog.cs</DependentUpon>

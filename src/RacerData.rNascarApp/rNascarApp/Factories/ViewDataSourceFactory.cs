@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
@@ -24,18 +25,21 @@ namespace RacerData.rNascarApp.Factories
             sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData)));
             sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData)));
 
+            var paths = sources.Where(s => s.Path == "");
+
             return sources;
         }
 
         #endregion
 
         #region protected
-       
+
         protected virtual ViewDataSource GetDataSource(string name, Type dataSourceType)
         {
             ViewDataSource source = new ViewDataSource()
             {
                 Name = name,
+                Path = dataSourceType.FullName,
                 Type = dataSourceType.FullName,
                 AssemblyQualifiedName = dataSourceType.AssemblyQualifiedName
             };
@@ -57,6 +61,7 @@ namespace RacerData.rNascarApp.Factories
                     source.Fields.Add(new ViewDataMember()
                     {
                         Name = propertyInfo.Name,
+                        Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
                         Type = propertyInfo.PropertyType.ToString(),
                         AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
                     });
@@ -75,6 +80,7 @@ namespace RacerData.rNascarApp.Factories
                 source = new ViewDataSource()
                 {
                     Name = sourcePropertyInfo.Name,
+                    Path = $"{sourcePropertyInfo.ReflectedType.FullName}.{sourcePropertyInfo.Name}",
                     Type = sourcePropertyInfo.PropertyType.GenericTypeArguments[0].Name,
                     AssemblyQualifiedName = sourcePropertyInfo.PropertyType.GenericTypeArguments[0].AssemblyQualifiedName
                 };
@@ -84,6 +90,7 @@ namespace RacerData.rNascarApp.Factories
                 source = new ViewDataSource()
                 {
                     Name = sourcePropertyInfo.Name,
+                    Path = $"{sourcePropertyInfo.ReflectedType.FullName}.{sourcePropertyInfo.Name}",
                     Type = sourcePropertyInfo.PropertyType.Name,
                     AssemblyQualifiedName = sourcePropertyInfo.PropertyType.AssemblyQualifiedName
                 };
@@ -108,6 +115,7 @@ namespace RacerData.rNascarApp.Factories
                     source.Fields.Add(new ViewDataMember()
                     {
                         Name = propertyInfo.Name,
+                        Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
                         Type = propertyInfo.PropertyType.ToString(),
                         AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
                     });

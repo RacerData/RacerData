@@ -186,6 +186,8 @@ namespace RacerData.rNascarApp
 
                 UserSettings = UserSettings.Load();
 
+                ViewStateUpdated += MainForm_ViewStateUpdated;
+
                 MainToolStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
                 MainStatusStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowStatusBar", false, DataSourceUpdateMode.OnPropertyChanged));
 
@@ -754,7 +756,7 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error setting monitor status", ex);
             }
         }
-        
+
         public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
         {
         }
@@ -872,7 +874,9 @@ namespace RacerData.rNascarApp
                 var factory = new ViewDataSourceFactory();
                 var sources = factory.GetList();
 
-                using (var dialog = new ViewDesignerDialog()
+                IViewDesigner dialog = null;
+
+                using (dialog = new ViewDesignerDialog()
                 {
                     ViewStates = localAppSettings.ViewStates,
                     Themes = this.Themes,
@@ -880,9 +884,6 @@ namespace RacerData.rNascarApp
                     ViewStateId = viewStateToEdit?.Id
                 })
                 {
-
-                    dialog.ViewStateUpdated += ViewDesignerDialog_ViewStateUpdated;
-
                     if (dialog.ShowDialog(this) == DialogResult.OK)
                     {
                         AppSettings.ViewStates = dialog.ViewStates;
@@ -894,8 +895,6 @@ namespace RacerData.rNascarApp
                             OnViewStateUpdated(viewState);
                         }
                     }
-
-                    dialog.ViewStateUpdated -= ViewDesignerDialog_ViewStateUpdated;
                 }
             }
             catch (Exception ex)
@@ -903,10 +902,8 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error displaying view designer", ex);
             }
         }
-        private void ViewDesignerDialog_ViewStateUpdated(object sender, ViewState e)
+        private void MainForm_ViewStateUpdated(object sender, ViewState e)
         {
-            OnViewStateUpdated(e);
-
             if (!e.IsDisplayed)
             {
                 foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().Where(u => u.State.Id == e.Id))
@@ -1021,6 +1018,47 @@ namespace RacerData.rNascarApp
             for (int i = 0; i < GridTable.ColumnCount; i++)
             {
                 GridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, newColumnSize));
+            }
+        }
+        #endregion
+
+        #region display formats
+        private void displayFormatsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayViewDisplayFormatDialog();
+        }
+        private void btnDisplayFormats_Click(object sender, EventArgs e)
+        {
+            DisplayViewDisplayFormatDialog();
+        }
+
+        protected virtual void DisplayViewDisplayFormatDialog()
+        {
+            try
+            {
+                var dataSourceFactory = new ViewDataSourceFactory();
+                var dataSources = dataSourceFactory.GetList();
+
+                var displayFormatFactory = new ViewDisplayFormatFactory();
+                var displayFormats = displayFormatFactory.GetViewDisplayFormats();
+
+                var mapService = new DisplayFormatMapService();
+
+                using (var dialog = new DisplayFormatMapDialog()
+                {
+                    DataSources = dataSources,
+                    MapService = mapService
+                })
+                {
+                    if (dialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        // Update the views
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying display format map dialog", ex);
             }
         }
         #endregion

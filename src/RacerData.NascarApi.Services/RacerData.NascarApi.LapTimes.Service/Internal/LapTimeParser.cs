@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
 using RacerData.NascarApi.Client.Models;
 using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
@@ -7,6 +9,26 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 {
     class LapTimeParser : ILapTimeParser
     {
+        #region fields
+
+        private bool _verbose = false;
+
+        #endregion
+
+        #region ctor
+
+        public LapTimeParser(
+            IConfiguration configuration)
+        {
+
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
+            _verbose = configuration["monitor:verbose"] == "true";
+        }
+
+        #endregion
+
         #region public
 
         public EventVehicleLapTimes ParseLapTimes(EventVehicleLapTimes lapTimes, LiveFeedData data)
@@ -17,6 +39,11 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
                 if (existingLap == null)
                 {
+                    if (_verbose)
+                    {
+                        Console.WriteLine($"Adding lap time for car {vehicle.CarNumber} for lap {vehicle.LapsCompleted}: {vehicle.LastLapTime}");
+                    }
+
                     lapTimes.VehicleLapTimes.Add(new VehicleLapTime()
                     {
                         VehicleId = vehicle.CarNumber,
@@ -30,11 +57,27 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
                 }
                 else
                 {
-                    existingLap.VehicleElapsed = vehicle.VehicleElapsedTime;
-                    existingLap.LapNumber = vehicle.LapsCompleted;
-                    existingLap.LapTime = vehicle.LastLapTime;
-                    existingLap.VehicleStatus = (VehicleStatus)vehicle.Status;
-                    existingLap.TrackState = data.FlagState;
+                    if (existingLap.VehicleElapsed != vehicle.VehicleElapsedTime ||
+                        existingLap.LapNumber != vehicle.LapsCompleted ||
+                        existingLap.LapTime != vehicle.LastLapTime ||
+                        existingLap.VehicleStatus != (VehicleStatus)vehicle.Status ||
+                        existingLap.TrackState != data.FlagState)
+                    {
+                        if (_verbose)
+                        {
+                            Console.WriteLine($"Updating lap time for car {vehicle.CarNumber} " +
+                                $"for lap {vehicle.LapsCompleted}: " +
+                                $"  from {existingLap.LapTime} to {vehicle.LastLapTime}" +
+                                $"  from {existingLap.VehicleStatus} to {((VehicleStatus)vehicle.Status).ToString()}" +
+                                $"  from {existingLap.TrackState} to {data.FlagState.ToString()}");
+                        }
+
+                        existingLap.VehicleElapsed = vehicle.VehicleElapsedTime;
+                        existingLap.LapNumber = vehicle.LapsCompleted;
+                        existingLap.LapTime = vehicle.LastLapTime;
+                        existingLap.VehicleStatus = (VehicleStatus)vehicle.Status;
+                        existingLap.TrackState = data.FlagState;
+                    }
                 }
 
                 //foreach (PitStop pitStop in vehicle.PitStops)

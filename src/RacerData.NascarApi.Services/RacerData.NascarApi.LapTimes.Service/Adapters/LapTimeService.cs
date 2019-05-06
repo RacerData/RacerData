@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text;
 using log4net;
+using Microsoft.Extensions.Configuration;
 using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
@@ -36,19 +38,26 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
         private int _lastRaceId = -1;
         private int _lastSeriesId = -1;
         private int _lastRunId = -1;
+        private bool _verbose = false;
 
         #endregion
 
         #region ctor
 
         public LapTimeService(
+            IConfiguration configuration,
             IAwsRepositoryFactory awsRepositoryFactory,
             ILapTimeParser lapTimeParser,
             ILapTimeDataFileWriter lapTimeFileWriter,
             ILog log)
         {
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
             if (awsRepositoryFactory == null)
                 throw new ArgumentNullException(nameof(awsRepositoryFactory));
+
+            _verbose = configuration["monitor:verbose"] == "true";
 
             IAwsBucketConfiguration awsConfiguraiton = new AwsLapTimeBucketConfiguration();
             var lapTimeRepository = awsRepositoryFactory.GetAwsRepository(awsConfiguraiton);
@@ -114,10 +123,29 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
         {
             try
             {
+                if (_verbose)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append($"Elapsed:{liveFeedData.Elapsed} ");
+                    sb.Append($"SeriesId:{liveFeedData.SeriesId} ");
+                    sb.Append($"RaceId:{liveFeedData.RaceId} ");
+                    sb.AppendLine($"RunId:{liveFeedData.RunId}");
+                    sb.Append($"LapNumber:{liveFeedData.LapNumber} ");
+                    sb.AppendLine($"FlagState:{liveFeedData.FlagState.ToString()}");
+
+                    Console.WriteLine("------------------");
+                    Console.WriteLine(sb);
+                }
+
                 if (liveFeedData.RaceId != _lastRaceId ||
                     liveFeedData.SeriesId != _lastSeriesId ||
                     liveFeedData.RunId != _lastRunId)
                 {
+                    if (_verbose)
+                    {
+                        Console.WriteLine("Resetting lap times");
+                    }
+
                     ResetLapTimes();
 
                     _lapTimes.RaceId = liveFeedData.RaceId;

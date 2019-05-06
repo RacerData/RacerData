@@ -8,11 +8,11 @@ namespace RacerData.NascarApi.Factories
 {
     class ApiClientFactory : IApiClientFactory
     {
-        private readonly ServiceProvider _services;
+        private readonly IServiceProvider _services;
 
-        public ApiClientFactory(ServiceProvider services)
+        public ApiClientFactory(IServiceProvider services)
         {
-            _services = _services ?? throw new ArgumentNullException(nameof(services));
+            _services = services ?? throw new ArgumentNullException(nameof(services));
         }
 
         public IApiClient GetNascarApiClient()

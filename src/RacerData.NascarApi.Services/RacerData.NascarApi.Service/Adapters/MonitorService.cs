@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using System.Timers;
 using AutoMapper;
 using log4net;
-using RacerData.NascarApi.Client.Models;
+using Microsoft.Extensions.Configuration;
+using RacerData.Commmon.Results;
 using RacerData.NascarApi.Client.Models.LiveFeed;
-using RacerData.NascarApi.Models;
+using RacerData.NascarApi.Client.Ports;
+using RacerData.NascarApi.Factories;
 using RacerData.NascarApi.Ports;
 using RacerData.NascarApi.Service.Ports;
 using Timer = System.Timers.Timer;
@@ -75,13 +77,15 @@ namespace RacerData.NascarApi.Service.Adapters
 
         private ILog _log;
         private IMapper _mapper;
-        private IApiClient _apiClient;
+        //private IApiClient _apiClient;
+        private INascarApiClient _nascarApiClient;
         private CancellationToken _cancellationToken;
         private CancellationTokenSource _cancellationTokenSource;
         private Timer _sleepTimer;
         private Timer _pollTimer;
         private int _pollInterval = DefaultPollInterval;
         private int? _lastElapsedTime;
+        private bool _verbose = false;
 
         #endregion
 
@@ -108,11 +112,37 @@ namespace RacerData.NascarApi.Service.Adapters
         #region ctor
 
         public MonitorService(
-            IApiClient apiClient,
+            IConfiguration configuration,
+            INascarApiClientFactory apiClientFactory,
             IMapper mapper,
             ILog log)
         {
-            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
+            if (apiClientFactory == null)
+                throw new ArgumentNullException(nameof(apiClientFactory));
+
+            _verbose = configuration["monitor:verbose"] == "true";
+
+            var useMock = configuration["mock:useMock"] == "true";
+
+            var interval = configuration["monitor:interval"];
+
+            if (!String.IsNullOrEmpty(interval))
+            {
+                _pollInterval = Int32.Parse(interval);
+            }
+
+            if (useMock)
+            {
+                var sourceDirectory = configuration["mock:sourceDirectory"];
+                _nascarApiClient = apiClientFactory.GetMockNascarApiClient(sourceDirectory);
+            }
+            else
+                _nascarApiClient = apiClientFactory.GetNascarApiClient();
+
+
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _log = log ?? throw new ArgumentNullException(nameof(log));
 
@@ -253,10 +283,23 @@ namespace RacerData.NascarApi.Service.Adapters
 
                 OnServiceActivity("Requesting live event feed");
 
-                var newFeedData = await _apiClient.GetLiveFeedAsync(cancellationToken);
+                var newFeedDataResult = await _nascarApiClient.GetLiveFeedDataAsync(cancellationToken);
 
-                if (_lastElapsedTime != null && _lastElapsedTime == newFeedData.elapsed_time)
+                if (!newFeedDataResult.IsSuccessful())
                 {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                if (_verbose)
+                {
+                    OnServiceActivity($"Elapsed:{newFeedData.Elapsed}");
+                }
+
+                if (_lastElapsedTime != null && _lastElapsedTime == newFeedData.Elapsed)
+                {
+                    OnServiceActivity($"No change in elapsed time: {newFeedData.Elapsed}");
                     return;
                 }
                 else
@@ -269,7 +312,7 @@ namespace RacerData.NascarApi.Service.Adapters
 
                     _pollTimer.Stop();
 
-                    _lastElapsedTime = newFeedData.elapsed_time;
+                    _lastElapsedTime = newFeedData.Elapsed;
 
                     var mappedFeedData = _mapper.Map<LiveFeedData>(newFeedData);
 

@@ -56,27 +56,45 @@ namespace RacerData.LiveFeedMonitor
 
                 _autoStartService = configuration["monitor:autoStartService"] == "true";
                 _verbose = configuration["monitor:verbose"] == "true";
-
-                _monitorService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
+                var harvestLapTimes = configuration["monitor:harvestLapTimes"] == "true";
+                var harvestLapAverages = configuration["monitor:harvestLapAverages"] == "true";
+                var harvestFeedData = configuration["monitor:harvestFeedData"] == "true";
 
                 _log = ServiceProvider.Instance.GetRequiredService<ILog>();
+
+                _monitorService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
 
                 _monitorService.LiveFeedStarted += _monitorService_LiveFeedStarted;
                 _monitorService.ServiceStateChanged += _monitorService_ServiceStateChanged;
                 _monitorService.ServiceActivity += _monitorService_ServiceActivity;
                 _monitorService.ServiceStatusChanged += _monitorService_ServiceStatusChanged;
+                
+                if (harvestLapTimes)
+                {
+                    var lapTimeDataPump = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
 
-                var lapAverageDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
+                    _monitorService.Register(lapTimeDataPump);
 
-                _monitorService.Register(lapAverageDataPump);
+                    UpdateStatus("Lap time harvester registered");
+                }
 
-                var lapTimeDataPump = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
+                if (harvestLapAverages)
+                {
+                    var lapAverageDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
 
-                _monitorService.Register(lapTimeDataPump);
+                    _monitorService.Register(lapAverageDataPump);
 
-                var fileHarvester = ServiceProvider.Instance.GetRequiredService<INascarApiHarvester>();
+                    UpdateStatus("Lap average harvester registered");
+                }
 
-                _monitorService.Register(fileHarvester);
+                if (harvestFeedData)
+                {
+                    var liveFeedharvester = ServiceProvider.Instance.GetRequiredService<INascarApiHarvester>();
+
+                    _monitorService.Register(liveFeedharvester);
+
+                    UpdateStatus("Live feed harvester registered");
+                }
 
                 UpdateStatus("Live Feed Monitor ready");
 
@@ -193,10 +211,9 @@ namespace RacerData.LiveFeedMonitor
                     rtbOut.SelectionColor = color;
                 }
                 rtbOut.SelectionLength = 0;
+                rtbOut.SelectionStart = (rtbOut.TextLength);
+                rtbOut.ScrollToCaret();
             }
-
-            rtbOut.SelectionStart = (rtbOut.TextLength);
-            rtbOut.ScrollToCaret();
         }
 
         protected virtual void UpdateStatus(string status)

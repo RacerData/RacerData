@@ -21,7 +21,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
         public LapTimeDataFileWriter(
             IConfiguration configuration)
         {
-            RootDirectory = configuration["harvester:lapAverageDirectory"];
+            RootDirectory = configuration["harvester:lapTimeDirectory"];
         }
 
         #endregion

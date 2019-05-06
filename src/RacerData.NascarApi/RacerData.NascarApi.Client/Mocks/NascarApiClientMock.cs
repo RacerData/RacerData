@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
+using Newtonsoft.Json;
 using RacerData.Commmon.Results;
 using RacerData.Common.Results;
 using RacerData.NascarApi.Client.Models.LapAverages;
@@ -12,8 +14,6 @@ using RacerData.NascarApi.Client.Models.LivePit;
 using RacerData.NascarApi.Client.Models.LivePoints;
 using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.NascarApi.Client.Ports;
-using RacerData.NascarApi.Factories;
-using RacerData.NascarApi.Ports;
 
 namespace RacerData.NascarApi.Client.Mocks
 {
@@ -21,9 +21,32 @@ namespace RacerData.NascarApi.Client.Mocks
     {
         #region fields
 
-        private readonly IApiClient _apiClient;
+        private IList<LiveFeedData> _data = new List<LiveFeedData>();
+
+        #endregion
+
+        #region properties
+
+        private int _fileIndex = 0;
+        public int FileIndex
+        {
+            get
+            {
+                if (_fileIndex >= _data.Count())
+                {
+                    _fileIndex = _data.Count() - 1;
+                }
+
+                return _fileIndex;
+            }
+            set
+            {
+                _fileIndex = value;
+            }
+        }
+        public string SourceDirectory { get; set; }
+        public IList<string> Files { get; set; } = new List<string>();
         private readonly IResultFactory<INascarApiClient> _resultFactory;
-        private readonly IMapper _mapper;
 
         #endregion
 
@@ -31,30 +54,40 @@ namespace RacerData.NascarApi.Client.Mocks
 
         public NascarApiClientMock(
             string directoryName,
-            IApiClientFactory apiClientFactory,
-            IResultFactory<INascarApiClient> resultFactory,
-            IMapper mapper)
+            IResultFactory<INascarApiClient> resultFactory)
         {
-            if (apiClientFactory == null)
-                throw new ArgumentNullException(nameof(apiClientFactory));
-            _apiClient = apiClientFactory.GetMockNascarApiClient(directoryName);
-
+            SourceDirectory = directoryName;
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+
+            foreach (var fileName in Directory.GetFiles(SourceDirectory))
+            {
+                Files.Add(fileName);
+            }
+
+            Initialize();
         }
 
         public NascarApiClientMock(
          IList<string> files,
-         IApiClientFactory apiClientFactory,
-         IResultFactory<INascarApiClient> resultFactory,
-         IMapper mapper)
+         IResultFactory<INascarApiClient> resultFactory)
         {
-            if (apiClientFactory == null)
-                throw new ArgumentNullException(nameof(apiClientFactory));
-            _apiClient = apiClientFactory.GetMockNascarApiClient(files);
-
+            Files = files;
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            var dataBuffer = new List<LiveFeedData>();
+            foreach (string fileName in Files)
+            {
+                var json = File.ReadAllText(fileName);
+                var liveFeedData = JsonConvert.DeserializeObject<LiveFeedData>(json);
+                dataBuffer.Add(liveFeedData);
+            }
+
+            _data = dataBuffer.OrderBy(d => d.Elapsed).ToList();
         }
 
         #endregion
@@ -72,11 +105,7 @@ namespace RacerData.NascarApi.Client.Mocks
         {
             try
             {
-                var feed = await _apiClient.GetLiveFeedAsync();
-
-                var mapped = _mapper.Map<LiveFeedData>(feed);
-
-                return _resultFactory.Success(mapped);
+                return await Task.FromResult(_resultFactory.Success(_data[FileIndex++]));
             }
             catch (Exception ex)
             {

@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>RacerData</Authors>
     <Description>Client for consuming the NASCAR API</Description>
-    <Version>1.0.8</Version>
+    <Version>1.0.12</Version>
     <Company>RacerData Software</Company>
   </PropertyGroup>
 
@@ -16,7 +16,7 @@
     <PackageReference Include="RestSharp" Version="106.6.9" />
   </ItemGroup>
 
-  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
+  <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
    <Exec Command="nuget add &quot;$(ProjectDir)\bin\Debug\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
   </Target>
   <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">

@@ -17,7 +17,7 @@ namespace RacerData.NascarApi.Client.Mapping.LiveFeed
                 .ForMember(m => m.LapsInRace, opts => opts.MapFrom(src => src.laps_in_race))
                 .ForMember(m => m.LapsToGo, opts => opts.MapFrom(src => src.laps_to_go))
                 .ForMember(m => m.RaceId, opts => opts.MapFrom(src => src.race_id))
-                .ForMember(m => m.SeriesId, opts => opts.MapFrom(src => src.series_id))
+                .ForMember(m => m.SeriesId, opts => opts.MapFrom(src => (SeriesType)src.series_id))
                 .ForMember(m => m.TrackId, opts => opts.MapFrom(src => src.track_id))
                 .ForMember(m => m.TrackLength, opts => opts.MapFrom(src => src.track_length))
                 .ForMember(m => m.TrackName, opts => opts.MapFrom(src => src.track_name))

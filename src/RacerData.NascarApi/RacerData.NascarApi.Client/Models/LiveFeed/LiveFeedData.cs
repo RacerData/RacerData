@@ -14,7 +14,7 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
         public List<Vehicle> Vehicles { get; set; }
         public int RunId { get; set; }
         public string RunName { get; set; }
-        public int SeriesId { get; set; }
+        public SeriesType SeriesId { get; set; }
         public DateTime TimeOfDay { get; set; }
         public int TrackId { get; set; }
         public double TrackLength { get; set; }

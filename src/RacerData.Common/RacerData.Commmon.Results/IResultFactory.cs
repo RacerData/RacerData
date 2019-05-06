@@ -3,14 +3,6 @@ using RacerData.Common.Results;
 
 namespace RacerData.Commmon.Results
 {
-    //public interface IResultFactory
-    //{
-    //    IResult Error(string message);
-    //    IResult Exception(Exception ex);
-    //    IResult Success();
-    //}
-
-
     /// <summary>
     /// Factory for creating results.
     /// </summary>

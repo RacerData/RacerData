@@ -69,6 +69,12 @@
     <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection, Version=0.0.0.0, Culture=neutral, PublicKeyToken=e767ac9c89543656, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.6.1.0\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
     </Reference>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.3.101.6\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.3.101.13\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -111,14 +117,17 @@
     <Reference Include="RacerData.Commmon.Results, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Commmon.Results.1.0.1\lib\netstandard2.0\RacerData.Commmon.Results.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.1.0.5\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
+    <Reference Include="RacerData.Data.Aws, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Aws.1.0.7\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.18\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Service, Version=1.0.15.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Service.1.0.15\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.37.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.37\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RacerData.NascarApi.Service, Version=1.0.38.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Service.1.0.38\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -337,6 +346,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.3.101.13\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

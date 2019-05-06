@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using log4net;
 using log4net.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Service;
@@ -67,6 +68,8 @@ namespace RacerData.rNascarApp
         private Panel _dragFrame;
         private bool _saveSettingsOnExit = false;
         private IMonitorService _feedService;
+        private Color _gridTableBackColor;
+        private bool _isMonitorEnabled = false;
 
         #endregion
 
@@ -112,8 +115,7 @@ namespace RacerData.rNascarApp
 
         #endregion
 
-        #region ctor / load
-
+        #region ctor/load
         public MainForm()
         {
             InitializeComponent();
@@ -140,7 +142,6 @@ namespace RacerData.rNascarApp
             {
                 this.ResumeLayout();
             }
-
         }
 
         protected override CreateParams CreateParams
@@ -175,6 +176,8 @@ namespace RacerData.rNascarApp
 
                 _feedService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
 
+                var configuration = ServiceProvider.Instance.GetRequiredService<IConfiguration>();
+
                 _feedService.Register(this);
 
                 Themes = UserThemeRepository.GetThemes();
@@ -201,126 +204,20 @@ namespace RacerData.rNascarApp
                 SetGridCellSizes(AppSettings.GridRowCount, AppSettings.GridColumnCount);
 
                 LoadViewStates();
+
+                _gridTableBackColor = GridTable.BackColor;
+
+                var autoStartMonitor = configuration["monitor:autoStartService"] == "true";
+                SetMonitorState(autoStartMonitor);
             }
             catch (Exception ex)
             {
                 ExceptionHandler("Error initializing main form", ex);
             }
         }
-
-        protected virtual void ClearViewStates()
-        {
-            foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
-            {
-                RemoveUserControlBase(controlBase);
-            }
-        }
-
-        protected virtual void RemoveUserControlBase(UserControlBase controlBase)
-        {
-            this.GridTable.Controls.Remove(controlBase);
-
-            this.ThemeUpdated -= controlBase.OnThemeUpdated;
-            this.ViewStateUpdated -= controlBase.OnViewStateUpdated;
-            controlBase.ResizeControlRequest -= BaseControl_ResizeControlRequest;
-            controlBase.RemoveControlRequest -= ControlBase_RemoveControlRequest;
-            controlBase.EditThemeRequest -= ControlBase_EditThemeRequest;
-            controlBase.EditViewRequest -= ControlBase_EditViewRequest;
-
-            controlBase.Dispose();
-        }
-
-        protected virtual void LoadViewStates()
-        {
-            foreach (ViewState viewState in AppSettings.ViewStates.OrderBy(v => v.Index))
-            {
-                if (viewState.IsDisplayed)
-                {
-                    var controlBase = AddControl(viewState);
-                }
-            }
-        }
-
-        protected virtual void SaveViewStates()
-        {
-            int i = 0;
-
-            foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
-            {
-                var cell = GridTable.GetPositionFromControl(controlBase);
-
-                var existingViewState = AppSettings.ViewStates.FirstOrDefault(v => v.Id == controlBase.State.Id);
-
-                if (existingViewState == null)
-                {
-                    var viewState = new ViewState()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = controlBase.Name,
-                        HeaderText = controlBase.State.HeaderText,
-                        Index = i,
-                        CellPosition = new ViewCellPosition()
-                        {
-                            Row = cell.Row,
-                            Column = cell.Column,
-                            RowSpan = GridTable.GetRowSpan(controlBase),
-                            ColumnSpan = GridTable.GetColumnSpan(controlBase)
-                        },
-                        ListSettings = controlBase.State.ListSettings,
-                        ThemeId = controlBase.State.ThemeId
-                    };
-
-                    AppSettings.ViewStates.Add(viewState);
-                }
-                else
-                {
-                    existingViewState.Index = i;
-                    existingViewState.CellPosition = new ViewCellPosition()
-                    {
-                        Row = cell.Row,
-                        Column = cell.Column,
-                        RowSpan = GridTable.GetRowSpan(controlBase),
-                        ColumnSpan = GridTable.GetColumnSpan(controlBase)
-                    };
-                    existingViewState.ThemeId = controlBase.State.ThemeId;
-                }
-
-                i++;
-            }
-
-            AppSettings.Save();
-        }
-
-        protected virtual void SaveAppState()
-        {
-            AppSettings.WindowState = this.WindowState;
-
-            if (AppSettings.WindowState == FormWindowState.Normal)
-            {
-                AppSettings.Size = this.Size;
-                AppSettings.Location = this.Location;
-                AppSettings.StartPosition = this.StartPosition;
-            }
-
-            AppSettings.Save();
-        }
-        protected virtual void BeforeFormCloses()
-        {
-            SaveAppState();
-
-            if (!_saveSettingsOnExit)
-                return;
-
-            if (UserSettings != null)
-                UserSettings.Save();
-
-            SaveViewStates();
-        }
-
         #endregion
 
-        #region protected
-
+        #region logging
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
             if (Log != null)
@@ -330,7 +227,6 @@ namespace RacerData.rNascarApp
 #endif
             MessageBox.Show($"{message}: {ex.Message}");
         }
-
         protected virtual void SetLogLevel(Level logLevel)
         {
             if (((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Level == logLevel)
@@ -344,7 +240,6 @@ namespace RacerData.rNascarApp
 
             LogInfo($"Log level set to {logLevel.ToString()}");
         }
-
         protected virtual void LogInfo(string message)
         {
             if (Log == null)
@@ -352,60 +247,9 @@ namespace RacerData.rNascarApp
             else
                 Log.Info(message);
         }
+        #endregion
 
-        protected virtual UserControlBase AddControl(ViewState viewState)
-        {
-            UserControlBase controlBase = new UserControlBase(viewState);
-
-            return AddControl(
-                controlBase,
-                viewState.CellPosition.Row,
-                viewState.CellPosition.Column,
-                viewState.CellPosition.RowSpan,
-                viewState.CellPosition.ColumnSpan);
-        }
-
-        protected virtual UserControlBase AddControl(
-            UserControlBase controlBase,
-            int row,
-            int column,
-            int rowSpan,
-            int columnSpan)
-        {
-            try
-            {
-                controlBase.State.IsDisplayed = true;
-
-                controlBase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
-
-                GridTable.Controls.Add(controlBase, column, row);
-                GridTable.SetRowSpan(controlBase, rowSpan);
-                GridTable.SetColumnSpan(controlBase, columnSpan);
-
-                UpdateGridCapacity();
-
-                this.ThemeUpdated += controlBase.OnThemeUpdated;
-                this.ViewStateUpdated += controlBase.OnViewStateUpdated;
-                controlBase.ResizeControlRequest += BaseControl_ResizeControlRequest;
-                controlBase.RemoveControlRequest += ControlBase_RemoveControlRequest;
-                controlBase.EditThemeRequest += ControlBase_EditThemeRequest;
-                controlBase.EditViewRequest += ControlBase_EditViewRequest;
-
-                ConfigureDragging(controlBase);
-            }
-            catch (IndexOutOfRangeException)
-            {
-                MessageBox.Show(this, "Can't add another view", "Grid Full", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                GridTable.Controls.Remove(controlBase);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error adding a new view", ex);
-            }
-
-            return controlBase;
-        }
-
+        #region drag/drop
         protected virtual void ConfigureDragging(UserControlBase ctl)
         {
             ctl.MouseDown += (s, e) =>
@@ -528,25 +372,9 @@ namespace RacerData.rNascarApp
                     }
                 }
 
-                GridTable.BackColor = Color.FromKnownColor(KnownColor.Control);
+                GridTable.BackColor = _gridTableBackColor;
 
                 UpdateGridCapacity();
-                //int rowCapacity = GridTable.RowCount;
-                //int columnCapacity = GridTable.ColumnCount;
-
-                //foreach (UserControlBase cbase in GridTable.Controls)
-                //{
-                //    var rowSpan = GridTable.GetRowSpan(cbase);
-                //    var columnSpan = GridTable.GetColumnSpan(cbase);
-                //    var cell = GridTable.GetPositionFromControl(cbase);
-
-                //    rowCapacity = ((rowSpan + cell.Row) > rowCapacity) ? rowSpan + cell.Row : rowCapacity;
-                //    columnCapacity = ((columnSpan + cell.Column) > columnCapacity) ? columnSpan + cell.Column : columnCapacity;
-
-
-                //    //Console.WriteLine($"{cbase.Title} - rowSpan {rowSpan} + cell.Row {cell.Row} = {rowSpan + cell.Row} | GridTable.RowCount {GridTable.RowCount} ## columnSpan {columnSpan} + cell.Column {cell.Column} = {columnSpan + cell.Column} | GridTable.ColumnCount {GridTable.ColumnCount}");
-                //}
-                //SetGridCellSizes(rowCapacity, columnCapacity);
             }
             catch (ArgumentException)
             {
@@ -558,15 +386,7 @@ namespace RacerData.rNascarApp
             }
             finally
             {
-                //try
-                //{
-
                 GridTable.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
-                //}
-                //catch (Exception)
-                //{
-
-                //}
             }
         }
 
@@ -592,15 +412,74 @@ namespace RacerData.rNascarApp
 
             return new Point(col, row);
         }
+        #endregion
 
-        private void ControlBase_EditViewRequest(object sender, ViewState e)
+        #region control base
+        protected virtual UserControlBase AddControl(ViewState viewState)
         {
-            DisplayViewDesignerDialog(e);
+            UserControlBase controlBase = new UserControlBase(viewState);
+
+            return AddControl(
+                controlBase,
+                viewState.CellPosition.Row,
+                viewState.CellPosition.Column,
+                viewState.CellPosition.RowSpan,
+                viewState.CellPosition.ColumnSpan);
         }
 
-        private void ControlBase_EditThemeRequest(object sender, Guid e)
+        protected virtual UserControlBase AddControl(
+            UserControlBase controlBase,
+            int row,
+            int column,
+            int rowSpan,
+            int columnSpan)
         {
-            DisplayThemeDialog(e);
+            try
+            {
+                controlBase.State.IsDisplayed = true;
+
+                controlBase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+
+                GridTable.Controls.Add(controlBase, column, row);
+                GridTable.SetRowSpan(controlBase, rowSpan);
+                GridTable.SetColumnSpan(controlBase, columnSpan);
+
+                UpdateGridCapacity();
+
+                this.ThemeUpdated += controlBase.OnThemeUpdated;
+                this.ViewStateUpdated += controlBase.OnViewStateUpdated;
+                controlBase.ResizeControlRequest += ControlBase_ResizeControlRequest;
+                controlBase.RemoveControlRequest += ControlBase_RemoveControlRequest;
+                controlBase.EditThemeRequest += ControlBase_EditThemeRequest;
+                controlBase.EditViewRequest += ControlBase_EditViewRequest;
+
+                ConfigureDragging(controlBase);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                MessageBox.Show(this, "Can't add another view", "Grid Full", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                GridTable.Controls.Remove(controlBase);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error adding a new view", ex);
+            }
+
+            return controlBase;
+        }
+
+        protected virtual void RemoveUserControlBase(UserControlBase controlBase)
+        {
+            this.GridTable.Controls.Remove(controlBase);
+
+            this.ThemeUpdated -= controlBase.OnThemeUpdated;
+            this.ViewStateUpdated -= controlBase.OnViewStateUpdated;
+            controlBase.ResizeControlRequest -= ControlBase_ResizeControlRequest;
+            controlBase.RemoveControlRequest -= ControlBase_RemoveControlRequest;
+            controlBase.EditThemeRequest -= ControlBase_EditThemeRequest;
+            controlBase.EditViewRequest -= ControlBase_EditViewRequest;
+
+            controlBase.Dispose();
         }
 
         protected virtual void ControlBase_RemoveControlRequest(object sender, EventArgs e)
@@ -609,8 +488,7 @@ namespace RacerData.rNascarApp
             SaveViewStates();
             RemoveUserControlBase((UserControlBase)sender);
         }
-
-        protected virtual void BaseControl_ResizeControlRequest(object sender, EventArgs e)
+        protected virtual void ControlBase_ResizeControlRequest(object sender, EventArgs e)
         {
             UserControlBase controlBase = (UserControlBase)sender;
 
@@ -619,66 +497,109 @@ namespace RacerData.rNascarApp
 
             var dialog = new ResizeControlDialog(controlBase, rowSpan, columnSpan);
 
-            dialog.SpanSettingsChanged += Dialog_SpanSettingsChanged;
+            dialog.SpanSettingsChanged += SpanSettingsChanged;
 
             dialog.ShowDialog(this);
 
-            dialog.SpanSettingsChanged -= Dialog_SpanSettingsChanged;
+            dialog.SpanSettingsChanged -= SpanSettingsChanged;
         }
-
-        protected virtual void Dialog_SpanSettingsChanged(object sender, Point e)
+        private void ControlBase_EditViewRequest(object sender, ViewState e)
         {
-            if (sender is UserControlBase)
-            {
-                UserControlBase controlBase = (UserControlBase)sender;
-
-                GridTable.SetRowSpan(controlBase, e.X);
-                GridTable.SetColumnSpan(controlBase, e.Y);
-            }
-            else if (sender == GridTable)
-            {
-                SetGridCellSizes(e.X, e.Y);
-            }
+            DisplayViewDesignerDialog(e);
         }
-
-        protected virtual void UpdateGridCapacity()
+        private void ControlBase_EditThemeRequest(object sender, Guid e)
         {
-            int rowCapacity = GridTable.RowCount;
-            int columnCapacity = GridTable.ColumnCount;
-
-            foreach (UserControlBase cbase in GridTable.Controls)
-            {
-                var rowSpan = GridTable.GetRowSpan(cbase);
-                var columnSpan = GridTable.GetColumnSpan(cbase);
-                var cell = GridTable.GetPositionFromControl(cbase);
-
-                rowCapacity = ((rowSpan + cell.Row) > rowCapacity) ? rowSpan + cell.Row : rowCapacity;
-                columnCapacity = ((columnSpan + cell.Column) > columnCapacity) ? columnSpan + cell.Column : columnCapacity;
-                //Console.WriteLine($"{cbase.Title} - rowSpan {rowSpan} + cell.Row {cell.Row} = {rowSpan + cell.Row} | GridTable.RowCount {GridTable.RowCount} ## columnSpan {columnSpan} + cell.Column {cell.Column} = {columnSpan + cell.Column} | GridTable.ColumnCount {GridTable.ColumnCount}");
-            }
-
-            SetGridCellSizes(rowCapacity, columnCapacity);
+            DisplayThemeDialog(e);
         }
+        #endregion
 
-        protected virtual void SetGridCellSizes(int rowCount, int columnCount)
+        #region view states
+        private void resetViewsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GridTable.RowCount = rowCount;
-            float newRowSize = GridTable.Height * (float)(((float)100 / (float)GridTable.RowCount) * .01);
-
-            GridTable.RowStyles.Clear();
-            for (int i = 0; i < GridTable.RowCount; i++)
+            ResetViews();
+        }
+        protected virtual void ResetViews()
+        {
+            try
             {
-                GridTable.RowStyles.Add(new RowStyle(SizeType.Absolute, newRowSize));
+                ClearViewStates();
+
+                LoadViewStates();
             }
-
-            GridTable.ColumnCount = columnCount;
-            float newColumnSize = GridTable.Width * (float)(((float)100 / (float)GridTable.ColumnCount) * .01);
-            GridTable.ColumnStyles.Clear();
-            for (int i = 0; i < GridTable.ColumnCount; i++)
+            catch (Exception ex)
             {
-                GridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, newColumnSize));
+                ExceptionHandler("Error resetting views", ex);
             }
         }
+        protected virtual void ClearViewStates()
+        {
+            foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
+            {
+                RemoveUserControlBase(controlBase);
+            }
+        }
+        protected virtual void LoadViewStates()
+        {
+            foreach (ViewState viewState in AppSettings.ViewStates.OrderBy(v => v.Index))
+            {
+                if (viewState.IsDisplayed)
+                {
+                    var controlBase = AddControl(viewState);
+                }
+            }
+        }
+        protected virtual void SaveViewStates()
+        {
+            int i = 0;
+
+            foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
+            {
+                var cell = GridTable.GetPositionFromControl(controlBase);
+
+                var existingViewState = AppSettings.ViewStates.FirstOrDefault(v => v.Id == controlBase.State.Id);
+
+                if (existingViewState == null)
+                {
+                    var viewState = new ViewState()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = controlBase.Name,
+                        HeaderText = controlBase.State.HeaderText,
+                        Index = i,
+                        CellPosition = new ViewCellPosition()
+                        {
+                            Row = cell.Row,
+                            Column = cell.Column,
+                            RowSpan = GridTable.GetRowSpan(controlBase),
+                            ColumnSpan = GridTable.GetColumnSpan(controlBase)
+                        },
+                        ListSettings = controlBase.State.ListSettings,
+                        ThemeId = controlBase.State.ThemeId
+                    };
+
+                    AppSettings.ViewStates.Add(viewState);
+                }
+                else
+                {
+                    existingViewState.Index = i;
+                    existingViewState.CellPosition = new ViewCellPosition()
+                    {
+                        Row = cell.Row,
+                        Column = cell.Column,
+                        RowSpan = GridTable.GetRowSpan(controlBase),
+                        ColumnSpan = GridTable.GetColumnSpan(controlBase)
+                    };
+                    existingViewState.ThemeId = controlBase.State.ThemeId;
+                }
+
+                i++;
+            }
+
+            AppSettings.Save();
+        }
+        #endregion
+
+        #region main form properties
 
         protected virtual void MainForm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -693,6 +614,83 @@ namespace RacerData.rNascarApp
             }
         }
 
+        #endregion
+
+        #region form closing
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _saveSettingsOnExit = true;
+            this.Close();
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            BeforeFormCloses();
+        }
+        protected virtual void BeforeFormCloses()
+        {
+            SaveAppState();
+
+            if (!_saveSettingsOnExit)
+                return;
+
+            if (UserSettings != null)
+                UserSettings.Save();
+
+            SaveViewStates();
+        }
+        protected virtual void SaveAppState()
+        {
+            AppSettings.WindowState = this.WindowState;
+
+            if (AppSettings.WindowState == FormWindowState.Normal)
+            {
+                AppSettings.Size = this.Size;
+                AppSettings.Location = this.Location;
+                AppSettings.StartPosition = this.StartPosition;
+            }
+
+            AppSettings.Save();
+        }
+        #endregion
+
+        #region menu/status control visible states
+        private void statusBarToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (MainStatusStrip.Visible != statusBarToolStripMenuItem.Checked)
+                MainStatusStrip.Visible = statusBarToolStripMenuItem.Checked;
+        }
+
+        private void MainStatusStrip_VisibleChanged(object sender, EventArgs e)
+        {
+            if (statusBarToolStripMenuItem.Checked != MainStatusStrip.Visible)
+                statusBarToolStripMenuItem.Checked = MainStatusStrip.Visible;
+        }
+
+        private void toolBarToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (MainToolStrip.Visible != toolBarToolStripMenuItem.Checked)
+                MainToolStrip.Visible = toolBarToolStripMenuItem.Checked;
+        }
+
+        private void MainToolStrip_VisibleChanged(object sender, EventArgs e)
+        {
+            if (toolBarToolStripMenuItem.Checked != MainToolStrip.Visible)
+                toolBarToolStripMenuItem.Checked = MainToolStrip.Visible;
+        }
+        #endregion
+
+        #region options
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region file viewer
+        private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayLogFile();
+        }
         protected virtual void DisplayLogFile()
         {
             try
@@ -707,7 +705,10 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error displaying log file", ex);
             }
         }
-
+        private void userSettingsFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayUserSettingsFile();
+        }
         protected virtual void DisplayUserSettingsFile()
         {
             try
@@ -722,7 +723,89 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error displaying settings file", ex);
             }
         }
+        #endregion
 
+        #region monitor service
+        private void btnMonitor_Click(object sender, EventArgs e)
+        {
+            SetMonitorState(!_isMonitorEnabled);
+        }
+        private void SetMonitorState(bool enableMonitor)
+        {
+            try
+            {
+                if (enableMonitor)
+                {
+                    txtMonitorState.BackColor = Color.LimeGreen;
+                    btnMonitor.Text = "Stop Monitor";
+                    _feedService.Start();
+                }
+                else
+                {
+                    txtMonitorState.BackColor = Color.DarkOliveGreen;
+                    btnMonitor.Text = "Start Monitor";
+                    _feedService.Pause();
+                }
+
+                _isMonitorEnabled = enableMonitor;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error setting monitor status", ex);
+            }
+        }
+        
+        public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
+        {
+        }
+        public void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
+        {
+        }
+        public void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e)
+        {
+        }
+        public void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e)
+        {
+        }
+
+        public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(Monitor_LiveFeedUpdated);
+                Invoke(d, new object[] { sender, e });
+            }
+            else
+            {
+                UpdateStatusLabel(e.LiveFeedData);
+
+                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                {
+                    controlBase.LiveFeedData = e.LiveFeedData;
+                    var data = controlBase.GetViewData();
+                    controlBase.UpdateListRowsData(data);
+                }
+            }
+        }
+        private void UpdateStatusLabel(LiveFeedData data)
+        {
+            var series = data.SeriesId.ToString();
+            lblTrackName.Text = data.TrackName;
+            lblEvent.Text = $"{series} {data.RunName}";
+            lblSession.Text = data.RunType.ToString();
+            lblTrackState.Text = data.FlagState.ToString();
+        }
+        #endregion
+
+        #region theme designer
+        private void themeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayThemeDialog();
+        }
+        private void btnThemeDesigner_Click(object sender, EventArgs e)
+        {
+            DisplayThemeDialog();
+        }
         protected virtual void DisplayThemeDialog()
         {
             DisplayThemeDialog(null);
@@ -762,7 +845,21 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error displaying themes designer", ex);
             }
         }
+        protected virtual void ThemeDialog_UpdatedTheme(object sender, Theme theme)
+        {
+            OnThemeUpdated(theme);
+        }
+        #endregion
 
+        #region view designer
+        private void viewDesignerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayViewDesignerDialog();
+        }
+        private void btnViewDesigner_Click(object sender, EventArgs e)
+        {
+            DisplayViewDesignerDialog();
+        }
         protected virtual void DisplayViewDesignerDialog()
         {
             DisplayViewDesignerDialog(null);
@@ -784,7 +881,7 @@ namespace RacerData.rNascarApp
                 })
                 {
 
-                    dialog.ViewStateUpdated += ViewDialog_ViewStateUpdated;
+                    dialog.ViewStateUpdated += ViewDesignerDialog_ViewStateUpdated;
 
                     if (dialog.ShowDialog(this) == DialogResult.OK)
                     {
@@ -798,7 +895,7 @@ namespace RacerData.rNascarApp
                         }
                     }
 
-                    dialog.ViewStateUpdated -= ViewDialog_ViewStateUpdated;
+                    dialog.ViewStateUpdated -= ViewDesignerDialog_ViewStateUpdated;
                 }
             }
             catch (Exception ex)
@@ -806,8 +903,7 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error displaying view designer", ex);
             }
         }
-
-        private void ViewDialog_ViewStateUpdated(object sender, ViewState e)
+        private void ViewDesignerDialog_ViewStateUpdated(object sender, ViewState e)
         {
             OnViewStateUpdated(e);
 
@@ -834,12 +930,25 @@ namespace RacerData.rNascarApp
                 }
             }
         }
+        #endregion
 
-        protected virtual void ThemeDialog_UpdatedTheme(object sender, Theme theme)
+        #region grid size
+        private void btnGridSize_Click(object sender, EventArgs e)
         {
-            OnThemeUpdated(theme);
+            DisplayGridResizeDialog();
         }
-
+        private void gridSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayGridResizeDialog();
+        }
+        private void gridSizeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DisplayGridResizeDialog();
+        }
+        private void GridTable_Resize(object sender, EventArgs e)
+        {
+            SetGridCellSizes(GridTable.RowCount, GridTable.ColumnCount);
+        }
         protected virtual void DisplayGridResizeDialog()
         {
             try
@@ -848,188 +957,72 @@ namespace RacerData.rNascarApp
 
                 var dialog = new ResizeControlDialog((Control)GridTable, GridTable.RowCount, GridTable.ColumnCount);
 
-                dialog.SpanSettingsChanged += Dialog_SpanSettingsChanged;
+                dialog.SpanSettingsChanged += SpanSettingsChanged;
 
                 dialog.ShowDialog(this);
 
-                dialog.SpanSettingsChanged -= Dialog_SpanSettingsChanged;
+                dialog.SpanSettingsChanged -= SpanSettingsChanged;
             }
             catch (Exception ex)
             {
-                ExceptionHandler("", ex);
+                ExceptionHandler("Error setting grid size", ex);
             }
             finally
             {
                 GridTable.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
             }
         }
-
-        protected virtual void ResetViews()
+        protected virtual void SpanSettingsChanged(object sender, Point e)
         {
-            try
+            if (sender is UserControlBase)
             {
-                ClearViewStates();
+                UserControlBase controlBase = (UserControlBase)sender;
 
-                LoadViewStates();
+                GridTable.SetRowSpan(controlBase, e.X);
+                GridTable.SetColumnSpan(controlBase, e.Y);
             }
-            catch (Exception ex)
+            else if (sender == GridTable)
             {
-                ExceptionHandler("Error resetting views", ex);
-            }
-        }
-
-        #endregion
-
-        #region private
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _saveSettingsOnExit = true;
-            this.Close();
-        }
-
-        private void statusBarToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (MainStatusStrip.Visible != statusBarToolStripMenuItem.Checked)
-                MainStatusStrip.Visible = statusBarToolStripMenuItem.Checked;
-        }
-
-        private void MainStatusStrip_VisibleChanged(object sender, EventArgs e)
-        {
-            if (statusBarToolStripMenuItem.Checked != MainStatusStrip.Visible)
-                statusBarToolStripMenuItem.Checked = MainStatusStrip.Visible;
-        }
-
-        private void toolBarToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (MainToolStrip.Visible != toolBarToolStripMenuItem.Checked)
-                MainToolStrip.Visible = toolBarToolStripMenuItem.Checked;
-        }
-
-        private void MainToolStrip_VisibleChanged(object sender, EventArgs e)
-        {
-            if (toolBarToolStripMenuItem.Checked != MainToolStrip.Visible)
-                toolBarToolStripMenuItem.Checked = MainToolStrip.Visible;
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            BeforeFormCloses();
-        }
-
-        private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayLogFile();
-        }
-
-        private void userSettingsFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayUserSettingsFile();
-        }
-
-        private void themeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayThemeDialog();
-        }
-
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void GridTable_Resize(object sender, EventArgs e)
-        {
-            SetGridCellSizes(GridTable.RowCount, GridTable.ColumnCount);
-        }
-
-        private void gridSizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayGridResizeDialog();
-        }
-
-        private void gridSizeToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            DisplayGridResizeDialog();
-        }
-
-        private void viewDesignerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayViewDesignerDialog();
-        }
-
-        private void btnFeedReader_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _feedService.Start();
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error subscribing to feed reader", ex);
+                SetGridCellSizes(e.X, e.Y);
             }
         }
-
-        public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
+        protected virtual void UpdateGridCapacity()
         {
+            int rowCapacity = GridTable.RowCount;
+            int columnCapacity = GridTable.ColumnCount;
 
-        }
-
-        public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
-        {
-            if (this.InvokeRequired)
+            foreach (UserControlBase cbase in GridTable.Controls)
             {
-                var d = new SafeCallDelegate(Monitor_LiveFeedUpdated);
-                Invoke(d, new object[] { sender, e });
+                var rowSpan = GridTable.GetRowSpan(cbase);
+                var columnSpan = GridTable.GetColumnSpan(cbase);
+                var cell = GridTable.GetPositionFromControl(cbase);
+
+                rowCapacity = ((rowSpan + cell.Row) > rowCapacity) ? rowSpan + cell.Row : rowCapacity;
+                columnCapacity = ((columnSpan + cell.Column) > columnCapacity) ? columnSpan + cell.Column : columnCapacity;
+                //Console.WriteLine($"{cbase.Title} - rowSpan {rowSpan} + cell.Row {cell.Row} = {rowSpan + cell.Row} | GridTable.RowCount {GridTable.RowCount} ## columnSpan {columnSpan} + cell.Column {cell.Column} = {columnSpan + cell.Column} | GridTable.ColumnCount {GridTable.ColumnCount}");
             }
-            else
-            {
-                UpdateStatusLabel(e.LiveFeedData);
 
-                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
-                {
-                    controlBase.LiveFeedData = e.LiveFeedData;
-                    var data = controlBase.GetViewData();
-                    controlBase.UpdateListRowsData(data);
-                }
+            SetGridCellSizes(rowCapacity, columnCapacity);
+        }
+        protected virtual void SetGridCellSizes(int rowCount, int columnCount)
+        {
+            GridTable.RowCount = rowCount;
+            float newRowSize = GridTable.Height * (float)(((float)100 / (float)GridTable.RowCount) * .01);
+
+            GridTable.RowStyles.Clear();
+            for (int i = 0; i < GridTable.RowCount; i++)
+            {
+                GridTable.RowStyles.Add(new RowStyle(SizeType.Absolute, newRowSize));
             }
-        }
 
-        public void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e)
-        {
-
-        }
-
-        private void UpdateStatusLabel(LiveFeedData data)
-        {
-            var series = data.SeriesId == 1 ? "MENCS" : data.SeriesId == 2 ? "XFinity Series" : data.SeriesId == 3 ? "NGOTS" : "Other";
-            lblTrackName.Text = data.TrackName;
-            lblEvent.Text = $"{series} {data.RunName}";
-            lblSession.Text = data.RunType.ToString();
-            lblTrackState.Text = data.FlagState.ToString();
-        }
-
-        private void btnUnsubscribe_Click(object sender, EventArgs e)
-        {
-            try
+            GridTable.ColumnCount = columnCount;
+            float newColumnSize = GridTable.Width * (float)(((float)100 / (float)GridTable.ColumnCount) * .01);
+            GridTable.ColumnStyles.Clear();
+            for (int i = 0; i < GridTable.ColumnCount; i++)
             {
-                _feedService.Pause();
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error unsubscribing from feed reader", ex);
+                GridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, newColumnSize));
             }
         }
-
-        private void resetViewsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ResetViews();
-        }
-
         #endregion
     }
 }

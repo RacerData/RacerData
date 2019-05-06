@@ -69,7 +69,7 @@
             this.lblRow4Text.Size = new System.Drawing.Size(140, 16);
             this.lblRow4Text.TabIndex = 3;
             this.lblRow4Text.Text = "Alternating Row 2 Text";
-            this.lblRow4Text.FontChanged += new System.EventHandler(this.SectionControl_FontChanged);
+            this.lblRow4Text.FontChanged += new System.EventHandler(this.SectionControl_ControlFontChanged);
             // 
             // pnlRow3
             // 
@@ -92,7 +92,7 @@
             this.lblRow3Text.Size = new System.Drawing.Size(140, 16);
             this.lblRow3Text.TabIndex = 2;
             this.lblRow3Text.Text = "Alternating Row 1 Text";
-            this.lblRow3Text.FontChanged += new System.EventHandler(this.SectionControl_FontChanged);
+            this.lblRow3Text.FontChanged += new System.EventHandler(this.SectionControl_ControlFontChanged);
             // 
             // pnlRow2
             // 
@@ -115,7 +115,7 @@
             this.lblRow2Text.Size = new System.Drawing.Size(140, 16);
             this.lblRow2Text.TabIndex = 1;
             this.lblRow2Text.Text = "Alternating Row 2 Text";
-            this.lblRow2Text.FontChanged += new System.EventHandler(this.SectionControl_FontChanged);
+            this.lblRow2Text.FontChanged += new System.EventHandler(this.SectionControl_ControlFontChanged);
             // 
             // pnlRow1
             // 
@@ -138,7 +138,7 @@
             this.lblRow1Text.Size = new System.Drawing.Size(140, 16);
             this.lblRow1Text.TabIndex = 0;
             this.lblRow1Text.Text = "Alternating Row 1 Text";
-            this.lblRow1Text.FontChanged += new System.EventHandler(this.SectionControl_FontChanged);
+            this.lblRow1Text.FontChanged += new System.EventHandler(this.SectionControl_ControlFontChanged);
             // 
             // pnlColumnHeader
             // 
@@ -161,7 +161,7 @@
             this.lblColumnHeader.Size = new System.Drawing.Size(102, 16);
             this.lblColumnHeader.TabIndex = 3;
             this.lblColumnHeader.Text = "Column Header";
-            this.lblColumnHeader.FontChanged += new System.EventHandler(this.SectionControl_FontChanged);
+            this.lblColumnHeader.FontChanged += new System.EventHandler(this.SectionControl_ControlFontChanged);
             // 
             // pnlHeader
             // 
@@ -184,7 +184,7 @@
             this.lblHeader.TabIndex = 0;
             this.lblHeader.Text = "List Title";
             this.lblHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblHeader.FontChanged += new System.EventHandler(this.SectionControl_FontChanged);
+            this.lblHeader.FontChanged += new System.EventHandler(this.SectionControl_ControlFontChanged);
             // 
             // SampleGridView
             // 

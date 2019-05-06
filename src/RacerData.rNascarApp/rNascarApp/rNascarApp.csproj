@@ -117,8 +117,8 @@
     <Reference Include="RacerData.Commmon.Results, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Commmon.Results.1.0.1\lib\netstandard2.0\RacerData.Commmon.Results.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.Data.Aws, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.Data.Aws.1.0.7\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
+    <Reference Include="RacerData.Data.Aws, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Aws.1.0.8\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
@@ -316,7 +316,9 @@
     <EmbeddedResource Include="Themes\SampleView.resx">
       <DependentUpon>SampleView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="appsettings.json" />
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

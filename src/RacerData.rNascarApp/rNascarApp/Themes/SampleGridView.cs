@@ -143,7 +143,7 @@ namespace RacerData.rNascarApp.Themes
             return themeSections;
         }
 
-        private void SectionControl_FontChanged(object sender, EventArgs e)
+        private void SectionControl_ControlFontChanged(object sender, EventArgs e)
         {
             Label label = (Label)sender;
             Control parent = (Control)label.Parent;

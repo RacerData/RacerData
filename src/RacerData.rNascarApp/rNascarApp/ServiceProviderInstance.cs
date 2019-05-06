@@ -3,6 +3,8 @@ using AutoMapper;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RacerData.Data.Aws;
+using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Service;
 
 namespace RacerData.rNascarApp
@@ -40,8 +42,7 @@ namespace RacerData.rNascarApp
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
             services.AddNascarApiService();
-            //services.AddLapAverageService();
-            //services.AddHarvesterService();
+            services.AddAwsData();
 
             Mapper.Initialize(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
 

@@ -302,19 +302,7 @@ namespace RacerData.rNascarApp
 
         protected virtual void DragTimer_Tick(object sender, EventArgs e)
         {
-            if ((Control.MouseButtons & MouseButtons.Left) == MouseButtons.None)
-            {
-                _dragFrame.Hide();
-                dragTimer.Stop();
-            }
 
-            if (_dragFrame.Visible)
-            {
-                Point pt = this.PointToClient(Cursor.Position);
-
-                _dragFrame.Location = new Point(pt.X - _dragPoint.X,
-                                               pt.Y + 3);
-            }
         }
 
         protected virtual void GridTable_DragOver(object sender, DragEventArgs e)
@@ -1062,5 +1050,40 @@ namespace RacerData.rNascarApp
             }
         }
         #endregion
+
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            DisplayViewDesignWizard();
+        }
+        protected virtual void DisplayViewDesignWizard()
+        {
+            try
+            {
+                var dataSourceFactory = new ViewDataSourceFactory();
+                var dataSources = dataSourceFactory.GetList();
+
+                var displayFormatFactory = new ViewDisplayFormatFactory();
+                var displayFormats = displayFormatFactory.GetViewDisplayFormats();
+
+                var mapService = new DisplayFormatMapService();
+
+                using (var dialog = new ViewDesignerDialog2()
+                {
+                    DataSources = dataSources,
+                    MapService = mapService
+                })
+                {
+                    if (dialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        // Update the views
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying display format map dialog", ex);
+            }
+        }
     }
 }

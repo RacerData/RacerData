@@ -423,6 +423,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             format.Name = txtDfName.Text;
             format.Format = txtDfFormat.Text;
+            format.Sample = txtSample.Text;
             format.Alignment = rbLeft.Checked ? HorizontalAlignment.Left : rbCenter.Checked ? HorizontalAlignment.Center : HorizontalAlignment.Right;
             int maxWidth;
             if (Int32.TryParse(txtDfMaxWidth.Text, out maxWidth))
@@ -460,29 +461,18 @@ namespace RacerData.rNascarApp.Dialogs
 
             ViewDisplayFormat format = null;
 
-            if (string.IsNullOrEmpty(txtDfMaxWidth.Text))
+            format = new ViewDisplayFormat()
             {
-                format = new ViewDisplayFormat()
-                {
-                    Name = txtDfName.Text,
-                    Format = txtDfFormat.Text,
-                    Alignment = rbLeft.Checked ? HorizontalAlignment.Left : rbCenter.Checked ? HorizontalAlignment.Center : HorizontalAlignment.Right
-                };
-            }
-            else
-            {
-                format = new ViewDisplayFormat()
-                {
-                    Name = txtDfName.Text,
-                    Format = txtDfFormat.Text,
-                    Alignment = rbLeft.Checked ? HorizontalAlignment.Left : rbCenter.Checked ? HorizontalAlignment.Center : HorizontalAlignment.Right
-                };
+                Name = txtDfName.Text,
+                Format = txtDfFormat.Text,
+                Sample = txtSample.Text,
+                Alignment = rbLeft.Checked ? HorizontalAlignment.Left : rbCenter.Checked ? HorizontalAlignment.Center : HorizontalAlignment.Right
+            };
 
-                int maxWidth;
-                if (Int32.TryParse(txtDfMaxWidth.Text, out maxWidth))
-                {
-                    format.MaxWidth = maxWidth;
-                }
+            int maxWidth;
+            if (Int32.TryParse(txtDfMaxWidth.Text, out maxWidth))
+            {
+                format.MaxWidth = maxWidth;
             }
 
             MapService.DisplayFormats.Add(format);
@@ -525,6 +515,7 @@ namespace RacerData.rNascarApp.Dialogs
             rbCenter.Checked = (format.Alignment == HorizontalAlignment.Center);
             rbRight.Checked = (format.Alignment == HorizontalAlignment.Right);
 
+            txtSample.Text = format.Sample;
             txtDfMaxWidth.Text = format.MaxWidth.ToString();
         }
 
@@ -535,6 +526,7 @@ namespace RacerData.rNascarApp.Dialogs
             rbLeft.Checked = true;
             rbCenter.Checked = false;
             rbRight.Checked = false;
+            txtSample.Clear();
             txtDfMaxWidth.Clear();
         }
 

@@ -159,6 +159,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.Designer.cs">
+      <DependentUpon>CreateViewWizard1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard2.Designer.cs">
+      <DependentUpon>CreateViewWizard2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard3.Designer.cs">
+      <DependentUpon>CreateViewWizard3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IWizardStep.cs" />
     <Compile Include="Controls\ListHeader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,6 +195,12 @@
     </Compile>
     <Compile Include="Controls\UserControlBase.Designer.cs">
       <DependentUpon>UserControlBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WizardStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WizardStep.Designer.cs">
+      <DependentUpon>WizardStep.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\DisplayFormatMapDialog.cs">
       <SubType>Form</SubType>
@@ -281,6 +306,15 @@
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeSection.cs" />
     <Compile Include="Themes\UserThemeRepository.cs" />
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard1.resx">
+      <DependentUpon>CreateViewWizard1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard2.resx">
+      <DependentUpon>CreateViewWizard2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard3.resx">
+      <DependentUpon>CreateViewWizard3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListHeader.resx">
       <DependentUpon>ListHeader.cs</DependentUpon>
     </EmbeddedResource>
@@ -307,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ViewDesignerDialog.resx">
       <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ViewDesignerDialog2.resx">
+      <DependentUpon>ViewDesignerDialog2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -48,6 +48,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewDesignerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel0 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTrackName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -66,14 +67,14 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnGridSize = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnDisplayFormats = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.GridTable = new System.Windows.Forms.TableLayoutPanel();
             this.ctxGridTable = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlGrid = new System.Windows.Forms.Panel();
-            this.displayFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnDisplayFormats = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.MainToolStrip.SuspendLayout();
@@ -205,28 +206,35 @@
             // gridSizeToolStripMenuItem
             // 
             this.gridSizeToolStripMenuItem.Name = "gridSizeToolStripMenuItem";
-            this.gridSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridSizeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.gridSizeToolStripMenuItem.Text = "&Grid Size";
             this.gridSizeToolStripMenuItem.Click += new System.EventHandler(this.gridSizeToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(157, 6);
             // 
             // themeToolStripMenuItem
             // 
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.themeToolStripMenuItem.Text = "&Theme Designer";
             this.themeToolStripMenuItem.Click += new System.EventHandler(this.themeToolStripMenuItem_Click);
             // 
             // viewDesignerToolStripMenuItem
             // 
             this.viewDesignerToolStripMenuItem.Name = "viewDesignerToolStripMenuItem";
-            this.viewDesignerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewDesignerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.viewDesignerToolStripMenuItem.Text = "&View Designer";
             this.viewDesignerToolStripMenuItem.Click += new System.EventHandler(this.viewDesignerToolStripMenuItem_Click);
+            // 
+            // displayFormatsToolStripMenuItem
+            // 
+            this.displayFormatsToolStripMenuItem.Name = "displayFormatsToolStripMenuItem";
+            this.displayFormatsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.displayFormatsToolStripMenuItem.Text = "&Display Formats";
+            this.displayFormatsToolStripMenuItem.Click += new System.EventHandler(this.displayFormatsToolStripMenuItem_Click);
             // 
             // MainStatusStrip
             // 
@@ -322,7 +330,8 @@
             this.btnGridSize,
             this.toolStripSeparator3,
             this.btnDisplayFormats,
-            this.toolStripSeparator4});
+            this.toolStripSeparator4,
+            this.toolStripButton1});
             this.MainToolStrip.Location = new System.Drawing.Point(0, 24);
             this.MainToolStrip.Name = "MainToolStrip";
             this.MainToolStrip.Size = new System.Drawing.Size(1038, 25);
@@ -392,6 +401,30 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // btnDisplayFormats
+            // 
+            this.btnDisplayFormats.Image = ((System.Drawing.Image)(resources.GetObject("btnDisplayFormats.Image")));
+            this.btnDisplayFormats.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDisplayFormats.Name = "btnDisplayFormats";
+            this.btnDisplayFormats.Size = new System.Drawing.Size(111, 22);
+            this.btnDisplayFormats.Text = "Display Formats";
+            this.btnDisplayFormats.Click += new System.EventHandler(this.btnDisplayFormats_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // GridTable
             // 
             this.GridTable.AllowDrop = true;
@@ -445,27 +478,6 @@
             this.pnlGrid.Name = "pnlGrid";
             this.pnlGrid.Size = new System.Drawing.Size(1038, 473);
             this.pnlGrid.TabIndex = 4;
-            // 
-            // displayFormatsToolStripMenuItem
-            // 
-            this.displayFormatsToolStripMenuItem.Name = "displayFormatsToolStripMenuItem";
-            this.displayFormatsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.displayFormatsToolStripMenuItem.Text = "&Display Formats";
-            this.displayFormatsToolStripMenuItem.Click += new System.EventHandler(this.displayFormatsToolStripMenuItem_Click);
-            // 
-            // btnDisplayFormats
-            // 
-            this.btnDisplayFormats.Image = ((System.Drawing.Image)(resources.GetObject("btnDisplayFormats.Image")));
-            this.btnDisplayFormats.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDisplayFormats.Name = "btnDisplayFormats";
-            this.btnDisplayFormats.Size = new System.Drawing.Size(111, 22);
-            this.btnDisplayFormats.Text = "Display Formats";
-            this.btnDisplayFormats.Click += new System.EventHandler(this.btnDisplayFormats_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // MainForm
             // 
@@ -543,6 +555,7 @@
         private System.Windows.Forms.ToolStripMenuItem displayFormatsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton btnDisplayFormats;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

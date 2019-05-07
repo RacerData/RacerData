@@ -6,6 +6,7 @@
         public System.Windows.Forms.HorizontalAlignment Alignment { get; set; }
         public string Format { get; set; }
         public int? MaxWidth { get; set; }
+        public string Sample { get; set; }
 
         public override string ToString()
         {

@@ -19,11 +19,11 @@ namespace RacerData.rNascarApp.Factories
         {
             IList<ViewDataSource> sources = new List<ViewDataSource>();
 
-            sources.Add(GetDataSource("LiveFeedData", typeof(LiveFeedData)));
-            sources.Add(GetDataSource("LivePitData[]", typeof(LivePitData)));
-            sources.Add(GetDataSource("LiveFlagData[]", typeof(LiveFlagData)));
-            sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData)));
-            sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData)));
+            sources.Add(GetDataSource("LiveFeedData", typeof(LiveFeedData), "LiveFeedData"));
+            sources.Add(GetDataSource("LivePitData[]", typeof(LivePitData), "LivePitData"));
+            sources.Add(GetDataSource("LiveFlagData[]", typeof(LiveFlagData), "LiveFlagData"));
+            sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData), "LivePointsData"));
+            sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData), "LiveQualifyingData"));
 
             var paths = sources.Where(s => s.Path == "");
 
@@ -34,7 +34,7 @@ namespace RacerData.rNascarApp.Factories
 
         #region protected
 
-        protected virtual ViewDataSource GetDataSource(string name, Type dataSourceType)
+        protected virtual ViewDataSource GetDataSource(string name, Type dataSourceType, string dataFeedName)
         {
             ViewDataSource source = new ViewDataSource()
             {
@@ -48,12 +48,12 @@ namespace RacerData.rNascarApp.Factories
             {
                 if (propertyInfo.PropertyType.Name.Contains("List"))
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    var innerSource = GetDataSource(propertyInfo, dataFeedName);
                     source.Lists.Add(innerSource);
                 }
                 else if (propertyInfo.PropertyType.Assembly == dataSourceType.Assembly)
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    var innerSource = GetDataSource(propertyInfo, dataFeedName);
                     source.NestedClasses.Add(innerSource);
                 }
                 else
@@ -62,6 +62,7 @@ namespace RacerData.rNascarApp.Factories
                     {
                         Name = propertyInfo.Name,
                         Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
+                        DataFeed = dataFeedName,
                         Type = propertyInfo.PropertyType.ToString(),
                         AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
                     });
@@ -71,7 +72,7 @@ namespace RacerData.rNascarApp.Factories
             return source;
         }
 
-        protected virtual ViewDataSource GetDataSource(PropertyInfo sourcePropertyInfo)
+        protected virtual ViewDataSource GetDataSource(PropertyInfo sourcePropertyInfo, string dataFeedName)
         {
             ViewDataSource source = null;
 
@@ -102,12 +103,12 @@ namespace RacerData.rNascarApp.Factories
             {
                 if (propertyInfo.PropertyType.Name.Contains("List"))
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    var innerSource = GetDataSource(propertyInfo, dataFeedName);
                     source.Lists.Add(innerSource);
                 }
                 else if (propertyInfo.PropertyType.Assembly == dataSourceType.Assembly)
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    var innerSource = GetDataSource(propertyInfo, dataFeedName);
                     source.NestedClasses.Add(innerSource);
                 }
                 else
@@ -116,6 +117,7 @@ namespace RacerData.rNascarApp.Factories
                     {
                         Name = propertyInfo.Name,
                         Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
+                        DataFeed = dataFeedName,
                         Type = propertyInfo.PropertyType.ToString(),
                         AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
                     });

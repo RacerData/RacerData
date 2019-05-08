@@ -32,8 +32,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             Index = 0;
             Name = "Select Data Source";
-            Caption = "Select the data source for the view";
-            Details = "Select the specific NASCAR API feed to display in the view.";
+            Caption = "Select the data source from the list to continue...";
+            Details = "Select the NASCAR API feed to display in the view.";
             Error = String.Empty;
         }
 
@@ -46,7 +46,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             if (trvDataSources.Nodes.Count == 0)
                 DisplayDataSources(DataSources);
 
-            IsComplete = ValidateStep();
+            CanGoNext = ValidateStep();
+            CanGoPrevious = false;
 
             trvDataSources.Focus();
         }
@@ -54,7 +55,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         private void CreateViewWizard1_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SelectedDataSource))
-                IsComplete = ValidateStep();
+                CanGoNext = ValidateStep();
         }
 
         public override object GetDataSource()

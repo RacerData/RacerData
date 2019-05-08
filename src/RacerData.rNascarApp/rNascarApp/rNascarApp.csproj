@@ -177,6 +177,12 @@
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard3.Designer.cs">
       <DependentUpon>CreateViewWizard3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard4.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard4.Designer.cs">
+      <DependentUpon>CreateViewWizard4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IWizardStep.cs" />
     <Compile Include="Controls\ListHeader.cs">
       <SubType>UserControl</SubType>
@@ -190,6 +196,7 @@
     <Compile Include="Controls\ListRow.Designer.cs">
       <DependentUpon>ListRow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TypeNames.cs" />
     <Compile Include="Controls\UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -239,11 +246,11 @@
     <Compile Include="Dialogs\ViewDesignerDialog.Designer.cs">
       <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ViewDesignerDialog2.cs">
+    <Compile Include="Dialogs\CreateViewWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\ViewDesignerDialog2.Designer.cs">
-      <DependentUpon>ViewDesignerDialog2.cs</DependentUpon>
+    <Compile Include="Dialogs\CreateViewWizard.Designer.cs">
+      <DependentUpon>CreateViewWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
     <Compile Include="Factories\DisplayFormatMapService.cs" />
@@ -261,6 +268,7 @@
     <Compile Include="Models\ViewDataMember.cs" />
     <Compile Include="Models\ViewDataSource.cs" />
     <Compile Include="Models\ViewDisplayFormat.cs" />
+    <Compile Include="Models\ViewListItem.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Services\ColumnBuilderService.cs" />
     <Compile Include="Settings\AppSettings.cs" />
@@ -315,6 +323,9 @@
     <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard3.resx">
       <DependentUpon>CreateViewWizard3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard4.resx">
+      <DependentUpon>CreateViewWizard4.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListHeader.resx">
       <DependentUpon>ListHeader.cs</DependentUpon>
     </EmbeddedResource>
@@ -342,8 +353,8 @@
     <EmbeddedResource Include="Dialogs\ViewDesignerDialog.resx">
       <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ViewDesignerDialog2.resx">
-      <DependentUpon>ViewDesignerDialog2.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\CreateViewWizard.resx">
+      <DependentUpon>CreateViewWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

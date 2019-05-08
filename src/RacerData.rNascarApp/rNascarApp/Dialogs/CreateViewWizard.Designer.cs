@@ -1,6 +1,6 @@
 ﻿namespace RacerData.rNascarApp.Dialogs
 {
-    partial class ViewDesignerDialog2
+    partial class CreateViewWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewDesignerDialog2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateViewWizard));
             this.pnlDialogButtons = new System.Windows.Forms.Panel();
-            this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSaveAll = new System.Windows.Forms.Button();
             this.ilDataSourceImages = new System.Windows.Forms.ImageList(this.components);
             this.pnlSteps = new System.Windows.Forms.Panel();
             this.pnlStepCaptions = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblStepCaption = new System.Windows.Forms.Label();
             this.pnlStepDetails = new System.Windows.Forms.Panel();
             this.lblStepDetails = new System.Windows.Forms.Label();
             this.lblStepsCaption = new System.Windows.Forms.Label();
@@ -45,55 +44,36 @@
             this.lblError = new System.Windows.Forms.Label();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPrevious = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lblStepCaption = new System.Windows.Forms.Label();
+            this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlDialogButtons.SuspendLayout();
             this.pnlSteps.SuspendLayout();
             this.pnlStepCaptions.SuspendLayout();
             this.pnlStepDetails.SuspendLayout();
             this.pnlNavigation.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pnlMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlDialogButtons
             // 
-            this.pnlDialogButtons.Controls.Add(this.btnApply);
+            this.pnlDialogButtons.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnlDialogButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlDialogButtons.Controls.Add(this.btnCancel);
-            this.pnlDialogButtons.Controls.Add(this.btnSaveAll);
             this.pnlDialogButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlDialogButtons.Location = new System.Drawing.Point(0, 410);
+            this.pnlDialogButtons.Location = new System.Drawing.Point(0, 523);
             this.pnlDialogButtons.Name = "pnlDialogButtons";
-            this.pnlDialogButtons.Size = new System.Drawing.Size(916, 40);
+            this.pnlDialogButtons.Size = new System.Drawing.Size(1132, 46);
             this.pnlDialogButtons.TabIndex = 2;
-            // 
-            // btnApply
-            // 
-            this.btnApply.Location = new System.Drawing.Point(93, 7);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 25);
-            this.btnApply.TabIndex = 2;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(829, 7);
+            this.btnCancel.Location = new System.Drawing.Point(1037, 6);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 25);
+            this.btnCancel.Size = new System.Drawing.Size(87, 29);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // btnSaveAll
-            // 
-            this.btnSaveAll.Location = new System.Drawing.Point(12, 7);
-            this.btnSaveAll.Name = "btnSaveAll";
-            this.btnSaveAll.Size = new System.Drawing.Size(75, 25);
-            this.btnSaveAll.TabIndex = 0;
-            this.btnSaveAll.Text = "Save";
-            this.btnSaveAll.UseVisualStyleBackColor = true;
             // 
             // ilDataSourceImages
             // 
@@ -118,6 +98,7 @@
             // 
             // pnlSteps
             // 
+            this.pnlSteps.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.pnlSteps.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlSteps.Controls.Add(this.pnlStepCaptions);
             this.pnlSteps.Controls.Add(this.pnlStepDetails);
@@ -125,68 +106,83 @@
             this.pnlSteps.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlSteps.Location = new System.Drawing.Point(0, 0);
             this.pnlSteps.Name = "pnlSteps";
-            this.pnlSteps.Size = new System.Drawing.Size(213, 410);
+            this.pnlSteps.Size = new System.Drawing.Size(248, 523);
             this.pnlSteps.TabIndex = 3;
             // 
             // pnlStepCaptions
             // 
+            this.pnlStepCaptions.BackColor = System.Drawing.SystemColors.Info;
             this.pnlStepCaptions.Controls.Add(this.lblStepCaption);
             this.pnlStepCaptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlStepCaptions.Location = new System.Drawing.Point(0, 28);
+            this.pnlStepCaptions.Location = new System.Drawing.Point(0, 32);
             this.pnlStepCaptions.Name = "pnlStepCaptions";
-            this.pnlStepCaptions.Padding = new System.Windows.Forms.Padding(8);
-            this.pnlStepCaptions.Size = new System.Drawing.Size(211, 280);
+            this.pnlStepCaptions.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this.pnlStepCaptions.Size = new System.Drawing.Size(246, 374);
             this.pnlStepCaptions.TabIndex = 1;
+            // 
+            // lblStepCaption
+            // 
+            this.lblStepCaption.Location = new System.Drawing.Point(12, 9);
+            this.lblStepCaption.Name = "lblStepCaption";
+            this.lblStepCaption.Size = new System.Drawing.Size(175, 27);
+            this.lblStepCaption.TabIndex = 0;
+            this.lblStepCaption.Text = "label2";
+            this.lblStepCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnlStepDetails
             // 
-            this.pnlStepDetails.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlStepDetails.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.pnlStepDetails.Controls.Add(this.lblStepDetails);
             this.pnlStepDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlStepDetails.Location = new System.Drawing.Point(0, 308);
+            this.pnlStepDetails.Location = new System.Drawing.Point(0, 406);
             this.pnlStepDetails.Name = "pnlStepDetails";
-            this.pnlStepDetails.Padding = new System.Windows.Forms.Padding(4, 8, 4, 4);
-            this.pnlStepDetails.Size = new System.Drawing.Size(211, 100);
+            this.pnlStepDetails.Padding = new System.Windows.Forms.Padding(5, 9, 5, 5);
+            this.pnlStepDetails.Size = new System.Drawing.Size(246, 115);
             this.pnlStepDetails.TabIndex = 2;
             // 
             // lblStepDetails
             // 
             this.lblStepDetails.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblStepDetails.Location = new System.Drawing.Point(4, 8);
+            this.lblStepDetails.Location = new System.Drawing.Point(5, 9);
             this.lblStepDetails.Name = "lblStepDetails";
-            this.lblStepDetails.Size = new System.Drawing.Size(199, 65);
+            this.lblStepDetails.Size = new System.Drawing.Size(236, 91);
             this.lblStepDetails.TabIndex = 0;
             this.lblStepDetails.Text = "Step Details";
             // 
             // lblStepsCaption
             // 
+            this.lblStepsCaption.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblStepsCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStepsCaption.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblStepsCaption.Font = new System.Drawing.Font("Arial Black", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStepsCaption.Location = new System.Drawing.Point(0, 0);
             this.lblStepsCaption.Name = "lblStepsCaption";
-            this.lblStepsCaption.Size = new System.Drawing.Size(211, 28);
+            this.lblStepsCaption.Size = new System.Drawing.Size(246, 32);
             this.lblStepsCaption.TabIndex = 0;
             this.lblStepsCaption.Text = "Create a View";
-            this.lblStepsCaption.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblStepsCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnlStepBody
             // 
-            this.pnlStepBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlStepBody.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.pnlStepBody.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlStepBody.Location = new System.Drawing.Point(8, 8);
+            this.pnlStepBody.Location = new System.Drawing.Point(0, 0);
             this.pnlStepBody.Name = "pnlStepBody";
-            this.pnlStepBody.Size = new System.Drawing.Size(685, 350);
+            this.pnlStepBody.Padding = new System.Windows.Forms.Padding(4, 0, 4, 2);
+            this.pnlStepBody.Size = new System.Drawing.Size(884, 475);
             this.pnlStepBody.TabIndex = 4;
             // 
             // pnlNavigation
             // 
+            this.pnlNavigation.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnlNavigation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlNavigation.Controls.Add(this.lblError);
             this.pnlNavigation.Controls.Add(this.btnNext);
             this.pnlNavigation.Controls.Add(this.btnPrevious);
             this.pnlNavigation.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlNavigation.Location = new System.Drawing.Point(8, 358);
+            this.pnlNavigation.Location = new System.Drawing.Point(0, 475);
             this.pnlNavigation.Name = "pnlNavigation";
-            this.pnlNavigation.Size = new System.Drawing.Size(685, 42);
+            this.pnlNavigation.Size = new System.Drawing.Size(884, 48);
             this.pnlNavigation.TabIndex = 0;
             // 
             // lblError
@@ -194,21 +190,20 @@
             this.lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblError.ForeColor = System.Drawing.Color.Maroon;
-            this.lblError.Location = new System.Drawing.Point(69, 7);
+            this.lblError.Location = new System.Drawing.Point(111, 0);
             this.lblError.Name = "lblError";
-            this.lblError.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblError.Size = new System.Drawing.Size(547, 26);
+            this.lblError.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.lblError.Size = new System.Drawing.Size(659, 46);
             this.lblError.TabIndex = 3;
-            this.lblError.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(622, 7);
+            this.btnNext.Location = new System.Drawing.Point(789, 8);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(60, 27);
+            this.btnNext.Size = new System.Drawing.Size(87, 29);
             this.btnNext.TabIndex = 2;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
@@ -216,43 +211,35 @@
             // 
             // btnPrevious
             // 
-            this.btnPrevious.Location = new System.Drawing.Point(3, 7);
+            this.btnPrevious.Location = new System.Drawing.Point(3, 8);
             this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(60, 27);
+            this.btnPrevious.Size = new System.Drawing.Size(87, 29);
             this.btnPrevious.TabIndex = 1;
             this.btnPrevious.Text = "Previous";
             this.btnPrevious.UseVisualStyleBackColor = true;
             this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
-            // panel1
+            // pnlMain
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.pnlStepBody);
-            this.panel1.Controls.Add(this.pnlNavigation);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(213, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(8);
-            this.panel1.Size = new System.Drawing.Size(703, 410);
-            this.panel1.TabIndex = 5;
-            // 
-            // lblStepCaption
-            // 
-            this.lblStepCaption.Location = new System.Drawing.Point(11, 8);
-            this.lblStepCaption.Name = "lblStepCaption";
-            this.lblStepCaption.Size = new System.Drawing.Size(150, 23);
-            this.lblStepCaption.TabIndex = 0;
-            this.lblStepCaption.Text = "label2";
-            this.lblStepCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.pnlMain.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnlMain.Controls.Add(this.pnlStepBody);
+            this.pnlMain.Controls.Add(this.pnlNavigation);
+            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMain.Location = new System.Drawing.Point(248, 0);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(884, 523);
+            this.pnlMain.TabIndex = 5;
             // 
             // ViewDesignerDialog2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(916, 450);
-            this.Controls.Add(this.panel1);
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ClientSize = new System.Drawing.Size(1132, 569);
+            this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlSteps);
             this.Controls.Add(this.pnlDialogButtons);
+            this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ViewDesignerDialog2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View Designer";
@@ -262,7 +249,7 @@
             this.pnlStepCaptions.ResumeLayout(false);
             this.pnlStepDetails.ResumeLayout(false);
             this.pnlNavigation.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.pnlMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -270,9 +257,7 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlDialogButtons;
-        private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnSaveAll;
         private System.Windows.Forms.ImageList ilDataSourceImages;
         private System.Windows.Forms.Panel pnlSteps;
         private System.Windows.Forms.Panel pnlStepDetails;
@@ -284,7 +269,7 @@
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPrevious;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.Label lblStepCaption;
     }
 }

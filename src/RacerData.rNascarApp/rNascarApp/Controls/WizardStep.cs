@@ -43,6 +43,20 @@ namespace RacerData.rNascarApp.Controls
                 OnPropertyChanged(nameof(Error));
             }
         }
+        private bool _isBusy = false;
+        public bool CanGoPrevious
+        {
+
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged(nameof(CanGoPrevious));
+            }
+        }
         private bool _isComplete = false;
         public bool IsComplete
         {
@@ -55,6 +69,20 @@ namespace RacerData.rNascarApp.Controls
             {
                 _isComplete = value;
                 OnPropertyChanged(nameof(IsComplete));
+            }
+        }
+        private bool _canGoNext = false;
+        public bool CanGoNext
+        {
+
+            get
+            {
+                return _canGoNext;
+            }
+            set
+            {
+                _canGoNext = value;
+                OnPropertyChanged(nameof(CanGoNext));
             }
         }
         public ILog Log { get; set; }

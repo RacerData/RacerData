@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Models;
+using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Controls.CreateViewWizard
 {
     public partial class CreateViewWizard2 : WizardStep
     {
+        #region fields
+
+        private BindingList<ViewDataMember> _selectedDataMembers;
+
+        #endregion
+
+        #region properties
+
         private ViewDataSource _dataSource = null;
         public ViewDataSource DataSource
         {
@@ -32,7 +37,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
 
-        private BindingList<ViewDataMember> _selectedDataMembers;
+        #endregion
+
+        #region ctor/load
 
         public CreateViewWizard2()
             : base()
@@ -41,7 +48,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             Index = 1;
             Name = "Select Fields";
-            Caption = "Select the fields for the view";
+            Caption = "Add columns to the view from the fields in the data source";
             Details = "Select the specific fields from the data source to display in the view.";
             Error = String.Empty;
         }
@@ -56,6 +63,10 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             lstSelected.DataSource = _selectedDataMembers;
         }
 
+        #endregion
+
+        #region public
+
         public override object GetDataSource()
         {
             return _selectedDataMembers.ToList();
@@ -63,7 +74,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         public override void SetDataObject(object data)
         {
-            DataSource = (ViewDataSource)data;
+            if (data is ViewDataSource)
+                DataSource = (ViewDataSource)data;
         }
 
         public override void ActivateStep()
@@ -74,11 +86,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             _selectedDataMembers.ListChanged += SelectedDataMembers_ListChanged;
 
-            UpdateValidation();
-        }
-
-        private void SelectedDataMembers_ListChanged(object sender, ListChangedEventArgs e)
-        {
             UpdateValidation();
         }
 
@@ -108,9 +115,14 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             return isValid;
         }
 
+        #endregion
+
+        #region protected
+
         protected virtual void UpdateValidation()
         {
-            IsComplete = ValidateStep();
+            CanGoPrevious = true;
+            CanGoNext = ValidateStep();
         }
 
         protected virtual void DisplayDataSource(ViewDataSource dataSource)
@@ -161,6 +173,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             trvDataSources.Nodes.Add(dataSourceNode);
 
             trvDataSources.ExpandAll();
+
+            trvDataSources.SelectedNode = dataSourceNode;
         }
 
         protected virtual void BuildDataSourceTreeView(TreeNode dataSourceNode, ViewDataSource dataSource)
@@ -169,14 +183,14 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 var fieldNode = new TreeNode(field.Caption);
 
+                field.DataFeed = dataSource.Name;
+
                 var mapItem = new DataFormatMapItem()
                 {
-                    DataMember = field
+                    DataMember = field,
                 };
 
                 fieldNode.Tag = mapItem;
-
-                //UpdateNodeState(fieldNode, mapItem.DisplayFormat);
 
                 dataSourceNode.Nodes.Add(fieldNode);
             }
@@ -186,9 +200,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 var listNode = new TreeNode(dataList.Caption + "[]")
                 {
                     Tag = dataList
-                    //ImageIndex = ClosedFolderImageIndex,
-                    //SelectedImageIndex = ClosedFolderImageIndex,
-
                 };
 
                 BuildDataSourceTreeView(listNode, dataList);
@@ -201,14 +212,21 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 var listNode = new TreeNode(dataList.Caption)
                 {
                     Tag = dataList
-                    //ImageIndex = ClosedFolderImageIndex,
-                    //SelectedImageIndex = ClosedFolderImageIndex,
                 };
 
                 BuildDataSourceTreeView(listNode, dataList);
 
                 dataSourceNode.Nodes.Add(listNode);
             }
+        }
+
+        #endregion
+
+        #region private
+
+        private void SelectedDataMembers_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            UpdateValidation();
         }
 
         private void trvDataSources_AfterSelect(object sender, TreeViewEventArgs e)
@@ -255,5 +273,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             if (!_selectedDataMembers.Contains(member))
                 _selectedDataMembers.Add(member);
         }
+
+        #endregion
     }
 }

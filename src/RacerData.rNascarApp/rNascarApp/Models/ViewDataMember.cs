@@ -9,6 +9,7 @@ namespace RacerData.rNascarApp.Models
 
         public string Name { get; set; }
         public string Path { get; set; }
+        public string DataFeed { get; set; }
         string _caption = String.Empty;
         public string Caption
         {
@@ -48,6 +49,21 @@ namespace RacerData.rNascarApp.Models
         }
         public string AssemblyQualifiedName { get; set; }
         public string Type { get; set; }
+        private string _convertedType = String.Empty;
+        public string ConvertedType
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_convertedType))
+                    _convertedType = Type;
+
+                return _convertedType;
+            }
+            set
+            {
+                _convertedType = value;
+            }
+        }
 
         #endregion
 

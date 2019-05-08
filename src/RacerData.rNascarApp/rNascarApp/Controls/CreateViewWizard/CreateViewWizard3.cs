@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Models;
+using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Controls.CreateViewWizard
 {
@@ -12,11 +13,20 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
     {
         #region fields
 
+        private IList<ViewListColumn> _viewListColumns = null;
+        private IList<FormatListItem> _formatListItems = new List<FormatListItem>();
         private DisplayFormatMapService _mapService = null;
         private Point _dragPoint = Point.Empty;
         private Point _dragPointToClient = Point.Empty;
         private Panel _dragFrame;
+        private Color _labelForeColor = Color.Black;
+        private Color _unselectedCaptionBackColor = Color.FromKnownColor(KnownColor.Control);
+        private Color _unselectedFieldBackColor = Color.White;
+        private Color _selectedBackColor = Color.Yellow;
         private bool _allowResize = false;
+        private bool _isEditing = false;
+        private bool _isLoadingFieldDetails = false;
+        private int? _selectedFieldIndex = null;
 
         #endregion
 
@@ -46,9 +56,12 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             Index = 2;
             Name = "Set field order";
-            Caption = "Set the field order and sizes";
-            Details = "Set the order the fields are shown and the size for each field for the view.";
+            Caption = "Set the field properties by right-clicking a field and selecting 'Edit Field'";
+            Details = "Set the order, size, alignment, and format of the fields in the view.";
             Error = String.Empty;
+
+            PopulateConvertToList();
+            BuildFormatListItemList();
         }
 
         private void CreateViewWizard3_Load(object sender, EventArgs e)
@@ -66,6 +79,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             Controls.Add(_dragFrame);
 
             dragTimer.Tick += DragTimer_Tick;
+
+            _viewListColumns = CreateViewListColumnList();
         }
 
         #endregion
@@ -74,7 +89,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         public override object GetDataSource()
         {
-            return null;
+            return _viewListColumns;
         }
 
         public override void SetDataObject(object data)
@@ -101,6 +116,12 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             bool isValid = true;
             Error = "";
 
+            if (_viewListColumns == null || _viewListColumns.Count != DataMembers.Count)
+            {
+                isValid = true;
+                Error = "List settings not configured";
+            }
+
             return isValid;
         }
 
@@ -108,80 +129,160 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         #region protected
 
+        protected virtual IList<ViewListColumn> CreateViewListColumnList()
+        {
+            var viewListColumns = new List<ViewListColumn>();
+
+            int i = 0;
+
+            foreach (ViewDataMember viewDataMember in DataMembers)
+            {
+                if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
+                {
+                    var viewDisplayFormat = new ViewDisplayFormat()
+                    {
+                        Name = viewDataMember.Name
+                    };
+
+                    if (viewDataMember.Type.ToString() == "System.String")
+                    {
+                        viewDisplayFormat.Sample = "Abcdefg Hijklmnop";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.Int32")
+                    {
+                        viewDisplayFormat.Sample = "12345";
+                        viewDisplayFormat.Format = "###";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.Decimal" || viewDataMember.Type.ToString() == "System.Double")
+                    {
+                        viewDisplayFormat.Sample = "123.456";
+                        viewDisplayFormat.Format = "###.##0";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.TimeSpan")
+                    {
+                        viewDisplayFormat.Sample = "12:34:56.78";
+                        viewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.ToString()}, field: {viewDataMember.Name}");
+                    }
+
+                    _mapService.Map[viewDataMember] = viewDisplayFormat;
+                }
+
+                var mapItem = _mapService.Map[viewDataMember];
+
+                viewListColumns.Add(new ViewListColumn()
+                {
+                    Index = i,
+                    Alignment = mapItem.ContentAlignment,
+                    Caption = viewDataMember.Caption,
+                    Format = mapItem.Format,
+                    Sample = mapItem.Sample,
+                    Width = mapItem.MaxWidth,
+                    Type = viewDataMember.Type,
+                    ConvertedType = viewDataMember.ConvertedType,
+                    SortType = i == 0 ? SortType.Ascending : SortType.None,
+                    DataMember = viewDataMember.Name,
+                    DataFullPath = viewDataMember.Path,
+                    DataFeed = viewDataMember.DataFeed
+                });
+
+                i++;
+            }
+
+            _mapService.Save();
+
+            return viewListColumns;
+        }
+
         protected virtual void DisplayFields()
         {
             pnlFields.Controls.Clear();
             pnlCaptions.Controls.Clear();
 
-            foreach (var field in DataMembers)
+            foreach (ViewListColumn viewListColumn in _viewListColumns)
             {
-                var mapItem = new DataFormatMapItem()
-                {
-                    DataMember = field
-                };
-
-                if (_mapService.Map.ContainsKey(field))
-                {
-                    mapItem.DisplayFormat = _mapService.Map[field];
-                }
-
-                var captionLabel = GetCaptionLabel(mapItem);
+                var captionLabel = GetCaptionLabel(viewListColumn);
                 pnlCaptions.Controls.Add(captionLabel);
 
-                var fieldLabel = GetLabel(mapItem);
+                var fieldLabel = GetLabel(viewListColumn);
                 pnlFields.Controls.Add(fieldLabel);
             }
         }
 
-        protected virtual Label GetCaptionLabel(DataFormatMapItem mapItem)
+        protected virtual void UpdateViewListItems()
+        {
+            var captionLabels = pnlCaptions.Controls.OfType<Label>().ToList().OrderBy(l => l.Location.X);
+
+            int i = 0;
+
+            foreach (Label captionLabel in captionLabels)
+            {
+                var viewListColumnTag = (ViewListColumn)captionLabel.Tag;
+
+                viewListColumnTag.Index = i;
+                viewListColumnTag.Caption = captionLabel.Text;
+                viewListColumnTag.Width = captionLabel.Width;
+                viewListColumnTag.Alignment = captionLabel.TextAlign;
+                viewListColumnTag.SortType = i == 0 ? SortType.Ascending : SortType.None;
+
+                i++;
+            }
+
+            _viewListColumns = _viewListColumns.OrderBy(v => v.Index).ToList();
+        }
+
+        protected virtual Label GetCaptionLabel(ViewListColumn viewListColumn)
         {
             Label label = new Label();
 
-            var width = mapItem.DisplayFormat != null ? mapItem.DisplayFormat.MaxWidth.HasValue ? mapItem.DisplayFormat.MaxWidth.Value : 100 : 100;
-            label.Size = new System.Drawing.Size(width, pnlFields.Height);
-
-            var text = mapItem.DataMember.Caption;
-
-            label.Text = text;
-            label.Name = "lbl" + mapItem.DataMember.Name + "Caption";
-            label.TextAlign = mapItem.DisplayFormat != null ?
-                mapItem.DisplayFormat.Alignment == HorizontalAlignment.Left ?
-                System.Drawing.ContentAlignment.MiddleLeft :
-                mapItem.DisplayFormat.Alignment == HorizontalAlignment.Right ?
-                System.Drawing.ContentAlignment.MiddleRight :
-                System.Drawing.ContentAlignment.MiddleCenter :
-                System.Drawing.ContentAlignment.MiddleCenter;
-            label.ForeColor = Color.Black;
-            label.BackColor = Color.White;
+            label.Size = new Size(
+                viewListColumn.Width.HasValue ? viewListColumn.Width.Value : 100,
+                pnlFields.Height);
+            label.Text = viewListColumn.Caption;
+            label.Name = "lbl" + viewListColumn.DataMember + "Caption";
+            label.TextAlign = viewListColumn.Alignment;
+            label.ForeColor = _labelForeColor;
+            label.BackColor = _unselectedCaptionBackColor;
             label.BorderStyle = BorderStyle.FixedSingle;
-            label.Margin = new Padding(2, 3, 0, 3);
+            label.Margin = new Padding(0, 0, 0, 0);
+            label.Tag = viewListColumn;
+            label.ContextMenuStrip = ctxCaptionLabel;
+            label.DoubleClick += (s, e) =>
+            {
+                SetUIEditState(false, viewListColumn.Index);
+            };
 
             return label;
         }
-        protected virtual Label GetLabel(DataFormatMapItem mapItem)
+
+        protected virtual Label GetLabel(ViewListColumn viewListColumn)
         {
             Label label = new Label();
 
-            var width = mapItem.DisplayFormat != null ? mapItem.DisplayFormat.MaxWidth.HasValue ? mapItem.DisplayFormat.MaxWidth.Value : 100 : 100;
-            label.Size = new System.Drawing.Size(width, pnlFields.Height);
+            label.Text = FormatSampleValue(
+                viewListColumn.ConvertedType,
+                viewListColumn.Format,
+                String.IsNullOrEmpty(viewListColumn.Sample) ?
+                    viewListColumn.Caption :
+                    viewListColumn.Sample);
 
-            var text = mapItem.DisplayFormat != null && mapItem.DisplayFormat.Sample != "" ? mapItem.DisplayFormat.Sample : mapItem.DataMember.Name;
-
-            label.Text = text;
-            label.Name = "lbl" + mapItem.DataMember.Name;
-            label.TextAlign = mapItem.DisplayFormat != null ?
-                mapItem.DisplayFormat.Alignment == HorizontalAlignment.Left ?
-                System.Drawing.ContentAlignment.MiddleLeft :
-                mapItem.DisplayFormat.Alignment == HorizontalAlignment.Right ?
-                System.Drawing.ContentAlignment.MiddleRight :
-                System.Drawing.ContentAlignment.MiddleCenter :
-                System.Drawing.ContentAlignment.MiddleCenter;
-            label.ForeColor = Color.Black;
-            label.BackColor = Color.FromKnownColor(KnownColor.Control);
+            label.Size = new Size(
+                viewListColumn.Width.HasValue ? viewListColumn.Width.Value : 100,
+                pnlFields.Height);
+            label.Name = "lbl" + viewListColumn.DataMember;
+            label.TextAlign = viewListColumn.Alignment;
+            label.ForeColor = _labelForeColor;
+            label.BackColor = _unselectedFieldBackColor;
             label.BorderStyle = BorderStyle.FixedSingle;
-            label.Margin = new Padding(2, 3, 0, 3);
+            label.Margin = new Padding(0, 0, 0, 0);
+            label.Tag = viewListColumn;
+            label.ContextMenuStrip = ctxCaptionLabel;
 
             PictureBox pictureBox1 = new PictureBox();
+            pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Size = new Size(10, 10);
             pictureBox1.Location = new Point(label.Width - pictureBox1.Width, label.Height - pictureBox1.Height);
             pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -200,16 +301,74 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         protected virtual void UpdateValidation()
         {
-            IsComplete = ValidateStep();
+            CanGoPrevious = !_isEditing;
+            CanGoNext = !_isEditing && ValidateStep();
+        }
+
+        protected virtual void PopulateConvertToList()
+        {
+            var convertTargets = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string,string>("Don't convert", "NONE"),
+                new KeyValuePair<string,string>("Timespan (for elapsed times)", TypeNames.TimeSpanTypeName)
+            };
+            cboConvertedType.DisplayMember = "Key";
+            cboConvertedType.ValueMember = "Value";
+            cboConvertedType.DataSource = convertTargets;
+            cboConvertedType.SelectedIndex = 0;
+        }
+
+        protected virtual void BuildFormatListItemList()
+        {
+            _formatListItems.Add(new FormatListItem()
+            {
+                Type = TypeNames.Int32TypeName,
+                HelpText = "Valid format characters are '#', '0', and ','\r\n" +
+                "Example Formats:\r\n" +
+                "##\r\n" +
+                "##,###\r\n" +
+                "0##"
+            });
+            _formatListItems.Add(new FormatListItem()
+            {
+                Type = TypeNames.DecimalTypeName,
+                HelpText = "Valid format characters are '#', '0', '.', and ','\r\n" +
+                "Example Formats:\r\n" +
+                " ##.#0\r\n" +
+                " ##,###.#0\r\n" +
+                " 0##.###"
+            });
+            _formatListItems.Add(new FormatListItem()
+            {
+                Type = TypeNames.DoubleTypeName,
+                HelpText = "Valid format characters are '#', '0', '.', and ','\r\n" +
+                "Example Formats:\r\n" +
+                " ##.#0\r\n" +
+                " ##,###.#0\r\n" +
+                " 0##.###"
+            });
+            _formatListItems.Add(new FormatListItem()
+            {
+                Type = TypeNames.TimeSpanTypeName,
+                HelpText = "Valid format characters are 'd', 'h', 'm', 's', 'f' (fractional seconds), and\r\n" +
+                "'\\:' and '\\.' (Separator characters must have a leading backspace).\r\n" +
+                "Example Formats:\r\n" +
+                " dd\\:hh\\:mm\\:ss (Days, hours, minutes, and seconds)r\n" +
+                " mm\\:ss\\.fff (Minutes, seconds, and milliseconds)r\n"
+            });
         }
 
         #endregion
 
         #region resize
+
         private void pictureBox1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             _allowResize = false;
+
             ResetCaptionSizes();
+
+            UpdateViewListItems();
         }
         private void pictureBox1_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -239,9 +398,11 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 captionLabel.Size = fieldLabel.Size;
             }
         }
+
         #endregion
 
-        #region drag/drop     
+        #region drag/drop    
+
         protected virtual void ConfigureDragging(Label ctl)
         {
             ctl.MouseDown += (s, e) =>
@@ -335,36 +496,21 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     {
                         var target = originalLabels[i];
 
-                        Console.WriteLine($"target:{target.Location.ToString()} hitPoint:{hitPoint.ToString()} _dragPointToClient:{_dragPointToClient.ToString()}");
-                        Console.WriteLine("_______________________________________");
                         if (!inserted && hitPoint.X < target.Location.X)
                         {
-                            Console.WriteLine("hitPoint.X < target.Location.X");
-                            Console.WriteLine("adding controlBase, then target");
-                            //labelBuffer.Add(target);
-                            //controlBase.Location = target.Location;
-                            //target.Location = new Point(target.Location.X + target.Width, target.Location.Y);
                             labelBuffer.Add(controlBase);
                             labelBuffer.Add(target);
                             inserted = true;
                         }
                         else if (!inserted && hitPoint.X >= target.Location.X && hitPoint.X <= target.Location.X + target.Width)
                         {
-                            Console.WriteLine("!inserted && hitPoint.X >= target.Location.X && hitPoint.X <= target.Location.X + target.Width");
-
-                            //controlBase.Location = target.Location;
-                            //target.Location = new Point(target.Location.X + target.Width, target.Location.Y);
                             if (_dragPointToClient.X < hitPoint.X)
                             {
-                                Console.WriteLine("moving to the right, adding target, then controlBase");
-                                // moving to the right
                                 labelBuffer.Add(target);
                                 labelBuffer.Add(controlBase);
                             }
                             else
                             {
-                                Console.WriteLine("moving to the left, adding controlBase, then target");
-                                // moving to the left
                                 labelBuffer.Add(controlBase);
                                 labelBuffer.Add(target);
                             }
@@ -372,37 +518,15 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                         else
                         {
-                            Console.WriteLine("else");
-                            Console.WriteLine("adding target");
-                            //target.Location = new Point(target.Location.X + target.Width, target.Location.Y);
                             labelBuffer.Add(target);
                         }
-                        Console.WriteLine();
                     }
 
                     if (!inserted)
                     {
-                        Console.WriteLine("!inserted");
-                        Console.WriteLine("adding controlBase");
                         labelBuffer.Add(controlBase);
                     }
 
-                    //foreach (Label fieldLabel in pnlFields.Controls.OfType<Label>())
-                    //{
-                    //    var start = fieldLabel.Location.X;
-                    //    var end = start + fieldLabel.Width;
-                    //    if (hitPoint.X < end && !inserted && (fieldLabel.Name != controlBase.Name))
-                    //    {
-                    //        // insert it here.
-                    //        labelBuffer.Add(controlBase);
-                    //        inserted = true;
-                    //        labelBuffer.Add(fieldLabel);
-                    //    }
-                    //    else
-                    //    {
-                    //        labelBuffer.Add(fieldLabel);
-                    //    }
-                    //}
                     var captionLabels = pnlCaptions.Controls.OfType<Label>().ToList();
 
                     pnlFields.Controls.Clear();
@@ -419,6 +543,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         pnlCaptions.Controls.Add(targetCaption);
                         offset += target.Width;
                     }
+
+                    UpdateViewListItems();
                 }
             }
             catch (ArgumentException)
@@ -430,6 +556,327 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 ExceptionHandler("Error moving field", ex);
             }
         }
+
+        #endregion
+
+        #region edit
+
+        protected virtual void BeginEdit(int index)
+        {
+            SetUIEditState(true, index);
+        }
+        protected virtual void SaveChanges()
+        {
+            if (!_selectedFieldIndex.HasValue)
+            {
+                MessageBox.Show("No field selected!");
+                return;
+            }
+
+            var viewListColumn = _viewListColumns[_selectedFieldIndex.Value];
+
+            viewListColumn.Caption = txtColCaption.Text;
+
+            viewListColumn.Alignment = rbLeft.Checked ?
+                ContentAlignment.MiddleLeft :
+                rbCenter.Checked ?
+                ContentAlignment.MiddleCenter :
+                ContentAlignment.MiddleRight;
+
+            viewListColumn.Format = txtColFormat.Text;
+            viewListColumn.Sample = txtColTest.Text;
+
+            SetUIEditState(false, _selectedFieldIndex.Value);
+        }
+        protected virtual void CancelEdit()
+        {
+            SetUIEditState(false);
+        }
+        protected virtual void SetUIEditState(bool isEditing, int? index = null)
+        {
+            _isLoadingFieldDetails = true;
+
+            grpEditField.Enabled = isEditing;
+            pnlFields.Enabled = !isEditing;
+            pnlCaptions.Enabled = !isEditing;
+
+            ClearSelectedColumn();
+
+            if (index.HasValue)
+                ColumnSelected(index.Value);
+
+            ClearColumnDetails();
+
+            if (index.HasValue)
+                DisplayColumnDetails(index.Value);
+
+            _selectedFieldIndex = index;
+            _isEditing = isEditing;
+            _isLoadingFieldDetails = false;
+
+            UpdateValidation();
+        }
+        protected virtual void ColumnSelected(int index)
+        {
+            var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(index);
+            var captionLabel = pnlCaptions.Controls.OfType<Label>().ElementAt(index);
+
+            fieldLabel.BackColor = _selectedBackColor;
+            captionLabel.BackColor = _selectedBackColor;
+        }
+        protected virtual void ClearSelectedColumn()
+        {
+            for (int i = 0; i < pnlFields.Controls.OfType<Label>().Count(); i++)
+            {
+                pnlFields.Controls.OfType<Label>().ElementAt(i).BackColor = _unselectedFieldBackColor;
+                pnlCaptions.Controls.OfType<Label>().ElementAt(i).BackColor = _unselectedCaptionBackColor;
+            }
+        }
+        protected virtual void DisplayColumnDetails(int index)
+        {
+            var viewListColumn = _viewListColumns[index];
+
+            txtColCaption.Text = viewListColumn.Caption;
+            txtColType.Text = viewListColumn.Type;
+
+            rbLeft.Checked = (viewListColumn.Alignment == ContentAlignment.MiddleLeft);
+            rbCenter.Checked = (viewListColumn.Alignment == ContentAlignment.MiddleCenter);
+            rbRight.Checked = (viewListColumn.Alignment == ContentAlignment.MiddleRight);
+
+            txtColFormat.Text = viewListColumn.Format;
+            txtColTest.Text = viewListColumn.Sample;
+
+            var format = _formatListItems.FirstOrDefault(f => f.Type == viewListColumn.ConvertedType);
+            lblFormatHelp.Text = format?.HelpText;
+
+            if (viewListColumn.Type == viewListColumn.ConvertedType)
+            {
+                cboConvertedType.SelectedIndex = -1;
+            }
+            else
+            {
+                cboConvertedType.SelectedItem = cboConvertedType.Items.OfType<KeyValuePair<string, string>>().FirstOrDefault(i => i.Value == viewListColumn.ConvertedType);
+            }
+
+            TestFormat();
+        }
+        protected virtual void ClearColumnDetails()
+        {
+            txtColCaption.Clear();
+            txtColFormat.Clear();
+            txtColType.Clear();
+            txtColTest.Clear();
+            cboConvertedType.SelectedIndex = -1;
+            rbLeft.Checked = true;
+        }
+        private void TestFormat()
+        {
+            if (_isLoadingFieldDetails)
+                return;
+
+            Error = String.Empty;
+
+            var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(_selectedFieldIndex.Value);
+
+            var viewListColumn = _viewListColumns[_selectedFieldIndex.Value];
+
+            var field = DataMembers[_selectedFieldIndex.Value];
+
+            var type = String.IsNullOrEmpty(viewListColumn.ConvertedType) ? field.Type : viewListColumn.ConvertedType;
+
+            var formattedText = FormatSampleValue(type, txtColFormat.Text, txtColTest.Text);
+
+            fieldLabel.Text = formattedText;
+        }
+        private string FormatSampleValue(string type, string format, string value)
+        {
+            var formattedText = String.Empty;
+
+            try
+            {
+                if (type == TypeNames.StringTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (type == TypeNames.Int32TypeName)
+                {
+                    int buffer = 0;
+                    if (!Int32.TryParse(value, out buffer))
+                    {
+                        formattedText = "--ERROR--";
+                        Error = "Test value must be a integer.";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            formattedText = buffer.ToString(format);
+                        }
+                        catch (FormatException)
+                        {
+                            formattedText = "--ERROR--";
+                            Error = "Invalid format.\r\nValid format characters: '#', '0', and ','";
+                        }
+                    }
+                }
+                else if (type == TypeNames.DecimalTypeName || type == TypeNames.DoubleTypeName)
+                {
+                    double buffer = 0.0;
+                    if (!double.TryParse(value, out buffer))
+                    {
+                        formattedText = "--ERROR--";
+                        Error = "Test value must be a number, and may have values to the right of the decimal place.";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            formattedText = buffer.ToString(format);
+                        }
+                        catch (FormatException)
+                        {
+                            formattedText = "--ERROR--";
+                            Error = "Invalid format.\r\nValid format characters: '#', '0', ',', and '.'";
+                        }
+                    }
+                }
+                else if (type == TypeNames.TimeSpanTypeName)
+                {
+                    TimeSpan buffer = new TimeSpan();
+                    if (!TimeSpan.TryParse(value, out buffer))
+                    {
+                        formattedText = "--ERROR--";
+                        Error = "Test value must be a time interval.\r\nValid format characters: '#', '0', ',', and '.'";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            formattedText = buffer.ToString(format);
+                        }
+                        catch (FormatException)
+                        {
+                            formattedText = "Invalid format";
+                            Error = "Valid format characters: 'd', 'h', 'm', 's', 'f', '\\:', and '\\.'.\r\n" +
+                                "':' and '.' must have a leading backslash (\\: and \\.)";
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Unrecognized field type: {type}");
+                }
+
+            }
+            catch (FormatException)
+            {
+                formattedText = "-ERROR-";
+                Error = $"Invalid format for {type}";
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return formattedText;
+        }
+
+        private void FormatTest_TextChanged(object sender, EventArgs e)
+        {
+            TestFormat();
+        }
+        private void btnCancelEditField_Click(object sender, EventArgs e)
+        {
+            CancelEdit();
+
+            DisplayFields();
+        }
+        private void btnSaveEditedField_Click(object sender, EventArgs e)
+        {
+            SaveChanges();
+
+            DisplayFields();
+        }
+        private void mnuEditField_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+            ContextMenuStrip menuItemOwner = (ContextMenuStrip)menuItem.Owner;
+            Label label = (Label)menuItemOwner.SourceControl;
+
+            var selectedIndex = label.Parent.Controls.GetChildIndex(label);
+
+            BeginEdit(selectedIndex);
+        }
+        private void txtColCaption_TextChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingFieldDetails)
+                return;
+
+            var captionLabel = pnlCaptions.Controls.OfType<Label>().ElementAt(_selectedFieldIndex.Value);
+            captionLabel.Text = txtColCaption.Text;
+        }
+        private void rbAlignmentControls_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingFieldDetails)
+                return;
+
+            RadioButton radioButton = (RadioButton)sender;
+
+            if (radioButton.Checked)
+            {
+                var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(_selectedFieldIndex.Value);
+                var captionLabel = pnlCaptions.Controls.OfType<Label>().ElementAt(_selectedFieldIndex.Value);
+
+                ContentAlignment alignment = rbLeft.Checked ?
+                   ContentAlignment.MiddleLeft :
+                   rbCenter.Checked ?
+                   ContentAlignment.MiddleCenter :
+                   ContentAlignment.MiddleRight;
+
+                fieldLabel.TextAlign = alignment;
+                captionLabel.TextAlign = alignment;
+            }
+        }
+        private void cboConvertedType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboConvertedType.SelectedItem == null ||
+                _isLoadingFieldDetails ||
+                !_selectedFieldIndex.HasValue)
+                return;
+
+            var viewListColumn = _viewListColumns[_selectedFieldIndex.Value];
+            var selectedConvertedType = (KeyValuePair<string, string>)cboConvertedType.SelectedItem;
+
+            if (selectedConvertedType.Value == "NONE")
+            {
+                viewListColumn.ConvertedType = txtColType.Text;
+            }
+            else
+            {
+                viewListColumn.ConvertedType = selectedConvertedType.Value;
+                if (selectedConvertedType.Value == TypeNames.TimeSpanTypeName)
+                {
+                    txtColFormat.Text = "hh\\:mm\\:ss\\.fff";
+                    txtColTest.Text = "00:15:23.123";
+                }
+            }
+
+            var format = _formatListItems.FirstOrDefault(f => f.Type == viewListColumn.ConvertedType);
+            lblFormatHelp.Text = format.HelpText;
+
+            TestFormat();
+        }
+
+        #endregion
+
+        #region classes
+
+        private class FormatListItem
+        {
+            public string Type { get; set; }
+            public string HelpText { get; set; }
+        }
+
         #endregion
     }
 }

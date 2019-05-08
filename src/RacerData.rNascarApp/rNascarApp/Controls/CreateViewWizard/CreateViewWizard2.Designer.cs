@@ -49,10 +49,11 @@
             // lblCaption
             // 
             this.lblCaption.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblCaption.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCaption.Location = new System.Drawing.Point(0, 0);
             this.lblCaption.Name = "lblCaption";
             this.lblCaption.Padding = new System.Windows.Forms.Padding(2);
-            this.lblCaption.Size = new System.Drawing.Size(683, 20);
+            this.lblCaption.Size = new System.Drawing.Size(797, 40);
             this.lblCaption.TabIndex = 4;
             this.lblCaption.Text = "<Caption>";
             this.lblCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -62,11 +63,11 @@
             this.pnlDataSources.Controls.Add(this.trvDataSources);
             this.pnlDataSources.Controls.Add(this.label1);
             this.pnlDataSources.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlDataSources.Location = new System.Drawing.Point(0, 20);
-            this.pnlDataSources.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnlDataSources.Location = new System.Drawing.Point(0, 40);
+            this.pnlDataSources.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.pnlDataSources.Name = "pnlDataSources";
             this.pnlDataSources.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlDataSources.Size = new System.Drawing.Size(270, 340);
+            this.pnlDataSources.Size = new System.Drawing.Size(315, 375);
             this.pnlDataSources.TabIndex = 5;
             // 
             // trvDataSources
@@ -76,11 +77,11 @@
             this.trvDataSources.HideSelection = false;
             this.trvDataSources.ImageIndex = 0;
             this.trvDataSources.ImageList = this.ilDataSourceImages;
-            this.trvDataSources.Location = new System.Drawing.Point(2, 31);
-            this.trvDataSources.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.trvDataSources.Location = new System.Drawing.Point(2, 35);
+            this.trvDataSources.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.trvDataSources.Name = "trvDataSources";
             this.trvDataSources.SelectedImageIndex = 0;
-            this.trvDataSources.Size = new System.Drawing.Size(266, 307);
+            this.trvDataSources.Size = new System.Drawing.Size(311, 338);
             this.trvDataSources.TabIndex = 3;
             this.trvDataSources.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvDataSources_AfterSelect);
             this.trvDataSources.DoubleClick += new System.EventHandler(this.trvDataSources_DoubleClick);
@@ -115,7 +116,7 @@
             this.label1.ForeColor = System.Drawing.SystemColors.InfoText;
             this.label1.Location = new System.Drawing.Point(2, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(266, 29);
+            this.label1.Size = new System.Drawing.Size(311, 33);
             this.label1.TabIndex = 4;
             this.label1.Text = "Fields";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -124,17 +125,18 @@
             // 
             this.lstSelected.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstSelected.FormattingEnabled = true;
-            this.lstSelected.Location = new System.Drawing.Point(2, 31);
+            this.lstSelected.ItemHeight = 15;
+            this.lstSelected.Location = new System.Drawing.Point(2, 35);
             this.lstSelected.Name = "lstSelected";
-            this.lstSelected.Size = new System.Drawing.Size(261, 307);
+            this.lstSelected.Size = new System.Drawing.Size(305, 338);
             this.lstSelected.TabIndex = 6;
             this.lstSelected.SelectedIndexChanged += new System.EventHandler(this.lstSelected_SelectedIndexChanged);
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(20, 3);
+            this.btnAdd.Location = new System.Drawing.Point(23, 3);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(87, 27);
             this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -142,9 +144,9 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(20, 41);
+            this.btnRemove.Location = new System.Drawing.Point(23, 47);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.Size = new System.Drawing.Size(87, 27);
             this.btnRemove.TabIndex = 8;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -156,9 +158,9 @@
             this.panel1.Controls.Add(this.btnAdd);
             this.panel1.Controls.Add(this.btnRemove);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(270, 20);
+            this.panel1.Location = new System.Drawing.Point(315, 40);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(383, 340);
+            this.panel1.Size = new System.Drawing.Size(447, 375);
             this.panel1.TabIndex = 9;
             // 
             // panel2
@@ -166,10 +168,10 @@
             this.panel2.Controls.Add(this.lstSelected);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(118, 0);
+            this.panel2.Location = new System.Drawing.Point(138, 0);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(2);
-            this.panel2.Size = new System.Drawing.Size(265, 340);
+            this.panel2.Size = new System.Drawing.Size(309, 375);
             this.panel2.TabIndex = 9;
             // 
             // label2
@@ -181,20 +183,21 @@
             this.label2.ForeColor = System.Drawing.SystemColors.InfoText;
             this.label2.Location = new System.Drawing.Point(2, 2);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(261, 29);
+            this.label2.Size = new System.Drawing.Size(305, 33);
             this.label2.TabIndex = 5;
             this.label2.Text = "Selected";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CreateViewWizard2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlDataSources);
             this.Controls.Add(this.lblCaption);
+            this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "CreateViewWizard2";
-            this.Size = new System.Drawing.Size(683, 360);
+            this.Size = new System.Drawing.Size(797, 415);
             this.Load += new System.EventHandler(this.CreateViewWizard2_Load);
             this.pnlDataSources.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

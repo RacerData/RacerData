@@ -13,7 +13,7 @@ using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Dialogs
 {
-    public partial class ViewDesignerDialog2 : Form, IViewDesigner
+    public partial class CreateViewWizard : Form, IViewDesigner
     {
         #region consts
 
@@ -39,11 +39,13 @@ namespace RacerData.rNascarApp.Dialogs
         public IList<ViewState> ViewStates { get; set; } = new List<ViewState>();
         public DisplayFormatMapService MapService { get; set; }
 
+        public ViewState NewViewState { get; set; }
+
         #endregion
 
         #region ctor/load
 
-        public ViewDesignerDialog2()
+        public CreateViewWizard()
         {
             InitializeComponent();
         }
@@ -67,6 +69,12 @@ namespace RacerData.rNascarApp.Dialogs
 
             _wizardSteps.Add(2, step3);
 
+            var step4 = new CreateViewWizard4();
+            step4.Log = _log;
+
+            _wizardSteps.Add(3, step4);
+
+            step4.PropertyChanged += WizardLastStep_PropertyChanged;
             DisplayStepCaptions();
 
             ActivateWizardStep(_wizardIndex);
@@ -103,9 +111,9 @@ namespace RacerData.rNascarApp.Dialogs
 
             label.Location = new System.Drawing.Point(11, 8);
             label.Name = "lblStepCaption" + step.Name;
-            label.Size = new System.Drawing.Size(150, 23);
-            label.Text = step.Caption;
-            label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label.Size = new Size(pnlStepCaptions.Width, (int)((pnlStepCaptions.Height * .75) / _wizardSteps.Count));
+            label.Text = $"{step.Index + 1}.  {step.Name}";
+            label.TextAlign = ContentAlignment.MiddleLeft;
             label.ForeColor = Color.Silver;
 
             return label;
@@ -118,6 +126,7 @@ namespace RacerData.rNascarApp.Dialogs
                 object data = null;
 
                 btnNext.DataBindings.Clear();
+                btnPrevious.DataBindings.Clear();
                 lblError.DataBindings.Clear();
 
                 foreach (var item in pnlStepBody.Controls.OfType<IWizardStep>().ToList())
@@ -130,11 +139,16 @@ namespace RacerData.rNascarApp.Dialogs
                 var activeStep = _wizardSteps[index];
 
                 Control activeControl = (Control)activeStep;
+
+                if (data != null)
+                    activeStep.SetDataObject(data);
+
                 activeControl.Dock = DockStyle.Fill;
 
                 pnlStepBody.Controls.Add(activeControl);
 
-                btnNext.DataBindings.Add(new Binding("Enabled", activeStep, "IsComplete"));
+                btnPrevious.DataBindings.Add(new Binding("Enabled", activeStep, "CanGoPrevious"));
+                btnNext.DataBindings.Add(new Binding("Enabled", activeStep, "CanGoNext"));
                 lblError.DataBindings.Add(new Binding("Text", activeStep, "Error"));
 
                 btnPrevious.Enabled = (index > 0);
@@ -142,9 +156,6 @@ namespace RacerData.rNascarApp.Dialogs
                 lblStepDetails.Text = activeStep.Details;
 
                 UpdateStepCaptions(index);
-
-                if (data != null)
-                    activeStep.SetDataObject(data);
 
                 activeStep.ActivateStep();
             }
@@ -185,5 +196,19 @@ namespace RacerData.rNascarApp.Dialogs
 
         #endregion
 
+        #region private
+
+        private void WizardLastStep_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsComplete")
+            {
+                IWizardStep lastStep = (WizardStep)sender;
+                NewViewState = (ViewState)lastStep.GetDataSource();
+
+                DialogResult = DialogResult.OK;
+            }
+        }
+
+        #endregion
     }
 }

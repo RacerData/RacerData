@@ -35,7 +35,6 @@
             this.ilDataSourceImages = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.lblCaption = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.pnlDataSources.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,11 +43,11 @@
             this.pnlDataSources.Controls.Add(this.trvDataSources);
             this.pnlDataSources.Controls.Add(this.label1);
             this.pnlDataSources.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlDataSources.Location = new System.Drawing.Point(0, 20);
-            this.pnlDataSources.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnlDataSources.Location = new System.Drawing.Point(0, 35);
+            this.pnlDataSources.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.pnlDataSources.Name = "pnlDataSources";
             this.pnlDataSources.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlDataSources.Size = new System.Drawing.Size(219, 347);
+            this.pnlDataSources.Size = new System.Drawing.Size(255, 388);
             this.pnlDataSources.TabIndex = 2;
             // 
             // trvDataSources
@@ -58,11 +57,11 @@
             this.trvDataSources.HideSelection = false;
             this.trvDataSources.ImageIndex = 0;
             this.trvDataSources.ImageList = this.ilDataSourceImages;
-            this.trvDataSources.Location = new System.Drawing.Point(2, 31);
-            this.trvDataSources.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.trvDataSources.Location = new System.Drawing.Point(2, 35);
+            this.trvDataSources.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.trvDataSources.Name = "trvDataSources";
             this.trvDataSources.SelectedImageIndex = 0;
-            this.trvDataSources.Size = new System.Drawing.Size(215, 314);
+            this.trvDataSources.Size = new System.Drawing.Size(251, 351);
             this.trvDataSources.TabIndex = 3;
             this.trvDataSources.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvDataSources_AfterSelect);
             // 
@@ -96,44 +95,36 @@
             this.label1.ForeColor = System.Drawing.SystemColors.InfoText;
             this.label1.Location = new System.Drawing.Point(2, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(215, 29);
+            this.label1.Size = new System.Drawing.Size(251, 33);
             this.label1.TabIndex = 4;
             this.label1.Text = "Data Source";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblCaption
             // 
+            this.lblCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCaption.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblCaption.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCaption.Location = new System.Drawing.Point(0, 0);
             this.lblCaption.Name = "lblCaption";
             this.lblCaption.Padding = new System.Windows.Forms.Padding(2);
-            this.lblCaption.Size = new System.Drawing.Size(516, 20);
+            this.lblCaption.Size = new System.Drawing.Size(602, 35);
             this.lblCaption.TabIndex = 5;
             this.lblCaption.Text = "<Caption>";
             this.lblCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(279, 183);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(161, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Select a data source to continue";
-            // 
             // CreateViewWizard1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.pnlDataSources);
             this.Controls.Add(this.lblCaption);
+            this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "CreateViewWizard1";
-            this.Size = new System.Drawing.Size(516, 367);
+            this.Size = new System.Drawing.Size(602, 423);
             this.Load += new System.EventHandler(this.CreateViewWizard1_Load);
             this.pnlDataSources.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -144,6 +135,5 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ImageList ilDataSourceImages;
         private System.Windows.Forms.Label lblCaption;
-        private System.Windows.Forms.Label label2;
     }
 }

@@ -340,7 +340,6 @@
             this.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.Size = new System.Drawing.Size(863, 388);
             this.Load += new System.EventHandler(this.CreateViewWizard3_Load);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CreateViewWizard3_MouseMove);
             this.grpEditField.ResumeLayout(false);
             this.grpEditField.PerformLayout();
             this.ctxCaptionLabel.ResumeLayout(false);

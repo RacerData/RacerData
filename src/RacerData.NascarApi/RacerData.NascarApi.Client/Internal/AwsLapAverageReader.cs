@@ -42,7 +42,7 @@ namespace RacerData.NascarApi.Client.Internal
 
         protected virtual string GetKey(LiveFeedData data)
         {
-            return $"{data.SeriesId}-{data.RaceId}-{data.RunId}";
+            return $"{data.SeriesType}-{data.RaceId}-{data.RunId}";
         }
 
         #endregion

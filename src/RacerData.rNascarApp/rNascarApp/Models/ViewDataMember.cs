@@ -10,6 +10,8 @@ namespace RacerData.rNascarApp.Models
         public string Name { get; set; }
         public string Path { get; set; }
         public string DataFeed { get; set; }
+        public string DataFeedTypeAssemblyQualifiedName { get; set; }
+        public string DataFeedTypeFullName { get; set; }
         string _caption = String.Empty;
         public string Caption
         {

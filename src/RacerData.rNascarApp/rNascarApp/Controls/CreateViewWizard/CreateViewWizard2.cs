@@ -134,7 +134,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 Tag = dataSource
             };
 
-            BuildDataSourceTreeView(dataSourceNode, dataSource);
+            BuildDataSourceTreeView(dataSourceNode, dataSource, "");
 
             int baseIdx = 10;
             int imageIndex = 0;
@@ -177,14 +177,14 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             trvDataSources.SelectedNode = dataSourceNode;
         }
 
-        protected virtual void BuildDataSourceTreeView(TreeNode dataSourceNode, ViewDataSource dataSource)
+        protected virtual void BuildDataSourceTreeView(TreeNode dataSourceNode, ViewDataSource dataSource, string path)
         {
             foreach (ViewDataMember field in dataSource.Fields)
             {
                 var fieldNode = new TreeNode(field.Caption);
 
                 field.DataFeed = dataSource.Name;
-
+                field.Path = $"{path}{field.Name}";
                 var mapItem = new DataFormatMapItem()
                 {
                     DataMember = field,
@@ -197,24 +197,26 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             foreach (ViewDataSource dataList in dataSource.Lists)
             {
+                var dataListPath = $"{path}{dataList.Caption}[]\\";
                 var listNode = new TreeNode(dataList.Caption + "[]")
                 {
                     Tag = dataList
                 };
 
-                BuildDataSourceTreeView(listNode, dataList);
+                BuildDataSourceTreeView(listNode, dataList, dataListPath);
 
                 dataSourceNode.Nodes.Add(listNode);
             }
 
             foreach (ViewDataSource dataList in dataSource.NestedClasses)
             {
+                var dataListPath = $"{path}{dataList.Caption}\\";
                 var listNode = new TreeNode(dataList.Caption)
                 {
                     Tag = dataList
                 };
 
-                BuildDataSourceTreeView(listNode, dataList);
+                BuildDataSourceTreeView(listNode, dataList, dataListPath);
 
                 dataSourceNode.Nodes.Add(listNode);
             }
@@ -269,6 +271,14 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 return;
 
             var member = ((DataFormatMapItem)trvDataSources.SelectedNode.Tag).DataMember;
+
+            TreeNode root = trvDataSources.Nodes[0];
+            ViewDataSource data = (ViewDataSource)root.Tag;
+
+            member.DataFeed = data.Name;
+
+            member.Path = trvDataSources.SelectedNode.FullPath.Replace($"{trvDataSources.Nodes[0].FullPath}\\", "");
+            member.Path = member.Path.Replace(member.Caption, member.Name);
 
             if (!_selectedDataMembers.Contains(member))
                 _selectedDataMembers.Add(member);

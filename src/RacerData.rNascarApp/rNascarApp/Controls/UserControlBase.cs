@@ -5,7 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using RacerData.NascarApi.Client.Models.LiveFeed;
+using RacerData.NascarApi.Client.Models.LiveFlag;
+using RacerData.NascarApi.Client.Models.LivePit;
 using RacerData.NascarApi.Client.Models.LivePoints;
+using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.rNascarApp.Extensions;
 using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;
@@ -78,7 +81,10 @@ namespace RacerData.rNascarApp.Controls
         #region properties
 
         public LiveFeedData LiveFeedData { get; set; } = new LiveFeedData();
-        public LivePointsData LivePointsData { get; set; } = new LivePointsData();
+        public IList<LivePitData> LivePitData { get; set; } = new List<LivePitData>();
+        public IList<LivePointsData> LivePointsData { get; set; } = new List<LivePointsData>();
+        public IList<LiveFlagData> LiveFlagData { get; set; } = new List<LiveFlagData>();
+        public IList<LiveQualifyingData> LiveQualifyingData { get; set; } = new List<LiveQualifyingData>();
 
         public ViewState State { get; set; }
 
@@ -178,16 +184,15 @@ namespace RacerData.rNascarApp.Controls
 
                 pnlDetail.Controls.Add(gridRow);
 
-                if (settings.MaxRows.HasValue)
+                var maxRows = settings.MaxRows.HasValue ? settings.MaxRows.Value : 8;
+
+                for (int i = 1; i < maxRows; i++)
                 {
-                    for (int i = 1; i < settings.MaxRows.Value; i++)
-                    {
-                        var newRow = gridRow.DeepCopy();
-                        newRow.Index = i;
-                        newRow.Controls.OfType<Label>().FirstOrDefault(c => ((ViewListColumn)c.Tag).Index == 0).Text = i.ToString();
-                        pnlDetail.Controls.Add(newRow);
-                        newRow.BringToFront();
-                    }
+                    var newRow = gridRow.DeepCopy();
+                    newRow.Index = i;
+                    newRow.Controls.OfType<Label>().FirstOrDefault(c => ((ViewListColumn)c.Tag).Index == 0).Text = i.ToString();
+                    pnlDetail.Controls.Add(newRow);
+                    newRow.BringToFront();
                 }
             }
             GridHeader.SendToBack();
@@ -209,6 +214,9 @@ namespace RacerData.rNascarApp.Controls
 
             object[,] dataValues = new object[GridRows.Count, State.ListSettings.Columns.Count];
 
+            Type rootObjectType = null;
+            object rootObjectValue = null;
+
             for (int i = 0; i < State.ListSettings.Columns.Count; i++)
             {
                 var column = State.ListSettings.Columns.FirstOrDefault(c => c.Index == i);
@@ -218,9 +226,34 @@ namespace RacerData.rNascarApp.Controls
                     var dataFullPath = column.DataFullPath;
                     var dataPathSections = dataFullPath.Split('\\');
 
-                    // TODO: Handle different feeds as data source
-                    Type rootObjectType = LiveFeedData.GetType();
-                    object rootObjectValue = LiveFeedData;
+                    if (rootObjectType == null || rootObjectType.FullName != column.DataFeedFullName)
+                    {
+                        if (column.DataFeed == "LiveFeedData")
+                        {
+                            rootObjectType = LiveFeedData.GetType();
+                            rootObjectValue = LiveFeedData;
+                        }
+                        else if (column.DataFeed == "LiveFlagData")
+                        {
+                            rootObjectType = LiveFlagData.GetType();
+                            rootObjectValue = LiveFlagData;
+                        }
+                        else if (column.DataFeed == "LivePitData")
+                        {
+                            rootObjectType = LivePitData.GetType();
+                            rootObjectValue = LivePitData;
+                        }
+                        else if (column.DataFeed == "LivePointsData")
+                        {
+                            rootObjectType = LivePointsData.GetType();
+                            rootObjectValue = LivePointsData;
+                        }
+                        else if (column.DataFeed == "LiveQualifyingData")
+                        {
+                            rootObjectType = LiveQualifyingData.GetType();
+                            rootObjectValue = LiveQualifyingData;
+                        }
+                    }
 
                     string listPropertyName = String.Empty;
                     string lengthPropertyName = String.Empty;
@@ -266,39 +299,65 @@ namespace RacerData.rNascarApp.Controls
                         Array.Copy(dataPathSections, listSectionIndex + 1, dataPathSectionsFromList, 0, sectionsFromListCount);
                     }
 
-                    String indexerName = ((DefaultMemberAttribute)listValue.GetType()
-                        .GetCustomAttributes(typeof(DefaultMemberAttribute),
-                        true)[0]).MemberName;
-                    PropertyInfo indexerPropertyInfo = listValue.GetType().GetProperty(indexerName);
+                    int maxRows;
 
-                    PropertyInfo lengthPropertyInfo = listValue.GetType().GetProperty(lengthPropertyName);
-                    int vehicleCount = (int)lengthPropertyInfo.GetValue(listValue);
-                    var maxRows = State.ListSettings.MaxRows.HasValue ?
-                            State.ListSettings.MaxRows.Value <= vehicleCount ?
-                            State.ListSettings.MaxRows.Value :
-                            vehicleCount :
-                        vehicleCount;
-
-                    maxRows = maxRows > GridRows.Count ? GridRows.Count : maxRows;
-
-                    for (int r = 0; r < maxRows; r++)
+                    if (listValue != null)
                     {
-                        Object listItemValue = indexerPropertyInfo.GetValue(listValue, new Object[] { r });
+                        String indexerName = ((DefaultMemberAttribute)listValue.GetType()
+                            .GetCustomAttributes(typeof(DefaultMemberAttribute),
+                            true)[0]).MemberName;
 
-                        PropertyInfo sectionProperty = null;
-                        object sectionValue = null;
-                        sectionObject = listItemValue;
-                        sectionType = sectionObject.GetType();
+                        PropertyInfo indexerPropertyInfo = listValue.GetType().GetProperty(indexerName);
 
-                        for (int x = 0; x < dataPathSectionsFromList.Length; x++)
+                        PropertyInfo lengthPropertyInfo = listValue.GetType().GetProperty(lengthPropertyName);
+
+                        int listItemCount = (int)lengthPropertyInfo.GetValue(listValue);
+
+                        maxRows = State.ListSettings.MaxRows.HasValue ?
+                            State.ListSettings.MaxRows.Value <= listItemCount ?
+                            State.ListSettings.MaxRows.Value :
+                            listItemCount :
+                        listItemCount;
+
+                        maxRows = maxRows > GridRows.Count ? GridRows.Count : maxRows;
+
+                        for (int r = 0; r < maxRows; r++)
                         {
-                            sectionProperty = sectionType.GetProperty(dataPathSectionsFromList[x]);
-                            sectionValue = sectionProperty.GetValue(sectionObject);
-                            sectionType = sectionValue.GetType();
-                            sectionObject = sectionValue;
-                        }
+                            Object listItemValue = indexerPropertyInfo.GetValue(listValue, new Object[] { r });
 
-                        dataValues[r, i] = sectionValue;
+                            PropertyInfo sectionProperty = null;
+                            object sectionValue = null;
+                            sectionObject = listItemValue;
+                            sectionType = sectionObject.GetType();
+
+                            for (int x = 0; x < dataPathSectionsFromList.Length; x++)
+                            {
+                                sectionProperty = sectionType.GetProperty(dataPathSectionsFromList[x]);
+                                sectionValue = sectionProperty.GetValue(sectionObject);
+                                sectionType = sectionValue.GetType();
+                                sectionObject = sectionValue;
+                            }
+
+                            dataValues[r, i] = sectionValue;
+                        }
+                    }
+                    else
+                    {
+                        // Property on the root object (ex LiveFeedData.LapNumber)
+                        // All rows get the same value.
+                        maxRows = State.ListSettings.MaxRows.HasValue ?
+                            State.ListSettings.MaxRows.Value :
+                            GridRows.Count;
+
+                        maxRows = maxRows > GridRows.Count ? GridRows.Count : maxRows;
+
+                        PropertyInfo sectionProperty = sectionType.GetProperty(dataPathSectionsFromList[0]);
+                        object sectionValue = sectionProperty.GetValue(sectionObject);
+
+                        for (int r = 0; r < maxRows; r++)
+                        {
+                            dataValues[r, i] = sectionValue;
+                        }
                     }
                 }
                 else

@@ -130,23 +130,64 @@ namespace RacerData.rNascarApp.Dialogs
 
         protected virtual void BuildDataSourceTreeView(TreeNode dataSourceNode, ViewDataSource dataSource)
         {
-            foreach (ViewDataMember field in dataSource.Fields)
+            foreach (ViewDataMember viewDataMember in dataSource.Fields)
             {
-                var fieldNode = new TreeNode(field.Caption);
-
-                var mapItem = new DataFormatMapItem()
+                var dataFormatMapItem = new DataFormatMapItem()
                 {
-                    DataMember = field
+                    DataMember = viewDataMember
                 };
 
-                if (MapService.Map.ContainsKey(field))
+                var fieldNode = new TreeNode(viewDataMember.Caption);
+
+                if (!MapService.Map.ContainsKey(viewDataMember) || MapService.Map[viewDataMember].Name == "Default")
                 {
-                    mapItem.DisplayFormat = MapService.Map[field];
+                    var newViewDisplayFormat = new ViewDisplayFormat()
+                    {
+                        Name = viewDataMember.Name
+                    };
+
+                    if (viewDataMember.Type.ToString() == "System.String")
+                    {
+                        newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.Int32")
+                    {
+                        newViewDisplayFormat.Sample = "12345";
+                        newViewDisplayFormat.Format = "###";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.Decimal" || viewDataMember.Type.ToString() == "System.Double")
+                    {
+                        newViewDisplayFormat.Sample = "123.456";
+                        newViewDisplayFormat.Format = "###.##0";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.TimeSpan")
+                    {
+                        newViewDisplayFormat.Sample = "12:34:56.78";
+                        newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.Boolean")
+                    {
+                        newViewDisplayFormat.Sample = "True";
+                    }
+                    else if (viewDataMember.Type.ToString() == "System.Boolean")
+                    {
+                        newViewDisplayFormat.Sample = "True";
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.ToString()}, field: {viewDataMember.Name}");
+                    }
+
+                    MapService.Map[viewDataMember] = newViewDisplayFormat;
                 }
 
-                fieldNode.Tag = mapItem;
+                var viewDisplayFormat = MapService.Map[viewDataMember];
 
-                UpdateNodeState(fieldNode, mapItem.DisplayFormat);
+                dataFormatMapItem.DisplayFormat = viewDisplayFormat;
+
+                fieldNode.Tag = dataFormatMapItem;
+
+                UpdateNodeState(fieldNode, viewDisplayFormat);
 
                 dataSourceNode.Nodes.Add(fieldNode);
             }

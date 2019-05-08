@@ -139,54 +139,56 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
                 {
-                    var viewDisplayFormat = new ViewDisplayFormat()
+                    var newViewDisplayFormat = new ViewDisplayFormat()
                     {
                         Name = viewDataMember.Name
                     };
 
                     if (viewDataMember.Type.ToString() == "System.String")
                     {
-                        viewDisplayFormat.Sample = "Abcdefg Hijklmnop";
+                        newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
                     }
                     else if (viewDataMember.Type.ToString() == "System.Int32")
                     {
-                        viewDisplayFormat.Sample = "12345";
-                        viewDisplayFormat.Format = "###";
+                        newViewDisplayFormat.Sample = "12345";
+                        newViewDisplayFormat.Format = "###";
                     }
                     else if (viewDataMember.Type.ToString() == "System.Decimal" || viewDataMember.Type.ToString() == "System.Double")
                     {
-                        viewDisplayFormat.Sample = "123.456";
-                        viewDisplayFormat.Format = "###.##0";
+                        newViewDisplayFormat.Sample = "123.456";
+                        newViewDisplayFormat.Format = "###.##0";
                     }
                     else if (viewDataMember.Type.ToString() == "System.TimeSpan")
                     {
-                        viewDisplayFormat.Sample = "12:34:56.78";
-                        viewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
+                        newViewDisplayFormat.Sample = "12:34:56.78";
+                        newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
                     }
                     else
                     {
                         Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.ToString()}, field: {viewDataMember.Name}");
                     }
 
-                    _mapService.Map[viewDataMember] = viewDisplayFormat;
+                    _mapService.Map[viewDataMember] = newViewDisplayFormat;
                 }
 
-                var mapItem = _mapService.Map[viewDataMember];
+                var viewDisplayFormat = _mapService.Map[viewDataMember];
 
                 viewListColumns.Add(new ViewListColumn()
                 {
                     Index = i,
-                    Alignment = mapItem.ContentAlignment,
+                    Alignment = viewDisplayFormat.ContentAlignment,
                     Caption = viewDataMember.Caption,
-                    Format = mapItem.Format,
-                    Sample = mapItem.Sample,
-                    Width = mapItem.MaxWidth,
+                    Format = viewDisplayFormat.Format,
+                    Sample = viewDisplayFormat.Sample,
+                    Width = viewDisplayFormat.MaxWidth,
                     Type = viewDataMember.Type,
                     ConvertedType = viewDataMember.ConvertedType,
                     SortType = i == 0 ? SortType.Ascending : SortType.None,
                     DataMember = viewDataMember.Name,
                     DataFullPath = viewDataMember.Path,
-                    DataFeed = viewDataMember.DataFeed
+                    DataFeed = viewDataMember.DataFeed,
+                    DataFeedAssemblyQualifiedName = viewDataMember.DataFeedTypeAssemblyQualifiedName,
+                    DataFeedFullName = viewDataMember.DataFeedTypeFullName
                 });
 
                 i++;
@@ -383,11 +385,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             _allowResize = true;
         }
-        private void CreateViewWizard3_MouseMove(object sender, MouseEventArgs e)
-        {
-            _allowResize = false;
-            ResetCaptionSizes();
-        }
+
         private void ResetCaptionSizes()
         {
             for (int i = 0; i < pnlFields.Controls.Count; i++)

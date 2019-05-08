@@ -791,7 +791,7 @@ namespace RacerData.rNascarApp
         }
         private void UpdateStatusLabel(LiveFeedData data)
         {
-            var series = data.SeriesId.ToString();
+            var series = data.SeriesType.ToString();
             lblTrackName.Text = data.TrackName;
             lblEvent.Text = $"{series} {data.RunName}";
             lblSession.Text = data.RunType.ToString();
@@ -1100,6 +1100,74 @@ namespace RacerData.rNascarApp
             catch (Exception ex)
             {
                 ExceptionHandler("Error displaying display format map dialog", ex);
+            }
+        }
+
+        private void viewListToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (ToolStripMenuItem item in viewListToolStripMenuItem.DropDownItems)
+                {
+                    item.CheckedChanged -= FooToolStripMenuItem_CheckedChanged;
+                }
+
+                viewListToolStripMenuItem.DropDownItems.Clear();
+
+                foreach (ViewState viewState in AppSettings.ViewStates)
+                {
+                    var fooToolStripMenuItem = new ToolStripMenuItem();
+                    fooToolStripMenuItem.Name = $"{viewState.Name.Replace(" ", "_")}MenuItem";
+                    fooToolStripMenuItem.Size = new Size(180, 22);
+                    fooToolStripMenuItem.Text = viewState.Name;
+                    fooToolStripMenuItem.CheckOnClick = true;
+                    fooToolStripMenuItem.Tag = viewState;
+
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        if (controlBase.State.Name == viewState.Name)
+                        {
+                            fooToolStripMenuItem.Checked = true;
+                            break;
+                        }
+                    }
+
+                    fooToolStripMenuItem.CheckedChanged += FooToolStripMenuItem_CheckedChanged;
+                    viewListToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fooToolStripMenuItem });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying view list", ex);
+            }
+        }
+
+        private void FooToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            ViewState viewState = (ViewState)item.Tag;
+
+            if (item.Checked)
+            {
+                viewState.IsDisplayed = true;
+                AddControl(viewState);
+            }
+            else
+            {
+                UserControlBase controlToClose = null;
+                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                {
+                    if (controlBase.State.Name == viewState.Name)
+                    {
+                        controlToClose = controlBase;
+                        break;
+                    }
+                }
+                if (controlToClose != null)
+                {
+                    RemoveUserControlBase(controlToClose);
+                    viewState.IsDisplayed = false;
+                }
             }
         }
     }

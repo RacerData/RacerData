@@ -222,12 +222,19 @@ namespace RacerData.rNascarApp
         #region logging
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
-            if (Log != null)
-                Log.Error(message, ex);
+            Log?.Error(message, ex);
 #if DEBUG
             Console.WriteLine(ex);
 #endif
-            MessageBox.Show($"{message}: {ex.Message}");
+            MessageBox.Show(this, ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        protected virtual DialogResult ExceptionHandler(string message, Exception ex, MessageBoxButtons buttons)
+        {
+            Log?.Error(message, ex);
+#if DEBUG
+            Console.WriteLine(ex);
+#endif
+            return MessageBox.Show(this, ex.Message, message, buttons, MessageBoxIcon.Warning);
         }
         protected virtual void SetLogLevel(Level logLevel)
         {
@@ -1042,7 +1049,20 @@ namespace RacerData.rNascarApp
                 var displayFormatFactory = new ViewDisplayFormatFactory();
                 var displayFormats = displayFormatFactory.GetViewDisplayFormats();
 
-                var mapService = new DisplayFormatMapService();
+                DisplayFormatMapService mapService = null;
+
+                try
+                {
+                    mapService = new DisplayFormatMapService();
+                }
+                catch (Exception ex)
+                {
+                    var result = ExceptionHandler("Error loading DisplayFormatMap service. Continue?", ex, MessageBoxButtons.YesNo);
+
+                    if (result != DialogResult.Yes)
+                        return;
+                }
+
 
                 using (var dialog = new DisplayFormatMapDialog()
                 {
@@ -1058,7 +1078,7 @@ namespace RacerData.rNascarApp
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error displaying display format map dialog", ex);
+                ExceptionHandler("Error displaying Data Format form", ex);
             }
         }
         #endregion
@@ -1099,7 +1119,7 @@ namespace RacerData.rNascarApp
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error displaying display format map dialog", ex);
+                ExceptionHandler("Error displaying Create View Wizard", ex);
             }
         }
 

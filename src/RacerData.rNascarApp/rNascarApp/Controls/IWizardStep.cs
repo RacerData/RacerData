@@ -1,4 +1,6 @@
-﻿namespace RacerData.rNascarApp.Controls
+﻿using RacerData.rNascarApp.Controls.CreateViewWizard;
+
+namespace RacerData.rNascarApp.Controls
 {
     public interface IWizardStep
     {
@@ -9,10 +11,10 @@
         string Error { get; set; }
         bool CanGoNext { get; set; }
         bool CanGoPrevious { get; set; }
-
-        object GetDataSource();
-        void SetDataObject(object data);
         void ActivateStep();
         void DeactivateStep();
+
+        CreateViewContext GetDataSource();
+        void SetDataObject(CreateViewContext context);
     }
 }

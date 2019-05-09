@@ -47,6 +47,8 @@
             this.btnSetFormat = new System.Windows.Forms.Button();
             this.btnClearFormat = new System.Windows.Forms.Button();
             this.grpDisplayFormat = new System.Windows.Forms.GroupBox();
+            this.txtSample = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.txtDfMaxWidth = new System.Windows.Forms.TextBox();
             this.lblDfMaxWidth = new System.Windows.Forms.Label();
             this.txtDfFormat = new System.Windows.Forms.TextBox();
@@ -68,8 +70,6 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSaveAll = new System.Windows.Forms.Button();
-            this.txtSample = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -332,6 +332,25 @@
             this.grpDisplayFormat.TabStop = false;
             this.grpDisplayFormat.Text = "Display Format";
             // 
+            // txtSample
+            // 
+            this.txtSample.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSample.Location = new System.Drawing.Point(6, 177);
+            this.txtSample.Name = "txtSample";
+            this.txtSample.Size = new System.Drawing.Size(213, 22);
+            this.txtSample.TabIndex = 11;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(7, 158);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(90, 16);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "Sample Data";
+            // 
             // txtDfMaxWidth
             // 
             this.txtDfMaxWidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -483,13 +502,13 @@
             // lstUsedBy
             // 
             this.lstUsedBy.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lstUsedBy.Enabled = false;
             this.lstUsedBy.FormattingEnabled = true;
             this.lstUsedBy.ItemHeight = 16;
             this.lstUsedBy.Location = new System.Drawing.Point(0, 380);
             this.lstUsedBy.Name = "lstUsedBy";
             this.lstUsedBy.Size = new System.Drawing.Size(259, 164);
             this.lstUsedBy.TabIndex = 7;
+            this.lstUsedBy.SelectedIndexChanged += new System.EventHandler(this.lstUsedBy_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -546,25 +565,6 @@
             this.btnSaveAll.Text = "Save";
             this.btnSaveAll.UseVisualStyleBackColor = true;
             this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
-            // 
-            // txtSample
-            // 
-            this.txtSample.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSample.Location = new System.Drawing.Point(6, 177);
-            this.txtSample.Name = "txtSample";
-            this.txtSample.Size = new System.Drawing.Size(213, 22);
-            this.txtSample.TabIndex = 11;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(7, 158);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 16);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "Sample Data";
             // 
             // DisplayFormatMapDialog
             // 

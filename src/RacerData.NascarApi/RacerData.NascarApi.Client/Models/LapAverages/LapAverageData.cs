@@ -2,7 +2,7 @@
 
 namespace RacerData.NascarApi.Client.Models.LapAverages
 {
-    public class EventVehicleLapAverages
+    public class LapAverageData
     {
         #region properties
 
@@ -24,7 +24,7 @@ namespace RacerData.NascarApi.Client.Models.LapAverages
 
         #region properties
 
-        public EventVehicleLapAverages()
+        public LapAverageData()
         {
             Best5LapAverages = new List<VehicleNLapAverage>();
             Best10LapAverages = new List<VehicleNLapAverage>();

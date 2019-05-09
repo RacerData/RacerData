@@ -210,8 +210,6 @@ namespace RacerData.rNascarApp.Controls
             if (State.ListSettings.Columns.Any(c => String.IsNullOrEmpty(c.DataMember)))
                 return viewData;
 
-            // TODO: Handle feed as a list
-
             object[,] dataValues = new object[GridRows.Count, State.ListSettings.Columns.Count];
 
             Type rootObjectType = null;
@@ -426,7 +424,6 @@ namespace RacerData.rNascarApp.Controls
 
                         var column = ((ViewListColumn)label.Tag);
 
-                        // TODO: Format, Function
                         if (!String.IsNullOrEmpty(column.Format))
                             label.Text = FormatValue(dataRow[x], column.Format);
                         else

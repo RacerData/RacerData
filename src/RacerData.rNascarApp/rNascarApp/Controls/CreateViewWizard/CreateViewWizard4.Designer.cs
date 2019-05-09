@@ -38,8 +38,19 @@
             this.btnSaveView = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cboThemes = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numMaxRows = new System.Windows.Forms.NumericUpDown();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlListView.SuspendLayout();
             this.pnlViewTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxRows)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlCaptions
@@ -102,11 +113,11 @@
             this.pnlListView.Controls.Add(this.pnlCaptions);
             this.pnlListView.Controls.Add(this.pnlFields);
             this.pnlListView.Controls.Add(this.pnlFields1);
-            this.pnlListView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlListView.Location = new System.Drawing.Point(0, 40);
+            this.pnlListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlListView.Location = new System.Drawing.Point(0, 0);
             this.pnlListView.Margin = new System.Windows.Forms.Padding(0);
             this.pnlListView.Name = "pnlListView";
-            this.pnlListView.Size = new System.Drawing.Size(789, 200);
+            this.pnlListView.Size = new System.Drawing.Size(735, 259);
             this.pnlListView.TabIndex = 12;
             // 
             // pnlViewTitle
@@ -127,14 +138,14 @@
             this.lblViewTitle.Name = "lblViewTitle";
             this.lblViewTitle.Size = new System.Drawing.Size(507, 19);
             this.lblViewTitle.TabIndex = 0;
-            this.lblViewTitle.Text = "View Title (double-click to set)";
+            this.lblViewTitle.Text = "<View Title>";
             this.lblViewTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblViewTitle.DoubleClick += new System.EventHandler(this.lblViewTitle_DoubleClick);
             // 
             // btnSaveView
             // 
             this.btnSaveView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveView.Location = new System.Drawing.Point(699, 292);
+            this.btnSaveView.Location = new System.Drawing.Point(699, 140);
             this.btnSaveView.Name = "btnSaveView";
             this.btnSaveView.Size = new System.Drawing.Size(87, 29);
             this.btnSaveView.TabIndex = 13;
@@ -145,39 +156,121 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 228);
+            this.label1.Location = new System.Drawing.Point(11, 88);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 15);
+            this.label1.Size = new System.Drawing.Size(159, 15);
             this.label1.TabIndex = 14;
-            this.label1.Text = "Select a Theme for the New View:";
+            this.label1.Text = "Select a theme for the view::";
             // 
             // cboThemes
             // 
             this.cboThemes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboThemes.FormattingEnabled = true;
-            this.cboThemes.Location = new System.Drawing.Point(8, 246);
+            this.cboThemes.Location = new System.Drawing.Point(12, 106);
             this.cboThemes.Name = "cboThemes";
             this.cboThemes.Size = new System.Drawing.Size(309, 23);
             this.cboThemes.TabIndex = 15;
             this.cboThemes.SelectedIndexChanged += new System.EventHandler(this.cboThemes_SelectedIndexChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(135, 15);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Enter a title for the view:";
+            // 
+            // txtTitle
+            // 
+            this.txtTitle.Location = new System.Drawing.Point(12, 22);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(312, 21);
+            this.txtTitle.TabIndex = 17;
+            this.txtTitle.TextChanged += new System.EventHandler(this.txtTitle_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 46);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(306, 15);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Enter the maximum number of rows for the view (1-42):";
+            // 
+            // numMaxRows
+            // 
+            this.numMaxRows.Location = new System.Drawing.Point(12, 64);
+            this.numMaxRows.Maximum = new decimal(new int[] {
+            42,
+            0,
+            0,
+            0});
+            this.numMaxRows.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMaxRows.Name = "numMaxRows";
+            this.numMaxRows.Size = new System.Drawing.Size(67, 21);
+            this.numMaxRows.TabIndex = 19;
+            this.numMaxRows.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.numMaxRows.ValueChanged += new System.EventHandler(this.numMaxRows_ValueChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.btnSaveView);
+            this.panel1.Controls.Add(this.numMaxRows);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.cboThemes);
+            this.panel1.Controls.Add(this.txtTitle);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 299);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(789, 172);
+            this.panel1.TabIndex = 20;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 40);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.pnlListView);
+            this.splitContainer1.Size = new System.Drawing.Size(789, 259);
+            this.splitContainer1.SplitterDistance = 735;
+            this.splitContainer1.TabIndex = 21;
+            // 
             // CreateViewWizard4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.cboThemes);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnSaveView);
-            this.Controls.Add(this.pnlListView);
+            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblCaption);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "CreateViewWizard4";
-            this.Size = new System.Drawing.Size(789, 324);
+            this.Size = new System.Drawing.Size(789, 471);
             this.Load += new System.EventHandler(this.CreateViewWizard4_Load);
             this.pnlListView.ResumeLayout(false);
             this.pnlViewTitle.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxRows)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -193,5 +286,11 @@
         private System.Windows.Forms.Button btnSaveView;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboThemes;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown numMaxRows;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

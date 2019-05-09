@@ -74,7 +74,7 @@ namespace RacerData.rNascarApp.Dialogs
         {
             lstDisplayFormats.DataSource = null;
             lstDisplayFormats.DisplayMember = "Name";
-            lstDisplayFormats.DataSource = displayFormats;
+            lstDisplayFormats.DataSource = displayFormats.OrderBy(f => f.Name).ToList();
         }
 
         protected virtual void DisplayDataSources(IList<ViewDataSource> dataSources)
@@ -130,6 +130,8 @@ namespace RacerData.rNascarApp.Dialogs
 
         protected virtual void BuildDataSourceTreeView(TreeNode dataSourceNode, ViewDataSource dataSource)
         {
+            bool mapAdded = false;
+
             foreach (ViewDataMember viewDataMember in dataSource.Fields)
             {
                 var dataFormatMapItem = new DataFormatMapItem()
@@ -141,44 +143,71 @@ namespace RacerData.rNascarApp.Dialogs
 
                 if (!MapService.Map.ContainsKey(viewDataMember) || MapService.Map[viewDataMember].Name == "Default")
                 {
-                    var newViewDisplayFormat = new ViewDisplayFormat()
-                    {
-                        Name = viewDataMember.Name
-                    };
+                    var displayFormat = MapService.DisplayFormats.FirstOrDefault(f => f.Name == viewDataMember.Name);
 
-                    if (viewDataMember.Type.ToString() == "System.String")
+                    if (displayFormat != null)
                     {
-                        newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
-                    }
-                    else if (viewDataMember.Type.ToString() == "System.Int32")
-                    {
-                        newViewDisplayFormat.Sample = "12345";
-                        newViewDisplayFormat.Format = "###";
-                    }
-                    else if (viewDataMember.Type.ToString() == "System.Decimal" || viewDataMember.Type.ToString() == "System.Double")
-                    {
-                        newViewDisplayFormat.Sample = "123.456";
-                        newViewDisplayFormat.Format = "###.##0";
-                    }
-                    else if (viewDataMember.Type.ToString() == "System.TimeSpan")
-                    {
-                        newViewDisplayFormat.Sample = "12:34:56.78";
-                        newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
-                    }
-                    else if (viewDataMember.Type.ToString() == "System.Boolean")
-                    {
-                        newViewDisplayFormat.Sample = "True";
-                    }
-                    else if (viewDataMember.Type.ToString() == "System.Boolean")
-                    {
-                        newViewDisplayFormat.Sample = "True";
+                        MapService.Map[viewDataMember] = displayFormat;
                     }
                     else
                     {
-                        Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.ToString()}, field: {viewDataMember.Name}");
-                    }
+                        var newViewDisplayFormat = new ViewDisplayFormat()
+                        {
+                            Name = viewDataMember.Name
+                        };
 
-                    MapService.Map[viewDataMember] = newViewDisplayFormat;
+                        if (viewDataMember.Type.Name.ToString() == "String")
+                        {
+                            newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "Int32")
+                        {
+                            newViewDisplayFormat.Sample = "12345";
+                            newViewDisplayFormat.Format = "###";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "Decimal" || viewDataMember.Type.Name.ToString() == "Double")
+                        {
+                            newViewDisplayFormat.Sample = "123.456";
+                            newViewDisplayFormat.Format = "###.##0";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "TimeSpan")
+                        {
+                            newViewDisplayFormat.Sample = "12:34:56.78";
+                            newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "Boolean")
+                        {
+                            newViewDisplayFormat.Sample = "True";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "Boolean")
+                        {
+                            newViewDisplayFormat.Sample = "True";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "TrackState")
+                        {
+                            newViewDisplayFormat.Sample = "Caution";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "SeriesType")
+                        {
+                            newViewDisplayFormat.Sample = "XFinity";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "RunType")
+                        {
+                            newViewDisplayFormat.Sample = "Practice";
+                        }
+                        else if (viewDataMember.Type.Name.ToString() == "VehicleStatus")
+                        {
+                            newViewDisplayFormat.Sample = "OnTrack";
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
+                        }
+
+                        MapService.AddNewFormatToMap(viewDataMember, newViewDisplayFormat);
+
+                        mapAdded = true;
+                    }
                 }
 
                 var viewDisplayFormat = MapService.Map[viewDataMember];
@@ -191,6 +220,9 @@ namespace RacerData.rNascarApp.Dialogs
 
                 dataSourceNode.Nodes.Add(fieldNode);
             }
+
+            if (mapAdded)
+                MapService.Save();
 
             foreach (ViewDataSource dataList in dataSource.Lists)
             {
@@ -245,14 +277,53 @@ namespace RacerData.rNascarApp.Dialogs
         private void UpdateUsedByList(ViewDisplayFormat format)
         {
             lstUsedBy.Items.Clear();
+            lstUsedBy.DisplayMember = "Title";
 
             if (format == null)
                 return;
 
             foreach (var item in MapService.Map.Where(m => m.Value.Name == format.Name))
             {
-                lstUsedBy.Items.Add(item.Key.Caption);
+                var usedByItem = new UsedByItem()
+                {
+                    Name = format.Name,
+                    Title = $"{item.Key.DataFeed} {item.Key.Path.Replace("\\", " ")}",
+                    ViewDataMember = item.Key
+                };
+
+                lstUsedBy.Items.Add(usedByItem);
             }
+        }
+        private void lstUsedBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstUsedBy.SelectedItem == null)
+                return;
+
+            UsedByItem usedByItem = (UsedByItem)lstUsedBy.SelectedItem;
+
+            var found = SearchNodes(trvDataSources.Nodes, usedByItem.ViewDataMember);
+        }
+        private bool SearchNodes(TreeNodeCollection nodes, ViewDataMember target)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                if (node.Tag != null && 
+                    node.Tag is DataFormatMapItem && 
+                    ((DataFormatMapItem)node.Tag).DataMember.DataFeed  == target.DataFeed &&
+                    ((DataFormatMapItem)node.Tag).DataMember.Name == target.Name)
+                {
+                    trvDataSources.SelectedNode = node;
+                    return true;
+                }
+
+                if (node.Nodes.Count > 0)
+                {
+                    if (SearchNodes(node.Nodes, target))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         private void UpdateMapPanelState()
@@ -585,7 +656,7 @@ namespace RacerData.rNascarApp.Dialogs
                 return;
 
             lblDsField.Text = member.Name;
-            lblDsType.Text = member.Type;
+            lblDsType.Text = member.Type.Name;
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -655,6 +726,17 @@ namespace RacerData.rNascarApp.Dialogs
 
             DisplayDataSources(DataSources);
         }
+        #endregion
+
+        #region classes
+
+        class UsedByItem
+        {
+            public string Name { get; set; }
+            public string Title { get; set; }
+            public ViewDataMember ViewDataMember { get; set; }
+        }
+
         #endregion
     }
 }

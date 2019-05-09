@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Dialogs;
+using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Controls.CreateViewWizard
@@ -17,15 +14,18 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
     {
         #region consts
 
-        private const string NewViewNamePrompt = "<View Title> (double-click to set)";
+        private const string NewViewNamePrompt = "<View Title>";
 
         #endregion
 
         #region fields
 
+        private IList<FlowLayoutPanel> _oddPanels = new List<FlowLayoutPanel>();
+        private IList<FlowLayoutPanel> _evenPanels = new List<FlowLayoutPanel>();
+
         private ViewState _newViewState = null;
         private List<Theme> _themes = null;
-        private IList<ViewListColumn> _viewListColumns = null;
+
         private bool _isSaved = false;
         private bool _isLoading = true;
 
@@ -133,19 +133,38 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             _themes.AddRange(userThemes.OrderBy(t => t.Name));
 
             DisplayThemeList();
+
+            _evenPanels.Add(pnlFields);
+            _evenPanels.Add(ClonePanel(pnlFields));
+            _evenPanels.Add(ClonePanel(pnlFields));
+            _evenPanels.Add(ClonePanel(pnlFields));
+
+            _oddPanels.Add(pnlFields1);
+            _oddPanels.Add(ClonePanel(pnlFields1));
+            _oddPanels.Add(ClonePanel(pnlFields1));
+            _oddPanels.Add(ClonePanel(pnlFields1));
+
+            for (int i = 2; i < _evenPanels.Count + _evenPanels.Count; i++)
+            {
+                var evenOdd = i % 2;
+                var idx = (int)(i / 2);
+
+                if (evenOdd == 1)
+                {
+                    pnlListView.Controls.Add(_oddPanels[idx]);
+                }
+                else
+                {
+                    pnlListView.Controls.Add(_evenPanels[idx]);
+                }
+            }
         }
 
         #endregion
 
         #region public
 
-        public override void SetDataObject(object data)
-        {
-            if (data is IList<ViewListColumn>)
-                _viewListColumns = (IList<ViewListColumn>)data;
-        }
-
-        public override object GetDataSource()
+        public ViewState GetViewState()
         {
             return _newViewState;
         }
@@ -191,6 +210,33 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         #region protected
 
+        protected virtual FlowLayoutPanel ClonePanel(FlowLayoutPanel source)
+        {
+            var panel = new FlowLayoutPanel()
+            {
+                Size = source.Size,
+                Dock = source.Dock,
+                BorderStyle = source.BorderStyle,
+                Padding = source.Padding,
+                Margin = source.Margin,
+                Font = source.Font,
+                BackColor = source.BackColor,
+                ForeColor = source.ForeColor
+            };
+
+            return panel;
+        }
+
+        protected virtual void UpdateMaxRows(int maxRows)
+        {
+            int i = 0;
+            foreach (FlowLayoutPanel panel in pnlListView.Controls.OfType<FlowLayoutPanel>().ToList().Skip(1))
+            {
+                panel.Visible = (i < maxRows);
+                i++;
+            }
+        }
+
         protected virtual void UpdateValidation()
         {
             CanSave = NameIsSet && ThemeIsSet;
@@ -233,26 +279,32 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 label.Font = theme.GridColumnHeaderFont;
             }
 
-            pnlFields.BackColor = theme.PrimaryBackColor;
-            pnlFields.ForeColor = theme.PrimaryForeColor;
-            pnlFields.Font = theme.GridFont;
-
-            foreach (Label label in pnlFields.Controls.OfType<Label>())
+            foreach (FlowLayoutPanel evenPanel in _evenPanels)
             {
-                label.BackColor = theme.PrimaryBackColor;
-                label.ForeColor = theme.PrimaryForeColor;
-                label.Font = theme.GridFont;
+                evenPanel.BackColor = theme.PrimaryBackColor;
+                evenPanel.ForeColor = theme.PrimaryForeColor;
+                evenPanel.Font = theme.GridFont;
+
+                foreach (Label label in evenPanel.Controls.OfType<Label>())
+                {
+                    label.BackColor = theme.PrimaryBackColor;
+                    label.ForeColor = theme.PrimaryForeColor;
+                    label.Font = theme.GridFont;
+                }
             }
 
-            pnlFields1.BackColor = theme.SecondaryBackColor;
-            pnlFields1.ForeColor = theme.SecondaryForeColor;
-            pnlFields1.Font = theme.GridFont;
-
-            foreach (Label label in pnlFields1.Controls.OfType<Label>())
+            foreach (FlowLayoutPanel oddPanel in _oddPanels)
             {
-                label.BackColor = theme.SecondaryBackColor;
-                label.ForeColor = theme.SecondaryForeColor;
-                label.Font = theme.GridFont;
+                oddPanel.BackColor = theme.SecondaryBackColor;
+                oddPanel.ForeColor = theme.SecondaryForeColor;
+                oddPanel.Font = theme.GridFont;
+
+                foreach (Label label in oddPanel.Controls.OfType<Label>())
+                {
+                    label.BackColor = theme.SecondaryBackColor;
+                    label.ForeColor = theme.SecondaryForeColor;
+                    label.Font = theme.GridFont;
+                }
             }
 
             _theme = theme;
@@ -287,20 +339,45 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         protected virtual void DisplayFields()
         {
             pnlCaptions.Controls.Clear();
-            pnlFields.Controls.Clear();
-            pnlFields1.Controls.Clear();
-
-            foreach (ViewListColumn viewListColumn in _viewListColumns)
+            foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
             {
                 var captionLabel = GetCaptionLabel(viewListColumn);
                 pnlCaptions.Controls.Add(captionLabel);
-
-                var fieldLabel = GetLabel(viewListColumn);
-                pnlFields.Controls.Add(fieldLabel);
-
-                var fieldLabel1 = GetLabel(viewListColumn);
-                pnlFields1.Controls.Add(fieldLabel1);
             }
+
+            foreach (var panel in _evenPanels)
+            {
+                panel.Controls.Clear();
+
+                foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
+                {
+                    var fieldLabel = GetLabel(viewListColumn);
+                    panel.Controls.Add(fieldLabel);
+                }
+            }
+
+            foreach (var panel in _oddPanels)
+            {
+                panel.Controls.Clear();
+
+                foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
+                {
+                    var fieldLabel = GetLabel(viewListColumn);
+                    panel.Controls.Add(fieldLabel);
+                }
+            }
+
+            //foreach (ViewListColumn viewListColumn in _viewListColumns)
+            //{
+            //    var captionLabel = GetCaptionLabel(viewListColumn);
+            //    pnlCaptions.Controls.Add(captionLabel);
+
+            //    var fieldLabel = GetLabel(viewListColumn);
+            //    pnlFields.Controls.Add(fieldLabel);
+
+            //    var fieldLabel1 = GetLabel(viewListColumn);
+            //    pnlFields1.Controls.Add(fieldLabel1);
+            //}
         }
 
         protected virtual void DisplayNewView()
@@ -450,6 +527,18 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
+                else if (type == TypeNames.RunTypeTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (type == TypeNames.VehicleStatusTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (type == TypeNames.FlagStateTypeName)
+                {
+                    formattedText = value;
+                }
                 else
                 {
                     Console.WriteLine($"Unrecognized field type: {type}");
@@ -478,7 +567,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             UpdateViewState(_newViewState);
 
-            _newViewState.ListSettings.Columns = _viewListColumns.ToList();
+            _newViewState.ListSettings.Columns = CreateViewContext.ViewListColumns.ToList();
 
             IsComplete = true;
         }
@@ -486,9 +575,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         protected virtual void UpdateViewState(ViewState viewState)
         {
             viewState.HeaderText = lblViewTitle.Text.Trim();
-            viewState.ListSettings.DataSource = _viewListColumns[0].DataFeed;
+            viewState.ListSettings.DataSource = CreateViewContext.ViewListColumns[0].DataFeed;
 
-            viewState.ListSettings.MaxRows = null;
+            viewState.ListSettings.MaxRows = (int)numMaxRows.Value;
 
             viewState.ListSettings.RowHeight = null;
 
@@ -501,6 +590,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             if (cboThemes.SelectedItem != null)
                 viewState.ThemeId = _theme.Id;
         }
+
         #endregion
 
         #region private
@@ -508,6 +598,18 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         private void lblViewTitle_DoubleClick(object sender, EventArgs e)
         {
             SetViewTitle();
+        }
+
+        private void txtTitle_TextChanged(object sender, EventArgs e)
+        {
+            lblViewTitle.Text = txtTitle.Text;
+
+            UpdateValidation();
+        }
+
+        private void numMaxRows_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateMaxRows((int)numMaxRows.Value);
         }
 
         private void cboThemes_SelectedIndexChanged(object sender, EventArgs e)

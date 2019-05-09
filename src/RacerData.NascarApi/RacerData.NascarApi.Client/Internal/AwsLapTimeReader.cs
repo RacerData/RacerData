@@ -27,13 +27,13 @@ namespace RacerData.NascarApi.Client.Internal
 
         #region public
 
-        public virtual async Task<EventVehicleLapTimes> ReadLapTimesAsync(LiveFeedData data)
+        public virtual async Task<LapTimeData> ReadLapTimesAsync(LiveFeedData data)
         {
             var key = GetKey(data);
 
             var item = await _repository.SelectAsync(key);
 
-            return JsonConvert.DeserializeObject<EventVehicleLapTimes>(item.Content);
+            return JsonConvert.DeserializeObject<LapTimeData>(item.Content);
         }
 
         #endregion

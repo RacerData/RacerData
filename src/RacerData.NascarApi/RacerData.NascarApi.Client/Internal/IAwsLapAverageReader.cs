@@ -6,6 +6,6 @@ namespace RacerData.NascarApi.Client.Internal
 {
     interface IAwsLapAverageReader
     {
-        Task<EventVehicleLapAverages> ReadLapAveragesAsync(LiveFeedData data);
+        Task<LapAverageData> ReadLapAveragesAsync(LiveFeedData data);
     }
 }

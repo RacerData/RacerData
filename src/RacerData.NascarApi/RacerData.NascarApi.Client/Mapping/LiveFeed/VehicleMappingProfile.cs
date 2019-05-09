@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RacerData.NascarApi.Client.Models;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using NascarApiLiveFeed = RacerData.NascarApi.Models.LiveFeed;
 
@@ -25,7 +26,7 @@ namespace RacerData.NascarApi.Client.Mapping.LiveFeed
                 .ForMember(m => m.RunningPosition, opts => opts.MapFrom(src => src.running_position))
                 .ForMember(m => m.Sponsor, opts => opts.MapFrom(src => src.sponsor_name))
                 .ForMember(m => m.StartingPosition, opts => opts.MapFrom(src => src.starting_position))
-                .ForMember(m => m.Status, opts => opts.MapFrom(src => src.status))
+                .ForMember(m => m.Status, opts => opts.MapFrom(src => (VehicleStatus)src.status))
                 .ForMember(m => m.VehicleElapsedTime, opts => opts.MapFrom(src => src.vehicle_elapsed_time));
         }
     }

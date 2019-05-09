@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using RacerData.NascarApi.Client.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace RacerData.NascarApi.Client.Models.LiveFeed
 {
@@ -8,7 +9,7 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
     {
         public int LapNumber { get; set; }
         public int Elapsed { get; set; }
-        [EnumTypeAttribute(nameof(TrackState))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public TrackState FlagState { get; set; }
         public int RaceId { get; set; }
         public int LapsInRace { get; set; }
@@ -16,13 +17,13 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
         public List<Vehicle> Vehicles { get; set; }
         public int RunId { get; set; }
         public string RunName { get; set; }
-        [EnumTypeAttribute(nameof(Models.SeriesType))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public SeriesType SeriesType { get; set; }
         public DateTime TimeOfDay { get; set; }
         public int TrackId { get; set; }
         public double TrackLength { get; set; }
         public string TrackName { get; set; }
-        [EnumTypeAttribute(nameof(RunType))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public RunType RunType { get; set; }
         public int NumberOfCautions { get; set; }
         public int NumberOfCautionLaps { get; set; }

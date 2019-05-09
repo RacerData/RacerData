@@ -5,7 +5,7 @@ using RacerData.NascarApi.Client.Ports;
 
 namespace RacerData.NascarApi.Client.Mocks
 {
-    class MockLapAverageFeed : MockDataFeed<EventVehicleLapAverages>
+    class MockLapAverageFeed : MockDataFeed<LapAverageData>
     {
         #region ctor
 
@@ -23,9 +23,9 @@ namespace RacerData.NascarApi.Client.Mocks
 
         #region protected
 
-        protected override EventVehicleLapAverages GetDefault()
+        protected override LapAverageData GetDefault()
         {
-            return new EventVehicleLapAverages();
+            return new LapAverageData();
         }
 
         #endregion

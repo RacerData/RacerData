@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
+using RacerData.rNascarApp.Controls.CreateViewWizard;
 
 namespace RacerData.rNascarApp.Controls
 {
@@ -16,7 +11,7 @@ namespace RacerData.rNascarApp.Controls
         #region events
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -26,6 +21,8 @@ namespace RacerData.rNascarApp.Controls
         #endregion
 
         #region properties
+
+        protected static CreateViewContext CreateViewContext { get; set; } = null;
 
         public int Index { get; set; }
         public string Caption { get; set; }
@@ -94,18 +91,28 @@ namespace RacerData.rNascarApp.Controls
         public WizardStep()
         {
             InitializeComponent();
+
+            CreateViewContext = new CreateViewContext();
+
+            CreateViewContext.PropertyChanged += CreateViewContext_PropertyChanged;
+        }
+
+        private void CreateViewContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var handler = PropertyChanged;
+            handler?.Invoke(sender, e);
         }
 
         #endregion
 
         #region public
 
-        public virtual object GetDataSource()
+        public virtual CreateViewContext GetDataSource()
         {
             return null;
         }
 
-        public virtual void SetDataObject(object data)
+        public virtual void SetDataObject(CreateViewContext data)
         {
 
         }
@@ -139,6 +146,5 @@ namespace RacerData.rNascarApp.Controls
         }
 
         #endregion
-
     }
 }

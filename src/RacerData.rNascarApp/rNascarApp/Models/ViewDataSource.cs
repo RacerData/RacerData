@@ -8,6 +8,7 @@ namespace RacerData.rNascarApp.Models
     {
         public string Name { get; set; }
         public string Path { get; set; }
+        public string DataFeed { get; set; }
         string _caption = String.Empty;
         public string Caption
         {
@@ -27,7 +28,7 @@ namespace RacerData.rNascarApp.Models
                         {
                             sb.Append(" ");
                         }
-                        else if (char.IsNumber(Name[i]))
+                        else if (char.IsNumber(Name[i]) &&  !char.IsNumber(Name[i - 1]))
                         {
                             sb.Append(" ");
                         }
@@ -45,11 +46,18 @@ namespace RacerData.rNascarApp.Models
                 _caption = value;
             }
         }
-        public string Type { get; set; }
-        public string AssemblyQualifiedName { get; set; }
+        public Type Type { get; set; }
+        public Type ListItemType
+        {
+            get
+            {
+                return Type != null && Type.IsGenericType ? Type.GenericTypeArguments[0] : null;
+            }
+        }
+        public Type DataFeedType { get; set; }
+
         public IList<ViewDataSource> Lists { get; set; } = new List<ViewDataSource>();
         public IList<ViewDataSource> NestedClasses { get; set; } = new List<ViewDataSource>();
         public IList<ViewDataMember> Fields { get; set; } = new List<ViewDataMember>();
-
     }
 }

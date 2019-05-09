@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,7 +14,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
     {
         #region fields
 
-        private IList<ViewListColumn> _viewListColumns = null;
         private IList<FormatListItem> _formatListItems = new List<FormatListItem>();
         private DisplayFormatMapService _mapService = null;
         private Point _dragPoint = Point.Empty;
@@ -27,24 +27,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         private bool _isEditing = false;
         private bool _isLoadingFieldDetails = false;
         private int? _selectedFieldIndex = null;
-
-        #endregion
-
-        #region properties
-
-        private IList<ViewDataMember> _dataMembers = null;
-        public IList<ViewDataMember> DataMembers
-        {
-            get
-            {
-                return _dataMembers;
-            }
-            set
-            {
-                _dataMembers = value;
-                OnPropertyChanged(nameof(DataMembers));
-            }
-        }
 
         #endregion
 
@@ -80,26 +62,19 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             dragTimer.Tick += DragTimer_Tick;
 
-            _viewListColumns = CreateViewListColumnList();
+            CreateViewContext.ViewListColumns = new BindingList<ViewListColumn>(CreateViewListColumnList());
         }
 
         #endregion
 
         #region public 
 
-        public override object GetDataSource()
-        {
-            return _viewListColumns;
-        }
-
-        public override void SetDataObject(object data)
-        {
-            DataMembers = (IList<ViewDataMember>)data;
-        }
-
         public override void ActivateStep()
         {
             base.ActivateStep();
+
+            if (CreateViewContext.ViewListColumns.Count == 0)
+                CreateViewContext.ViewListColumns = new BindingList<ViewListColumn>(CreateViewListColumnList());
 
             DisplayFields();
 
@@ -116,7 +91,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             bool isValid = true;
             Error = "";
 
-            if (_viewListColumns == null || _viewListColumns.Count != DataMembers.Count)
+            if (CreateViewContext.ViewListColumns == null || CreateViewContext.ViewListColumns.Count != CreateViewContext.ViewDataMembers.Count)
             {
                 isValid = true;
                 Error = "List settings not configured";
@@ -135,7 +110,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             int i = 0;
 
-            foreach (ViewDataMember viewDataMember in DataMembers)
+            foreach (ViewDataMember viewDataMember in CreateViewContext.ViewDataMembers)
             {
                 if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
                 {
@@ -144,28 +119,28 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         Name = viewDataMember.Name
                     };
 
-                    if (viewDataMember.Type.ToString() == "System.String")
+                    if (viewDataMember.Type.Name.ToString() == "System.String")
                     {
                         newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
                     }
-                    else if (viewDataMember.Type.ToString() == "System.Int32")
+                    else if (viewDataMember.Type.Name.ToString() == "System.Int32")
                     {
                         newViewDisplayFormat.Sample = "12345";
                         newViewDisplayFormat.Format = "###";
                     }
-                    else if (viewDataMember.Type.ToString() == "System.Decimal" || viewDataMember.Type.ToString() == "System.Double")
+                    else if (viewDataMember.Type.Name.ToString() == "System.Decimal" || viewDataMember.Type.Name.ToString() == "System.Double")
                     {
                         newViewDisplayFormat.Sample = "123.456";
                         newViewDisplayFormat.Format = "###.##0";
                     }
-                    else if (viewDataMember.Type.ToString() == "System.TimeSpan")
+                    else if (viewDataMember.Type.Name.ToString() == "System.TimeSpan")
                     {
                         newViewDisplayFormat.Sample = "12:34:56.78";
                         newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
                     }
                     else
                     {
-                        Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.ToString()}, field: {viewDataMember.Name}");
+                        Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
                     }
 
                     _mapService.Map[viewDataMember] = newViewDisplayFormat;
@@ -181,14 +156,14 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     Format = viewDisplayFormat.Format,
                     Sample = viewDisplayFormat.Sample,
                     Width = viewDisplayFormat.MaxWidth,
-                    Type = viewDataMember.Type,
-                    ConvertedType = viewDataMember.ConvertedType,
+                    Type = viewDataMember.Type.Name,
+                    ConvertedType = viewDataMember.ConvertedType.Name,
                     SortType = i == 0 ? SortType.Ascending : SortType.None,
                     DataMember = viewDataMember.Name,
                     DataFullPath = viewDataMember.Path,
                     DataFeed = viewDataMember.DataFeed,
-                    DataFeedAssemblyQualifiedName = viewDataMember.DataFeedTypeAssemblyQualifiedName,
-                    DataFeedFullName = viewDataMember.DataFeedTypeFullName
+                    DataFeedAssemblyQualifiedName = viewDataMember.DataFeedType.AssemblyQualifiedName,
+                    DataFeedFullName = viewDataMember.DataFeedType.FullName
                 });
 
                 i++;
@@ -204,7 +179,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             pnlFields.Controls.Clear();
             pnlCaptions.Controls.Clear();
 
-            foreach (ViewListColumn viewListColumn in _viewListColumns)
+            foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
             {
                 var captionLabel = GetCaptionLabel(viewListColumn);
                 pnlCaptions.Controls.Add(captionLabel);
@@ -233,7 +208,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 i++;
             }
 
-            _viewListColumns = _viewListColumns.OrderBy(v => v.Index).ToList();
+            CreateViewContext.ViewListColumns = new BindingList<ViewListColumn>(CreateViewContext.ViewListColumns.OrderBy(v => v.Index).ToList());
         }
 
         protected virtual Label GetCaptionLabel(ViewListColumn viewListColumn)
@@ -571,7 +546,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 return;
             }
 
-            var viewListColumn = _viewListColumns[_selectedFieldIndex.Value];
+            var viewListColumn = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
 
             viewListColumn.Caption = txtColCaption.Text;
 
@@ -583,6 +558,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             viewListColumn.Format = txtColFormat.Text;
             viewListColumn.Sample = txtColTest.Text;
+
+            CreateViewContext.ViewListColumns[_selectedFieldIndex.Value] = viewListColumn;
 
             SetUIEditState(false, _selectedFieldIndex.Value);
         }
@@ -632,7 +609,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         }
         protected virtual void DisplayColumnDetails(int index)
         {
-            var viewListColumn = _viewListColumns[index];
+            var viewListColumn = CreateViewContext.ViewListColumns[index];
 
             txtColCaption.Text = viewListColumn.Caption;
             txtColType.Text = viewListColumn.Type;
@@ -676,11 +653,11 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(_selectedFieldIndex.Value);
 
-            var viewListColumn = _viewListColumns[_selectedFieldIndex.Value];
+            var viewListColumn = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
 
-            var field = DataMembers[_selectedFieldIndex.Value];
+            var field = CreateViewContext.ViewDataMembers[_selectedFieldIndex.Value];
 
-            var type = String.IsNullOrEmpty(viewListColumn.ConvertedType) ? field.Type : viewListColumn.ConvertedType;
+            var type = String.IsNullOrEmpty(viewListColumn.ConvertedType) ? field.Type.Name : viewListColumn.ConvertedType;
 
             var formattedText = FormatSampleValue(type, txtColFormat.Text, txtColTest.Text);
 
@@ -759,6 +736,18 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                                 "':' and '.' must have a leading backslash (\\: and \\.)";
                         }
                     }
+                }
+                else if (type == TypeNames.RunTypeTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (type == TypeNames.VehicleStatusTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (type == TypeNames.FlagStateTypeName)
+                {
+                    formattedText = value;
                 }
                 else
                 {
@@ -842,7 +831,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 !_selectedFieldIndex.HasValue)
                 return;
 
-            var viewListColumn = _viewListColumns[_selectedFieldIndex.Value];
+            var viewListColumn = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
             var selectedConvertedType = (KeyValuePair<string, string>)cboConvertedType.SelectedItem;
 
             if (selectedConvertedType.Value == "NONE")
@@ -860,7 +849,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
 
             var format = _formatListItems.FirstOrDefault(f => f.Type == viewListColumn.ConvertedType);
-            lblFormatHelp.Text = format.HelpText;
+            lblFormatHelp.Text = format?.HelpText;
 
             TestFormat();
         }

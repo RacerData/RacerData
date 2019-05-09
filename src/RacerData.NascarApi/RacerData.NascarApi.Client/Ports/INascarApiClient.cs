@@ -24,10 +24,10 @@ namespace RacerData.NascarApi.Client.Ports
         Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync();
         Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync(CancellationToken cancellationToken);
         Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync();
-        Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync(CancellationToken cancellationToken);
-        Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync();
-        Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync(CancellationToken cancellationToken);
-        Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync();
+        Task<IResult<LapAverageData>> GetLapAverageDataAsync(CancellationToken cancellationToken);
+        Task<IResult<LapAverageData>> GetLapAverageDataAsync();
+        Task<IResult<LapTimeData>> GetLapTimeDataAsync(CancellationToken cancellationToken);
+        Task<IResult<LapTimeData>> GetLapTimeDataAsync();
 
     }
 }

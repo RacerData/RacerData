@@ -1,4 +1,7 @@
-﻿namespace RacerData.NascarApi.Client.Models.LivePit
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace RacerData.NascarApi.Client.Models.LivePit
 {
     public class LivePitData
     {
@@ -7,7 +10,9 @@
         public string VehicleManufacturer { get; set; }
         public int LeaderLap { get; set; }
         public int LapCount { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public TrackState PitInFlagStatus { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public TrackState PitOutFlagStatus { get; set; }
         public double PitInRaceTime { get; set; }
         public double PitOutRaceTime { get; set; }

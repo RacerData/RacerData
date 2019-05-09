@@ -123,8 +123,8 @@
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.40.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.40\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.45.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.45\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Service, Version=1.0.39.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.Service.1.0.39\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
@@ -159,6 +159,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CreateViewWizard\CreateViewContext.cs" />
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -123,15 +123,12 @@ namespace RacerData.rNascarApp.Dialogs
         {
             try
             {
-                object data = null;
-
                 btnNext.DataBindings.Clear();
                 btnPrevious.DataBindings.Clear();
                 lblError.DataBindings.Clear();
 
                 foreach (var item in pnlStepBody.Controls.OfType<IWizardStep>().ToList())
                 {
-                    data = item.GetDataSource();
                     item.DeactivateStep();
                     pnlStepBody.Controls.Remove((Control)item);
                 }
@@ -139,9 +136,6 @@ namespace RacerData.rNascarApp.Dialogs
                 var activeStep = _wizardSteps[index];
 
                 Control activeControl = (Control)activeStep;
-
-                if (data != null)
-                    activeStep.SetDataObject(data);
 
                 activeControl.Dock = DockStyle.Fill;
 
@@ -165,6 +159,19 @@ namespace RacerData.rNascarApp.Dialogs
             }
         }
 
+        protected virtual void ExceptionHandler(string message, Exception ex)
+        {
+            _log?.Error(message, ex);
+#if DEBUG
+            Console.WriteLine(ex);
+#endif
+            MessageBox.Show($"{message}: {ex.Message}");
+        }
+
+        #endregion
+
+        #region private
+
         private void btnNext_Click(object sender, EventArgs e)
         {
             if (_wizardIndex >= _wizardSteps.Count - 1)
@@ -185,25 +192,12 @@ namespace RacerData.rNascarApp.Dialogs
             ActivateWizardStep(_wizardIndex);
         }
 
-        protected virtual void ExceptionHandler(string message, Exception ex)
-        {
-            _log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
-            MessageBox.Show($"{message}: {ex.Message}");
-        }
-
-        #endregion
-
-        #region private
-
         private void WizardLastStep_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsComplete")
             {
                 IWizardStep lastStep = (WizardStep)sender;
-                NewViewState = (ViewState)lastStep.GetDataSource();
+                NewViewState = (ViewState)((CreateViewWizard4)lastStep).GetViewState();
 
                 DialogResult = DialogResult.OK;
             }

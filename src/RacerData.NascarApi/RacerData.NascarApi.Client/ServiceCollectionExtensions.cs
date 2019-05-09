@@ -17,6 +17,7 @@ namespace RacerData.NascarApi.Client
             services.AddTransient<INascarApiClientFactory, NascarApiClientFactory>();
             services.AddTransient<INascarApiClient, NascarApiClient>();
             services.AddTransient<IAwsLapAverageReader, AwsLapAverageReader>();
+            services.AddTransient<IAwsLapTimeReader, AwsLapTimeReader>();
 
             services.AddResults();
             services.AddNascarApi();

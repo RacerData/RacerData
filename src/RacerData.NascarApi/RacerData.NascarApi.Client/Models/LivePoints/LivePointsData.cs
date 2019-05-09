@@ -25,9 +25,9 @@
         public bool Stage2Winner { get; set; }
         public int Stage3Points { get; set; }
         public bool Stage3Winner { get; set; }
-        public object Wins { get; set; }
-        public object Top5 { get; set; }
-        public object Top10 { get; set; }
-        public object Poles { get; set; }
+        public string Wins { get; set; }
+        public string Top5 { get; set; }
+        public string Top10 { get; set; }
+        public string Poles { get; set; }
     }
 }

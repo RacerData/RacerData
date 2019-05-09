@@ -117,17 +117,17 @@
     <Reference Include="RacerData.Commmon.Results, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Commmon.Results.1.0.1\lib\netstandard2.0\RacerData.Commmon.Results.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.Data.Aws, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.Data.Aws.1.0.7\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
+    <Reference Include="RacerData.Data.Aws, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Aws.1.0.8\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.37.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.37\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.40.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.40\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Service, Version=1.0.38.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Service.1.0.38\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Service, Version=1.0.39.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Service.1.0.39\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -159,6 +159,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.Designer.cs">
+      <DependentUpon>CreateViewWizard1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard2.Designer.cs">
+      <DependentUpon>CreateViewWizard2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard3.Designer.cs">
+      <DependentUpon>CreateViewWizard3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard4.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateViewWizard\CreateViewWizard4.Designer.cs">
+      <DependentUpon>CreateViewWizard4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IWizardStep.cs" />
     <Compile Include="Controls\ListHeader.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,11 +196,24 @@
     <Compile Include="Controls\ListRow.Designer.cs">
       <DependentUpon>ListRow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TypeNames.cs" />
     <Compile Include="Controls\UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\UserControlBase.Designer.cs">
       <DependentUpon>UserControlBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WizardStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WizardStep.Designer.cs">
+      <DependentUpon>WizardStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DisplayFormatMapDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DisplayFormatMapDialog.Designer.cs">
+      <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\FileViewerDialog.cs">
       <SubType>Form</SubType>
@@ -189,6 +227,7 @@
     <Compile Include="Dialogs\InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\IViewDesigner.cs" />
     <Compile Include="Dialogs\ResizeControlDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,8 +246,16 @@
     <Compile Include="Dialogs\ViewDesignerDialog.Designer.cs">
       <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CreateViewWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CreateViewWizard.Designer.cs">
+      <DependentUpon>CreateViewWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
+    <Compile Include="Factories\DisplayFormatMapService.cs" />
     <Compile Include="Factories\ViewDataSourceFactory.cs" />
+    <Compile Include="Factories\ViewDisplayFormatFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,9 +263,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Models\DataFormatMapItem.cs" />
     <Compile Include="Models\SortType.cs" />
     <Compile Include="Models\ViewDataMember.cs" />
     <Compile Include="Models\ViewDataSource.cs" />
+    <Compile Include="Models\ViewDisplayFormat.cs" />
+    <Compile Include="Models\ViewListItem.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Services\ColumnBuilderService.cs" />
     <Compile Include="Settings\AppSettings.cs" />
@@ -264,6 +314,18 @@
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeSection.cs" />
     <Compile Include="Themes\UserThemeRepository.cs" />
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard1.resx">
+      <DependentUpon>CreateViewWizard1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard2.resx">
+      <DependentUpon>CreateViewWizard2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard3.resx">
+      <DependentUpon>CreateViewWizard3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard4.resx">
+      <DependentUpon>CreateViewWizard4.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListHeader.resx">
       <DependentUpon>ListHeader.cs</DependentUpon>
     </EmbeddedResource>
@@ -272,6 +334,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UserControlBase.resx">
       <DependentUpon>UserControlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DisplayFormatMapDialog.resx">
+      <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\FileViewerDialog.resx">
       <DependentUpon>FileViewerDialog.cs</DependentUpon>
@@ -287,6 +352,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ViewDesignerDialog.resx">
       <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\CreateViewWizard.resx">
+      <DependentUpon>CreateViewWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -316,7 +384,9 @@
     <EmbeddedResource Include="Themes\SampleView.resx">
       <DependentUpon>SampleView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="appsettings.json" />
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

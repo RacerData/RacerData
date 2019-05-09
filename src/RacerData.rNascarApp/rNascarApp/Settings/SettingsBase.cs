@@ -14,7 +14,7 @@ namespace RacerData.rNascarApp.Settings
         {
             get
             {
-                return $"{Path.GetDirectoryName(Application.ExecutablePath)}\\settings\\"; ;
+                return $"{Path.GetDirectoryName(Application.ExecutablePath)}\\settings\\";
             }
         }
 

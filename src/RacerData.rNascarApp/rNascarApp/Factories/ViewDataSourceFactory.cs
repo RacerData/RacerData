@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using RacerData.NascarApi.Client.Attributes;
+using RacerData.NascarApi.Client.Models.LapAverages;
+using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
@@ -23,33 +27,51 @@ namespace RacerData.rNascarApp.Factories
             sources.Add(GetDataSource("LiveFlagData[]", typeof(LiveFlagData)));
             sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData)));
             sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData)));
-
+            sources.Add(GetDataSource("LapTimeData", typeof(EventVehicleLapTimes)));
+            sources.Add(GetDataSource("LapAverageData", typeof(EventVehicleLapAverages)));
+            
             return sources;
         }
 
         #endregion
 
         #region protected
-       
+
         protected virtual ViewDataSource GetDataSource(string name, Type dataSourceType)
         {
             ViewDataSource source = new ViewDataSource()
             {
                 Name = name,
+                Path = dataSourceType.FullName,
                 Type = dataSourceType.FullName,
                 AssemblyQualifiedName = dataSourceType.AssemblyQualifiedName
             };
 
             foreach (PropertyInfo propertyInfo in dataSourceType.GetProperties())
             {
-                if (propertyInfo.PropertyType.Name.Contains("List"))
+                var enumTypeAttribute = propertyInfo.GetCustomAttribute<EnumTypeAttribute>();
+
+                if (enumTypeAttribute != null)
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    source.Fields.Add(new ViewDataMember()
+                    {
+                        Name = propertyInfo.Name,
+                        Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
+                        DataFeed = dataSourceType.Name,
+                        DataFeedTypeAssemblyQualifiedName = dataSourceType.AssemblyQualifiedName,
+                        DataFeedTypeFullName = dataSourceType.FullName,
+                        Type = enumTypeAttribute.EnumTypeName,
+                        AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
+                    });
+                }
+                else if (propertyInfo.PropertyType.Name.Contains("List"))
+                {
+                    var innerSource = GetDataSource(propertyInfo, dataSourceType);
                     source.Lists.Add(innerSource);
                 }
                 else if (propertyInfo.PropertyType.Assembly == dataSourceType.Assembly)
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    var innerSource = GetDataSource(propertyInfo, dataSourceType);
                     source.NestedClasses.Add(innerSource);
                 }
                 else
@@ -57,6 +79,10 @@ namespace RacerData.rNascarApp.Factories
                     source.Fields.Add(new ViewDataMember()
                     {
                         Name = propertyInfo.Name,
+                        Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
+                        DataFeed = dataSourceType.Name,
+                        DataFeedTypeAssemblyQualifiedName = dataSourceType.AssemblyQualifiedName,
+                        DataFeedTypeFullName = dataSourceType.FullName,
                         Type = propertyInfo.PropertyType.ToString(),
                         AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
                     });
@@ -66,7 +92,7 @@ namespace RacerData.rNascarApp.Factories
             return source;
         }
 
-        protected virtual ViewDataSource GetDataSource(PropertyInfo sourcePropertyInfo)
+        protected virtual ViewDataSource GetDataSource(PropertyInfo sourcePropertyInfo, Type dataFeedType)
         {
             ViewDataSource source = null;
 
@@ -75,6 +101,7 @@ namespace RacerData.rNascarApp.Factories
                 source = new ViewDataSource()
                 {
                     Name = sourcePropertyInfo.Name,
+                    Path = $"{sourcePropertyInfo.ReflectedType.FullName}.{sourcePropertyInfo.Name}",
                     Type = sourcePropertyInfo.PropertyType.GenericTypeArguments[0].Name,
                     AssemblyQualifiedName = sourcePropertyInfo.PropertyType.GenericTypeArguments[0].AssemblyQualifiedName
                 };
@@ -84,6 +111,7 @@ namespace RacerData.rNascarApp.Factories
                 source = new ViewDataSource()
                 {
                     Name = sourcePropertyInfo.Name,
+                    Path = $"{sourcePropertyInfo.ReflectedType.FullName}.{sourcePropertyInfo.Name}",
                     Type = sourcePropertyInfo.PropertyType.Name,
                     AssemblyQualifiedName = sourcePropertyInfo.PropertyType.AssemblyQualifiedName
                 };
@@ -93,14 +121,29 @@ namespace RacerData.rNascarApp.Factories
 
             foreach (PropertyInfo propertyInfo in dataSourceType.GetProperties())
             {
-                if (propertyInfo.PropertyType.Name.Contains("List"))
+                var enumTypeAttribute = propertyInfo.GetCustomAttribute<EnumTypeAttribute>();
+
+                if (enumTypeAttribute != null)
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    source.Fields.Add(new ViewDataMember()
+                    {
+                        Name = propertyInfo.Name,
+                        Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
+                        DataFeed = dataFeedType.Name,
+                        DataFeedTypeAssemblyQualifiedName = dataFeedType.AssemblyQualifiedName,
+                        DataFeedTypeFullName = dataFeedType.FullName,
+                        Type = enumTypeAttribute.EnumTypeName,
+                        AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
+                    });
+                }
+                else if (propertyInfo.PropertyType.Name.Contains("List"))
+                {
+                    var innerSource = GetDataSource(propertyInfo, dataFeedType);
                     source.Lists.Add(innerSource);
                 }
                 else if (propertyInfo.PropertyType.Assembly == dataSourceType.Assembly)
                 {
-                    var innerSource = GetDataSource(propertyInfo);
+                    var innerSource = GetDataSource(propertyInfo, dataFeedType);
                     source.NestedClasses.Add(innerSource);
                 }
                 else
@@ -108,6 +151,10 @@ namespace RacerData.rNascarApp.Factories
                     source.Fields.Add(new ViewDataMember()
                     {
                         Name = propertyInfo.Name,
+                        Path = $"{propertyInfo.ReflectedType.FullName}.{propertyInfo.Name}",
+                        DataFeed = dataFeedType.Name,
+                        DataFeedTypeAssemblyQualifiedName = dataFeedType.AssemblyQualifiedName,
+                        DataFeedTypeFullName = dataFeedType.FullName,
                         Type = propertyInfo.PropertyType.ToString(),
                         AssemblyQualifiedName = propertyInfo.PropertyType.AssemblyQualifiedName
                     });

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 using RacerData.Commmon.Results;
 using RacerData.Common.Results;
+using RacerData.NascarApi.Client.Internal;
 using RacerData.NascarApi.Client.Models.LapAverages;
+using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
@@ -21,73 +21,36 @@ namespace RacerData.NascarApi.Client.Mocks
     {
         #region fields
 
-        private IList<LiveFeedData> _data = new List<LiveFeedData>();
-
-        #endregion
-
-        #region properties
-
-        private int _fileIndex = 0;
-        public int FileIndex
-        {
-            get
-            {
-                if (_fileIndex >= _data.Count())
-                {
-                    _fileIndex = _data.Count() - 1;
-                }
-
-                return _fileIndex;
-            }
-            set
-            {
-                _fileIndex = value;
-            }
-        }
-        public string SourceDirectory { get; set; }
-        public IList<string> Files { get; set; } = new List<string>();
         private readonly IResultFactory<INascarApiClient> _resultFactory;
+
+        private readonly MockLiveDataFeed _mockLiveDataFeed;
+        private readonly MockLapTimeFeed _mockLapTimeFeed;
+        private readonly MockLapAverageFeed _mockLapAverageFeed;
+        private readonly MockLiveFlagDataFeed _mockFlagDataFeed;
+        private readonly MockLivePitDataFeed _mockPitDataFeed;
+        private readonly MockLiveQualifyingDataFeed _mockQualifyingDataFeed;
+        private readonly MockLivePointsDataFeed _mockPointsDataFeed;
 
         #endregion
 
         #region ctor
 
         public NascarApiClientMock(
-            string directoryName,
+            IConfiguration configuration,
             IResultFactory<INascarApiClient> resultFactory)
         {
-            SourceDirectory = directoryName;
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
 
-            foreach (var fileName in Directory.GetFiles(SourceDirectory))
-            {
-                Files.Add(fileName);
-            }
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            Initialize();
-        }
-
-        public NascarApiClientMock(
-         IList<string> files,
-         IResultFactory<INascarApiClient> resultFactory)
-        {
-            Files = files;
-            _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
-
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            var dataBuffer = new List<LiveFeedData>();
-            foreach (string fileName in Files)
-            {
-                var json = File.ReadAllText(fileName);
-                var liveFeedData = JsonConvert.DeserializeObject<LiveFeedData>(json);
-                dataBuffer.Add(liveFeedData);
-            }
-
-            _data = dataBuffer.OrderBy(d => d.Elapsed).ToList();
+            _mockLiveDataFeed = new MockLiveDataFeed(configuration, resultFactory);
+            _mockLapTimeFeed = new MockLapTimeFeed(configuration, resultFactory);
+            _mockLapAverageFeed = new MockLapAverageFeed(configuration, resultFactory);
+            _mockFlagDataFeed = new MockLiveFlagDataFeed(configuration, resultFactory);
+            _mockPitDataFeed = new MockLivePitDataFeed(configuration, resultFactory);
+            _mockQualifyingDataFeed = new MockLiveQualifyingDataFeed(configuration, resultFactory);
+            _mockPointsDataFeed = new MockLivePointsDataFeed(configuration, resultFactory);
         }
 
         #endregion
@@ -105,7 +68,7 @@ namespace RacerData.NascarApi.Client.Mocks
         {
             try
             {
-                return await Task.FromResult(_resultFactory.Success(_data[FileIndex++]));
+                return await _mockLiveDataFeed.GetDataAsync();
             }
             catch (Exception ex)
             {
@@ -120,9 +83,16 @@ namespace RacerData.NascarApi.Client.Mocks
 
             return await GetLiveFlagDataAsync();
         }
-        public Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync()
+        public async Task<IResult<IEnumerable<LiveFlagData>>> GetLiveFlagDataAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _mockFlagDataFeed.GetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<IEnumerable<LiveFlagData>>(ex);
+            }
         }
 
         public async Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync(CancellationToken cancellationToken)
@@ -132,9 +102,16 @@ namespace RacerData.NascarApi.Client.Mocks
 
             return await GetLivePitDataAsync();
         }
-        public Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync()
+        public async Task<IResult<IEnumerable<LivePitData>>> GetLivePitDataAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _mockPitDataFeed.GetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<IEnumerable<LivePitData>>(ex);
+            }
         }
 
         public async Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync(CancellationToken cancellationToken)
@@ -144,9 +121,16 @@ namespace RacerData.NascarApi.Client.Mocks
 
             return await GetLivePointsDataAsync();
         }
-        public Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()
+        public async Task<IResult<IEnumerable<LivePointsData>>> GetLivePointsDataAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _mockPointsDataFeed.GetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<IEnumerable<LivePointsData>>(ex);
+            }
         }
 
         public async Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync(CancellationToken cancellationToken)
@@ -156,9 +140,16 @@ namespace RacerData.NascarApi.Client.Mocks
 
             return await GetLiveQualifyingDataAsync();
         }
-        public Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync()
+        public async Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _mockQualifyingDataFeed.GetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<IEnumerable<LiveQualifyingData>>(ex);
+            }
         }
 
         public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync(CancellationToken cancellationToken)
@@ -168,9 +159,35 @@ namespace RacerData.NascarApi.Client.Mocks
 
             return await GetLapAverageDataAsync();
         }
-        public Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
+        public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _mockLapAverageFeed.GetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<EventVehicleLapAverages>(ex);
+            }
+        }
+
+        public async Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<EventVehicleLapTimes>>(cancellationToken);
+
+            return await GetLapTimeDataAsync();
+        }
+        public async Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync()
+        {
+            try
+            {
+                return await _mockLapTimeFeed.GetDataAsync();
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<EventVehicleLapTimes>(ex);
+            }
         }
 
         #endregion

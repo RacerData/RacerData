@@ -48,6 +48,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewDesignerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel0 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTrackName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -58,13 +59,24 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTrackState = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
-            this.btnFeedReader = new System.Windows.Forms.ToolStripButton();
-            this.btnUnsubscribe = new System.Windows.Forms.ToolStripButton();
+            this.btnMonitor = new System.Windows.Forms.ToolStripButton();
+            this.txtMonitorState = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnThemeDesigner = new System.Windows.Forms.ToolStripButton();
+            this.btnViewDesigner = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnGridSize = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnDisplayFormats = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.GridTable = new System.Windows.Forms.TableLayoutPanel();
             this.ctxGridTable = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlGrid = new System.Windows.Forms.Panel();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.MainToolStrip.SuspendLayout();
@@ -125,7 +137,9 @@
             this.logFileToolStripMenuItem,
             this.userSettingsFileToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.resetViewsToolStripMenuItem});
+            this.resetViewsToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.viewListToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -136,7 +150,7 @@
             this.statusBarToolStripMenuItem.CheckOnClick = true;
             this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             this.statusBarToolStripMenuItem.CheckedChanged += new System.EventHandler(this.statusBarToolStripMenuItem_CheckedChanged);
             // 
@@ -146,38 +160,38 @@
             this.toolBarToolStripMenuItem.CheckOnClick = true;
             this.toolBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.toolBarToolStripMenuItem.Text = "&Tool Bar";
             this.toolBarToolStripMenuItem.CheckedChanged += new System.EventHandler(this.toolBarToolStripMenuItem_CheckedChanged);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(160, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // logFileToolStripMenuItem
             // 
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logFileToolStripMenuItem.Text = "&Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
             // userSettingsFileToolStripMenuItem
             // 
             this.userSettingsFileToolStripMenuItem.Name = "userSettingsFileToolStripMenuItem";
-            this.userSettingsFileToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.userSettingsFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.userSettingsFileToolStripMenuItem.Text = "&User Settings File";
             this.userSettingsFileToolStripMenuItem.Click += new System.EventHandler(this.userSettingsFileToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // resetViewsToolStripMenuItem
             // 
             this.resetViewsToolStripMenuItem.Name = "resetViewsToolStripMenuItem";
-            this.resetViewsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.resetViewsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.resetViewsToolStripMenuItem.Text = "&Reset Views";
             this.resetViewsToolStripMenuItem.Click += new System.EventHandler(this.resetViewsToolStripMenuItem_Click);
             // 
@@ -187,7 +201,8 @@
             this.gridSizeToolStripMenuItem,
             this.toolStripMenuItem4,
             this.themeToolStripMenuItem,
-            this.viewDesignerToolStripMenuItem});
+            this.viewDesignerToolStripMenuItem,
+            this.displayFormatsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -217,6 +232,13 @@
             this.viewDesignerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.viewDesignerToolStripMenuItem.Text = "&View Designer";
             this.viewDesignerToolStripMenuItem.Click += new System.EventHandler(this.viewDesignerToolStripMenuItem_Click);
+            // 
+            // displayFormatsToolStripMenuItem
+            // 
+            this.displayFormatsToolStripMenuItem.Name = "displayFormatsToolStripMenuItem";
+            this.displayFormatsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.displayFormatsToolStripMenuItem.Text = "&Display Formats";
+            this.displayFormatsToolStripMenuItem.Click += new System.EventHandler(this.displayFormatsToolStripMenuItem_Click);
             // 
             // MainStatusStrip
             // 
@@ -303,8 +325,17 @@
             // MainToolStrip
             // 
             this.MainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnFeedReader,
-            this.btnUnsubscribe});
+            this.btnMonitor,
+            this.txtMonitorState,
+            this.toolStripSeparator1,
+            this.btnThemeDesigner,
+            this.btnViewDesigner,
+            this.toolStripSeparator2,
+            this.btnGridSize,
+            this.toolStripSeparator3,
+            this.btnDisplayFormats,
+            this.toolStripSeparator4,
+            this.toolStripButton1});
             this.MainToolStrip.Location = new System.Drawing.Point(0, 24);
             this.MainToolStrip.Name = "MainToolStrip";
             this.MainToolStrip.Size = new System.Drawing.Size(1038, 25);
@@ -312,25 +343,91 @@
             this.MainToolStrip.Text = "toolStrip1";
             this.MainToolStrip.VisibleChanged += new System.EventHandler(this.MainToolStrip_VisibleChanged);
             // 
-            // btnFeedReader
+            // btnMonitor
             // 
-            this.btnFeedReader.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnFeedReader.Image = ((System.Drawing.Image)(resources.GetObject("btnFeedReader.Image")));
-            this.btnFeedReader.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFeedReader.Name = "btnFeedReader";
-            this.btnFeedReader.Size = new System.Drawing.Size(35, 22);
-            this.btnFeedReader.Text = "Start";
-            this.btnFeedReader.Click += new System.EventHandler(this.btnFeedReader_Click);
+            this.btnMonitor.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMonitor.Image = ((System.Drawing.Image)(resources.GetObject("btnMonitor.Image")));
+            this.btnMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnMonitor.Name = "btnMonitor";
+            this.btnMonitor.Size = new System.Drawing.Size(97, 22);
+            this.btnMonitor.Text = "Start Monitor";
+            this.btnMonitor.ToolTipText = "Monitor On/Off";
+            this.btnMonitor.Click += new System.EventHandler(this.btnMonitor_Click);
             // 
-            // btnUnsubscribe
+            // txtMonitorState
             // 
-            this.btnUnsubscribe.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnUnsubscribe.Image = ((System.Drawing.Image)(resources.GetObject("btnUnsubscribe.Image")));
-            this.btnUnsubscribe.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUnsubscribe.Name = "btnUnsubscribe";
-            this.btnUnsubscribe.Size = new System.Drawing.Size(35, 22);
-            this.btnUnsubscribe.Text = "Stop";
-            this.btnUnsubscribe.Click += new System.EventHandler(this.btnUnsubscribe_Click);
+            this.txtMonitorState.AutoSize = false;
+            this.txtMonitorState.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.txtMonitorState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtMonitorState.Name = "txtMonitorState";
+            this.txtMonitorState.Size = new System.Drawing.Size(25, 23);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnThemeDesigner
+            // 
+            this.btnThemeDesigner.Image = ((System.Drawing.Image)(resources.GetObject("btnThemeDesigner.Image")));
+            this.btnThemeDesigner.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnThemeDesigner.Name = "btnThemeDesigner";
+            this.btnThemeDesigner.Size = new System.Drawing.Size(113, 22);
+            this.btnThemeDesigner.Text = "Theme Designer";
+            this.btnThemeDesigner.ToolTipText = "Theme Designer";
+            this.btnThemeDesigner.Click += new System.EventHandler(this.btnThemeDesigner_Click);
+            // 
+            // btnViewDesigner
+            // 
+            this.btnViewDesigner.Image = ((System.Drawing.Image)(resources.GetObject("btnViewDesigner.Image")));
+            this.btnViewDesigner.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnViewDesigner.Name = "btnViewDesigner";
+            this.btnViewDesigner.Size = new System.Drawing.Size(101, 22);
+            this.btnViewDesigner.Text = "View Designer";
+            this.btnViewDesigner.Click += new System.EventHandler(this.btnViewDesigner_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnGridSize
+            // 
+            this.btnGridSize.Image = ((System.Drawing.Image)(resources.GetObject("btnGridSize.Image")));
+            this.btnGridSize.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnGridSize.Name = "btnGridSize";
+            this.btnGridSize.Size = new System.Drawing.Size(72, 22);
+            this.btnGridSize.Text = "Grid Size";
+            this.btnGridSize.Click += new System.EventHandler(this.btnGridSize_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnDisplayFormats
+            // 
+            this.btnDisplayFormats.Image = ((System.Drawing.Image)(resources.GetObject("btnDisplayFormats.Image")));
+            this.btnDisplayFormats.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDisplayFormats.Name = "btnDisplayFormats";
+            this.btnDisplayFormats.Size = new System.Drawing.Size(111, 22);
+            this.btnDisplayFormats.Text = "Display Formats";
+            this.btnDisplayFormats.Click += new System.EventHandler(this.btnDisplayFormats_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // GridTable
             // 
@@ -385,6 +482,18 @@
             this.pnlGrid.Name = "pnlGrid";
             this.pnlGrid.Size = new System.Drawing.Size(1038, 473);
             this.pnlGrid.TabIndex = 4;
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // viewListToolStripMenuItem
+            // 
+            this.viewListToolStripMenuItem.Name = "viewListToolStripMenuItem";
+            this.viewListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewListToolStripMenuItem.Text = "View List";
+            this.viewListToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewListToolStripMenuItem_DropDownOpening);
             // 
             // MainForm
             // 
@@ -448,11 +557,23 @@
         private System.Windows.Forms.ContextMenuStrip ctxGridTable;
         private System.Windows.Forms.ToolStripMenuItem gridSizeToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem viewDesignerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton btnFeedReader;
-        private System.Windows.Forms.ToolStripButton btnUnsubscribe;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem resetViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripButton btnMonitor;
+        private System.Windows.Forms.ToolStripTextBox txtMonitorState;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton btnThemeDesigner;
+        private System.Windows.Forms.ToolStripButton btnViewDesigner;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton btnGridSize;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem displayFormatsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnDisplayFormats;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem viewListToolStripMenuItem;
     }
 }
 

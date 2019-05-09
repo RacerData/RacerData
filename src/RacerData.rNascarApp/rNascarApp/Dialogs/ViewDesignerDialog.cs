@@ -11,7 +11,7 @@ using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Dialogs
 {
-    public partial class ViewDesignerDialog : Form
+    public partial class ViewDesignerDialog : Form, IViewDesigner
     {
         #region events
 
@@ -39,6 +39,7 @@ namespace RacerData.rNascarApp.Dialogs
         #endregion
 
         #region properties
+
         public Guid? ViewStateId { get; set; }
         public IList<Theme> Themes { get; set; }
         public IList<ViewDataSource> DataSources { get; set; } = new List<ViewDataSource>();

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace RacerData.NascarApi.Client.Ports
 {
     public interface INascarApiClientFactory
     {
-        INascarApiClient GetMockNascarApiClient(IList<string> files);
-        INascarApiClient GetMockNascarApiClient(string rootDirectory);
+        INascarApiClient GetMockNascarApiClient(IConfiguration configuration);
         INascarApiClient GetNascarApiClient();
     }
 }

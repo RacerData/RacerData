@@ -7,6 +7,7 @@ using RacerData.Commmon.Results;
 using RacerData.Common.Results;
 using RacerData.NascarApi.Client.Internal;
 using RacerData.NascarApi.Client.Models.LapAverages;
+using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
@@ -24,6 +25,7 @@ namespace RacerData.NascarApi.Client.Adapters
         private readonly IApiClient _apiClient;
         private readonly IResultFactory<NascarApiClient> _resultFactory;
         private readonly IAwsLapAverageReader _lapAverageReader;
+        private readonly IAwsLapTimeReader _lapTimeReader;
         private readonly IMapper _mapper;
 
         #endregion
@@ -33,11 +35,13 @@ namespace RacerData.NascarApi.Client.Adapters
         public NascarApiClient(
             IApiClient apiClient,
             IAwsLapAverageReader lapAverageReader,
+            IAwsLapTimeReader lapTimeReader,
             IResultFactory<NascarApiClient> resultFactory,
             IMapper mapper)
         {
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             _lapAverageReader = lapAverageReader ?? throw new ArgumentNullException(nameof(lapAverageReader));
+            _lapTimeReader = lapTimeReader ?? throw new ArgumentNullException(nameof(lapTimeReader));
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -183,6 +187,31 @@ namespace RacerData.NascarApi.Client.Adapters
             catch (Exception ex)
             {
                 return _resultFactory.Exception<EventVehicleLapAverages>(ex);
+            }
+        }
+
+        public async Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync(CancellationToken cancellationToken)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return await Task.FromCanceled<IResult<EventVehicleLapTimes>>(cancellationToken);
+
+            return await GetLapTimeDataAsync();
+        }
+        public async Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync()
+        {
+            try
+            {
+                var feed = await _apiClient.GetLiveFeedAsync();
+
+                var mapped = _mapper.Map<LiveFeedData>(feed);
+
+                var lapTimes = await _lapTimeReader.ReadLapTimesAsync(mapped);
+
+                return await Task.FromResult(_resultFactory.Success(lapTimes));
+            }
+            catch (Exception ex)
+            {
+                return _resultFactory.Exception<EventVehicleLapTimes>(ex);
             }
         }
 

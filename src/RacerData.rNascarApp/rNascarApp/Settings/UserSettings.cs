@@ -48,10 +48,6 @@ namespace RacerData.rNascarApp.Settings
 
         #region public
 
-        #endregion
-
-        #region public
-
         public static UserSettings Load()
         {
             var settings = new UserSettings();

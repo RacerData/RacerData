@@ -43,5 +43,19 @@ namespace RacerData.rNascarApp.Dialogs
         {
             Value = txtResponse.Text;
         }
+
+        private void InputDialog_Activated(object sender, EventArgs e)
+        {
+            txtResponse.Focus();
+            txtResponse.SelectAll();
+        }
+
+        private void txtResponse_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DialogResult = DialogResult.OK;
+            }
+        }
     }
 }

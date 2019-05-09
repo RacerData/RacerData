@@ -421,6 +421,27 @@
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.101.13\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2%28two%29rows,2%28two%29columns_9715.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DialogID_6220_32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\View_8933_32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewConsoleAppTest_8615.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorDialog_671.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Symbols_Play_32xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Symbols_Pause_32xLG.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(TargetDir)*.*" "$(SolutionDir)..\..\bin"</PostBuildEvent>

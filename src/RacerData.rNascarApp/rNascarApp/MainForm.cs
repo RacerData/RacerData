@@ -70,6 +70,9 @@ namespace RacerData.rNascarApp
         private IMonitorService _feedService;
         private Color _gridTableBackColor;
         private bool _isMonitorEnabled = false;
+        private bool _isFullScreen = false;
+        private FormBorderStyle _previousBorderStyle;
+        private FormWindowState _previousWindowState;
 
         #endregion
 
@@ -116,9 +119,12 @@ namespace RacerData.rNascarApp
         #endregion
 
         #region ctor/load
+
         public MainForm()
         {
             InitializeComponent();
+
+            tlsMain.Renderer = new MySR();
 
             Logger.Setup();
 
@@ -188,7 +194,7 @@ namespace RacerData.rNascarApp
 
                 ViewStateUpdated += MainForm_ViewStateUpdated;
 
-                MainToolStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
+                tlsMain.DataBindings.Add(new Binding("Visible", UserSettings, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
                 MainStatusStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowStatusBar", false, DataSourceUpdateMode.OnPropertyChanged));
 
                 LogInfo("User settings loaded");
@@ -350,7 +356,7 @@ namespace RacerData.rNascarApp
                 else
                 {
                     e.Effect = DragDropEffects.Move;
-                    GridTable.BackColor = Color.LimeGreen;
+                    GridTable.BackColor = Color.DimGray;
                 }
             }
         }
@@ -677,14 +683,14 @@ namespace RacerData.rNascarApp
 
         private void toolBarToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (MainToolStrip.Visible != toolBarToolStripMenuItem.Checked)
-                MainToolStrip.Visible = toolBarToolStripMenuItem.Checked;
+            if (tlsMain.Visible != toolBarToolStripMenuItem.Checked)
+                tlsMain.Visible = toolBarToolStripMenuItem.Checked;
         }
 
         private void MainToolStrip_VisibleChanged(object sender, EventArgs e)
         {
-            if (toolBarToolStripMenuItem.Checked != MainToolStrip.Visible)
-                toolBarToolStripMenuItem.Checked = MainToolStrip.Visible;
+            if (toolBarToolStripMenuItem.Checked != tlsMain.Visible)
+                toolBarToolStripMenuItem.Checked = tlsMain.Visible;
         }
         #endregion
 
@@ -746,13 +752,15 @@ namespace RacerData.rNascarApp
                 if (enableMonitor)
                 {
                     txtMonitorState.BackColor = Color.LimeGreen;
-                    btnMonitor.Text = "Stop Monitor";
+                    btnMonitor.Text = "Stop";
+                    btnMonitor.Image = Properties.Resources.Symbols_Pause_32xLG;
                     _feedService.Start();
                 }
                 else
                 {
-                    txtMonitorState.BackColor = Color.DarkOliveGreen;
-                    btnMonitor.Text = "Start Monitor";
+                    txtMonitorState.BackColor = Color.DarkGreen;
+                    btnMonitor.Text = "Start";
+                    btnMonitor.Image = Properties.Resources.Symbols_Play_32xLG;
                     _feedService.Pause();
                 }
 
@@ -1084,10 +1092,11 @@ namespace RacerData.rNascarApp
         #endregion
 
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void btnNewVeiwWizard_Click(object sender, EventArgs e)
         {
             DisplayViewDesignWizard();
         }
+
         protected virtual void DisplayViewDesignWizard()
         {
             try
@@ -1129,7 +1138,7 @@ namespace RacerData.rNascarApp
             {
                 foreach (ToolStripMenuItem item in viewListToolStripMenuItem.DropDownItems)
                 {
-                    item.CheckedChanged -= FooToolStripMenuItem_CheckedChanged;
+                    item.CheckedChanged -= ViewStateStripMenuItem_CheckedChanged;
                 }
 
                 viewListToolStripMenuItem.DropDownItems.Clear();
@@ -1152,7 +1161,7 @@ namespace RacerData.rNascarApp
                         }
                     }
 
-                    fooToolStripMenuItem.CheckedChanged += FooToolStripMenuItem_CheckedChanged;
+                    fooToolStripMenuItem.CheckedChanged += ViewStateStripMenuItem_CheckedChanged;
                     viewListToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fooToolStripMenuItem });
                 }
             }
@@ -1162,7 +1171,7 @@ namespace RacerData.rNascarApp
             }
         }
 
-        private void FooToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        private void ViewStateStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             ViewState viewState = (ViewState)item.Tag;
@@ -1190,5 +1199,46 @@ namespace RacerData.rNascarApp
                 }
             }
         }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F11)
+                ToggleFullscreen();
+        }
+
+        protected virtual void ToggleFullscreen()
+        {
+            if (_isFullScreen)
+            {
+                this.TopMost = false;
+                this.FormBorderStyle = _previousBorderStyle;
+                this.WindowState = _previousWindowState;
+            }
+            else
+            {
+                _previousBorderStyle = this.FormBorderStyle;
+                _previousWindowState = this.WindowState;
+
+                this.TopMost = true;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+            }
+
+            _isFullScreen = !_isFullScreen;
+        }
+
+        #region classes
+
+        public class MySR : ToolStripSystemRenderer
+        {
+            public MySR() { }
+
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+            {
+                //base.OnRenderToolStripBorder(e);
+            }
+        }
+
+        #endregion
     }
 }

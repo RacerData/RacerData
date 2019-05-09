@@ -32,16 +32,16 @@
             this.lblHeader = new System.Windows.Forms.Label();
             this.ctxUserControlBase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.resizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.setThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.editThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlDetail = new System.Windows.Forms.Panel();
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.tipDescription = new System.Windows.Forms.ToolTip(this.components);
-            this.editViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ctxUserControlBase.SuspendLayout();
             this.pnlHeader.SuspendLayout();
             this.SuspendLayout();
@@ -49,13 +49,13 @@
             // lblHeader
             // 
             this.lblHeader.BackColor = System.Drawing.Color.Transparent;
-            this.lblHeader.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblHeader.ContextMenuStrip = this.ctxUserControlBase;
             this.lblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeader.Location = new System.Drawing.Point(0, 0);
+            this.lblHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(270, 20);
+            this.lblHeader.Size = new System.Drawing.Size(272, 22);
             this.lblHeader.TabIndex = 0;
             this.lblHeader.Text = "Header";
             this.lblHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -73,40 +73,59 @@
             this.toolStripMenuItem2,
             this.closeToolStripMenuItem});
             this.ctxUserControlBase.Name = "ctxUserControlBase";
-            this.ctxUserControlBase.Size = new System.Drawing.Size(181, 148);
+            this.ctxUserControlBase.Size = new System.Drawing.Size(135, 126);
             this.ctxUserControlBase.Opening += new System.ComponentModel.CancelEventHandler(this.ctxUserControlBase_Opening);
             // 
             // resizeToolStripMenuItem
             // 
             this.resizeToolStripMenuItem.Name = "resizeToolStripMenuItem";
-            this.resizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resizeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.resizeToolStripMenuItem.Text = "&Resize";
             this.resizeToolStripMenuItem.Click += new System.EventHandler(this.resizeToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(131, 6);
             // 
             // setThemeToolStripMenuItem
             // 
             this.setThemeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.defaultToolStripMenuItem});
             this.setThemeToolStripMenuItem.Name = "setThemeToolStripMenuItem";
-            this.setThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setThemeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.setThemeToolStripMenuItem.Text = "&Set Theme";
             // 
             // defaultToolStripMenuItem
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.defaultToolStripMenuItem.Text = "Default";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.selectThemeToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // editThemeToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.editThemeToolStripMenuItem.Name = "editThemeToolStripMenuItem";
+            this.editThemeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.editThemeToolStripMenuItem.Text = "Edit &Theme";
+            this.editThemeToolStripMenuItem.Click += new System.EventHandler(this.editThemeToolStripMenuItem_Click);
+            // 
+            // editViewToolStripMenuItem
+            // 
+            this.editViewToolStripMenuItem.Name = "editViewToolStripMenuItem";
+            this.editViewToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.editViewToolStripMenuItem.Text = "Edit &View";
+            this.editViewToolStripMenuItem.Click += new System.EventHandler(this.editViewToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(131, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -115,39 +134,21 @@
             this.pnlDetail.BackColor = System.Drawing.Color.Black;
             this.pnlDetail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDetail.Location = new System.Drawing.Point(0, 22);
+            this.pnlDetail.Margin = new System.Windows.Forms.Padding(0);
             this.pnlDetail.Name = "pnlDetail";
             this.pnlDetail.Size = new System.Drawing.Size(272, 193);
             this.pnlDetail.TabIndex = 1;
             // 
             // pnlHeader
             // 
-            this.pnlHeader.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlHeader.Controls.Add(this.lblHeader);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
+            this.pnlHeader.Margin = new System.Windows.Forms.Padding(0);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Size = new System.Drawing.Size(272, 22);
             this.pnlHeader.TabIndex = 2;
             this.pnlHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Control_MouseDown);
-            // 
-            // editViewToolStripMenuItem
-            // 
-            this.editViewToolStripMenuItem.Name = "editViewToolStripMenuItem";
-            this.editViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.editViewToolStripMenuItem.Text = "Edit &View";
-            this.editViewToolStripMenuItem.Click += new System.EventHandler(this.editViewToolStripMenuItem_Click);
-            // 
-            // editThemeToolStripMenuItem
-            // 
-            this.editThemeToolStripMenuItem.Name = "editThemeToolStripMenuItem";
-            this.editThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.editThemeToolStripMenuItem.Text = "Edit &Theme";
-            this.editThemeToolStripMenuItem.Click += new System.EventHandler(this.editThemeToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // UserControlBase
             // 

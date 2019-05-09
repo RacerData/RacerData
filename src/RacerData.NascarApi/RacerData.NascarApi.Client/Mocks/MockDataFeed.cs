@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RacerData.Commmon.Results;
 using RacerData.Common.Results;
 using RacerData.NascarApi.Client.Ports;
 
-namespace RacerData.NascarApi.Client.Internal
+namespace RacerData.NascarApi.Client.Mocks
 {
-    class MockDataFeed<T>
+    abstract class MockDataFeed<T>
     {
         #region fields
 
@@ -24,7 +22,7 @@ namespace RacerData.NascarApi.Client.Internal
         #region properties
 
         private int _position = 0;
-        protected int Position
+        protected virtual int Position
         {
             get
             {
@@ -49,13 +47,25 @@ namespace RacerData.NascarApi.Client.Internal
             string sourceDirectory,
             IResultFactory<INascarApiClient> resultFactory)
         {
-            var directoryInfo = new DirectoryInfo(sourceDirectory);
+            _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
 
-            foreach (var fileInfo in directoryInfo.GetFiles().OrderBy(f => f.CreationTime))
+            if (!Directory.Exists(sourceDirectory) || Directory.GetFiles(sourceDirectory).Count() == 0)
             {
-                var json = File.ReadAllText(fileInfo.FullName);
-                var liveFeedData = JsonConvert.DeserializeObject<T>(json);
-                _data.Add(liveFeedData);
+                var defaultItem = GetDefault();
+                _data.Add(defaultItem);
+            }
+            else
+            {
+                var directoryInfo = new DirectoryInfo(sourceDirectory);
+
+                var fileList = directoryInfo.GetFiles().OrderBy(f => f.CreationTime);
+
+                foreach (var fileInfo in fileList)
+                {
+                    var json = File.ReadAllText(fileInfo.FullName);
+                    var liveFeedData = JsonConvert.DeserializeObject<T>(json);
+                    _data.Add(liveFeedData);
+                }
             }
         }
 
@@ -67,6 +77,12 @@ namespace RacerData.NascarApi.Client.Internal
         {
             return await Task.FromResult(_resultFactory.Success(_data[Position++]));
         }
+
+        #endregion
+
+        #region protected
+
+        protected abstract T GetDefault();
 
         #endregion
     }

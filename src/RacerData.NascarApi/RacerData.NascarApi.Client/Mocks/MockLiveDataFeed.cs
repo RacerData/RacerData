@@ -3,10 +3,12 @@ using RacerData.Commmon.Results;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Ports;
 
-namespace RacerData.NascarApi.Client.Internal
+namespace RacerData.NascarApi.Client.Mocks
 {
     class MockLiveDataFeed : MockDataFeed<LiveFeedData>
     {
+        #region ctor
+
         public MockLiveDataFeed(
             IConfiguration configuration,
             IResultFactory<INascarApiClient> resultFactory)
@@ -16,5 +18,16 @@ namespace RacerData.NascarApi.Client.Internal
         {
 
         }
+
+#endregion
+
+        #region protected
+
+        protected override LiveFeedData GetDefault()
+        {
+            return new LiveFeedData();
+        }
+
+        #endregion
     }
 }

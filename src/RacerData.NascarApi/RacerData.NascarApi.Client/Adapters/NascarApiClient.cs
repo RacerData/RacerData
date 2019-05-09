@@ -35,11 +35,13 @@ namespace RacerData.NascarApi.Client.Adapters
         public NascarApiClient(
             IApiClient apiClient,
             IAwsLapAverageReader lapAverageReader,
+            IAwsLapTimeReader lapTimeReader,
             IResultFactory<NascarApiClient> resultFactory,
             IMapper mapper)
         {
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             _lapAverageReader = lapAverageReader ?? throw new ArgumentNullException(nameof(lapAverageReader));
+            _lapTimeReader = lapTimeReader ?? throw new ArgumentNullException(nameof(lapTimeReader));
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using RacerData.NascarApi.Client.Attributes;
+using RacerData.NascarApi.Client.Models.LapAverages;
+using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
@@ -20,14 +22,14 @@ namespace RacerData.rNascarApp.Factories
         {
             IList<ViewDataSource> sources = new List<ViewDataSource>();
 
-            sources.Add(GetDataSource("LiveFeedData", typeof(LiveFeedData)));// "LiveFeedData"));
-            sources.Add(GetDataSource("LivePitData[]", typeof(LivePitData)));// "LivePitData"));
-            sources.Add(GetDataSource("LiveFlagData[]", typeof(LiveFlagData)));//"LiveFlagData"));
-            sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData)));// "LivePointsData"));
-            sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData)));// "LiveQualifyingData"));
-
-            var paths = sources.Where(s => s.Path == "");
-
+            sources.Add(GetDataSource("LiveFeedData", typeof(LiveFeedData)));
+            sources.Add(GetDataSource("LivePitData[]", typeof(LivePitData)));
+            sources.Add(GetDataSource("LiveFlagData[]", typeof(LiveFlagData)));
+            sources.Add(GetDataSource("LivePointsData[]", typeof(LivePointsData)));
+            sources.Add(GetDataSource("LiveQualifyingData[]", typeof(LiveQualifyingData)));
+            sources.Add(GetDataSource("LapTimeData", typeof(EventVehicleLapTimes)));
+            sources.Add(GetDataSource("LapAverageData", typeof(EventVehicleLapAverages)));
+            
             return sources;
         }
 

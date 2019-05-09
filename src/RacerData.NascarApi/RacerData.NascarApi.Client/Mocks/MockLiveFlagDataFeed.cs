@@ -4,10 +4,12 @@ using RacerData.Commmon.Results;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Ports;
 
-namespace RacerData.NascarApi.Client.Internal
+namespace RacerData.NascarApi.Client.Mocks
 {
     class MockLiveFlagDataFeed : MockDataFeed<IEnumerable<LiveFlagData>>
     {
+        #region ctor
+
         public MockLiveFlagDataFeed(
             IConfiguration configuration,
             IResultFactory<INascarApiClient> resultFactory)
@@ -17,5 +19,16 @@ namespace RacerData.NascarApi.Client.Internal
         {
 
         }
+
+#endregion
+
+        #region protected
+
+        protected override IEnumerable<LiveFlagData> GetDefault()
+        {
+            return new List<LiveFlagData>();
+        }
+
+        #endregion
     }
 }

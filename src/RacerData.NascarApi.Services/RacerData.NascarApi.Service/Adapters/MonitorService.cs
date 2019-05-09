@@ -77,7 +77,6 @@ namespace RacerData.NascarApi.Service.Adapters
 
         private ILog _log;
         private IMapper _mapper;
-        //private IApiClient _apiClient;
         private INascarApiClient _nascarApiClient;
         private CancellationToken _cancellationToken;
         private CancellationTokenSource _cancellationTokenSource;
@@ -136,8 +135,7 @@ namespace RacerData.NascarApi.Service.Adapters
 
             if (useMock)
             {
-                var sourceDirectory = configuration["mock:sourceDirectory"];
-                _nascarApiClient = apiClientFactory.GetMockNascarApiClient(sourceDirectory);
+                _nascarApiClient = apiClientFactory.GetMockNascarApiClient(configuration);
             }
             else
                 _nascarApiClient = apiClientFactory.GetNascarApiClient();

@@ -6,7 +6,7 @@
     <Authors>RacerData</Authors>
     <Company>RacerData Software</Company>
     <Description>NASCAR API SDK</Description>
-    <Version>1.0.39</Version>
+    <Version>1.0.40</Version>
   </PropertyGroup>
 
   <ItemGroup>

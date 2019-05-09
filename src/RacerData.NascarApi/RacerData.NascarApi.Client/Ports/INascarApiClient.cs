@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using RacerData.Common.Results;
 using RacerData.NascarApi.Client.Models.LapAverages;
+using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Client.Models.LiveFlag;
 using RacerData.NascarApi.Client.Models.LivePit;
@@ -25,5 +26,8 @@ namespace RacerData.NascarApi.Client.Ports
         Task<IResult<IEnumerable<LiveQualifyingData>>> GetLiveQualifyingDataAsync();
         Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync(CancellationToken cancellationToken);
         Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync();
+        Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync(CancellationToken cancellationToken);
+        Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync();
+
     }
 }

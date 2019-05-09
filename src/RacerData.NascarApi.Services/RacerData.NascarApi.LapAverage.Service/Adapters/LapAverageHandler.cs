@@ -32,7 +32,6 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
         private readonly ILog _log;
         private int _lastElapsed = -1;
         private int _lastRaceId = -1;
-        private int _lastSeriesId = -1;
         private int _lastRunId = -1;
 
         #endregion
@@ -107,13 +106,11 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
             try
             {
                 if (liveFeedData.RaceId != _lastRaceId ||
-                    liveFeedData.SeriesId != _lastSeriesId ||
                     liveFeedData.RunId != _lastRunId)
                 {
                     ResetLapAverages();
 
                     _eventLapAverages.RaceId = liveFeedData.RaceId;
-                    _eventLapAverages.SeriesId = liveFeedData.SeriesId;
                     _eventLapAverages.RunId = liveFeedData.RunId;
                 }
 
@@ -125,7 +122,6 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
 
                     _lastElapsed = liveFeedData.Elapsed;
                     _lastRaceId = liveFeedData.RaceId;
-                    _lastSeriesId = liveFeedData.SeriesId;
                     _lastRunId = liveFeedData.RunId;
                 }
             }
@@ -140,7 +136,6 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
             _eventLapAverages = new EventVehicleLapAverages();
             _lastElapsed = -1;
             _lastRaceId = -1;
-            _lastSeriesId = -1;
             _lastRunId = -1;
         }
 

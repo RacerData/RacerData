@@ -3,6 +3,7 @@ using System.Text;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using RacerData.Data.Aws.Ports;
+using RacerData.NascarApi.Client.Models;
 using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.LapTimes.Service.Internal;
@@ -36,7 +37,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
         private EventVehicleLapTimes _lapTimes;
         private int _lastElapsed = -1;
         private int _lastRaceId = -1;
-        private int _lastSeriesId = -1;
+        private SeriesType _lastSeriesId;
         private int _lastRunId = -1;
         private bool _verbose = false;
 
@@ -127,7 +128,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.Append($"Elapsed:{liveFeedData.Elapsed} ");
-                    sb.Append($"SeriesId:{liveFeedData.SeriesId} ");
+                    sb.Append($"SeriesId:{liveFeedData.SeriesType} ");
                     sb.Append($"RaceId:{liveFeedData.RaceId} ");
                     sb.AppendLine($"RunId:{liveFeedData.RunId}");
                     sb.Append($"LapNumber:{liveFeedData.LapNumber} ");
@@ -138,7 +139,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
                 }
 
                 if (liveFeedData.RaceId != _lastRaceId ||
-                    liveFeedData.SeriesId != _lastSeriesId ||
+                    liveFeedData.SeriesType != _lastSeriesId ||
                     liveFeedData.RunId != _lastRunId)
                 {
                     if (_verbose)
@@ -149,7 +150,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
                     ResetLapTimes();
 
                     _lapTimes.RaceId = liveFeedData.RaceId;
-                    _lapTimes.SeriesId = liveFeedData.SeriesId;
+                    _lapTimes.SeriesId = (int)liveFeedData.SeriesType;
                     _lapTimes.RunId = liveFeedData.RunId;
                     _lapTimes.Elapsed = liveFeedData.Elapsed;
                     _lapTimes.TrackName = liveFeedData.TrackName;
@@ -164,7 +165,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
 
                     _lastElapsed = liveFeedData.Elapsed;
                     _lastRaceId = liveFeedData.RaceId;
-                    _lastSeriesId = liveFeedData.SeriesId;
+                    _lastSeriesId = liveFeedData.SeriesType;
                     _lastRunId = liveFeedData.RunId;
                 }
             }
@@ -179,7 +180,6 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
             _lapTimes = new EventVehicleLapTimes();
             _lastElapsed = -1;
             _lastRaceId = -1;
-            _lastSeriesId = -1;
             _lastRunId = -1;
         }
 

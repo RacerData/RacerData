@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.Commmon.Results;
 using RacerData.NascarApi.Client.Mocks;
 using RacerData.NascarApi.Client.Ports;
-using RacerData.NascarApi.Factories;
-using RacerData.NascarApi.Ports;
 
 namespace RacerData.NascarApi.Client.Factories
 {
@@ -24,18 +21,10 @@ namespace RacerData.NascarApi.Client.Factories
             return _services.GetRequiredService<INascarApiClient>();
         }
 
-        public INascarApiClient GetMockNascarApiClient(string rootDirectory)
+        public INascarApiClient GetMockNascarApiClient(IConfiguration configurationy)
         {
             return new NascarApiClientMock(
-                rootDirectory,
-                _services.GetRequiredService<IResultFactory<INascarApiClient>>());
-
-        }
-
-        public INascarApiClient GetMockNascarApiClient(IList<string> files)
-        {
-            return new NascarApiClientMock(
-                files,
+                configurationy,
                 _services.GetRequiredService<IResultFactory<INascarApiClient>>());
         }
     }

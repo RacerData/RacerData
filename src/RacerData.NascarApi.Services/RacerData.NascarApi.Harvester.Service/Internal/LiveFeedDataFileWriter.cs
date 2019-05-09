@@ -55,7 +55,7 @@ namespace RacerData.NascarApi.Harvester.Service.Internal
 
         protected virtual string GetFileDirectory(string rootDirectory, LiveFeedData data)
         {
-            SeriesType seriesType = (SeriesType)(data.SeriesId - 1);
+            SeriesType seriesType = (data.SeriesType - 1);
 
             var series = seriesType.ToString();
 
@@ -82,7 +82,7 @@ namespace RacerData.NascarApi.Harvester.Service.Internal
 
         protected virtual string GetFileTitle(LiveFeedData data)
         {
-            var fileTitle = $"{data.SeriesId}-{data.RaceId}-{data.RunId}-{data.Elapsed}.json";
+            var fileTitle = $"{data.SeriesType}-{data.RaceId}-{data.RunId}-{data.Elapsed}.json";
 
             return fileTitle;
         }

@@ -55,7 +55,7 @@
             this.lblHeader.Location = new System.Drawing.Point(0, 0);
             this.lblHeader.Margin = new System.Windows.Forms.Padding(0);
             this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(272, 22);
+            this.lblHeader.Size = new System.Drawing.Size(270, 22);
             this.lblHeader.TabIndex = 0;
             this.lblHeader.Text = "Header";
             this.lblHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -136,7 +136,7 @@
             this.pnlDetail.Location = new System.Drawing.Point(0, 22);
             this.pnlDetail.Margin = new System.Windows.Forms.Padding(0);
             this.pnlDetail.Name = "pnlDetail";
-            this.pnlDetail.Size = new System.Drawing.Size(272, 193);
+            this.pnlDetail.Size = new System.Drawing.Size(270, 191);
             this.pnlDetail.TabIndex = 1;
             // 
             // pnlHeader
@@ -146,7 +146,7 @@
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Margin = new System.Windows.Forms.Padding(0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(272, 22);
+            this.pnlHeader.Size = new System.Drawing.Size(270, 22);
             this.pnlHeader.TabIndex = 2;
             this.pnlHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Control_MouseDown);
             // 
@@ -154,12 +154,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ContextMenuStrip = this.ctxUserControlBase;
             this.Controls.Add(this.pnlDetail);
             this.Controls.Add(this.pnlHeader);
             this.DoubleBuffered = true;
             this.Name = "UserControlBase";
-            this.Size = new System.Drawing.Size(272, 215);
+            this.Size = new System.Drawing.Size(270, 213);
             this.Load += new System.EventHandler(this.UserControlBase_Load);
             this.ctxUserControlBase.ResumeLayout(false);
             this.pnlHeader.ResumeLayout(false);

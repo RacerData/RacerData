@@ -6,7 +6,7 @@
     <Authors>RacerData</Authors>
     <Company>RacerData Software</Company>
     <Description>NASCAR API SDK</Description>
-    <Version>1.0.46</Version>
+    <Version>1.0.50</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,8 +24,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="RacerData.Commmon.Results" Version="1.0.1" />
-    <PackageReference Include="RacerData.Data.Aws" Version="1.0.7" />
-    <PackageReference Include="RacerData.NascarApi" Version="1.0.11" />
+    <PackageReference Include="RacerData.Data.Aws" Version="1.0.10" />
+    <PackageReference Include="RacerData.NascarApi" Version="1.0.12" />
   </ItemGroup>
   
   <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">

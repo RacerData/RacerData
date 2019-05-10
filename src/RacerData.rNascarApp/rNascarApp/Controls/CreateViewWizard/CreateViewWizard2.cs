@@ -137,6 +137,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         protected virtual void BuildDataSourceTreeView(TreeNode dataSourceNode, ViewDataSource dataSource, string path)
         {
+            System.Diagnostics.Debug.Assert(!path.Contains(" "));
+
             foreach (ViewDataMember field in dataSource.Fields)
             {
                 var fieldNode = new TreeNode(field.Caption);
@@ -155,7 +157,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             foreach (ViewDataSource dataList in dataSource.Lists)
             {
-                var dataListPath = $"{path}{dataList.Caption}[]\\";
+                var dataListPath = $"{path}{dataList.Name}[]\\";
                 var listNode = new TreeNode(dataList.Caption + "[]")
                 {
                     Tag = dataList
@@ -168,7 +170,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             foreach (ViewDataSource dataList in dataSource.NestedClasses)
             {
-                var dataListPath = $"{path}{dataList.Caption}\\";
+                var dataListPath = $"{path}{dataList.Name}\\";
                 var listNode = new TreeNode(dataList.Caption)
                 {
                     Tag = dataList
@@ -235,8 +237,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             member.DataFeed = data.Name;
 
-            member.Path = trvDataSources.SelectedNode.FullPath.Replace($"{trvDataSources.Nodes[0].FullPath}\\", "");
-            member.Path = member.Path.Replace(member.Caption, member.Name);
+            //member.Path = trvDataSources.SelectedNode.FullPath.Replace($"{trvDataSources.Nodes[0].FullPath}\\", "");
+            //member.Path = member.Path.Replace(member.Caption, member.Name);
 
             if (!CreateViewContext.ViewDataMembers.Contains(member))
                 CreateViewContext.ViewDataMembers.Add(member);

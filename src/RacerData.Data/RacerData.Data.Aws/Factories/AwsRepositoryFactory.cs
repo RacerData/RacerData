@@ -8,6 +8,10 @@ namespace RacerData.Data.Aws.Factories
     {
         public IAwsRepository GetAwsRepository(IAwsBucketConfiguration configuration)
         {
+
+#if DEBUG
+            System.Console.WriteLine($"*** Creating new AwsRepository using bucket:{configuration.Bucket}, directory:{configuration.Directory}, regionEndpoint:{configuration.RegionEndpoint}");
+#endif
             return new AwsRepository(new AwsBucket(configuration));
         }
     }

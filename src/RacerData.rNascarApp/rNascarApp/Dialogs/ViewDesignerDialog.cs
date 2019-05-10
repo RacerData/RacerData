@@ -1182,8 +1182,8 @@ namespace RacerData.rNascarApp.Dialogs
                     _selectedColumn.DataMember = dataMember.Name;
                     _selectedColumn.DataFullPath = relativeFeedPath;
 
-                    txtDataField.Text = _selectedColumn.DataMember;
-                    txtDataPath.Text = _selectedColumn.DataFullPath;
+                    _selectedColumn.DataMember = txtDataField.Text;
+                    _selectedColumn.DataFullPath = txtDataPath.Text;
                 }
             }
             else if (node.Tag is ViewDataSource)

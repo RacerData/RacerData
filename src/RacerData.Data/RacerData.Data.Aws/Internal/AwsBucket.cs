@@ -102,6 +102,9 @@ namespace RacerData.Data.Aws.Internal
 
         public async Task<AwsItemResponse> GetAsync(string key)
         {
+#if DEBUG
+            System.Console.WriteLine($"*** AwsBucket.Get bucketPath:{BucketPath}, key:{key}");
+#endif
             AwsItemResponse awsResponse = new AwsItemResponse();
 
             try
@@ -133,10 +136,12 @@ namespace RacerData.Data.Aws.Internal
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
+                Console.WriteLine($"BucketPath: {BucketPath}\r\nkey {key}\r\nAmazonS3Exception:{amazonS3Exception.Message}");
                 awsResponse.Exception = amazonS3Exception;
             }
             catch (Exception e)
             {
+                Console.WriteLine($"BucketPath: {BucketPath}\r\nkey {key}\r\nException:{e.Message}");
                 awsResponse.Exception = e;
             }
 

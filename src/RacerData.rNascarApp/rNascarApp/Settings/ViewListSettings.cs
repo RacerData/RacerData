@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using RacerData.NascarApi.Service;
 
 namespace RacerData.rNascarApp.Settings
 {
@@ -35,6 +36,24 @@ namespace RacerData.rNascarApp.Settings
             get
             {
                 return Columns.OrderBy(c => c.Index).ToList();
+            }
+        }
+
+        [JsonIgnore()]
+        public ApiFeedType ApiFeedType
+        {
+            get
+            {
+                ApiFeedType feeds = new ApiFeedType();
+
+                var controlFeeds = Columns.Select(c => c.ApiFeedType).Distinct().ToList();
+
+                foreach (ApiFeedType feed in controlFeeds)
+                {
+                    feeds |= feed;
+                }
+
+                return feeds;
             }
         }
     }

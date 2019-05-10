@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using RacerData.Data.Aws.Adapters;
 using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Client.Models.LapAverages;
 using RacerData.NascarApi.Client.Models.LiveFeed;
@@ -18,9 +20,20 @@ namespace RacerData.NascarApi.Client.Internal
         #region ctor
 
         public AwsLapAverageReader(
-            IAwsRepository repository)
+            IConfiguration configuration,
+            IAwsRepositoryFactory repositoryFactory)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
+            if (repositoryFactory == null)
+                throw new ArgumentNullException(nameof(repositoryFactory));
+
+            _repository = repositoryFactory.GetAwsRepository(
+                new AwsBucketConfiguration()
+                {
+                    Directory = configuration["aws:lapAverages"]
+                });
         }
 
         #endregion
@@ -42,7 +55,7 @@ namespace RacerData.NascarApi.Client.Internal
 
         protected virtual string GetKey(LiveFeedData data)
         {
-            return $"{data.SeriesType}-{data.RaceId}-{data.RunId}";
+            return $"{(int)data.SeriesType}-{data.RaceId}-{data.RunId}";
         }
 
         #endregion

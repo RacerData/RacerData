@@ -5,12 +5,6 @@ namespace RacerData.NascarApi.Service.Ports
 {
     public interface IMonitorService
     {
-        event EventHandler<LiveFeedStartedEventArgs> LiveFeedStarted;
-        event EventHandler<LiveFeedUpdatedEventArgs> LiveFeedUpdated;
-        event EventHandler<ServiceStateChangedEventArgs> ServiceStateChanged;
-        event EventHandler<ServiceActivityEventArgs> ServiceActivity;
-        event EventHandler<ServiceStatusChangedEventArgs> ServiceStatusChanged;
-
         ServiceState State { get; }
 
         void Pause();
@@ -21,6 +15,7 @@ namespace RacerData.NascarApi.Service.Ports
         void Sleep(TimeSpan wakeTimeSpan);
 
         void Register(IMonitorClient client);
+        void Register(IMonitorClient client, ApiFeedType feedType);
         void Unregister(IMonitorClient client);
     }
 }

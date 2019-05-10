@@ -32,7 +32,13 @@ namespace RacerData.rNascarApp
 
         #region events
 
-        public delegate void SafeCallDelegate(object sender, LiveFeedUpdatedEventArgs e);
+        public delegate void LiveFeedSafeCallDelegate(object sender, LiveFeedUpdatedEventArgs e);
+        public delegate void LapAveragesSafeCallDelegate(object sender, LapAveragesUpdatedEventArgs e);
+        public delegate void LapTimesSafeCallDelegate(object sender, LapTimesUpdatedEventArgs e);
+        public delegate void LivePitDataSafeCallDelegate(object sender, LivePitDataUpdatedEventArgs e);
+        public delegate void LiveFlagDataSafeCallDelegate(object sender, LiveFlagDataUpdatedEventArgs e);
+        public delegate void LivePointsDataSafeCallDelegate(object sender, LivePointsDataUpdatedEventArgs e);
+        public delegate void LiveQualifyingDataSafeCallDelegate(object sender, LiveQualifyingDataUpdatedEventArgs e);
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -191,8 +197,6 @@ namespace RacerData.rNascarApp
                 _feedService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
 
                 var configuration = ServiceProvider.Instance.GetRequiredService<IConfiguration>();
-
-                _feedService.Register(this);
 
                 Themes = UserThemeRepository.GetThemes();
 
@@ -1141,6 +1145,11 @@ namespace RacerData.rNascarApp
                     txtMonitorState.BackColor = Color.LimeGreen;
                     btnMonitor.Text = "Stop";
                     btnMonitor.Image = Properties.Resources.Symbols_Pause_32xLG;
+
+                    var feedTypes = GetFeedTypes();
+
+                    _feedService.Register(this, feedTypes);
+
                     _feedService.Start();
                 }
                 else
@@ -1148,6 +1157,9 @@ namespace RacerData.rNascarApp
                     txtMonitorState.BackColor = Color.DarkGreen;
                     btnMonitor.Text = "Start";
                     btnMonitor.Image = Properties.Resources.Symbols_Play_32xLG;
+
+                    _feedService.Unregister(this);
+
                     _feedService.Pause();
                 }
 
@@ -1158,7 +1170,17 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error setting monitor status", ex);
             }
         }
+        private ApiFeedType GetFeedTypes()
+        {
+            ApiFeedType feeds = ApiFeedType.None;
 
+            foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+            {
+                feeds |= controlBase.State.ListSettings.ApiFeedType;
+            }
+
+            return feeds;
+        }
         public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
         {
         }
@@ -1174,23 +1196,199 @@ namespace RacerData.rNascarApp
 
         public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
         {
-            if (this.InvokeRequired)
+            try
             {
-                var d = new SafeCallDelegate(Monitor_LiveFeedUpdated);
-                Invoke(d, new object[] { sender, e });
-            }
-            else
-            {
-                UpdateStatusLabel(e.LiveFeedData);
-
-                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                if (this.InvokeRequired)
                 {
-                    controlBase.LiveFeedData = e.LiveFeedData;
-                    var data = controlBase.GetViewData();
-                    controlBase.UpdateListRowsData(data);
+                    var d = new LiveFeedSafeCallDelegate(Monitor_LiveFeedUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    UpdateStatusLabel(e.LiveFeedData);
+
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.LiveFeedData, "LiveFeedData");
+                        controlBase.UpdateListRowsData(data);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving live feed data", ex);
+            }
         }
+
+        public void Monitor_LapAveragesUpdated(object sender, LapAveragesUpdatedEventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LapAveragesSafeCallDelegate(Monitor_LapAveragesUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, "LapAverageData");
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving lap average data", ex);
+            }
+        }
+
+        public void Monitor_LapTimesUpdated(object sender, LapTimesUpdatedEventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LapTimesSafeCallDelegate(Monitor_LapTimesUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, "LapTimeData");
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving lap time data", ex);
+            }
+        }
+
+        public void Monitor_LivePointsDataUpdated(object sender, LivePointsDataUpdatedEventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LivePointsDataSafeCallDelegate(Monitor_LivePointsDataUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, "LivePointsData");
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving live points data", ex);
+            }
+        }
+
+        public void Monitor_LivePitDataUpdated(object sender, LivePitDataUpdatedEventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LivePitDataSafeCallDelegate(Monitor_LivePitDataUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, "LivePitData");
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving live pit data", ex);
+            }
+        }
+
+        public void Monitor_LiveFlagDataUpdated(object sender, LiveFlagDataUpdatedEventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LiveFlagDataSafeCallDelegate(Monitor_LiveFlagDataUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, "LiveFlagData");
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving live flag data", ex);
+            }
+        }
+
+        public void Monitor_LiveQualifyingDataUpdated(object sender, LiveQualifyingDataUpdatedEventArgs e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LiveQualifyingDataSafeCallDelegate(Monitor_LiveQualifyingDataUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, "LiveQualifyingData");
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving live qualifying data", ex);
+            }
+        }
+
+
+        public virtual void Monitor_NascarApiDataUpdated<T>(object sender, NascarApiDataUpdatedEventArgs<T> e)
+        {
+            try
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new LiveQualifyingDataSafeCallDelegate(Monitor_LiveQualifyingDataUpdated);
+                    Invoke(d, new object[] { sender, e });
+                }
+                else
+                {
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        var data = controlBase.GetViewData(e.Data, e.ApiFeedType);
+                        controlBase.UpdateListRowsData(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error receiving live data", ex);
+            }
+        }
+
         private void UpdateStatusLabel(LiveFeedData data)
         {
             var series = data.SeriesType.ToString();
@@ -1320,7 +1518,7 @@ namespace RacerData.rNascarApp
             {
                 var controlBase = GridTable.Controls.OfType<UserControlBase>().FirstOrDefault(u => u.State.Id == e.Id);
 
-                if (controlBase == null)
+                if (controlBase != null)
                 {
                     controlBase.State.IsDisplayed = true;
                     SaveViewStates();

@@ -7,6 +7,7 @@ using RacerData.Data.Aws;
 using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Service;
 using RacerData.rNascarApp.Services;
+using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp
 {
@@ -39,6 +40,9 @@ namespace RacerData.rNascarApp
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true)
                 .Build();
+
+
+            services.AddTransient<IAwsBucketConfiguration, AwsConfiguration>();
 
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);

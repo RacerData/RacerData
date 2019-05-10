@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RacerData.NascarApi.Services</id>
+    <version>1.0.8</version>
+    <title>RacerData.NascarApi.Services</title>
+    <authors>RacerData</authors>
+    <owners>RacerData</owners>
+    <projectUrl>https://github.com/RacerData/RacerData/projects/1</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RacerData NascarApi Services Package</description>
+  </metadata>
+  <files>   
+    <file src="bin\Debug\netstandard2.0\*.dll" target="lib\netstandard2.0" />
+    <file src="bin\Debug\netstandard2.0\*.pdb" target="lib\netstandard2.0" />
+  </files>
+</package>

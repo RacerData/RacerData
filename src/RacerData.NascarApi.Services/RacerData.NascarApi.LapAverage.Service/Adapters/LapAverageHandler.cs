@@ -5,11 +5,12 @@ using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.LapAverage.Service.Internal;
 using RacerData.NascarApi.LapAverage.Service.Ports;
 using RacerData.NascarApi.Service;
+using RacerData.NascarApi.Service.Adapters;
 using RacerData.NascarApi.Service.Ports;
 
 namespace RacerData.NascarApi.LapAverage.Service.Adapters
 {
-    class LapAverageHandler : IMonitorClient, ILapAverageHandler
+    class LapAverageHandler : MonitorClientBase, IMonitorClient, ILapAverageHandler
     {
         #region events
 
@@ -18,7 +19,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
         {
             var handler = LapAveragesUpdated;
             if (handler != null)
-                handler.Invoke(this, new LapAveragesUpdatedEventArgs() { LapAverages = lapAverages });
+                handler.Invoke(this, new LapAveragesUpdatedEventArgs() { Data = lapAverages });
         }
 
         #endregion
@@ -56,7 +57,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
 
         #region public
 
-        public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
+        public override void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
         {
             try
             {
@@ -66,26 +67,6 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
             {
                 ExceptionHandler("Error processing live feed update", ex);
             }
-        }
-
-        public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e)
-        {
-
         }
 
         #endregion
@@ -112,7 +93,10 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
 
                     _eventLapAverages.RaceId = liveFeedData.RaceId;
                     _eventLapAverages.RunId = liveFeedData.RunId;
+                    _eventLapAverages.SeriesId = (int)liveFeedData.SeriesType;
                 }
+
+                _eventLapAverages.Elapsed = liveFeedData.Elapsed;
 
                 ReadLapTimes(liveFeedData);
 
@@ -143,6 +127,8 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
         {
             _lapAverageService.ParseVehicleLapData(liveFeedData);
 
+            _eventLapAverages.SeriesId = (int)liveFeedData.SeriesType;
+            _eventLapAverages.TrackName = liveFeedData.TrackName;
             _eventLapAverages.TrackName = liveFeedData.TrackName;
             _eventLapAverages.RunName = liveFeedData.RunName;
             _eventLapAverages.Elapsed = liveFeedData.Elapsed;
@@ -163,7 +149,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
         {
             try
             {
-                _lapAverageFileWriter.WriteFile(e.LapAverages);
+                _lapAverageFileWriter.WriteFile(e.Data);
             }
             catch (Exception ex)
             {
@@ -171,7 +157,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
             }
             try
             {
-                await _dataPump.WriteLapAveragesAsync(e.LapAverages);
+                await _dataPump.WriteLapAveragesAsync(e.Data);
             }
             catch (Exception ex)
             {

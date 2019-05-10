@@ -43,9 +43,9 @@ namespace RacerData.LiveFeedMonitor
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
             services.AddNascarApiService();
-            services.AddLapTimeService();
-            services.AddLapAverageService();
             services.AddHarvesterService();
+            services.AddLapAverageService();
+            services.AddLapTimeService();
 
             Mapper.Initialize(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -6,7 +8,13 @@ using AutoMapper;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using RacerData.Commmon.Results;
+using RacerData.NascarApi.Client.Models.LapAverages;
+using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
+using RacerData.NascarApi.Client.Models.LiveFlag;
+using RacerData.NascarApi.Client.Models.LivePit;
+using RacerData.NascarApi.Client.Models.LivePoints;
+using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.NascarApi.Client.Ports;
 using RacerData.NascarApi.Factories;
 using RacerData.NascarApi.Ports;
@@ -32,19 +40,11 @@ namespace RacerData.NascarApi.Service.Adapters
         #region events
 
         public event EventHandler<LiveFeedStartedEventArgs> LiveFeedStarted;
-        protected virtual void OnLiveFeedStarted(LiveFeedInfo liveFeedInfo)
+        protected virtual void OnLiveFeedStarted(LiveFeedInfo data)
         {
             var handler = LiveFeedStarted;
             if (handler != null)
-                handler.Invoke(this, new LiveFeedStartedEventArgs() { LiveFeedInfo = liveFeedInfo });
-        }
-
-        public event EventHandler<LiveFeedUpdatedEventArgs> LiveFeedUpdated;
-        protected virtual void OnLiveFeedUpdated(LiveFeedData liveFeedData)
-        {
-            var handler = LiveFeedUpdated;
-            if (handler != null)
-                handler.Invoke(this, new LiveFeedUpdatedEventArgs() { LiveFeedData = liveFeedData });
+                handler.Invoke(this, new LiveFeedStartedEventArgs() { LiveFeedInfo = data });
         }
 
         public event EventHandler<ServiceStateChangedEventArgs> ServiceStateChanged;
@@ -71,6 +71,62 @@ namespace RacerData.NascarApi.Service.Adapters
                 handler.Invoke(this, new ServiceStatusChangedEventArgs() { ServiceStatus = serviceStatus });
         }
 
+        public event EventHandler<LiveFeedUpdatedEventArgs> LiveFeedUpdated;
+        protected virtual void OnLiveFeedUpdated(LiveFeedData data)
+        {
+            var handler = LiveFeedUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LiveFeedUpdatedEventArgs() { LiveFeedData = data });
+        }
+
+        public event EventHandler<LapAveragesUpdatedEventArgs> LapAverageUpdated;
+        protected virtual void OnLapAverageUpdated(LapAverageData data)
+        {
+            var handler = LapAverageUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LapAveragesUpdatedEventArgs() { Data = data });
+        }
+
+        public event EventHandler<LapTimesUpdatedEventArgs> LapTimesUpdated;
+        protected virtual void OnLLapTimesUpdated(LapTimeData data)
+        {
+            var handler = LapTimesUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LapTimesUpdatedEventArgs() { Data = data });
+        }
+
+        public event EventHandler<LivePitDataUpdatedEventArgs> LivePitDataUpdated;
+        protected virtual void OnLivePitDataUpdated(IEnumerable<LivePitData> data)
+        {
+            var handler = LivePitDataUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LivePitDataUpdatedEventArgs() { Data = data });
+        }
+
+        public event EventHandler<LiveFlagDataUpdatedEventArgs> LiveFlagDataUpdated;
+        protected virtual void OnLiveFlagDataUpdated(IEnumerable<LiveFlagData> data)
+        {
+            var handler = LiveFlagDataUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LiveFlagDataUpdatedEventArgs() { Data = data });
+        }
+
+        public event EventHandler<LivePointsDataUpdatedEventArgs> LivePointsDataUpdated;
+        protected virtual void OnLivePointsDataUpdated(IEnumerable<LivePointsData> data)
+        {
+            var handler = LivePointsDataUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LivePointsDataUpdatedEventArgs() { Data = data });
+        }
+
+        public event EventHandler<LiveQualifyingDataUpdatedEventArgs> LiveQualifyingDataUpdated;
+        protected virtual void OnLiveQualifyingDataUpdated(IEnumerable<LiveQualifyingData> data)
+        {
+            var handler = LiveQualifyingDataUpdated;
+            if (handler != null)
+                handler.Invoke(this, new LiveQualifyingDataUpdatedEventArgs() { Data = data });
+        }
+        
         #endregion
 
         #region fields
@@ -83,8 +139,14 @@ namespace RacerData.NascarApi.Service.Adapters
         private Timer _sleepTimer;
         private Timer _pollTimer;
         private int _pollInterval = DefaultPollInterval;
-        private int? _lastElapsedTime;
         private bool _verbose = false;
+        private int? _lastElapsedTime;
+        private int _lastLapTimeUpdate = -1;
+        private int _lastLapAverageUpdate = -1;
+        private int _lastFlagDataLap = -1;
+        private double _lastPitOutElapsed = -1.0;
+        private IDictionary<IMonitorClient, ApiFeedType> _masterFeedTypeList = new Dictionary<IMonitorClient, ApiFeedType>();
+        private ApiFeedType _masterFeedType = new ApiFeedType();
 
         #endregion
 
@@ -191,20 +253,86 @@ namespace RacerData.NascarApi.Service.Adapters
             State = ServiceState.Sleep;
         }
 
-        public void Register(IMonitorClient client)
+        public void Register(IMonitorClient client, ApiFeedType feeds)
         {
+
+            if (feeds == ApiFeedType.All)
+            {
+                Register(client);
+                return;
+            }
+
+            _masterFeedType |= feeds;
+
+            _masterFeedTypeList.Add(client, feeds);
+
+            if (feeds.HasFlag(ApiFeedType.LiveFeedData))
+                LiveFeedUpdated += client.Monitor_LiveFeedUpdated;
+
+            if (feeds.HasFlag(ApiFeedType.LapAverageData))
+                LapAverageUpdated += client.Monitor_LapAveragesUpdated;
+
+            if (feeds.HasFlag(ApiFeedType.LapTimeData))
+                LapTimesUpdated += client.Monitor_LapTimesUpdated;
+
+            if (feeds.HasFlag(ApiFeedType.LiveFlagData))
+                LiveFlagDataUpdated += client.Monitor_LiveFlagDataUpdated;
+
+            if (feeds.HasFlag(ApiFeedType.LivePitData))
+                LivePitDataUpdated += client.Monitor_LivePitDataUpdated;
+
+            if (feeds.HasFlag(ApiFeedType.LivePointsData))
+                LivePointsDataUpdated += client.Monitor_LivePointsDataUpdated;
+
+            if (feeds.HasFlag(ApiFeedType.LiveQualifyingData))
+                LiveQualifyingDataUpdated += client.Monitor_LiveQualifyingDataUpdated;
+
             LiveFeedStarted += client.Monitor_LiveFeedStarted;
-            LiveFeedUpdated += client.Monitor_LiveFeedUpdated;
             ServiceStateChanged += client.Monitor_ServiceStateChanged;
             ServiceActivity += client.Monitor_ServiceActivity;
+
+        }
+
+        public void Register(IMonitorClient client)
+        {
+            _masterFeedType |= ApiFeedType.All;
+
+            _masterFeedTypeList.Add(client, ApiFeedType.All);
+
+            LiveFeedStarted += client.Monitor_LiveFeedStarted;
+            ServiceStateChanged += client.Monitor_ServiceStateChanged;
+            ServiceActivity += client.Monitor_ServiceActivity;
+
+            LiveFeedUpdated += client.Monitor_LiveFeedUpdated;
+            LapAverageUpdated += client.Monitor_LapAveragesUpdated;
+            LapTimesUpdated += client.Monitor_LapTimesUpdated;
+            LiveFlagDataUpdated += client.Monitor_LiveFlagDataUpdated;
+            LivePitDataUpdated += client.Monitor_LivePitDataUpdated;
+            LivePointsDataUpdated += client.Monitor_LivePointsDataUpdated;
+            LiveQualifyingDataUpdated += client.Monitor_LiveQualifyingDataUpdated;
         }
 
         public void Unregister(IMonitorClient client)
         {
+            _masterFeedTypeList.Remove(client);
+
             LiveFeedStarted -= client.Monitor_LiveFeedStarted;
-            LiveFeedUpdated -= client.Monitor_LiveFeedUpdated;
             ServiceStateChanged -= client.Monitor_ServiceStateChanged;
             ServiceActivity -= client.Monitor_ServiceActivity;
+
+            LiveFeedUpdated -= client.Monitor_LiveFeedUpdated;
+            LapAverageUpdated -= client.Monitor_LapAveragesUpdated;
+            LapTimesUpdated -= client.Monitor_LapTimesUpdated;
+            LiveFlagDataUpdated -= client.Monitor_LiveFlagDataUpdated;
+            LivePitDataUpdated -= client.Monitor_LivePitDataUpdated;
+            LivePointsDataUpdated -= client.Monitor_LivePointsDataUpdated;
+            LiveQualifyingDataUpdated -= client.Monitor_LiveQualifyingDataUpdated;
+
+            _masterFeedType = ApiFeedType.None;
+            foreach (ApiFeedType feedType in _masterFeedTypeList.Values)
+            {
+                _masterFeedType |= feedType;
+            }
         }
 
         #endregion
@@ -268,7 +396,6 @@ namespace RacerData.NascarApi.Service.Adapters
 
             await ReadLiveFeedDataAsync(cancellationToken);
         }
-
         protected virtual async Task ReadLiveFeedDataAsync(CancellationToken cancellationToken)
         {
             try
@@ -279,7 +406,8 @@ namespace RacerData.NascarApi.Service.Adapters
                     return;
                 }
 
-                OnServiceActivity("Requesting live event feed");
+                if (_verbose)
+                    OnServiceActivity("Requesting live feed data");
 
                 var newFeedDataResult = await _nascarApiClient.GetLiveFeedDataAsync(cancellationToken);
 
@@ -290,14 +418,11 @@ namespace RacerData.NascarApi.Service.Adapters
 
                 var newFeedData = newFeedDataResult.Value;
 
-                if (_verbose)
+                if (!_verbose && _lastElapsedTime != null && _lastElapsedTime == newFeedData.Elapsed)
                 {
-                    OnServiceActivity($"Elapsed:{newFeedData.Elapsed}");
-                }
+                    if (_verbose)
+                        OnServiceActivity($"No change in live feed data elapsed time: {newFeedData.Elapsed}");
 
-                if (_lastElapsedTime != null && _lastElapsedTime == newFeedData.Elapsed)
-                {
-                    OnServiceActivity($"No change in elapsed time: {newFeedData.Elapsed}");
                     return;
                 }
                 else
@@ -308,24 +433,327 @@ namespace RacerData.NascarApi.Service.Adapters
                         return;
                     }
 
-                    _pollTimer.Stop();
-
                     _lastElapsedTime = newFeedData.Elapsed;
 
                     var mappedFeedData = _mapper.Map<LiveFeedData>(newFeedData);
 
-                    if (!cancellationToken.IsCancellationRequested)
-                        OnLiveFeedUpdated(mappedFeedData);
+                    OnLiveFeedUpdated(mappedFeedData);
                 }
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error reading feed", ex);
+                ExceptionHandler("Error reading live feed data", ex);
+            }
+        }
+
+        protected virtual async Task ReadLiveFlagDataAsync()
+        {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLiveFlagDataAsync(cancellationToken);
+        }
+        protected virtual async Task ReadLiveFlagDataAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                if (_verbose)
+                    OnServiceActivity("Requesting live flag data");
+
+                var newFeedDataResult = await _nascarApiClient.GetLiveFlagDataAsync(cancellationToken);
+
+                if (!newFeedDataResult.IsSuccessful())
+                {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                var lastLapBuffer = newFeedData.Max(f => f.LapNumber);
+
+                if (_lastFlagDataLap == lastLapBuffer)
+                {
+                    if (_verbose)
+                        OnServiceActivity($"LiveFlagData - No change in updated lap: {lastLapBuffer}");
+
+                    return;
+                }
+                else
+                {
+                    _lastFlagDataLap = lastLapBuffer;
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        State = ServiceState.Canceled;
+                        return;
+                    }
+
+                    OnLiveFlagDataUpdated(newFeedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error reading live flag data", ex);
+            }
+        }
+
+        protected virtual async Task ReadLivePitDataAsync()
+        {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLivePitDataAsync(cancellationToken);
+        }
+        protected virtual async Task ReadLivePitDataAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                if (_verbose)
+                    OnServiceActivity("Requesting live pit data");
+
+                var newFeedDataResult = await _nascarApiClient.GetLivePitDataAsync(cancellationToken);
+
+                if (!newFeedDataResult.IsSuccessful())
+                {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                var lastUpdateBuffer = newFeedData.Max(l => l.PitOutRaceTime);
+
+                if (_lastPitOutElapsed == lastUpdateBuffer)
+                {
+                    if (_verbose)
+                        OnServiceActivity($"Live Pit Data - No change in last update elapsed: {_lastPitOutElapsed}");
+
+                    return;
+                }
+                else
+                {
+                    _lastPitOutElapsed = lastUpdateBuffer;
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        State = ServiceState.Canceled;
+                        return;
+                    }
+
+                    OnLivePitDataUpdated(newFeedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error reading live pit data", ex);
+            }
+        }
+
+        protected virtual async Task ReadLivePointsDataAsync()
+        {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLivePointsDataAsync(cancellationToken);
+        }
+        protected virtual async Task ReadLivePointsDataAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                if (_verbose)
+                    OnServiceActivity("Requesting live points data");
+
+                var newFeedDataResult = await _nascarApiClient.GetLivePointsDataAsync(cancellationToken);
+
+                if (!newFeedDataResult.IsSuccessful())
+                {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                OnLivePointsDataUpdated(newFeedData);
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error reading live points data", ex);
             }
             finally
             {
                 if (!cancellationToken.IsCancellationRequested)
                     _pollTimer.Start();
+            }
+        }
+
+        protected virtual async Task ReadLiveQualifyingDataAsync()
+        {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLiveQualifyingDataAsync(cancellationToken);
+        }
+        protected virtual async Task ReadLiveQualifyingDataAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                if (_verbose)
+                    OnServiceActivity("Requesting live qualifying data");
+
+                var newFeedDataResult = await _nascarApiClient.GetLiveQualifyingDataAsync(cancellationToken);
+
+                if (!newFeedDataResult.IsSuccessful())
+                {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                OnLiveQualifyingDataUpdated(newFeedData);
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error reading live qualifying data", ex);
+            }
+        }
+
+        protected virtual async Task ReadLapAverageDataAsync()
+        {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLapAverageDataAsync(cancellationToken);
+        }
+        protected virtual async Task ReadLapAverageDataAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                if (_verbose)
+                    OnServiceActivity("Requesting lap average data");
+
+                var newFeedDataResult = await _nascarApiClient.GetLapAverageDataAsync(cancellationToken);
+
+                if (!newFeedDataResult.IsSuccessful())
+                {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                if (_lastLapAverageUpdate == newFeedData.Elapsed)
+                {
+                    if (_verbose)
+                        OnServiceActivity($"Lap Average Data - No change in elapsed time: {newFeedData.Elapsed}");
+
+                    return;
+                }
+                else
+                {
+                    _lastLapAverageUpdate = newFeedData.Elapsed;
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        State = ServiceState.Canceled;
+                        return;
+                    }
+
+                    OnLapAverageUpdated(newFeedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error reading lap average data", ex);
+            }
+        }
+
+        protected virtual async Task ReadLapTimeDataAsync()
+        {
+            var cancellationToken = GetCancellationToken();
+
+            await ReadLapTimeDataAsync(cancellationToken);
+        }
+        protected virtual async Task ReadLapTimeDataAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    State = ServiceState.Canceled;
+                    return;
+                }
+
+                if (_verbose)
+                    OnServiceActivity("Requesting lap time data");
+
+                var newFeedDataResult = await _nascarApiClient.GetLapTimeDataAsync(cancellationToken);
+
+                if (!newFeedDataResult.IsSuccessful())
+                {
+                    throw newFeedDataResult.Exception;
+                }
+
+                var newFeedData = newFeedDataResult.Value;
+
+                if (_lastLapTimeUpdate == newFeedData.Elapsed)
+                {
+                    if (_verbose)
+                        OnServiceActivity($"Lap Time Data - No change in elapsed time: {newFeedData.Elapsed}");
+
+                    return;
+                }
+                else
+                {
+                    _lastLapTimeUpdate = newFeedData.Elapsed;
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        State = ServiceState.Canceled;
+                        return;
+                    }
+
+                    OnLLapTimesUpdated(newFeedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error reading lap time data", ex);
             }
         }
 
@@ -337,7 +765,29 @@ namespace RacerData.NascarApi.Service.Adapters
         {
             try
             {
-                await ReadLiveFeedDataAsync();
+                if (State != ServiceState.Running)
+                    return;
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LiveFeedData))
+                    await ReadLiveFeedDataAsync();
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LiveFlagData))
+                    await ReadLiveFlagDataAsync();
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LivePointsData))
+                    await ReadLivePointsDataAsync();
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LivePitData))
+                    await ReadLivePitDataAsync();
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LiveQualifyingData))
+                    await ReadLiveQualifyingDataAsync();
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LapAverageData))
+                    await ReadLapAverageDataAsync();
+
+                if (_masterFeedType.HasFlag(ApiFeedType.LapTimeData))
+                    await ReadLapTimeDataAsync();
             }
             catch (Exception ex)
             {

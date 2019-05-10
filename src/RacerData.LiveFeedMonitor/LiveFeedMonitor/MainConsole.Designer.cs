@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainConsole));
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.btnLog = new System.Windows.Forms.Button();
             this.btnSleep = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
@@ -48,7 +49,8 @@
             this.mnuSleep1Hour = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSleep1Day = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSleep3Days = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnLog = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblFeedInfo = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.ctxOut.SuspendLayout();
@@ -69,8 +71,23 @@
             this.pnlTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlTop.Size = new System.Drawing.Size(941, 47);
+            this.pnlTop.Size = new System.Drawing.Size(996, 47);
             this.pnlTop.TabIndex = 1;
+            // 
+            // btnLog
+            // 
+            this.btnLog.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
+            this.btnLog.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGray;
+            this.btnLog.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.btnLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLog.ForeColor = System.Drawing.SystemColors.Info;
+            this.btnLog.Location = new System.Drawing.Point(853, 8);
+            this.btnLog.Name = "btnLog";
+            this.btnLog.Size = new System.Drawing.Size(75, 29);
+            this.btnLog.TabIndex = 4;
+            this.btnLog.Text = "Log";
+            this.btnLog.UseVisualStyleBackColor = true;
+            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
             // 
             // btnSleep
             // 
@@ -127,7 +144,7 @@
             this.pnlBody.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlBody.Size = new System.Drawing.Size(941, 336);
+            this.pnlBody.Size = new System.Drawing.Size(996, 336);
             this.pnlBody.TabIndex = 2;
             // 
             // rtbOut
@@ -141,7 +158,7 @@
             this.rtbOut.Location = new System.Drawing.Point(5, 5);
             this.rtbOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.rtbOut.Name = "rtbOut";
-            this.rtbOut.Size = new System.Drawing.Size(931, 326);
+            this.rtbOut.Size = new System.Drawing.Size(986, 326);
             this.rtbOut.TabIndex = 0;
             this.rtbOut.Text = "";
             // 
@@ -172,6 +189,8 @@
             this.pnlBottom.BackColor = System.Drawing.Color.Black;
             this.pnlBottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlBottom.Controls.Add(this.lblStatus);
+            this.pnlBottom.Controls.Add(this.label2);
+            this.pnlBottom.Controls.Add(this.lblFeedInfo);
             this.pnlBottom.Controls.Add(this.label3);
             this.pnlBottom.Controls.Add(this.label1);
             this.pnlBottom.Controls.Add(this.lblActivity);
@@ -180,7 +199,7 @@
             this.pnlBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBottom.Size = new System.Drawing.Size(941, 32);
+            this.pnlBottom.Size = new System.Drawing.Size(996, 32);
             this.pnlBottom.TabIndex = 3;
             // 
             // lblStatus
@@ -190,9 +209,9 @@
             this.lblStatus.ForeColor = System.Drawing.Color.DarkGray;
             this.lblStatus.Location = new System.Drawing.Point(48, 2);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(437, 26);
+            this.lblStatus.Size = new System.Drawing.Size(140, 26);
             this.lblStatus.TabIndex = 1;
-            this.lblStatus.Text = "In Development";
+            this.lblStatus.Text = "-";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -200,7 +219,7 @@
             this.label3.BackColor = System.Drawing.Color.Black;
             this.label3.Dock = System.Windows.Forms.DockStyle.Right;
             this.label3.ForeColor = System.Drawing.Color.Gray;
-            this.label3.Location = new System.Drawing.Point(485, 2);
+            this.label3.Location = new System.Drawing.Point(740, 2);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 26);
             this.label3.TabIndex = 2;
@@ -224,9 +243,9 @@
             this.lblActivity.BackColor = System.Drawing.Color.Black;
             this.lblActivity.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblActivity.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblActivity.Location = new System.Drawing.Point(537, 2);
+            this.lblActivity.Location = new System.Drawing.Point(792, 2);
             this.lblActivity.Name = "lblActivity";
-            this.lblActivity.Size = new System.Drawing.Size(400, 26);
+            this.lblActivity.Size = new System.Drawing.Size(200, 26);
             this.lblActivity.TabIndex = 3;
             this.lblActivity.Text = "No live event";
             this.lblActivity.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -262,27 +281,36 @@
             this.mnuSleep3Days.Text = "Sleep 3 Days";
             this.mnuSleep3Days.Click += new System.EventHandler(this.mnuSleep3Days_Click);
             // 
-            // btnLog
+            // label2
             // 
-            this.btnLog.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
-            this.btnLog.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGray;
-            this.btnLog.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.btnLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLog.ForeColor = System.Drawing.SystemColors.Info;
-            this.btnLog.Location = new System.Drawing.Point(853, 8);
-            this.btnLog.Name = "btnLog";
-            this.btnLog.Size = new System.Drawing.Size(75, 29);
-            this.btnLog.TabIndex = 4;
-            this.btnLog.Text = "Log";
-            this.btnLog.UseVisualStyleBackColor = true;
-            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
+            this.label2.BackColor = System.Drawing.Color.Black;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label2.ForeColor = System.Drawing.Color.Gray;
+            this.label2.Location = new System.Drawing.Point(188, 2);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 26);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Event:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblFeedInfo
+            // 
+            this.lblFeedInfo.BackColor = System.Drawing.Color.Black;
+            this.lblFeedInfo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblFeedInfo.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblFeedInfo.Location = new System.Drawing.Point(240, 2);
+            this.lblFeedInfo.Name = "lblFeedInfo";
+            this.lblFeedInfo.Size = new System.Drawing.Size(500, 26);
+            this.lblFeedInfo.TabIndex = 5;
+            this.lblFeedInfo.Text = "No live event";
+            this.lblFeedInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainConsole
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(941, 415);
+            this.ClientSize = new System.Drawing.Size(996, 415);
             this.Controls.Add(this.pnlBody);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnlTop);
@@ -321,6 +349,8 @@
         private System.Windows.Forms.ToolStripMenuItem mnuSleep1Day;
         private System.Windows.Forms.ToolStripMenuItem mnuSleep3Days;
         private System.Windows.Forms.Button btnLog;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblFeedInfo;
     }
 }
 

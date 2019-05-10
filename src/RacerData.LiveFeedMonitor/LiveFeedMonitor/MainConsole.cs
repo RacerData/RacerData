@@ -16,7 +16,7 @@ using RacerData.NascarApi.Service.Ports;
 
 namespace RacerData.LiveFeedMonitor
 {
-    public partial class MainConsole : Form
+    public partial class MainConsole : Form, IMonitorClient
     {
         #region fields
 
@@ -64,11 +64,8 @@ namespace RacerData.LiveFeedMonitor
 
                 _monitorService = ServiceProvider.Instance.GetRequiredService<IMonitorService>();
 
-                _monitorService.LiveFeedStarted += _monitorService_LiveFeedStarted;
-                _monitorService.ServiceStateChanged += _monitorService_ServiceStateChanged;
-                _monitorService.ServiceActivity += _monitorService_ServiceActivity;
-                _monitorService.ServiceStatusChanged += _monitorService_ServiceStatusChanged;
-                
+                _monitorService.Register(this, ApiFeedType.LiveFeedData);
+
                 if (harvestLapTimes)
                 {
                     var lapTimeDataPump = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
@@ -329,6 +326,12 @@ namespace RacerData.LiveFeedMonitor
             UpdateActivity(liveFeedInfo.RunName);
         }
 
+        protected virtual void LiveFeedUpdated(LiveFeedData liveFeedData)
+        {
+            var info = $"{liveFeedData.TrackName} {liveFeedData.RunName}";
+            UpdateEventInfo(info);
+        }
+
         protected virtual void SelectWakeTarget()
         {
             ctxWakeTarget.Show(btnSleep, new Point(0, btnSleep.Height));
@@ -339,6 +342,19 @@ namespace RacerData.LiveFeedMonitor
             using (var dialog = new FileViewerDialog() { Title = "Log File", FilePath = Logger.GetLogFilePath() })
             {
                 dialog.ShowDialog(this);
+            }
+        }
+
+        protected virtual void UpdateEventInfo(string info)
+        {
+            if (lblFeedInfo.InvokeRequired)
+            {
+                var d = new SafeStringCallDelegate(UpdateEventInfo);
+                Invoke(d, new object[] { info });
+            }
+            else
+            {
+                lblFeedInfo.Text = info;
             }
         }
 
@@ -454,31 +470,7 @@ namespace RacerData.LiveFeedMonitor
             }
         }
 
-        private void _monitorService_ServiceActivity(object sender, ServiceActivityEventArgs e)
-        {
-            try
-            {
-                UpdateActivity(e.ServiceActivity);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error updating monitor activity", ex);
-            }
-        }
-
-        private void _monitorService_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
-        {
-            try
-            {
-                ServiceStateChanged(e.State);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error in monitor state changed handler", ex);
-            }
-        }
-
-        private void _monitorService_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
+        public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
         {
             try
             {
@@ -490,16 +482,82 @@ namespace RacerData.LiveFeedMonitor
             }
         }
 
-        private void _monitorService_ServiceStatusChanged(object sender, ServiceStatusChangedEventArgs e)
+        public void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
         {
             try
             {
-                UpdateStatus(e.ServiceStatus);
+                ServiceStateChanged(e.State);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error in monitor state changed handler", ex);
+            }
+        }
+
+        public void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e)
+        {
+            try
+            {
+                UpdateActivity(e.ServiceActivity);
             }
             catch (Exception ex)
             {
                 ExceptionHandler("Error updating monitor activity", ex);
             }
+        }
+
+        public void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e)
+        {
+            try
+            {
+                UpdateStatus(e.ServiceActivity);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error updating monitor activity", ex);
+            }
+        }
+
+        public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
+        {
+            try
+            {
+                LiveFeedUpdated(e.LiveFeedData);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error in monitor feed started handler", ex);
+            }
+        }
+
+        public void Monitor_LapAveragesUpdated(object sender, LapAveragesUpdatedEventArgs e)
+        {
+
+        }
+
+        public void Monitor_LapTimesUpdated(object sender, LapTimesUpdatedEventArgs e)
+        {
+
+        }
+
+        public void Monitor_LivePointsDataUpdated(object sender, LivePointsDataUpdatedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Monitor_LivePitDataUpdated(object sender, LivePitDataUpdatedEventArgs e)
+        {
+
+        }
+
+        public void Monitor_LiveFlagDataUpdated(object sender, LiveFlagDataUpdatedEventArgs e)
+        {
+
+        }
+
+        public void Monitor_LiveQualifyingDataUpdated(object sender, LiveQualifyingDataUpdatedEventArgs e)
+        {
+
         }
         #endregion
     }

@@ -10,20 +10,21 @@ using RacerData.NascarApi.LapTimes.Service.Internal;
 using RacerData.NascarApi.LapTimes.Service.Models;
 using RacerData.NascarApi.LapTimes.Service.Ports;
 using RacerData.NascarApi.Service;
+using RacerData.NascarApi.Service.Adapters;
 using RacerData.NascarApi.Service.Ports;
 
 namespace RacerData.NascarApi.LapTimes.Service.Adapters
 {
-    class LapTimeService : IMonitorClient, ILapTimeService
+    class LapTimeService : MonitorClientBase, IMonitorClient, ILapTimeService
     {
         #region events
 
-        public event EventHandler<LapTimesUpdatedEventArgs> LapTimesUpdated;
+        public event EventHandler<Models.LapTimesUpdatedEventArgs> LapTimesUpdated;
         protected virtual void OnLapTimesUpdated(LapTimeData lapTimes)
         {
             var handler = LapTimesUpdated;
             if (handler != null)
-                handler.Invoke(this, new LapTimesUpdatedEventArgs() { LapTimes = lapTimes });
+                handler.Invoke(this, new Models.LapTimesUpdatedEventArgs() { LapTimes = lapTimes });
         }
 
         #endregion
@@ -75,7 +76,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
 
         #region public
 
-        public void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
+        public override void Monitor_LiveFeedUpdated(object sender, LiveFeedUpdatedEventArgs e)
         {
             try
             {
@@ -85,26 +86,6 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
             {
                 ExceptionHandler("Error processing live feed update", ex);
             }
-        }
-
-        public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceStateChanged(object sender, ServiceStateChangedEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceActivity(object sender, ServiceActivityEventArgs e)
-        {
-
-        }
-
-        public void Monitor_ServiceStatusChanged(object sender, ServiceActivityEventArgs e)
-        {
-
         }
 
         #endregion
@@ -157,6 +138,8 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
                     _lapTimes.RunName = liveFeedData.RunName;
                 }
 
+                _lapTimes.Elapsed = liveFeedData.Elapsed;
+
                 _lapTimes = ReadLapTimes(liveFeedData);
 
                 if (liveFeedData.Elapsed != _lastElapsed)
@@ -192,7 +175,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
 
         #region private
 
-        private async void LapTimeService_LapTimesUpdated(object sender, LapTimesUpdatedEventArgs e)
+        private async void LapTimeService_LapTimesUpdated(object sender, Models.LapTimesUpdatedEventArgs e)
         {
             try
             {

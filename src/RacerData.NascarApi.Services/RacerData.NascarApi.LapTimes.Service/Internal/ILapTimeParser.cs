@@ -5,6 +5,6 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 {
     interface ILapTimeParser
     {
-        EventVehicleLapTimes ParseLapTimes(EventVehicleLapTimes lapTimes, LiveFeedData data);
+        LapTimeData ParseLapTimes(LapTimeData lapTimes, LiveFeedData data);
     }
 }

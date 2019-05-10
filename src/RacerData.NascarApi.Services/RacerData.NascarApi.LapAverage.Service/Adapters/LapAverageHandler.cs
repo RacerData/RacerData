@@ -14,7 +14,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
         #region events
 
         public event EventHandler<LapAveragesUpdatedEventArgs> LapAveragesUpdated;
-        protected virtual void OnLapAveragesUpdated(EventVehicleLapAverages lapAverages)
+        protected virtual void OnLapAveragesUpdated(LapAverageData lapAverages)
         {
             var handler = LapAveragesUpdated;
             if (handler != null)
@@ -25,7 +25,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
 
         #region fields
 
-        private EventVehicleLapAverages _eventLapAverages = new EventVehicleLapAverages();
+        private LapAverageData _eventLapAverages = new LapAverageData();
         private readonly ILapAverageService _lapAverageService;
         private readonly ILapAverageDataFileWriter _lapAverageFileWriter;
         private readonly IAwsDataPump _dataPump;
@@ -133,7 +133,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Adapters
 
         protected virtual void ResetLapAverages()
         {
-            _eventLapAverages = new EventVehicleLapAverages();
+            _eventLapAverages = new LapAverageData();
             _lastElapsed = -1;
             _lastRaceId = -1;
             _lastRunId = -1;

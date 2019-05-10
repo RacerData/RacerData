@@ -27,7 +27,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         #region public
 
-        public virtual async Task WriteLapTimesAsync(EventVehicleLapTimes lapAverages)
+        public virtual async Task WriteLapTimesAsync(LapTimeData lapAverages)
         {
             var key = GetKey(lapAverages);
 
@@ -49,12 +49,12 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         #region protected
 
-        protected virtual string GetKey(EventVehicleLapTimes lapTimes)
+        protected virtual string GetKey(LapTimeData lapTimes)
         {
             return $"{lapTimes.SeriesId}-{lapTimes.RaceId}-{lapTimes.RunId}";
         }
 
-        protected virtual string GetContent(EventVehicleLapTimes lapTimes)
+        protected virtual string GetContent(LapTimeData lapTimes)
         {
             return JsonConvert.SerializeObject(
                   lapTimes,
@@ -62,7 +62,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
                   new JsonSerializerSettings { NullValueHandling = NullValueHandling.Include });
         }
 
-        protected virtual string GetContentType(EventVehicleLapTimes lapTimes)
+        protected virtual string GetContentType(LapTimeData lapTimes)
         {
             return "application/json";
         }

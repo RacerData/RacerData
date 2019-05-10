@@ -29,12 +29,12 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
 
         #region public
 
-        public void WriteFile(EventVehicleLapAverages data)
+        public void WriteFile(LapAverageData data)
         {
             WriteFile(RootDirectory, data);
         }
 
-        public void WriteFile(string rootDirectory, EventVehicleLapAverages data)
+        public void WriteFile(string rootDirectory, LapAverageData data)
         {
             var fileDirectory = GetFileDirectory(rootDirectory, data);
 
@@ -53,7 +53,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
 
         #region protected
 
-        protected virtual string GetFileDirectory(string rootDirectory, EventVehicleLapAverages data)
+        protected virtual string GetFileDirectory(string rootDirectory, LapAverageData data)
         {
             SeriesType seriesType = (SeriesType)(data.SeriesId - 1);
 
@@ -80,14 +80,14 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
             return fullFileDirectory;
         }
 
-        protected virtual string GetFileTitle(EventVehicleLapAverages data)
+        protected virtual string GetFileTitle(LapAverageData data)
         {
             var fileTitle = $"{data.SeriesId}-{data.RaceId}-{data.RunId}-{data.Elapsed}.json";
 
             return fileTitle;
         }
 
-        protected virtual string GetFileContent(EventVehicleLapAverages data)
+        protected virtual string GetFileContent(LapAverageData data)
         {
             var fileContent = JsonConvert.SerializeObject(
                 data,

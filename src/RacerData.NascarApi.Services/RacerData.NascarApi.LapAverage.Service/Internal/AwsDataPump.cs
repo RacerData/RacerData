@@ -27,7 +27,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
 
         #region public
 
-        public virtual async Task WriteLapAveragesAsync(EventVehicleLapAverages lapAverages)
+        public virtual async Task WriteLapAveragesAsync(LapAverageData lapAverages)
         {
             var key = GetKey(lapAverages);
 
@@ -49,12 +49,12 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
 
         #region protected
 
-        protected virtual string GetKey(EventVehicleLapAverages lapAverages)
+        protected virtual string GetKey(LapAverageData lapAverages)
         {
             return $"{lapAverages.SeriesId}-{lapAverages.RaceId}-{lapAverages.RunId}";
         }
 
-        protected virtual string GetContent(EventVehicleLapAverages lapAverages)
+        protected virtual string GetContent(LapAverageData lapAverages)
         {
             return JsonConvert.SerializeObject(
                   lapAverages,
@@ -62,7 +62,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
                   new JsonSerializerSettings { NullValueHandling = NullValueHandling.Include });
         }
 
-        protected virtual string GetContentType(EventVehicleLapAverages lapAverages)
+        protected virtual string GetContentType(LapAverageData lapAverages)
         {
             return "application/json";
         }

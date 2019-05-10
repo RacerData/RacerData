@@ -19,7 +19,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
         #region events
 
         public event EventHandler<LapTimesUpdatedEventArgs> LapTimesUpdated;
-        protected virtual void OnLapTimesUpdated(EventVehicleLapTimes lapTimes)
+        protected virtual void OnLapTimesUpdated(LapTimeData lapTimes)
         {
             var handler = LapTimesUpdated;
             if (handler != null)
@@ -34,7 +34,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
         private readonly AwsLapTimeDataPump _dataPump;
         private readonly ILapTimeParser _lapTimeParser;
         private readonly ILog _log;
-        private EventVehicleLapTimes _lapTimes;
+        private LapTimeData _lapTimes;
         private int _lastElapsed = -1;
         private int _lastRaceId = -1;
         private SeriesType _lastSeriesId;
@@ -177,13 +177,13 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
 
         protected virtual void ResetLapTimes()
         {
-            _lapTimes = new EventVehicleLapTimes();
+            _lapTimes = new LapTimeData();
             _lastElapsed = -1;
             _lastRaceId = -1;
             _lastRunId = -1;
         }
 
-        protected virtual EventVehicleLapTimes ReadLapTimes(LiveFeedData liveFeedData)
+        protected virtual LapTimeData ReadLapTimes(LiveFeedData liveFeedData)
         {
             return _lapTimeParser.ParseLapTimes(_lapTimes, liveFeedData);
         }

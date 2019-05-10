@@ -6,7 +6,7 @@
     <Company>RacerData Software</Company>
     <Description>Lap time harvesting service for NascarApi</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.31</Version>
+    <Version>1.0.33</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +16,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="RacerData.Data.Aws" Version="1.0.8" />
-    <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.40" />
-    <PackageReference Include="RacerData.NascarApi.Service" Version="1.0.39" />
+    <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.46" />
+    <PackageReference Include="RacerData.NascarApi.Service" Version="1.0.40" />
   </ItemGroup>
   
   <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">

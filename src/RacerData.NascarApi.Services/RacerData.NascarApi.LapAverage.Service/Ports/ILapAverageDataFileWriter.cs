@@ -5,7 +5,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Ports
     public interface ILapAverageDataFileWriter
     {
         int? LastElapsedWritten { get; set; }
-        void WriteFile(EventVehicleLapAverages data);
-        void WriteFile(string rootDirectory, EventVehicleLapAverages data);
+        void WriteFile(LapAverageData data);
+        void WriteFile(string rootDirectory, LapAverageData data);
     }
 }

@@ -5,6 +5,6 @@ namespace RacerData.NascarApi.LapTimes.Service.Models
 {
     public class LapTimesUpdatedEventArgs : EventArgs
     {
-        public EventVehicleLapTimes LapTimes { get; set; }
+        public LapTimeData LapTimes { get; set; }
     }
 }

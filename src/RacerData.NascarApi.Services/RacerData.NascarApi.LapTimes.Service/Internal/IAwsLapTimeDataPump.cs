@@ -5,6 +5,6 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 {
     interface IAwsLapTimeDataPump
     {
-        Task WriteLapTimesAsync(EventVehicleLapTimes lapAverages);
+        Task WriteLapTimesAsync(LapTimeData lapAverages);
     }
 }

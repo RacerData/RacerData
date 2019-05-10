@@ -5,6 +5,6 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
 {
     interface IAwsDataPump
     {
-        Task WriteLapAveragesAsync(EventVehicleLapAverages lapAverages);
+        Task WriteLapAveragesAsync(LapAverageData lapAverages);
     }
 }

@@ -28,12 +28,12 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         #region public
 
-        public void WriteFile(EventVehicleLapTimes data)
+        public void WriteFile(LapTimeData data)
         {
             WriteFile(RootDirectory, data);
         }
 
-        public void WriteFile(string rootDirectory, EventVehicleLapTimes data)
+        public void WriteFile(string rootDirectory, LapTimeData data)
         {
             var fileDirectory = GetFileDirectory(rootDirectory, data);
 
@@ -52,7 +52,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         #region protected
 
-        protected virtual string GetFileDirectory(string rootDirectory, EventVehicleLapTimes data)
+        protected virtual string GetFileDirectory(string rootDirectory, LapTimeData data)
         {
             SeriesType seriesType = (SeriesType)(data.SeriesId - 1);
 
@@ -79,14 +79,14 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
             return fullFileDirectory;
         }
 
-        protected virtual string GetFileTitle(EventVehicleLapTimes data)
+        protected virtual string GetFileTitle(LapTimeData data)
         {
             var fileTitle = $"{data.SeriesId}-{data.RaceId}-{data.RunId}-{data.Elapsed}.json";
 
             return fileTitle;
         }
 
-        protected virtual string GetFileContent(EventVehicleLapTimes data)
+        protected virtual string GetFileContent(LapTimeData data)
         {
             var fileContent = JsonConvert.SerializeObject(
                 data,

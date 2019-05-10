@@ -5,6 +5,6 @@ namespace RacerData.NascarApi.Service
 {
     public class LapAveragesUpdatedEventArgs : EventArgs
     {
-        public EventVehicleLapAverages LapAverages { get; set; }
+        public LapAverageData LapAverages { get; set; }
     }
 }

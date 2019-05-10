@@ -7,7 +7,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
         int? LastElapsedWritten { get; set; }
         string RootDirectory { get; set; }
 
-        void WriteFile(EventVehicleLapTimes data);
-        void WriteFile(string rootDirectory, EventVehicleLapTimes data);
+        void WriteFile(LapTimeData data);
+        void WriteFile(string rootDirectory, LapTimeData data);
     }
 }

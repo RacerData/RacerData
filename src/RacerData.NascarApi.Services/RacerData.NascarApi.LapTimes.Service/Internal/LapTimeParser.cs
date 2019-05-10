@@ -31,7 +31,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         #region public
 
-        public EventVehicleLapTimes ParseLapTimes(EventVehicleLapTimes lapTimes, LiveFeedData data)
+        public LapTimeData ParseLapTimes(LapTimeData lapTimes, LiveFeedData data)
         {
             foreach (Vehicle vehicle in data.Vehicles)
             {

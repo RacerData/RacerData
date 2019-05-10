@@ -63,9 +63,79 @@ namespace RacerData.rNascarApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2_two_rows_2_two_columns_9715 {
+            get {
+                object obj = ResourceManager.GetObject("2(two)rows,2(two)columns_9715", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ColorDialog_671 {
+            get {
+                object obj = ResourceManager.GetObject("ColorDialog_671", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DialogID_6220_32x {
+            get {
+                object obj = ResourceManager.GetObject("DialogID_6220_32x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NewConsoleAppTest_8615 {
+            get {
+                object obj = ResourceManager.GetObject("NewConsoleAppTest_8615", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OpaqueShade {
             get {
                 object obj = ResourceManager.GetObject("OpaqueShade", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Symbols_Pause_32xLG {
+            get {
+                object obj = ResourceManager.GetObject("Symbols_Pause_32xLG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Symbols_Play_32xLG {
+            get {
+                object obj = ResourceManager.GetObject("Symbols_Play_32xLG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap View_8933_32x {
+            get {
+                object obj = ResourceManager.GetObject("View_8933_32x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

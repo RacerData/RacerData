@@ -6,6 +6,6 @@ namespace RacerData.NascarApi.Client.Internal
 {
     interface IAwsLapTimeReader
     {
-        Task<EventVehicleLapTimes> ReadLapTimesAsync(LiveFeedData data);
+        Task<LapTimeData> ReadLapTimesAsync(LiveFeedData data);
     }
 }

@@ -8,22 +8,19 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 {
     public partial class CreateViewWizard1 : WizardStep
     {
+        #region fields
+
         private TreeNode _selectedNode = null;
 
-        private ViewDataSource _selectedDataSource = null;
-        public ViewDataSource SelectedDataSource
-        {
-            get
-            {
-                return _selectedDataSource;
-            }
-            set
-            {
-                _selectedDataSource = value;
-                OnPropertyChanged(nameof(SelectedDataSource));
-            }
-        }
+        #endregion
+
+        #region properties
+
         public IList<ViewDataSource> DataSources { get; set; }
+
+        #endregion
+
+        #region ctor/load
 
         public CreateViewWizard1()
             : base()
@@ -36,6 +33,15 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             Details = "Select the NASCAR API feed to display in the view.";
             Error = String.Empty;
         }
+
+        private void CreateViewWizard1_Load(object sender, EventArgs e)
+        {
+            lblCaption.Text = Caption;
+        }
+
+        #endregion
+
+        #region public
 
         public override void ActivateStep()
         {
@@ -50,22 +56,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             CanGoPrevious = false;
 
             trvDataSources.Focus();
-        }
-
-        private void CreateViewWizard1_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(SelectedDataSource))
-                CanGoNext = ValidateStep();
-        }
-
-        public override object GetDataSource()
-        {
-            return SelectedDataSource;
-        }
-
-        public override void SetDataObject(object data)
-        {
-
         }
 
         public override void DeactivateStep()
@@ -90,7 +80,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 isValid = false;
                 Error += "No data sources\r\n";
             }
-            else if (SelectedDataSource == null)
+            else if (CreateViewContext.ViewDataSource == null)
             {
                 isValid = false;
                 Error += "No data source selected\r\n";
@@ -98,10 +88,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             return isValid;
         }
 
-        private void CreateViewWizard1_Load(object sender, EventArgs e)
-        {
-            lblCaption.Text = Caption;
-        }
+        #endregion
+
+        #region protected
 
         protected virtual void DisplayDataSources(IList<ViewDataSource> dataSources)
         {
@@ -152,6 +141,16 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
 
+        #endregion
+
+        #region private
+
+        private void CreateViewWizard1_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CreateViewContext.ViewDataSource))
+                CanGoNext = ValidateStep();
+        }
+
         private void trvDataSources_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Tag == null)
@@ -159,9 +158,11 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             if (e.Node.Tag is ViewDataSource)
             {
-                SelectedDataSource = (ViewDataSource)e.Node.Tag;
+                CreateViewContext.ViewDataSource = (ViewDataSource)e.Node.Tag;
                 _selectedNode = e.Node;
             }
         }
+
+        #endregion
     }
 }

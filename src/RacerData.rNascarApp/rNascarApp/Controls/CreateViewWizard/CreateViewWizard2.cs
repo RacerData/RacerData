@@ -1,44 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Controls.CreateViewWizard
 {
     public partial class CreateViewWizard2 : WizardStep
     {
-        #region fields
-
-        private BindingList<ViewDataMember> _selectedDataMembers;
-
-        #endregion
-
-        #region properties
-
-        private ViewDataSource _dataSource = null;
-        public ViewDataSource DataSource
-        {
-            get
-            {
-                return _dataSource;
-            }
-            set
-            {
-                if (_dataSource != null && _dataSource.Name != value.Name)
-                {
-                    _selectedDataMembers = new BindingList<ViewDataMember>();
-                }
-
-                _dataSource = value;
-                OnPropertyChanged(nameof(DataSource));
-            }
-        }
-
-        #endregion
-
         #region ctor/load
 
         public CreateViewWizard2()
@@ -56,35 +24,23 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         private void CreateViewWizard2_Load(object sender, EventArgs e)
         {
             lblCaption.Text = Caption;
-
-            _selectedDataMembers = new BindingList<ViewDataMember>();
-
-            lstSelected.DisplayMember = "Caption";
-            lstSelected.DataSource = _selectedDataMembers;
         }
 
         #endregion
 
         #region public
 
-        public override object GetDataSource()
-        {
-            return _selectedDataMembers.ToList();
-        }
-
-        public override void SetDataObject(object data)
-        {
-            if (data is ViewDataSource)
-                DataSource = (ViewDataSource)data;
-        }
-
         public override void ActivateStep()
         {
             base.ActivateStep();
 
-            DisplayDataSource(DataSource);
+            DisplayDataSource(CreateViewContext.ViewDataSource);
 
-            _selectedDataMembers.ListChanged += SelectedDataMembers_ListChanged;
+            lstSelected.DataSource = null;
+            lstSelected.DisplayMember = "Caption";
+            lstSelected.DataSource = CreateViewContext.ViewDataMembers;
+
+            CreateViewContext.ViewDataMembers.ListChanged += SelectedDataMembers_ListChanged;
 
             UpdateValidation();
         }
@@ -93,7 +49,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             base.DeactivateStep();
 
-            _selectedDataMembers.ListChanged -= SelectedDataMembers_ListChanged;
+            lstSelected.DataSource = null;
+
+            CreateViewContext.ViewDataMembers.ListChanged -= SelectedDataMembers_ListChanged;
         }
 
         public override bool ValidateStep()
@@ -101,12 +59,12 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             bool isValid = true;
             Error = "";
 
-            if (DataSource == null)
+            if (CreateViewContext.ViewDataSource == null)
             {
                 isValid = false;
                 Error += "Data source empty\r\n";
             }
-            else if (_selectedDataMembers.Count == 0)
+            else if (CreateViewContext.ViewDataMembers.Count == 0)
             {
                 isValid = false;
                 Error += "No fields selected\r\n";
@@ -253,8 +211,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             var member = (ViewDataMember)lstSelected.SelectedItem;
 
-            if (_selectedDataMembers.Contains(member))
-                _selectedDataMembers.Remove(member);
+            if (CreateViewContext.ViewDataMembers.Contains(member))
+                CreateViewContext.ViewDataMembers.Remove(member);
         }
 
         private void trvDataSources_DoubleClick(object sender, EventArgs e)
@@ -280,8 +238,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             member.Path = trvDataSources.SelectedNode.FullPath.Replace($"{trvDataSources.Nodes[0].FullPath}\\", "");
             member.Path = member.Path.Replace(member.Caption, member.Name);
 
-            if (!_selectedDataMembers.Contains(member))
-                _selectedDataMembers.Add(member);
+            if (!CreateViewContext.ViewDataMembers.Contains(member))
+                CreateViewContext.ViewDataMembers.Add(member);
         }
 
         #endregion

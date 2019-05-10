@@ -975,10 +975,6 @@ namespace RacerData.rNascarApp.Dialogs
                     return;
 
                 var columnRowLabel = GetColumnRowLabel(_selectedColumn.Index);
-
-                // TODO: Format sample data
-                //if (columnRowLabel != null)
-                //    columnRowLabel.Text = txtFormat.Text;
             }
             catch (Exception ex)
             {

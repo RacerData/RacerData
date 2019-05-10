@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RacerData.Data.Aws;
 using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Service;
+using RacerData.rNascarApp.Services;
 
 namespace RacerData.rNascarApp
 {
@@ -41,6 +42,7 @@ namespace RacerData.rNascarApp
 
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
+            services.AddScoped<IWorkspaceService, WorkspaceService>();
             services.AddNascarApiService();
             services.AddAwsData();
 

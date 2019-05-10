@@ -96,8 +96,8 @@
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.40.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.40\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.45.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.45\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Harvester.Service, Version=1.0.36.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.Harvester.Service.1.0.36\lib\netstandard2.0\RacerData.NascarApi.Harvester.Service.dll</HintPath>

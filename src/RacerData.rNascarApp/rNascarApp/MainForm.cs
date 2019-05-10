@@ -16,6 +16,7 @@ using RacerData.rNascarApp.Dialogs;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Logging;
 using RacerData.rNascarApp.Models;
+using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Themes;
 
@@ -23,6 +24,12 @@ namespace RacerData.rNascarApp
 {
     public partial class MainForm : Form, INotifyPropertyChanged, IMonitorClient
     {
+        #region consts
+
+        private const string ApplicationTitle = "r/NACAR Timing and Scoring";
+
+        #endregion
+
         #region events
 
         public delegate void SafeCallDelegate(object sender, LiveFeedUpdatedEventArgs e);
@@ -65,11 +72,15 @@ namespace RacerData.rNascarApp
         #region fields
 
         private Point _dragPoint = Point.Empty;
-        private Panel _dragFrame;
+        private Panel _dragFrame = null;
         private bool _saveSettingsOnExit = false;
-        private IMonitorService _feedService;
+        private IMonitorService _feedService = null;
+        private IWorkspaceService _workspaceService = null;
         private Color _gridTableBackColor;
         private bool _isMonitorEnabled = false;
+        private bool _isFullScreen = false;
+        private FormBorderStyle _previousBorderStyle;
+        private FormWindowState _previousWindowState;
 
         #endregion
 
@@ -116,9 +127,12 @@ namespace RacerData.rNascarApp
         #endregion
 
         #region ctor/load
+
         public MainForm()
         {
             InitializeComponent();
+
+            tlsMain.Renderer = new ToolStripRenderer();
 
             Logger.Setup();
 
@@ -188,7 +202,7 @@ namespace RacerData.rNascarApp
 
                 ViewStateUpdated += MainForm_ViewStateUpdated;
 
-                MainToolStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
+                tlsMain.DataBindings.Add(new Binding("Visible", UserSettings, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
                 MainStatusStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowStatusBar", false, DataSourceUpdateMode.OnPropertyChanged));
 
                 LogInfo("User settings loaded");
@@ -204,6 +218,12 @@ namespace RacerData.rNascarApp
                 dragTimer.Tick += DragTimer_Tick;
 
                 SetGridCellSizes(AppSettings.GridRowCount, AppSettings.GridColumnCount);
+
+                _workspaceService = ServiceProvider.Instance.GetRequiredService<IWorkspaceService>();
+
+                _workspaceService.WorkspaceChanged += WorkspaceService_WorkspaceChanged;
+
+                UpdateCurrentWorkspaceName(_workspaceService.CurrentWorkspace.Name);
 
                 LoadViewStates();
 
@@ -222,12 +242,19 @@ namespace RacerData.rNascarApp
         #region logging
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
-            if (Log != null)
-                Log.Error(message, ex);
+            Log?.Error(message, ex);
 #if DEBUG
             Console.WriteLine(ex);
 #endif
-            MessageBox.Show($"{message}: {ex.Message}");
+            MessageBox.Show(this, ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        protected virtual DialogResult ExceptionHandler(string message, Exception ex, MessageBoxButtons buttons)
+        {
+            Log?.Error(message, ex);
+#if DEBUG
+            Console.WriteLine(ex);
+#endif
+            return MessageBox.Show(this, ex.Message, message, buttons, MessageBoxIcon.Warning);
         }
         protected virtual void SetLogLevel(Level logLevel)
         {
@@ -343,7 +370,7 @@ namespace RacerData.rNascarApp
                 else
                 {
                     e.Effect = DragDropEffects.Move;
-                    GridTable.BackColor = Color.LimeGreen;
+                    GridTable.BackColor = Color.DimGray;
                 }
             }
         }
@@ -456,6 +483,9 @@ namespace RacerData.rNascarApp
                 controlBase.EditViewRequest += ControlBase_EditViewRequest;
 
                 ConfigureDragging(controlBase);
+
+                if (!_workspaceService.CurrentWorkspace.ViewStates.Contains(controlBase.State.Id))
+                    _workspaceService.CurrentWorkspace.ViewStates.Add(controlBase.State.Id);
             }
             catch (IndexOutOfRangeException)
             {
@@ -480,6 +510,8 @@ namespace RacerData.rNascarApp
             controlBase.RemoveControlRequest -= ControlBase_RemoveControlRequest;
             controlBase.EditThemeRequest -= ControlBase_EditThemeRequest;
             controlBase.EditViewRequest -= ControlBase_EditViewRequest;
+
+            _workspaceService.CurrentWorkspace.ViewStates.Remove(controlBase.State.Id);
 
             controlBase.Dispose();
         }
@@ -515,7 +547,373 @@ namespace RacerData.rNascarApp
         }
         #endregion
 
-        #region view states
+        #region workspaces
+        private void WorkspaceService_WorkspaceChanged(object sender, WorkspaceChangedEventArgs e)
+        {
+            try
+            {
+                UpdateCurrentWorkspaceName(e.CurrentWorkspace.Name);
+
+                ResetViews();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error setting current workspace", ex);
+            }
+        }
+        private void workspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateNewWorkspace();
+        }
+        private void saveWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveWorkspace();
+        }
+        private void copyWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var workspace = SelectWorkspace("Select workspace to copy");
+
+                if (workspace != null)
+                    CopyWorkspace(workspace);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error copying workspace", ex);
+            }
+        }
+        private void openWorkspaceToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var workspace = SelectWorkspace("Select workspace to open");
+
+                if (workspace != null)
+                    _workspaceService.SetActiveWorkspace(workspace.Name);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error setting active workspace", ex);
+            }
+        }
+        private void removeWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var workspace = SelectWorkspace("Select workspace to delete");
+
+                if (workspace != null)
+                    DeleteWorkspace(workspace);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error deleting workspace", ex);
+            }
+        }
+        protected virtual void UpdateCurrentWorkspaceName(string name)
+        {
+            this.Text = $"{ApplicationTitle} [{name}]";
+            lblWorkspace.Text = name;
+        }
+        protected virtual Workspace SelectWorkspace(string title, string prompt = "")
+        {
+            Workspace workspace = null;
+
+            try
+            {
+                if (String.IsNullOrEmpty(prompt))
+                    prompt = $"Current workspace: {_workspaceService.CurrentWorkspace.Name}";
+
+                var dialog = new WorkspaceSelectionDialog()
+                {
+                    Title = title,
+                    Prompt = prompt,
+                    Workspaces = _workspaceService.Workspaces
+                };
+
+                var result = dialog.ShowDialog(this);
+
+                if (result == DialogResult.OK)
+                    workspace = dialog.Workspace;
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error selecting workspace", ex);
+            }
+
+            return workspace;
+        }
+        protected virtual void SaveWorkspace()
+        {
+            try
+            {
+                _workspaceService.Save();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error saving workspace", ex);
+            }
+        }
+        protected virtual void CopyWorkspace(Workspace workspace)
+        {
+            try
+            {
+                var isDone = false;
+
+                while (!isDone)
+                {
+                    using (var dialog = new InputDialog(
+                       "Copy Workspace",
+                       "Enter a name for the new workspace",
+                       $"Copy of {workspace.Name}"))
+                    {
+                        if (dialog.ShowDialog(this) != DialogResult.Cancel)
+                        {
+                            if (dialog.Value == Workspace.DefaultWorkspaceName)
+                            {
+                                var result = MessageBox.Show(this,
+                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                    "Error copying workspace",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Error);
+
+                                isDone = (result != DialogResult.Yes);
+                            }
+                            else if (dialog.Value == String.Empty)
+                            {
+                                var result = MessageBox.Show(this,
+                                    $"The name cannot be blank.\r\n\r\nDo you want to try again?",
+                                    "Error copying workspace",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Error);
+
+                                isDone = (result != DialogResult.Yes);
+                            }
+                            else
+                            {
+                                var newWorkspace = new Workspace()
+                                {
+                                    Name = dialog.Value,
+                                    ViewStates = workspace.ViewStates.ToList()
+                                };
+
+                                try
+                                {
+                                    _workspaceService.AddWorkspace(newWorkspace);
+
+                                    _workspaceService.SetActiveWorkspace(newWorkspace.Name);
+
+                                    MessageBox.Show(this, $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                        "Workspace copied",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+
+                                    isDone = true;
+                                }
+                                catch (InvalidOperationException ex)
+                                {
+                                    var result = MessageBox.Show(this,
+                                        $"There was an error copying the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
+                                        "Error copying workspace",
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Error);
+
+                                    isDone = (result != DialogResult.Yes);
+                                }
+                                catch (Exception)
+                                {
+                                    throw;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error copying workspace", ex);
+            }
+        }
+        protected virtual void CreateNewWorkspace()
+        {
+            try
+            {
+                var isDone = false;
+
+                while (!isDone)
+                {
+                    using (var dialog = new InputDialog(
+                       "New Workspace",
+                       "Enter a name for the new workspace",
+                       $"<Workspace Name>"))
+                    {
+                        if (dialog.ShowDialog(this) != DialogResult.Cancel)
+                        {
+                            if (dialog.Value == Workspace.DefaultWorkspaceName)
+                            {
+                                var result = MessageBox.Show(this,
+                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                    "Error creating workspace",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Error);
+
+                                isDone = (result != DialogResult.Yes);
+                            }
+                            else if (dialog.Value == String.Empty)
+                            {
+                                var result = MessageBox.Show(this,
+                                    $"The name cannot be blank.\r\n\r\nDo you want to try again?",
+                                    "Error creating workspace",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Error);
+
+                                isDone = (result != DialogResult.Yes);
+                            }
+                            else
+                            {
+                                var newWorkspace = new Workspace()
+                                {
+                                    Name = dialog.Value
+                                };
+
+                                try
+                                {
+                                    _workspaceService.AddWorkspace(newWorkspace);
+
+                                    _workspaceService.SetActiveWorkspace(newWorkspace.Name);
+
+                                    MessageBox.Show(this, $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                        "Workspace created",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+
+                                    isDone = true;
+                                }
+                                catch (InvalidOperationException ex)
+                                {
+                                    var result = MessageBox.Show(this,
+                                        $"There was an error creating the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
+                                        "Error creating workspace",
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Error);
+
+                                    isDone = (result != DialogResult.Yes);
+                                }
+                                catch (Exception)
+                                {
+                                    throw;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error creating new workspace", ex);
+            }
+        }
+        protected virtual void DeleteWorkspace(Workspace workspace)
+        {
+            try
+            {
+                if (workspace.Name == Workspace.DefaultWorkspaceName)
+                    throw new InvalidOperationException("Cannot delete default workspace");
+
+                var result = MessageBox.Show(this,
+                                       $"You are about to permanently delete workspace '{workspace.Name}'.\r\n\r\nContinue?",
+                                       "Comfirm delete workspace",
+                                       MessageBoxButtons.YesNo,
+                                       MessageBoxIcon.Error);
+
+                if (result != DialogResult.Yes)
+                    return;
+
+                _workspaceService.RemoveWorkspace(workspace);
+
+                MessageBox.Show(this, $"Workspace '{workspace.Name}' has been deleted",
+                                       "Workspace removed",
+                                       MessageBoxButtons.OK,
+                                       MessageBoxIcon.Information);
+
+                workspace = null;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler($"Error deleting workspace", ex);
+            }
+        }
+        #endregion
+
+        #region view states  
+        private void viewListToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (ToolStripMenuItem item in viewListToolStripMenuItem.DropDownItems)
+                {
+                    item.CheckedChanged -= ViewStateStripMenuItem_CheckedChanged;
+                }
+
+                viewListToolStripMenuItem.DropDownItems.Clear();
+
+                foreach (ViewState viewState in AppSettings.ViewStates)
+                {
+                    var fooToolStripMenuItem = new ToolStripMenuItem();
+                    fooToolStripMenuItem.Name = $"{viewState.Name.Replace(" ", "_")}MenuItem";
+                    fooToolStripMenuItem.Size = new Size(180, 22);
+                    fooToolStripMenuItem.Text = viewState.Name;
+                    fooToolStripMenuItem.CheckOnClick = true;
+                    fooToolStripMenuItem.Tag = viewState;
+
+                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                    {
+                        if (controlBase.State.Name == viewState.Name)
+                        {
+                            fooToolStripMenuItem.Checked = true;
+                            break;
+                        }
+                    }
+
+                    fooToolStripMenuItem.CheckedChanged += ViewStateStripMenuItem_CheckedChanged;
+                    viewListToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fooToolStripMenuItem });
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying view list", ex);
+            }
+        }
+        private void ViewStateStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            ViewState viewState = (ViewState)item.Tag;
+
+            if (item.Checked)
+            {
+                viewState.IsDisplayed = true;
+                AddControl(viewState);
+            }
+            else
+            {
+                UserControlBase controlToClose = null;
+                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
+                {
+                    if (controlBase.State.Name == viewState.Name)
+                    {
+                        controlToClose = controlBase;
+                        break;
+                    }
+                }
+                if (controlToClose != null)
+                {
+                    RemoveUserControlBase(controlToClose);
+                    viewState.IsDisplayed = false;
+                }
+            }
+        }
         private void resetViewsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResetViews();
@@ -542,9 +940,11 @@ namespace RacerData.rNascarApp
         }
         protected virtual void LoadViewStates()
         {
-            foreach (ViewState viewState in AppSettings.ViewStates.OrderBy(v => v.Index))
+            foreach (Guid id in _workspaceService.CurrentWorkspace.ViewStates)
             {
-                if (viewState.IsDisplayed)
+                var viewState = AppSettings.ViewStates.SingleOrDefault(v => v.Id == id);
+
+                if (viewState != null && viewState.IsDisplayed)
                 {
                     var controlBase = AddControl(viewState);
                 }
@@ -602,7 +1002,6 @@ namespace RacerData.rNascarApp
         #endregion
 
         #region main form properties
-
         protected virtual void MainForm_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -615,7 +1014,6 @@ namespace RacerData.rNascarApp
                     }
             }
         }
-
         #endregion
 
         #region form closing
@@ -652,6 +1050,8 @@ namespace RacerData.rNascarApp
             }
 
             AppSettings.Save();
+
+            _workspaceService.Save();
         }
         #endregion
 
@@ -670,14 +1070,14 @@ namespace RacerData.rNascarApp
 
         private void toolBarToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (MainToolStrip.Visible != toolBarToolStripMenuItem.Checked)
-                MainToolStrip.Visible = toolBarToolStripMenuItem.Checked;
+            if (tlsMain.Visible != toolBarToolStripMenuItem.Checked)
+                tlsMain.Visible = toolBarToolStripMenuItem.Checked;
         }
 
         private void MainToolStrip_VisibleChanged(object sender, EventArgs e)
         {
-            if (toolBarToolStripMenuItem.Checked != MainToolStrip.Visible)
-                toolBarToolStripMenuItem.Checked = MainToolStrip.Visible;
+            if (toolBarToolStripMenuItem.Checked != tlsMain.Visible)
+                toolBarToolStripMenuItem.Checked = tlsMain.Visible;
         }
         #endregion
 
@@ -739,13 +1139,15 @@ namespace RacerData.rNascarApp
                 if (enableMonitor)
                 {
                     txtMonitorState.BackColor = Color.LimeGreen;
-                    btnMonitor.Text = "Stop Monitor";
+                    btnMonitor.Text = "Stop";
+                    btnMonitor.Image = Properties.Resources.Symbols_Pause_32xLG;
                     _feedService.Start();
                 }
                 else
                 {
-                    txtMonitorState.BackColor = Color.DarkOliveGreen;
-                    btnMonitor.Text = "Start Monitor";
+                    txtMonitorState.BackColor = Color.DarkGreen;
+                    btnMonitor.Text = "Start";
+                    btnMonitor.Image = Properties.Resources.Symbols_Play_32xLG;
                     _feedService.Pause();
                 }
 
@@ -1042,7 +1444,20 @@ namespace RacerData.rNascarApp
                 var displayFormatFactory = new ViewDisplayFormatFactory();
                 var displayFormats = displayFormatFactory.GetViewDisplayFormats();
 
-                var mapService = new DisplayFormatMapService();
+                DisplayFormatMapService mapService = null;
+
+                try
+                {
+                    mapService = new DisplayFormatMapService();
+                }
+                catch (Exception ex)
+                {
+                    var result = ExceptionHandler("Error loading DisplayFormatMap service. Continue?", ex, MessageBoxButtons.YesNo);
+
+                    if (result != DialogResult.Yes)
+                        return;
+                }
+
 
                 using (var dialog = new DisplayFormatMapDialog()
                 {
@@ -1058,16 +1473,21 @@ namespace RacerData.rNascarApp
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error displaying display format map dialog", ex);
+                ExceptionHandler("Error displaying Data Format form", ex);
             }
         }
         #endregion
 
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        #region Create view wizard
+        private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DisplayViewDesignWizard();
         }
+        private void btnNewVeiwWizard_Click(object sender, EventArgs e)
+        {
+            DisplayViewDesignWizard();
+        }
+
         protected virtual void DisplayViewDesignWizard()
         {
             try
@@ -1099,76 +1519,52 @@ namespace RacerData.rNascarApp
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error displaying display format map dialog", ex);
+                ExceptionHandler("Error displaying Create View Wizard", ex);
             }
         }
+        #endregion
 
-        private void viewListToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        #region full screen
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            try
-            {
-                foreach (ToolStripMenuItem item in viewListToolStripMenuItem.DropDownItems)
-                {
-                    item.CheckedChanged -= FooToolStripMenuItem_CheckedChanged;
-                }
-
-                viewListToolStripMenuItem.DropDownItems.Clear();
-
-                foreach (ViewState viewState in AppSettings.ViewStates)
-                {
-                    var fooToolStripMenuItem = new ToolStripMenuItem();
-                    fooToolStripMenuItem.Name = $"{viewState.Name.Replace(" ", "_")}MenuItem";
-                    fooToolStripMenuItem.Size = new Size(180, 22);
-                    fooToolStripMenuItem.Text = viewState.Name;
-                    fooToolStripMenuItem.CheckOnClick = true;
-                    fooToolStripMenuItem.Tag = viewState;
-
-                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
-                    {
-                        if (controlBase.State.Name == viewState.Name)
-                        {
-                            fooToolStripMenuItem.Checked = true;
-                            break;
-                        }
-                    }
-
-                    fooToolStripMenuItem.CheckedChanged += FooToolStripMenuItem_CheckedChanged;
-                    viewListToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fooToolStripMenuItem });
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error displaying view list", ex);
-            }
+            if (e.KeyCode == Keys.F11)
+                ToggleFullscreen();
         }
-
-        private void FooToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        protected virtual void ToggleFullscreen()
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            ViewState viewState = (ViewState)item.Tag;
-
-            if (item.Checked)
+            if (_isFullScreen)
             {
-                viewState.IsDisplayed = true;
-                AddControl(viewState);
+                this.TopMost = false;
+                this.FormBorderStyle = _previousBorderStyle;
+                this.WindowState = _previousWindowState;
             }
             else
             {
-                UserControlBase controlToClose = null;
-                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
-                {
-                    if (controlBase.State.Name == viewState.Name)
-                    {
-                        controlToClose = controlBase;
-                        break;
-                    }
-                }
-                if (controlToClose != null)
-                {
-                    RemoveUserControlBase(controlToClose);
-                    viewState.IsDisplayed = false;
-                }
+                _previousBorderStyle = this.FormBorderStyle;
+                _previousWindowState = this.WindowState;
+
+                this.TopMost = true;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+            }
+
+            _isFullScreen = !_isFullScreen;
+        }
+        #endregion
+
+        #region classes
+
+        public class ToolStripRenderer : ToolStripSystemRenderer
+        {
+            public ToolStripRenderer() { }
+
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+            {
+                // comment to prevent toolstrip border from being drawn
+                //base.OnRenderToolStripBorder(e);
             }
         }
+
+        #endregion
     }
 }

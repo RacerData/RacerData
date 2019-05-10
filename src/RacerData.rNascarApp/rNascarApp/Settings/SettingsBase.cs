@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -54,13 +55,13 @@ namespace RacerData.rNascarApp.Settings
 
         #region protected
 
-        protected virtual T Load<T>() where T : SettingsBase
+        protected T Load<T>() where T : SettingsBase, new()
         {
             var filePath = GetSettingsFilePath();
 
             if (!File.Exists(filePath))
             {
-                var defaultSettings = GetDefaultSettings<T>();
+                var defaultSettings = new T();
 
                 defaultSettings.Save();
 
@@ -72,8 +73,10 @@ namespace RacerData.rNascarApp.Settings
             return JsonConvert.DeserializeObject<T>(settingsContent);
         }
 
-        protected abstract T GetDefaultSettings<T>() where T : SettingsBase;
-
+        protected virtual T GetDefaultSettings<T>() where T : class, new()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

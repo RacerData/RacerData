@@ -33,8 +33,9 @@
             // ListHeader
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ListHeader";
-            this.Size = new System.Drawing.Size(100, 34);
+            this.Size = new System.Drawing.Size(1327, 34);
             this.ResumeLayout(false);
 
         }

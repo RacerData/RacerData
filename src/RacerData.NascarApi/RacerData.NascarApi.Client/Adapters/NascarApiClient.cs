@@ -165,14 +165,14 @@ namespace RacerData.NascarApi.Client.Adapters
             }
         }
 
-        public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync(CancellationToken cancellationToken)
+        public async Task<IResult<LapAverageData>> GetLapAverageDataAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return await Task.FromCanceled<IResult<EventVehicleLapAverages>>(cancellationToken);
+                return await Task.FromCanceled<IResult<LapAverageData>>(cancellationToken);
 
             return await GetLapAverageDataAsync();
         }
-        public async Task<IResult<EventVehicleLapAverages>> GetLapAverageDataAsync()
+        public async Task<IResult<LapAverageData>> GetLapAverageDataAsync()
         {
             try
             {
@@ -186,18 +186,18 @@ namespace RacerData.NascarApi.Client.Adapters
             }
             catch (Exception ex)
             {
-                return _resultFactory.Exception<EventVehicleLapAverages>(ex);
+                return _resultFactory.Exception<LapAverageData>(ex);
             }
         }
 
-        public async Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync(CancellationToken cancellationToken)
+        public async Task<IResult<LapTimeData>> GetLapTimeDataAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return await Task.FromCanceled<IResult<EventVehicleLapTimes>>(cancellationToken);
+                return await Task.FromCanceled<IResult<LapTimeData>>(cancellationToken);
 
             return await GetLapTimeDataAsync();
         }
-        public async Task<IResult<EventVehicleLapTimes>> GetLapTimeDataAsync()
+        public async Task<IResult<LapTimeData>> GetLapTimeDataAsync()
         {
             try
             {
@@ -211,7 +211,7 @@ namespace RacerData.NascarApi.Client.Adapters
             }
             catch (Exception ex)
             {
-                return _resultFactory.Exception<EventVehicleLapTimes>(ex);
+                return _resultFactory.Exception<LapTimeData>(ex);
             }
         }
 

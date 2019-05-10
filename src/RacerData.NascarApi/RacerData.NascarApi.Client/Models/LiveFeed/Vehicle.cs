@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace RacerData.NascarApi.Client.Models.LiveFeed
 {
@@ -17,12 +19,12 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
         public double LastLapTime { get; set; }
         public List<PitStop> PitStops { get; set; }
         public int RunningPosition { get; set; }
-        public int Status { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public VehicleStatus Status { get; set; }
         public double Delta { get; set; }
         public string Sponsor { get; set; }
         public int StartingPosition { get; set; }
         public bool IsOnTrack { get; set; }
-
 
         public override string ToString()
         {

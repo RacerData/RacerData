@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using RacerData.rNascarApp.Models;
@@ -66,8 +67,28 @@ namespace RacerData.rNascarApp.Factories
 
         public void Save()
         {
+            foreach (ViewDisplayFormat format in Map.Values.ToList())
+            {
+                var existing = DisplayFormats.FirstOrDefault(f => f.Name == format.Name);
+
+                if (existing == null)
+                {
+                    DisplayFormats.Add(format);
+                }
+                else
+                {
+                    Map.Where(m => m.Value.Name == format.Name);
+                }
+            }
+
             SaveMap();
             SaveFormats();
+        }
+
+        public virtual void AddNewFormatToMap(ViewDataMember member, ViewDisplayFormat format)
+        {
+            DisplayFormats.Add(format);
+            Map[member] = format;
         }
 
         #endregion
@@ -140,31 +161,43 @@ namespace RacerData.rNascarApp.Factories
         protected virtual IList<ViewDisplayFormat> LoadDisplayFormats()
         {
             IList<ViewDisplayFormat> formats = null;
+            string filePath = string.Empty;
 
-            var filePath = GetFormatFilePath();
-
-            if (!File.Exists(filePath))
+            try
             {
-                ViewDisplayFormatFactory factory = new ViewDisplayFormatFactory();
-                formats = factory.GetViewDisplayFormats();
-            }
+                filePath = GetFormatFilePath();
 
-            var json = File.ReadAllText(filePath);
+                if (!File.Exists(filePath))
+                {
+                    return new List<ViewDisplayFormat>();
+                }
 
-            if (string.IsNullOrEmpty(json))
-            {
-                ViewDisplayFormatFactory factory = new ViewDisplayFormatFactory();
-                formats = factory.GetViewDisplayFormats();
-            }
-            else
-            {
-                formats = JsonConvert.DeserializeObject<List<ViewDisplayFormat>>(json);
+                var json = File.ReadAllText(filePath);
 
-                if (formats.Count == 0)
+                if (string.IsNullOrEmpty(json))
                 {
                     ViewDisplayFormatFactory factory = new ViewDisplayFormatFactory();
                     formats = factory.GetViewDisplayFormats();
                 }
+                else
+                {
+                    formats = JsonConvert.DeserializeObject<List<ViewDisplayFormat>>(json);
+
+                    if (formats.Count == 0)
+                    {
+                        ViewDisplayFormatFactory factory = new ViewDisplayFormatFactory();
+                        formats = factory.GetViewDisplayFormats();
+                    }
+                }
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw new System.Exception($"Error deserializing the Display Format file:\r\n\r\n{ex.Message}\r\n\r\n" +
+                    $"File: {filePath}", ex);
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception("Error loading Display Format Mapping file", ex);
             }
 
             return formats;
@@ -172,33 +205,47 @@ namespace RacerData.rNascarApp.Factories
 
         protected virtual IDictionary<ViewDataMember, ViewDisplayFormat> LoadMap()
         {
-            var filePath = GetMapFilePath();
+            string filePath = string.Empty;
 
-            if (!File.Exists(filePath))
+            try
             {
-                SaveMap();
+                filePath = GetMapFilePath();
 
-                return Map;
-            }
-
-            var json = File.ReadAllText(filePath);
-
-            if (string.IsNullOrEmpty(json))
-            {
-                return new Dictionary<ViewDataMember, ViewDisplayFormat>();
-            }
-            else
-            {
-                var mapItems = JsonConvert.DeserializeObject<List<DataFormatMapItem>>(json);
-
-                var mapDictionary = new Dictionary<ViewDataMember, ViewDisplayFormat>();
-
-                foreach (var item in mapItems)
+                if (!File.Exists(filePath))
                 {
-                    mapDictionary.Add(item.DataMember, item.DisplayFormat);
+                    SaveMap();
+
+                    return Map;
                 }
 
-                return mapDictionary;
+                var json = File.ReadAllText(filePath);
+
+                if (string.IsNullOrEmpty(json))
+                {
+                    return new Dictionary<ViewDataMember, ViewDisplayFormat>();
+                }
+                else
+                {
+                    var mapItems = JsonConvert.DeserializeObject<List<DataFormatMapItem>>(json);
+
+                    var mapDictionary = new Dictionary<ViewDataMember, ViewDisplayFormat>();
+
+                    foreach (var item in mapItems)
+                    {
+                        mapDictionary.Add(item.DataMember, item.DisplayFormat);
+                    }
+
+                    return mapDictionary;
+                }
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw new System.Exception($"Error deserializing the Display Format Mapping file:\r\n\r\n{ex.Message}\r\n\r\n" +
+                    $"File: {filePath}", ex);
+            }
+            catch (System.Exception ex)
+            {
+                throw new System.Exception("Error loading Display Format Mapping file", ex);
             }
         }
 

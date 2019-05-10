@@ -6,7 +6,7 @@ using RacerData.NascarApi.Client.Ports;
 
 namespace RacerData.NascarApi.Client.Mocks
 {
-    class MockLapTimeFeed : MockDataFeed<EventVehicleLapTimes>
+    class MockLapTimeFeed : MockDataFeed<LapTimeData>
     {
         #region ctor
 
@@ -24,9 +24,9 @@ namespace RacerData.NascarApi.Client.Mocks
 
         #region protected
 
-        protected override EventVehicleLapTimes GetDefault()
+        protected override LapTimeData GetDefault()
         {
-            return new EventVehicleLapTimes();
+            return new LapTimeData();
         }
 
         #endregion

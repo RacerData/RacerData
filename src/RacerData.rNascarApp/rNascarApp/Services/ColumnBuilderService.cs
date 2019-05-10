@@ -81,7 +81,7 @@ namespace RacerData.rNascarApp.Services
                 TextAlign = column.Alignment,
                 AutoSize = false,
                 BackColor = Color.FromKnownColor(KnownColor.Control),
-                BorderStyle = BorderStyle.FixedSingle,
+                BorderStyle = BorderStyle.None,
                 Tag = column
             };
 

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace RacerData.NascarApi.Client.Models.LapTimes
 {
@@ -11,7 +10,9 @@ namespace RacerData.NascarApi.Client.Models.LapTimes
         public string VehicleId { get; set; }
         public int LapNumber { get; set; }
         public double LapTime { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public TrackState TrackState { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public VehicleStatus VehicleStatus { get; set; }
         public int EventElapsed { get; set; }
         public double VehicleElapsed { get; set; }

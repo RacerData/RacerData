@@ -123,8 +123,8 @@
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.40.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.40\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.45.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.45\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Service, Version=1.0.39.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.Service.1.0.39\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
@@ -159,6 +159,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CreateViewWizard\CreateViewContext.cs" />
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -252,6 +253,12 @@
     <Compile Include="Dialogs\CreateViewWizard.Designer.cs">
       <DependentUpon>CreateViewWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\WorkspaceSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\WorkspaceSelectionDialog.Designer.cs">
+      <DependentUpon>WorkspaceSelectionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
     <Compile Include="Factories\DisplayFormatMapService.cs" />
     <Compile Include="Factories\ViewDataSourceFactory.cs" />
@@ -270,6 +277,10 @@
     <Compile Include="Models\ViewDisplayFormat.cs" />
     <Compile Include="Models\ViewListItem.cs" />
     <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Services\IWorkspaceService.cs" />
+    <Compile Include="Services\WorkspaceService.cs" />
+    <Compile Include="Services\WorkspaceChangedEventArgs.cs" />
+    <Compile Include="Settings\Workspace.cs" />
     <Compile Include="Services\ColumnBuilderService.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\SettingsBase.cs" />
@@ -356,6 +367,9 @@
     <EmbeddedResource Include="Dialogs\CreateViewWizard.resx">
       <DependentUpon>CreateViewWizard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\WorkspaceSelectionDialog.resx">
+      <DependentUpon>WorkspaceSelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -419,6 +433,27 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.101.13\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2%28two%29rows,2%28two%29columns_9715.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DialogID_6220_32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\View_8933_32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewConsoleAppTest_8615.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorDialog_671.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Symbols_Play_32xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Symbols_Pause_32xLG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

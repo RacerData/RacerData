@@ -10,8 +10,6 @@ namespace RacerData.rNascarApp.Models
         public string Name { get; set; }
         public string Path { get; set; }
         public string DataFeed { get; set; }
-        public string DataFeedTypeAssemblyQualifiedName { get; set; }
-        public string DataFeedTypeFullName { get; set; }
         string _caption = String.Empty;
         public string Caption
         {
@@ -31,7 +29,7 @@ namespace RacerData.rNascarApp.Models
                         {
                             sb.Append(" ");
                         }
-                        else if (char.IsNumber(Name[i]))
+                        else if (char.IsNumber(Name[i]) && !char.IsNumber(Name[i - 1]))
                         {
                             sb.Append(" ");
                         }
@@ -49,14 +47,14 @@ namespace RacerData.rNascarApp.Models
                 _caption = value;
             }
         }
-        public string AssemblyQualifiedName { get; set; }
-        public string Type { get; set; }
-        private string _convertedType = String.Empty;
-        public string ConvertedType
+        public Type Type { get; set; }
+        public Type DataFeedType { get; set; }
+        private Type _convertedType = null;
+        public Type ConvertedType
         {
             get
             {
-                if (String.IsNullOrEmpty(_convertedType))
+                if (_convertedType == null)
                     _convertedType = Type;
 
                 return _convertedType;
@@ -73,12 +71,12 @@ namespace RacerData.rNascarApp.Models
 
         public override int GetHashCode()
         {
-            return Path.GetHashCode();
+            return DataFeed.GetHashCode() + Path.GetHashCode();
         }
 
         public bool Equals(ViewDataMember other)
         {
-            return other != null && Path == other.Path;
+            return other != null && DataFeed == other.DataFeed && Path == other.Path;
         }
 
         #endregion

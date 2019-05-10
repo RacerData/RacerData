@@ -2,7 +2,7 @@
 
 namespace RacerData.NascarApi.Client.Models.LapTimes
 {
-    public class EventVehicleLapTimes
+    public class LapTimeData
     {
         #region properties
 
@@ -19,7 +19,7 @@ namespace RacerData.NascarApi.Client.Models.LapTimes
 
         #region ctor
 
-        public EventVehicleLapTimes()
+        public LapTimeData()
         {
             VehicleLapTimes = new List<VehicleLapTime>();
         }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace RacerData.rNascarApp.Settings
@@ -26,23 +28,14 @@ namespace RacerData.rNascarApp.Settings
         #endregion
 
         #region public
-
+        
         public static AppSettings Load()
         {
             var settings = new AppSettings();
 
-            return settings.Load<AppSettings>();
-        }
+            var loaded = settings.Load<AppSettings>();
 
-        #endregion
-
-        #region protected
-
-        protected override T GetDefaultSettings<T>()
-        {
-            var defaultSettings = new AppSettings() as T;
-
-            return defaultSettings;
+            return loaded;
         }
 
         #endregion

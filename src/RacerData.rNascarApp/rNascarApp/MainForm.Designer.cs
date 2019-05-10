@@ -31,6 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.workspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWorkspaceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +77,8 @@
             this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlGrid = new System.Windows.Forms.Panel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblWorkspace = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.tlsMain.SuspendLayout();
@@ -79,7 +88,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.Black;
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.menuStrip1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -95,18 +104,88 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openWorkspaceToolStripMenuItem1,
+            this.saveWorkspaceToolStripMenuItem,
+            this.copyWorkspaceToolStripMenuItem,
+            this.removeWorkspaceToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem1,
+            this.workspaceToolStripMenuItem});
+            this.newToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.newToolStripMenuItem.Text = "&New...";
+            // 
+            // viewToolStripMenuItem1
+            // 
+            this.viewToolStripMenuItem1.BackColor = System.Drawing.Color.Black;
+            this.viewToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
+            this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
+            this.viewToolStripMenuItem1.Text = "&View";
+            this.viewToolStripMenuItem1.Click += new System.EventHandler(this.viewToolStripMenuItem1_Click);
+            // 
+            // workspaceToolStripMenuItem
+            // 
+            this.workspaceToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.workspaceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.workspaceToolStripMenuItem.Name = "workspaceToolStripMenuItem";
+            this.workspaceToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.workspaceToolStripMenuItem.Text = "&Workspace";
+            this.workspaceToolStripMenuItem.Click += new System.EventHandler(this.workspaceToolStripMenuItem_Click);
+            // 
+            // openWorkspaceToolStripMenuItem1
+            // 
+            this.openWorkspaceToolStripMenuItem1.BackColor = System.Drawing.Color.Black;
+            this.openWorkspaceToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
+            this.openWorkspaceToolStripMenuItem1.Name = "openWorkspaceToolStripMenuItem1";
+            this.openWorkspaceToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.openWorkspaceToolStripMenuItem1.Text = "&Open Workspace";
+            this.openWorkspaceToolStripMenuItem1.Click += new System.EventHandler(this.openWorkspaceToolStripMenuItem1_Click);
+            // 
+            // saveWorkspaceToolStripMenuItem
+            // 
+            this.saveWorkspaceToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.saveWorkspaceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.saveWorkspaceToolStripMenuItem.Name = "saveWorkspaceToolStripMenuItem";
+            this.saveWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.saveWorkspaceToolStripMenuItem.Text = "&Save Workspace";
+            this.saveWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.saveWorkspaceToolStripMenuItem_Click);
+            // 
+            // copyWorkspaceToolStripMenuItem
+            // 
+            this.copyWorkspaceToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.copyWorkspaceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.copyWorkspaceToolStripMenuItem.Name = "copyWorkspaceToolStripMenuItem";
+            this.copyWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.copyWorkspaceToolStripMenuItem.Text = "&Copy Workspace";
+            this.copyWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.copyWorkspaceToolStripMenuItem_Click);
+            // 
+            // removeWorkspaceToolStripMenuItem
+            // 
+            this.removeWorkspaceToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.removeWorkspaceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.removeWorkspaceToolStripMenuItem.Name = "removeWorkspaceToolStripMenuItem";
+            this.removeWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.removeWorkspaceToolStripMenuItem.Text = "&Remove Workspace";
+            this.removeWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.removeWorkspaceToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.BackColor = System.Drawing.Color.Black;
             this.exitToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -244,7 +323,9 @@
             this.toolStripStatusLabel1,
             this.lblSession,
             this.toolStripStatusLabel2,
-            this.lblTrackState});
+            this.lblTrackState,
+            this.toolStripStatusLabel4,
+            this.lblWorkspace});
             this.MainStatusStrip.Location = new System.Drawing.Point(0, 602);
             this.MainStatusStrip.Name = "MainStatusStrip";
             this.MainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
@@ -255,7 +336,7 @@
             // 
             // toolStripStatusLabel0
             // 
-            this.toolStripStatusLabel0.BackColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel0.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripStatusLabel0.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.toolStripStatusLabel0.ForeColor = System.Drawing.Color.Gainsboro;
             this.toolStripStatusLabel0.Name = "toolStripStatusLabel0";
@@ -266,7 +347,7 @@
             // 
             this.lblTrackName.AutoSize = false;
             this.lblTrackName.AutoToolTip = true;
-            this.lblTrackName.BackColor = System.Drawing.Color.Black;
+            this.lblTrackName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.lblTrackName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lblTrackName.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblTrackName.Name = "lblTrackName";
@@ -276,7 +357,7 @@
             // 
             // toolStripStatusLabel3
             // 
-            this.toolStripStatusLabel3.BackColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.Gainsboro;
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(39, 23);
@@ -284,18 +365,18 @@
             // 
             // lblEvent
             // 
-            this.lblEvent.BackColor = System.Drawing.Color.Black;
+            this.lblEvent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.lblEvent.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lblEvent.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblEvent.Name = "lblEvent";
-            this.lblEvent.Size = new System.Drawing.Size(597, 23);
+            this.lblEvent.Size = new System.Drawing.Size(379, 23);
             this.lblEvent.Spring = true;
             this.lblEvent.Text = "-none-";
             this.lblEvent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.Gainsboro;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(49, 23);
@@ -305,7 +386,7 @@
             // 
             this.lblSession.AutoSize = false;
             this.lblSession.AutoToolTip = true;
-            this.lblSession.BackColor = System.Drawing.Color.Black;
+            this.lblSession.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.lblSession.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lblSession.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblSession.Name = "lblSession";
@@ -315,7 +396,7 @@
             // 
             // toolStripStatusLabel2
             // 
-            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.Gainsboro;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(67, 23);
@@ -325,7 +406,7 @@
             // 
             this.lblTrackState.AutoSize = false;
             this.lblTrackState.AutoToolTip = true;
-            this.lblTrackState.BackColor = System.Drawing.Color.Black;
+            this.lblTrackState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.lblTrackState.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.lblTrackState.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblTrackState.Name = "lblTrackState";
@@ -506,6 +587,24 @@
             this.pnlGrid.Size = new System.Drawing.Size(1211, 553);
             this.pnlGrid.TabIndex = 4;
             // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.White;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(68, 23);
+            this.toolStripStatusLabel4.Text = "Workspace:";
+            // 
+            // lblWorkspace
+            // 
+            this.lblWorkspace.AutoSize = false;
+            this.lblWorkspace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.lblWorkspace.ForeColor = System.Drawing.Color.LightGray;
+            this.lblWorkspace.Name = "lblWorkspace";
+            this.lblWorkspace.Size = new System.Drawing.Size(150, 23);
+            this.lblWorkspace.Text = "-none-";
+            this.lblWorkspace.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -583,6 +682,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton btnNewViewWizard;
         private System.Windows.Forms.ToolStripMenuItem viewListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem workspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openWorkspaceToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem removeWorkspaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripStatusLabel lblWorkspace;
     }
 }
 

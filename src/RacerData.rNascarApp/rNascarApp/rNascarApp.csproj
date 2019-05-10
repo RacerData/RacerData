@@ -253,6 +253,12 @@
     <Compile Include="Dialogs\CreateViewWizard.Designer.cs">
       <DependentUpon>CreateViewWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\WorkspaceSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\WorkspaceSelectionDialog.Designer.cs">
+      <DependentUpon>WorkspaceSelectionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
     <Compile Include="Factories\DisplayFormatMapService.cs" />
     <Compile Include="Factories\ViewDataSourceFactory.cs" />
@@ -271,6 +277,10 @@
     <Compile Include="Models\ViewDisplayFormat.cs" />
     <Compile Include="Models\ViewListItem.cs" />
     <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Services\IWorkspaceService.cs" />
+    <Compile Include="Services\WorkspaceService.cs" />
+    <Compile Include="Services\WorkspaceChangedEventArgs.cs" />
+    <Compile Include="Settings\Workspace.cs" />
     <Compile Include="Services\ColumnBuilderService.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Settings\SettingsBase.cs" />
@@ -356,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\CreateViewWizard.resx">
       <DependentUpon>CreateViewWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\WorkspaceSelectionDialog.resx">
+      <DependentUpon>WorkspaceSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

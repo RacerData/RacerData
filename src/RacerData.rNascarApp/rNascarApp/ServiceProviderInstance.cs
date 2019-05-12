@@ -41,9 +41,6 @@ namespace RacerData.rNascarApp
                 .AddJsonFile("appsettings.json", optional: true)
                 .Build();
 
-
-            services.AddTransient<IAwsBucketConfiguration, AwsConfiguration>();
-
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
             services.AddScoped<IWorkspaceService, WorkspaceService>();

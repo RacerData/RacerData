@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Dialogs;
+using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Themes;
 

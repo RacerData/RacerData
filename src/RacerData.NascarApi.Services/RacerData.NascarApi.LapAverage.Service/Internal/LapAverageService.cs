@@ -39,14 +39,14 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
                 .OrderBy(l => l.LapNumber);
         }
 
-        public IList<VehicleNLapAverage> GetBestLapAverages(int targetLapCount)
+        public List<VehicleNLapAverage> GetBestLapAverages(int targetLapCount)
         {
             var averages = _vehicleLapHistory.Values.SelectMany(a => a.GetBestLapAverage(targetLapCount));
 
             return averages.Where(a => a != null).OrderBy(a => a.AverageLapTime).ToList();
         }
 
-        public IList<VehicleNLapAverage> GetLastLapAverages(int targetLapCount)
+        public List<VehicleNLapAverage> GetLastLapAverages(int targetLapCount)
         {
             var averages = _vehicleLapHistory.Values.SelectMany(a => a.GetLastLapAverage(targetLapCount));
 

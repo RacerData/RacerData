@@ -1,4 +1,4 @@
-﻿namespace RacerData.rNascarApp.Settings
+﻿namespace RacerData.rNascarApp.Models
 {
     public class ViewCellPosition
     {

@@ -46,7 +46,7 @@ namespace RacerData.rNascarApp.Models
         #region ctor
 
         public DataParserValueException()
-            : base("Data Parser Error")
+            : base("Data Parser Value Error")
         {
 
         }

@@ -1,7 +1,7 @@
 ﻿using System;
-using RacerData.rNascarApp.Models;
+using RacerData.rNascarApp.Settings;
 
-namespace RacerData.rNascarApp.Settings
+namespace RacerData.rNascarApp.Models
 {
     public class ViewState
     {

@@ -45,7 +45,7 @@ namespace RacerData.rNascarApp.Models
         #region ctor
 
         public DataParserDrillDownException()
-            : base("Data PArser Error")
+            : base("Data Parser Path Error")
         {
 
         }

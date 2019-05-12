@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/RacerData/RacerData</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageReleaseNotes>Consolidation of NascarApi services</PackageReleaseNotes>
-    <Version>1.0.10</Version>
+    <Version>1.0.73</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,12 +23,5 @@
     <ProjectReference Include="..\RacerData.NascarApi.LapTimes.Service\RacerData.NascarApi.LapTimes.Service.csproj" />
     <ProjectReference Include="..\RacerData.NascarApi.Service\RacerData.NascarApi.Service.csproj" />
   </ItemGroup>
-
-  <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
-   <Exec Command="nuget add &quot;$(ProjectDir)\bin\Debug\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
-  </Target>
-  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
-   <Exec Command="nuget add &quot;$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
-  </Target>
 
 </Project>

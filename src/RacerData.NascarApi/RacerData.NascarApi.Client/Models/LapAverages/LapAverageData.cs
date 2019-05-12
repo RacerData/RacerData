@@ -13,12 +13,12 @@ namespace RacerData.NascarApi.Client.Models.LapAverages
         public string RunName { get; set; }
         public int Elapsed { get; set; }
 
-        public IList<VehicleNLapAverage> Best5LapAverages { get; set; }
-        public IList<VehicleNLapAverage> Best10LapAverages { get; set; }
-        public IList<VehicleNLapAverage> Best20LapAverages { get; set; }
-        public IList<VehicleNLapAverage> Last5LapAverages { get; set; }
-        public IList<VehicleNLapAverage> Last10LapAverages { get; set; }
-        public IList<VehicleNLapAverage> Last20LapAverages { get; set; }
+        public List<VehicleNLapAverage> Best5LapAverages { get; set; }
+        public List<VehicleNLapAverage> Best10LapAverages { get; set; }
+        public List<VehicleNLapAverage> Best20LapAverages { get; set; }
+        public List<VehicleNLapAverage> Last5LapAverages { get; set; }
+        public List<VehicleNLapAverage> Last10LapAverages { get; set; }
+        public List<VehicleNLapAverage> Last20LapAverages { get; set; }
 
         #endregion
 

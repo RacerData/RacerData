@@ -235,11 +235,13 @@ namespace RacerData.rNascarApp.Services
 
         protected virtual bool IsListType(string dataMemberTypeName)
         {
-            return dataMemberTypeName == "List`1" ||
-                    dataMemberTypeName == "IList`1";
+            if (dataMemberTypeName == "IList`1")
+            {
+                throw new DataParserTypeException($"Unsupported List Type 'IList<>', use 'List<>' instead");
+            }
+            else
+                return dataMemberTypeName == "List`1";
         }
-
-
 
         #endregion
     }

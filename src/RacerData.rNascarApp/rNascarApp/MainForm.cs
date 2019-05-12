@@ -523,7 +523,9 @@ namespace RacerData.rNascarApp
         protected virtual void ControlBase_RemoveControlRequest(object sender, EventArgs e)
         {
             ((UserControlBase)sender).State.IsDisplayed = false;
+
             SaveViewStates();
+
             RemoveUserControlBase((UserControlBase)sender);
         }
         protected virtual void ControlBase_ResizeControlRequest(object sender, EventArgs e)
@@ -1055,6 +1057,8 @@ namespace RacerData.rNascarApp
                 AppSettings.Size = this.Size;
                 AppSettings.Location = this.Location;
                 AppSettings.StartPosition = this.StartPosition;
+                AppSettings.GridColumnCount = GridTable.ColumnCount;
+                AppSettings.GridRowCount = GridTable.RowCount;
             }
 
             AppSettings.Save();

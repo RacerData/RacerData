@@ -6,8 +6,8 @@ namespace RacerData.NascarApi.LapAverage.Service.Ports
 {
     public interface ILapAverageService
     {
-        IList<VehicleNLapAverage> GetBestLapAverages(int targetLapCount);
-        IList<VehicleNLapAverage> GetLastLapAverages(int targetLapCount);
+        List<VehicleNLapAverage> GetBestLapAverages(int targetLapCount);
+        List<VehicleNLapAverage> GetLastLapAverages(int targetLapCount);
         void ParseVehicleLapData(LiveFeedData data);
         IEnumerable<VehicleLap> VehicleLaps(string carNumber);
     }

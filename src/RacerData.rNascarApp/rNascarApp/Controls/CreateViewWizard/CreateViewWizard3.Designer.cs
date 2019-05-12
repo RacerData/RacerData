@@ -32,7 +32,6 @@
             this.lblCaption = new System.Windows.Forms.Label();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.grpEditField = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.txtWidth = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.chkStretch = new System.Windows.Forms.CheckBox();
@@ -105,16 +104,6 @@
             this.grpEditField.Size = new System.Drawing.Size(853, 272);
             this.grpEditField.TabIndex = 8;
             this.grpEditField.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(526, 11);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 30;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtWidth
             // 
@@ -358,7 +347,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.pnlFields);
             this.Controls.Add(this.pnlCaptions);
             this.Controls.Add(this.grpEditField);
@@ -403,6 +391,5 @@
         private System.Windows.Forms.Panel pnlFields;
         private System.Windows.Forms.TextBox txtWidth;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button1;
     }
 }

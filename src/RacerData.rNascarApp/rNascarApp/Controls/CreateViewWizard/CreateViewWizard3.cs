@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Models;
@@ -236,22 +235,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         SelectColumn(viewListColumn.Index);
                 };
                 captionLabel.Text = viewListColumn.Caption;
-                //captionLabel.Text = $"[{viewListColumn.Index}]" +
-                // $"[{((ListColumn)captionLabel.Tag).Index}] " +
-                // $"{captionLabel.Dock} {viewListColumn.Caption}";
-
-                //captionLabel.DockChanged += (s, e) =>
-                //{
-                //    ((Label)s).Text = $"[{viewListColumn.Index}]" +
-                //        $"[{((ListColumn)((Label)s).Tag).Index}] " +
-                //        $"{((Label)s).Dock} {((Label)s).Name}";
-                //};
-                //captionLabel.LocationChanged += (s, e) =>
-                //{
-                //    ((Label)s).Text = $"[{viewListColumn.Index}]" +
-                //        $"[{((ListColumn)((Label)s).Tag).Index}] " +
-                //        $"{((Label)s).Dock} {((Label)s).Name}";
-                //};
 
                 pnlCaptions.Controls.Add(captionLabel);
 
@@ -264,22 +247,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     String.IsNullOrEmpty(viewListColumn.Sample) ?
                         viewListColumn.Caption :
                         viewListColumn.Sample);
-                //fieldLabel.Text = $"[{viewListColumn.Index}]" +
-                //   $"[{((ListColumn)fieldLabel.Tag).Index}] " +
-                //   $"{fieldLabel.Dock}  {viewListColumn.Caption}";
-
-                //fieldLabel.DockChanged += (s, e) =>
-                //{
-                //    ((Label)s).Text = $"[{viewListColumn.Index}]" +
-                //        $"[{((ListColumn)((Label)s).Tag).Index}] " +
-                //        $"{((Label)s).Dock} {((Label)s).Name}";
-                //};
-                //fieldLabel.LocationChanged += (s, e) =>
-                //{
-                //    ((Label)s).Text = $"[{viewListColumn.Index}]" +
-                //        $"[{((ListColumn)((Label)s).Tag).Index}] " +
-                //        $"{((Label)s).Dock} {((Label)s).Name}";
-                //};
                 fieldLabel.AllowDrop = true;
 
                 ConfigureResize(fieldLabel);
@@ -1046,14 +1013,5 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
         #endregion
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine($"-> {(_selectedFieldIndex.HasValue ? _selectedFieldIndex.Value.ToString() : "null")}");
-            foreach (ListColumn column in CreateViewContext.ViewListColumns.OrderBy(c => c.Index))
-            {
-                Console.WriteLine($"{column.Index} {column.Width}");
-            }
-        }
     }
 }

@@ -28,18 +28,17 @@ namespace RacerData.rNascarApp.Factories
             sources.Add(GetFeedDataSource(typeof(LapTimeData)));
             sources.Add(GetFeedDataSource(typeof(LapAverageData)));
 
-#if DEBUG
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-            foreach (ViewDataSource source in sources)
-            {
-                sb = PrintHeader(sb, 0);
-                sb = PrintViewDataSource(sb, source, 0);
-                sb.AppendLine();
-            }
+            //foreach (ViewDataSource source in sources)
+            //{
+            //    sb = PrintHeader(sb, 0);
+            //    sb = PrintViewDataSource(sb, source, 0);
+            //    sb.AppendLine();
+            //}
 
-            Console.WriteLine(sb);
-#endif
+            //Console.WriteLine(sb);
+
             return sources;
         }
 

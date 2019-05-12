@@ -1209,7 +1209,7 @@ namespace RacerData.rNascarApp
 
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.LiveFeedData, "LiveFeedData");
+                        var data = controlBase.GetViewData(e.LiveFeedData, ApiFeedType.LiveFeedData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }
@@ -1233,7 +1233,7 @@ namespace RacerData.rNascarApp
                 {
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.Data, "LapAverageData");
+                        var data = controlBase.GetViewData(e.Data, ApiFeedType.LapAverageData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }
@@ -1257,7 +1257,7 @@ namespace RacerData.rNascarApp
                 {
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.Data, "LapTimeData");
+                        var data = controlBase.GetViewData(e.Data, ApiFeedType.LapTimeData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }
@@ -1281,7 +1281,7 @@ namespace RacerData.rNascarApp
                 {
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.Data, "LivePointsData");
+                        var data = controlBase.GetViewData(e.Data, ApiFeedType.LivePointsData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }
@@ -1305,7 +1305,7 @@ namespace RacerData.rNascarApp
                 {
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.Data, "LivePitData");
+                        var data = controlBase.GetViewData(e.Data, ApiFeedType.LivePitData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }
@@ -1329,7 +1329,7 @@ namespace RacerData.rNascarApp
                 {
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.Data, "LiveFlagData");
+                        var data = controlBase.GetViewData(e.Data, ApiFeedType.LiveFlagData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }
@@ -1353,7 +1353,7 @@ namespace RacerData.rNascarApp
                 {
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
-                        var data = controlBase.GetViewData(e.Data, "LiveQualifyingData");
+                        var data = controlBase.GetViewData(e.Data, ApiFeedType.LiveQualifyingData);
                         controlBase.UpdateListRowsData(data);
                     }
                 }

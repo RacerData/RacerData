@@ -51,6 +51,7 @@
             this.mnuSleep3Days = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.lblFeedInfo = new System.Windows.Forms.Label();
+            this.lblEventDetails = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.ctxOut.SuspendLayout();
@@ -62,6 +63,7 @@
             // 
             this.pnlTop.BackColor = System.Drawing.Color.Black;
             this.pnlTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTop.Controls.Add(this.lblEventDetails);
             this.pnlTop.Controls.Add(this.btnLog);
             this.pnlTop.Controls.Add(this.btnSleep);
             this.pnlTop.Controls.Add(this.btnStop);
@@ -81,7 +83,7 @@
             this.btnLog.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
             this.btnLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLog.ForeColor = System.Drawing.SystemColors.Info;
-            this.btnLog.Location = new System.Drawing.Point(853, 8);
+            this.btnLog.Location = new System.Drawing.Point(273, 8);
             this.btnLog.Name = "btnLog";
             this.btnLog.Size = new System.Drawing.Size(75, 29);
             this.btnLog.TabIndex = 4;
@@ -209,7 +211,7 @@
             this.lblStatus.ForeColor = System.Drawing.Color.DarkGray;
             this.lblStatus.Location = new System.Drawing.Point(48, 2);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(140, 26);
+            this.lblStatus.Size = new System.Drawing.Size(190, 26);
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "-";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -286,7 +288,7 @@
             this.label2.BackColor = System.Drawing.Color.Black;
             this.label2.Dock = System.Windows.Forms.DockStyle.Right;
             this.label2.ForeColor = System.Drawing.Color.Gray;
-            this.label2.Location = new System.Drawing.Point(188, 2);
+            this.label2.Location = new System.Drawing.Point(238, 2);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 26);
             this.label2.TabIndex = 4;
@@ -298,12 +300,25 @@
             this.lblFeedInfo.BackColor = System.Drawing.Color.Black;
             this.lblFeedInfo.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblFeedInfo.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblFeedInfo.Location = new System.Drawing.Point(240, 2);
+            this.lblFeedInfo.Location = new System.Drawing.Point(290, 2);
             this.lblFeedInfo.Name = "lblFeedInfo";
-            this.lblFeedInfo.Size = new System.Drawing.Size(500, 26);
+            this.lblFeedInfo.Size = new System.Drawing.Size(450, 26);
             this.lblFeedInfo.TabIndex = 5;
             this.lblFeedInfo.Text = "No live event";
             this.lblFeedInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblEventDetails
+            // 
+            this.lblEventDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEventDetails.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEventDetails.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblEventDetails.Location = new System.Drawing.Point(363, 5);
+            this.lblEventDetails.Name = "lblEventDetails";
+            this.lblEventDetails.Size = new System.Drawing.Size(620, 37);
+            this.lblEventDetails.TabIndex = 5;
+            this.lblEventDetails.Text = "No events";
             // 
             // MainConsole
             // 
@@ -351,6 +366,7 @@
         private System.Windows.Forms.Button btnLog;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblFeedInfo;
+        private System.Windows.Forms.Label lblEventDetails;
     }
 }
 

@@ -163,6 +163,12 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
 
+        private void trvDataSources_DoubleClick(object sender, EventArgs e)
+        {
+            if (ValidateStep())
+                OnAdvanceStepRequest();
+        }
+
         #endregion
     }
 }

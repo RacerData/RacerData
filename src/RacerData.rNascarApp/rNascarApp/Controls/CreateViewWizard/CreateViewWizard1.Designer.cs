@@ -64,6 +64,7 @@
             this.trvDataSources.Size = new System.Drawing.Size(251, 351);
             this.trvDataSources.TabIndex = 3;
             this.trvDataSources.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvDataSources_AfterSelect);
+            this.trvDataSources.DoubleClick += new System.EventHandler(this.trvDataSources_DoubleClick);
             // 
             // ilDataSourceImages
             // 

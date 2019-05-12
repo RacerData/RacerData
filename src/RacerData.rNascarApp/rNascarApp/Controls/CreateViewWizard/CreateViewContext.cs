@@ -47,8 +47,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
 
-        private BindingList<ViewListColumn> _viewListColumns;
-        public BindingList<ViewListColumn> ViewListColumns
+        private BindingList<ListColumn> _viewListColumns;
+        public BindingList<ListColumn> ViewListColumns
         {
             get
             {
@@ -69,7 +69,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             _viewDataMembers = new BindingList<ViewDataMember>();
             _viewDataSource = new ViewDataSource();
-            _viewListColumns = new BindingList<ViewListColumn>();
+            _viewListColumns = new BindingList<ListColumn>();
 
             PropertyChanged += CreateViewContext_PropertyChanged;
         }
@@ -83,11 +83,11 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             if (e.PropertyName == "ViewDataSource")
             {
                 ViewDataMembers = new BindingList<ViewDataMember>();
-                ViewListColumns = new BindingList<ViewListColumn>();
+                ViewListColumns = new BindingList<ListColumn>();
             }
             else if (e.PropertyName == "ViewDataMembers")
             {
-                ViewListColumns = new BindingList<ViewListColumn>();
+                ViewListColumns = new BindingList<ListColumn>();
             }
             else if (e.PropertyName == "ViewListColumns")
             {

@@ -339,7 +339,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         protected virtual void DisplayFields()
         {
             pnlCaptions.Controls.Clear();
-            foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
+            foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns)
             {
                 var captionLabel = GetCaptionLabel(viewListColumn);
                 pnlCaptions.Controls.Add(captionLabel);
@@ -349,7 +349,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 panel.Controls.Clear();
 
-                foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
+                foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns)
                 {
                     var fieldLabel = GetLabel(viewListColumn);
                     panel.Controls.Add(fieldLabel);
@@ -360,7 +360,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 panel.Controls.Clear();
 
-                foreach (ViewListColumn viewListColumn in CreateViewContext.ViewListColumns)
+                foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns)
                 {
                     var fieldLabel = GetLabel(viewListColumn);
                     panel.Controls.Add(fieldLabel);
@@ -385,7 +385,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             DisplayFields();
         }
 
-        protected virtual Label GetCaptionLabel(ViewListColumn viewListColumn)
+        protected virtual Label GetCaptionLabel(ListColumn viewListColumn)
         {
             Label label = new Label();
 
@@ -404,7 +404,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             return label;
         }
 
-        protected virtual Label GetLabel(ViewListColumn viewListColumn)
+        protected virtual Label GetLabel(ListColumn viewListColumn)
         {
             Label label = new Label();
 
@@ -575,14 +575,13 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         protected virtual void UpdateViewState(ViewState viewState)
         {
             viewState.HeaderText = lblViewTitle.Text.Trim();
-            viewState.ListSettings.DataSource = CreateViewContext.ViewListColumns[0].DataFeed;
 
             viewState.ListSettings.MaxRows = (int)numMaxRows.Value;
 
             viewState.ListSettings.RowHeight = null;
 
             viewState.ListSettings.ShowHeader = true;
-            viewState.ListSettings.ShowColumnCaptions = true;
+            viewState.ListSettings.ShowCaptions = true;
             viewState.IsDisplayed = true;
 
             viewState.ViewType = Models.ViewType.List;

@@ -56,6 +56,10 @@ namespace RacerData.rNascarApp.Dialogs
 
             var step1 = new CreateViewWizard1();
             step1.DataSources = this.DataSources;
+            step1.AdvanceStepRequest += (s, a) =>
+            {
+                AdvanceStep();
+            };
             step1.Log = _log;
 
             _wizardSteps.Add(0, step1);
@@ -174,6 +178,11 @@ namespace RacerData.rNascarApp.Dialogs
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            AdvanceStep();
+        }
+
+        private void AdvanceStep()
+        {
             if (_wizardIndex >= _wizardSteps.Count - 1)
                 return;
 
@@ -183,6 +192,11 @@ namespace RacerData.rNascarApp.Dialogs
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            BackStep();
+        }
+
+        private void BackStep()
         {
             if (_wizardIndex == 0)
                 return;

@@ -31,7 +31,7 @@ namespace RacerData.rNascarApp.Dialogs
         #region fields
 
         private ViewState _selectedViewState;
-        private ViewListColumn _selectedColumn;
+        private ListColumn _selectedColumn;
         private bool _loading = true;
         private Theme _blankTheme;
         private ILog _log { get; set; }
@@ -310,7 +310,8 @@ namespace RacerData.rNascarApp.Dialogs
             txtName.Text = viewState.Name;
             txtHeader.Text = viewState.HeaderText;
             txtDescription.Text = viewState.Description;
-            txtDataSource.Text = viewState.ListSettings.DataSource;
+            txtDataSource.Text = viewState.ListSettings.ApiFeedType.ToString();
+            txtDataSource.ReadOnly = true;
 
             if (viewState.ListSettings.RowHeight.HasValue)
             {
@@ -327,7 +328,7 @@ namespace RacerData.rNascarApp.Dialogs
             txtMaxRows.Text = viewState.ListSettings.MaxRows.HasValue ? viewState.ListSettings.MaxRows.Value.ToString() : String.Empty;
 
             chkShowHeader.Checked = viewState.ListSettings.ShowHeader;
-            chkShowGridHeader.Checked = viewState.ListSettings.ShowColumnCaptions;
+            chkShowGridHeader.Checked = viewState.ListSettings.ShowCaptions;
             chkShowView.Checked = viewState.IsDisplayed;
 
             cboThemes.SelectedValue = viewState.ThemeId;
@@ -336,7 +337,7 @@ namespace RacerData.rNascarApp.Dialogs
             ReloadColumns();
         }
 
-        private void DisplayViewStateColumns(ViewListSettings listSettings)
+        private void DisplayViewStateColumns(ListSettings listSettings)
         {
             ColumnBuilderService.BuildGridColumns(listSettings, pnlGridHeader.Controls, pnlRow.Controls);
 
@@ -353,75 +354,15 @@ namespace RacerData.rNascarApp.Dialogs
                 SelectColumn(listSettings.OrderedColumns[0]);
         }
 
-        //private void AlignControls(Control.ControlCollection controls, int? fillColumnIndex)
-        //{
-        //    if (fillColumnIndex.HasValue)
-        //    {
-        //        for (int i = 0; i < fillColumnIndex.Value; i++)
-        //        {
-        //            controls[i].Dock = DockStyle.Left;
-        //        }
-
-        //        for (int i = fillColumnIndex.Value + 1; i < controls.Count; i++)
-        //        {
-        //            controls[i].Dock = DockStyle.Right;
-        //        }
-
-        //        controls[fillColumnIndex.Value].Dock = DockStyle.Fill;
-        //        controls[fillColumnIndex.Value].BringToFront();
-        //    }
-        //    else
-        //    {
-        //        for (int i = controls.Count - 1; i >= 0; i--)
-        //        {
-        //            if (i == 0)
-        //            {
-        //                controls[i].Dock = DockStyle.Left;
-        //            }
-        //            else
-        //            {
-        //                controls[i].Dock = DockStyle.Right;
-        //                //controls[i].BringToFront();
-        //            }
-
-        //            controls[0].Dock = DockStyle.Fill;
-        //            controls[0].BringToFront();
-        //        }
-        //    }
-        //}
-
-        //private Label BuildColumnLabel(ViewListColumn column, bool isHeader = false)
-        //{
-        //    var columnLabel = new Label()
-        //    {
-        //        //Text = column.Caption,
-        //        Text = isHeader ?
-        //            $"{column.Index.ToString()} {column.Caption}" :
-        //            column.Index.ToString(),
-        //        TextAlign = column.Alignment,
-        //        AutoSize = false,
-        //        BackColor = Color.FromKnownColor(KnownColor.Control),
-        //        BorderStyle = BorderStyle.FixedSingle,
-        //        Tag = column
-        //    };
-
-        //    columnLabel.DoubleClick += ColumnLabel_DoubleClick;
-
-        //    if (column.Width.HasValue)
-        //        columnLabel.Size = new Size(column.Width.Value, columnLabel.Height);
-
-        //    return columnLabel;
-        //}
-
         private void ColumnLabel_DoubleClick(object sender, EventArgs e)
         {
             var columnLabel = (Label)sender;
-            var columnSettings = (ViewListColumn)columnLabel.Tag;
+            var columnSettings = (ListColumn)columnLabel.Tag;
 
             SelectColumn(columnSettings);
         }
 
-        private void SelectColumn(ViewListColumn columnSettings)
+        private void SelectColumn(ListColumn columnSettings)
         {
             HighlightSelectedColumn(columnSettings);
 
@@ -433,7 +374,6 @@ namespace RacerData.rNascarApp.Dialogs
             viewState.HeaderText = txtHeader.Text.Trim();
             viewState.Name = txtName.Text.Trim();
             viewState.Description = txtDescription.Text.Trim();
-            viewState.ListSettings.DataSource = txtDataSource.Text.Trim();
 
             int maxRows = 0;
             if (Int32.TryParse(txtMaxRows.Text, out maxRows))
@@ -448,7 +388,7 @@ namespace RacerData.rNascarApp.Dialogs
                 viewState.ListSettings.RowHeight = null;
 
             viewState.ListSettings.ShowHeader = chkShowHeader.Checked;
-            viewState.ListSettings.ShowColumnCaptions = chkShowGridHeader.Checked;
+            viewState.ListSettings.ShowCaptions = chkShowGridHeader.Checked;
             viewState.IsDisplayed = chkShowView.Checked;
 
             if (cboViewType.SelectedItem != null)
@@ -458,7 +398,7 @@ namespace RacerData.rNascarApp.Dialogs
                 viewState.ThemeId = ((Theme)cboThemes.SelectedItem).Id;
         }
 
-        private void DisplayColumnDetails(ViewListColumn column)
+        private void DisplayColumnDetails(ListColumn column)
         {
             if (_selectedColumn != null)
             {
@@ -469,7 +409,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             txtCaption.Text = column.Caption;
             txtDataField.Text = column.DataMember;
-            txtDataPath.Text = column.DataFullPath;
+            txtDataPath.Text = column.DataPath;
             txtWidth.Text = column.Width.HasValue ? column.Width.Value.ToString() : String.Empty;
             txtFormat.Text = column.Format;
             cboAlignment.SelectedItem = column.Alignment;
@@ -483,11 +423,11 @@ namespace RacerData.rNascarApp.Dialogs
             btnMoveRight.Enabled = true;
         }
 
-        private void UpdateColumnDetails(ViewListColumn column)
+        private void UpdateColumnDetails(ListColumn column)
         {
             column.Caption = txtCaption.Text.Trim();
             column.DataMember = txtDataField.Text.Trim();
-            column.DataFullPath = txtDataPath.Text.Trim();
+            column.DataPath = txtDataPath.Text.Trim();
             column.Format = txtFormat.Text.Trim();
 
             SortType sort;
@@ -638,7 +578,7 @@ namespace RacerData.rNascarApp.Dialogs
             {
                 if (dialog.ShowDialog(this) != DialogResult.Cancel)
                 {
-                    ViewListColumn column = new ViewListColumn();
+                    ListColumn column = new ListColumn();
 
                     column.Caption = dialog.Value;
 
@@ -661,7 +601,7 @@ namespace RacerData.rNascarApp.Dialogs
             {
                 if (dialog.ShowDialog(this) != DialogResult.Cancel)
                 {
-                    ViewListColumn column = new ViewListColumn();
+                    ListColumn column = new ListColumn();
 
                     column.Caption = dialog.Value;
 
@@ -889,13 +829,13 @@ namespace RacerData.rNascarApp.Dialogs
         }
 
         /* Column Details */
-        private void HighlightSelectedColumn(ViewListColumn columnSettings)
+        private void HighlightSelectedColumn(ListColumn columnSettings)
         {
             try
             {
                 foreach (Label columnLabel in pnlRow.Controls.OfType<Label>())
                 {
-                    ViewListColumn column = (ViewListColumn)columnLabel.Tag;
+                    ListColumn column = (ListColumn)columnLabel.Tag;
                     if (column.Index == columnSettings.Index)
                     {
                         columnLabel.BackColor = Color.Yellow;
@@ -907,7 +847,7 @@ namespace RacerData.rNascarApp.Dialogs
                 }
                 foreach (Label columnLabel in pnlGridHeader.Controls.OfType<Label>())
                 {
-                    ViewListColumn column = (ViewListColumn)columnLabel.Tag;
+                    ListColumn column = (ListColumn)columnLabel.Tag;
                     if (column.Index == columnSettings.Index)
                     {
                         columnLabel.BackColor = Color.Yellow;
@@ -929,7 +869,7 @@ namespace RacerData.rNascarApp.Dialogs
         {
             foreach (Label columnLabel in pnlGridHeader.Controls.OfType<Label>())
             {
-                ViewListColumn column = (ViewListColumn)columnLabel.Tag;
+                ListColumn column = (ListColumn)columnLabel.Tag;
                 if (column.Index == index)
                     return columnLabel;
             }
@@ -941,7 +881,7 @@ namespace RacerData.rNascarApp.Dialogs
         {
             foreach (Label columnLabel in pnlRow.Controls.OfType<Label>())
             {
-                ViewListColumn column = (ViewListColumn)columnLabel.Tag;
+                ListColumn column = (ListColumn)columnLabel.Tag;
                 if (column.Index == index)
                     return columnLabel;
             }
@@ -1180,19 +1120,10 @@ namespace RacerData.rNascarApp.Dialogs
 
                     _selectedColumn.DataFeed = feedName;
                     _selectedColumn.DataMember = dataMember.Name;
-                    _selectedColumn.DataFullPath = relativeFeedPath;
+                    _selectedColumn.DataPath = relativeFeedPath;
 
                     _selectedColumn.DataMember = txtDataField.Text;
-                    _selectedColumn.DataFullPath = txtDataPath.Text;
-                }
-            }
-            else if (node.Tag is ViewDataSource)
-            {
-                if (_selectedViewState != null)
-                {
-                    var dataSource = (ViewDataSource)node.Tag;
-                    _selectedViewState.ListSettings.DataSource = feedName;
-                    txtDataSource.Text = _selectedViewState.ListSettings.DataSource;
+                    _selectedColumn.DataPath = txtDataPath.Text;
                 }
             }
         }

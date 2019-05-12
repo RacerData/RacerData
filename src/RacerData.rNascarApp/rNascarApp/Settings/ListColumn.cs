@@ -6,7 +6,7 @@ using RacerData.rNascarApp.Models;
 
 namespace RacerData.rNascarApp.Settings
 {
-    public class ViewListColumn
+    public class ListColumn
     {
         public int Index { get; set; }
         public string Caption { get; set; }
@@ -18,28 +18,28 @@ namespace RacerData.rNascarApp.Settings
             {
                 ApiFeedType feeds = ApiFeedType.None;
 
-                if (DataFeed == ApiFeedType.LapAverageData.ToString())
+                var dataFeedName = DataFeed.Replace("[]", "");
+
+                if (dataFeedName == ApiFeedType.LapAverageData.ToString())
                     feeds |= ApiFeedType.LapAverageData;
-                if (DataFeed == ApiFeedType.LapTimeData.ToString())
+                if (dataFeedName == ApiFeedType.LapTimeData.ToString())
                     feeds |= ApiFeedType.LapTimeData;
-                if (DataFeed == ApiFeedType.LiveFeedData.ToString())
+                if (dataFeedName == ApiFeedType.LiveFeedData.ToString())
                     feeds |= ApiFeedType.LiveFeedData;
-                if (DataFeed == ApiFeedType.LiveFlagData.ToString())
+                if (dataFeedName == ApiFeedType.LiveFlagData.ToString())
                     feeds |= ApiFeedType.LiveFlagData;
-                if (DataFeed == ApiFeedType.LivePitData.ToString())
+                if (dataFeedName == ApiFeedType.LivePitData.ToString())
                     feeds |= ApiFeedType.LivePitData;
-                if (DataFeed == ApiFeedType.LivePointsData.ToString())
+                if (dataFeedName == ApiFeedType.LivePointsData.ToString())
                     feeds |= ApiFeedType.LivePointsData;
-                if (DataFeed == ApiFeedType.LiveQualifyingData.ToString())
+                if (dataFeedName == ApiFeedType.LiveQualifyingData.ToString())
                     feeds |= ApiFeedType.LiveQualifyingData;
 
                 return feeds;
             }
         }
-        public string DataFeedAssemblyQualifiedName { get; set; }
-        public string DataFeedFullName { get; set; }
         public string DataMember { get; set; }
-        public string DataFullPath { get; set; }
+        public string DataPath { get; set; }
         public string ConvertedType { get; set; }
         public string Type { get; set; }
         public int? Width { get; set; }
@@ -47,5 +47,12 @@ namespace RacerData.rNascarApp.Settings
         public string Format { get; set; }
         public string Sample { get; set; }
         public SortType SortType { get; set; }
+        public int? SortOrder { get; set; }
+        public bool HasBorder { get; set; } = true;
+
+        public override string ToString()
+        {
+            return $"[{Index}] {Width} {Width}";
+        }
     }
 }

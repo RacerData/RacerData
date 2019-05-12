@@ -330,6 +330,10 @@ namespace RacerData.LiveFeedMonitor
         {
             var info = $"{liveFeedData.TrackName} {liveFeedData.RunName}";
             UpdateEventInfo(info);
+
+            var details = $"Last Event: {liveFeedData.TrackName} {liveFeedData.RunName}        {liveFeedData.SeriesType.ToString()}\r\n" +
+                $"Track State: {liveFeedData.FlagState.ToString()}        Laps: {liveFeedData.LapNumber} of {liveFeedData.LapsInRace}        Last Update: {DateTime.Now.ToString("HH:mm tt")}";
+            UpdateEventDetails(details);
         }
 
         protected virtual void SelectWakeTarget()
@@ -358,6 +362,18 @@ namespace RacerData.LiveFeedMonitor
             }
         }
 
+        protected virtual void UpdateEventDetails(string details)
+        {
+            if (lblEventDetails.InvokeRequired)
+            {
+                var d = new SafeStringCallDelegate(UpdateEventDetails);
+                Invoke(d, new object[] { details });
+            }
+            else
+            {
+                lblEventDetails.Text = details;
+            }
+        }
         #endregion
 
         #region private

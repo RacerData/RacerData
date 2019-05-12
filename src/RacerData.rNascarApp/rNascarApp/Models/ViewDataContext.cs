@@ -10,7 +10,7 @@ using RacerData.NascarApi.Client.Models.LiveQualifying;
 
 namespace RacerData.rNascarApp.Models
 {
-    public class ViewContext
+    public class ViewDataContext
     {
         #region events
 

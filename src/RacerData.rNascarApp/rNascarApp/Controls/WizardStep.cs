@@ -14,8 +14,17 @@ namespace RacerData.rNascarApp.Controls
         protected void OnPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
-            if (handler != null)
-                handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event EventHandler AdvanceStepRequest;
+        protected void OnAdvanceStepRequest()
+        {
+            if (!CanGoNext)
+                return;
+
+            var handler = AdvanceStepRequest;
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

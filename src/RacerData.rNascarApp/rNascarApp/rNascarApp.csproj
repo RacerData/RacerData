@@ -171,6 +171,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ContentAlignmentSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ContentAlignmentSelector.Designer.cs">
+      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CreateViewWizard\CreateViewContext.cs" />
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.cs">
       <SubType>UserControl</SubType>
@@ -195,6 +201,12 @@
     </Compile>
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard4.Designer.cs">
       <DependentUpon>CreateViewWizard4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\IWizardStep.cs" />
     <Compile Include="Controls\ListHeader.cs">
@@ -284,12 +296,13 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\DataFormatMapItem.cs" />
     <Compile Include="Models\SortType.cs" />
-    <Compile Include="Models\ViewContext.cs" />
+    <Compile Include="Models\ViewDataContext.cs" />
     <Compile Include="Models\ViewDataMember.cs" />
     <Compile Include="Models\ViewDataSource.cs" />
     <Compile Include="Models\ViewDisplayFormat.cs" />
     <Compile Include="Models\ViewListItem.cs" />
     <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Services\DataParserService.cs" />
     <Compile Include="Services\IWorkspaceService.cs" />
     <Compile Include="Services\WorkspaceService.cs" />
     <Compile Include="Services\WorkspaceChangedEventArgs.cs" />
@@ -303,8 +316,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProviderInstance.cs" />
     <Compile Include="Settings\ViewCellPosition.cs" />
-    <Compile Include="Settings\ViewListColumn.cs" />
-    <Compile Include="Settings\ViewListSettings.cs" />
+    <Compile Include="Settings\ListColumn.cs" />
+    <Compile Include="Settings\ListSettings.cs" />
     <Compile Include="Settings\ViewState.cs" />
     <Compile Include="Themes\SampleFormView.cs">
       <SubType>UserControl</SubType>
@@ -339,6 +352,9 @@
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeSection.cs" />
     <Compile Include="Themes\UserThemeRepository.cs" />
+    <EmbeddedResource Include="Controls\ContentAlignmentSelector.resx">
+      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard1.resx">
       <DependentUpon>CreateViewWizard1.cs</DependentUpon>
     </EmbeddedResource>
@@ -350,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard4.resx">
       <DependentUpon>CreateViewWizard4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListHeader.resx">
       <DependentUpon>ListHeader.cs</DependentUpon>

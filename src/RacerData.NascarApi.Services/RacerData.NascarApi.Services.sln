@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.Harvest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.LapTimes.Service", "RacerData.NascarApi.LapTimes.Service\RacerData.NascarApi.LapTimes.Service.csproj", "{527DC457-AD68-45CF-8E40-65737479BF4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.NascarApi.Services", "RacerData.NascarApi.Services\RacerData.NascarApi.Services.csproj", "{808C5D0E-91F3-40C3-8E34-21709D56F2A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.Services", "RacerData.NascarApi.Services\RacerData.NascarApi.Services.csproj", "{808C5D0E-91F3-40C3-8E34-21709D56F2A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

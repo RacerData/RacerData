@@ -26,7 +26,7 @@ namespace RacerData.rNascarApp.Settings
         public int Index { get; set; }
         public ViewType ViewType { get; set; }
         public ViewCellPosition CellPosition { get; set; } = new ViewCellPosition();
-        public ViewListSettings ListSettings { get; set; } = new ViewListSettings();
+        public ListSettings ListSettings { get; set; } = new ListSettings();
         public Guid ThemeId { get; set; }
         public bool IsDisplayed { get; set; }
 

@@ -2,7 +2,7 @@
 {
     public enum SeriesType
     {
-        Cup,
+        Cup = 1,
         XFinity,
         Truck,
         Other = 999

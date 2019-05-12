@@ -13,7 +13,7 @@ namespace RacerData.NascarApi.Client.Models.LapTimes
         public string RunName { get; set; }
         public int Elapsed { get; set; }
 
-        public IList<VehicleLapTime> VehicleLapTimes { get; set; }
+        public List<VehicleLapTime> VehicleLapTimes { get; set; }
 
         #endregion
 

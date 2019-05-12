@@ -1,2 +1,5 @@
-﻿nuget pack RacerData.NascarApi.Services.nuspec
-nuget add RacerData.NascarApi.Services.1.0.8.nupkg -Source C:\Users\Rob\source\repos\RacerData\packages\
+﻿// Change version number in nuspec and second line below
+// then run these from package manager console
+
+nuget pack .\RacerData.NascarApi.Services\RacerData.NascarApi.Services.nuspec
+nuget add RacerData.NascarApi.Services.1.0.10.nupkg -Source C:\Users\Rob\source\repos\RacerData\packages\

@@ -44,7 +44,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     return null;
             }
         }
-
         protected Label FieldLabel
         {
             get
@@ -56,14 +55,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
 
-        private IList<ColumnLabel> _columnLabels = new List<ColumnLabel>();
-        protected IList<ColumnLabel> ColumnLabels
-        {
-            get
-            {
-                return _columnLabels;
-            }
-        }
+        protected IList<ColumnLabel> ColumnLabels { get; set; } = new List<ColumnLabel>();
 
         #endregion
 
@@ -142,6 +134,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         #endregion
 
         #region protected
+
+        #region display
 
         protected virtual IList<ListColumn> BuildListColumnsList()
         {
@@ -383,40 +377,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         #endregion
 
-        #region resize
-
-        private void pictureBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            _allowResize = true;
-        }
-        private void pictureBox1_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (_allowResize)
-            {
-                PictureBox pictureBox = (PictureBox)sender;
-                Label parent = (Label)pictureBox.Parent;
-                parent.Width = pictureBox.Left + e.X;
-
-                Label captionLabel = GetCaptionLabel(parent);
-                if (captionLabel != null)
-                    captionLabel.Width = pictureBox.Left + e.X;
-            }
-        }
-        private void pictureBox1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            _allowResize = false;
-
-            UpdateViewListItems();
-        }
-
-        private Label GetCaptionLabel(Label fieldLabel)
-        {
-            var captionLabelName = $"{fieldLabel.Name}Caption";
-            return pnlCaptions.Controls.OfType<Label>().FirstOrDefault(l => l.Name == captionLabelName);
-        }
-
-        #endregion
-
         #region drag/drop    
 
         protected virtual void ConfigureDragging(Label ctl)
@@ -473,78 +433,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             };
 
             ctl.DragDrop += pnlFields_DragDrop;
-        }
-        protected virtual void DragTimer_Tick(object sender, EventArgs e)
-        {
-            if ((Control.MouseButtons & MouseButtons.Left) == MouseButtons.None)
-            {
-                _dragFrame.Hide();
-                dragTimer.Stop();
-            }
-
-            if (_dragFrame.Visible)
-            {
-                Point pt = this.PointToClient(Cursor.Position);
-
-                _dragFrame.Location = new Point(pt.X - _dragPoint.X,
-                                               pt.Y + 3);
-            }
-        }
-        private void pnlFields_DragDrop(object sender, DragEventArgs e)
-        {
-            try
-            {
-                _dragFrame.Hide();
-
-                dragTimer.Stop();
-
-                Label movedLabel = e.Data.GetData(e.Data.GetFormats()[0]) as Label;
-
-                Label droppedOnLabel = (Label)sender;
-
-                var movedColumn = ColumnLabels.FirstOrDefault(c => c.FieldLabel.Name == movedLabel.Name).Column;
-                var movedOriginalIndex = movedColumn.Index;
-
-                var droppedOnColumn = ColumnLabels.FirstOrDefault(c => c.FieldLabel.Name == droppedOnLabel.Name).Column;
-                var droppedOnIndex = droppedOnColumn.Index;
-
-                if (movedOriginalIndex == droppedOnIndex)
-                    return;
-
-                if (movedOriginalIndex < droppedOnIndex)
-                {
-                    // moved to the right
-                    foreach (ColumnLabel columnLabel in ColumnLabels.Where(c =>
-                        c.DisplayIndex > movedOriginalIndex &&
-                        c.DisplayIndex <= droppedOnIndex))
-                    {
-                        columnLabel.Column.Index -= 1;
-                    }
-
-                    movedColumn.Index = droppedOnIndex;
-                }
-                else if (movedOriginalIndex > droppedOnIndex)
-                {
-                    // moved to the left
-                    foreach (ColumnLabel columnLabel in ColumnLabels.Where(c =>
-                        c.DisplayIndex >= droppedOnIndex &&
-                        c.DisplayIndex < movedOriginalIndex))
-                    {
-                        columnLabel.Column.Index += 1;
-                    }
-                    movedColumn.Index = droppedOnIndex;
-                }
-
-                UpdateColumnAligmnents();
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show(this, "Can't move field here", "Invalid Move", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error moving field", ex);
-            }
         }
 
         #endregion
@@ -605,7 +493,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         protected virtual void SetUIEditState(bool isEditing, int? index = null)
         {
             if (FieldLabel != null)
-                FieldLabel.SizeChanged -= SelectedLabelWidthChanged;
+                FieldLabel.SizeChanged -= selectedLabel_WidthChanged;
 
             _isLoadingFieldDetails = true;
             _selectedFieldIndex = index;
@@ -638,7 +526,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             FieldLabel.BackColor = _selectedBackColor;
             CaptionLabel.BackColor = _selectedBackColor;
 
-            FieldLabel.SizeChanged += SelectedLabelWidthChanged;
+            FieldLabel.SizeChanged += selectedLabel_WidthChanged;
         }
         protected virtual void ClearSelectedColumn()
         {
@@ -647,10 +535,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 pnlFields.Controls.OfType<Label>().ElementAt(i).BackColor = _unselectedFieldBackColor;
                 pnlCaptions.Controls.OfType<Label>().ElementAt(i).BackColor = _unselectedCaptionBackColor;
             }
-        }
-        protected virtual void SelectedLabelWidthChanged(object sender, EventArgs e)
-        {
-            txtWidth.Text = ((Label)sender).Width.ToString();
         }
         protected virtual void DisplayColumnDetails(int index)
         {
@@ -712,15 +596,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 CreateViewContext.ViewListColumns[i].Width = _preStretchWidths[i];
             }
-        }
-
-        private Label GetFieldLabel(int index)
-        {
-            return pnlFields.Controls.OfType<Label>().ElementAt(index);
-        }
-        private Label GetCaptionLabel(int index)
-        {
-            return pnlCaptions.Controls.OfType<Label>().ElementAt(index);
         }
 
         private void TestFormat()
@@ -847,6 +722,114 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             return formattedText;
         }
 
+        #endregion
+
+        #endregion
+
+        #region private
+
+        // resize
+        private void pictureBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            _allowResize = true;
+        }
+        private void pictureBox1_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (_allowResize)
+            {
+                PictureBox pictureBox = (PictureBox)sender;
+                Label parent = (Label)pictureBox.Parent;
+                parent.Width = pictureBox.Left + e.X;
+
+                var captionLabelName = $"{parent.Name}Caption";
+                Label captionLabel = pnlCaptions.Controls.OfType<Label>().FirstOrDefault(l => l.Name == captionLabelName);
+
+                if (captionLabel != null)
+                    captionLabel.Width = pictureBox.Left + e.X;
+            }
+        }
+        private void pictureBox1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            _allowResize = false;
+
+            UpdateViewListItems();
+        }
+
+        // drag drop
+        private void DragTimer_Tick(object sender, EventArgs e)
+        {
+            if ((Control.MouseButtons & MouseButtons.Left) == MouseButtons.None)
+            {
+                _dragFrame.Hide();
+                dragTimer.Stop();
+            }
+
+            if (_dragFrame.Visible)
+            {
+                Point pt = this.PointToClient(Cursor.Position);
+
+                _dragFrame.Location = new Point(pt.X - _dragPoint.X,
+                                               pt.Y + 3);
+            }
+        }
+        private void pnlFields_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                _dragFrame.Hide();
+
+                dragTimer.Stop();
+
+                Label movedLabel = e.Data.GetData(e.Data.GetFormats()[0]) as Label;
+
+                Label droppedOnLabel = (Label)sender;
+
+                var movedColumn = ColumnLabels.FirstOrDefault(c => c.FieldLabel.Name == movedLabel.Name).Column;
+                var movedOriginalIndex = movedColumn.Index;
+
+                var droppedOnColumn = ColumnLabels.FirstOrDefault(c => c.FieldLabel.Name == droppedOnLabel.Name).Column;
+                var droppedOnIndex = droppedOnColumn.Index;
+
+                if (movedOriginalIndex == droppedOnIndex)
+                    return;
+
+                if (movedOriginalIndex < droppedOnIndex)
+                {
+                    // moved to the right
+                    foreach (ColumnLabel columnLabel in ColumnLabels.Where(c =>
+                        c.DisplayIndex > movedOriginalIndex &&
+                        c.DisplayIndex <= droppedOnIndex))
+                    {
+                        columnLabel.Column.Index -= 1;
+                    }
+
+                    movedColumn.Index = droppedOnIndex;
+                }
+                else if (movedOriginalIndex > droppedOnIndex)
+                {
+                    // moved to the left
+                    foreach (ColumnLabel columnLabel in ColumnLabels.Where(c =>
+                        c.DisplayIndex >= droppedOnIndex &&
+                        c.DisplayIndex < movedOriginalIndex))
+                    {
+                        columnLabel.Column.Index += 1;
+                    }
+                    movedColumn.Index = droppedOnIndex;
+                }
+
+                UpdateColumnAligmnents();
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show(this, "Can't move field here", "Invalid Move", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error moving field", ex);
+            }
+        }
+
+        // edit
         private void btnCancelEditField_Click(object sender, EventArgs e)
         {
             CancelEdit();
@@ -870,7 +853,11 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             BeginEdit(selectedIndex);
         }
 
-        private void FormatTest_TextChanged(object sender, EventArgs e)
+        protected virtual void selectedLabel_WidthChanged(object sender, EventArgs e)
+        {
+            txtWidth.Text = ((Label)sender).Width.ToString();
+        }
+        private void formatTest_TextChanged(object sender, EventArgs e)
         {
             TestFormat();
         }
@@ -954,7 +941,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 UpdateColumnAligmnents();
             }
         }
-
         private void txtWidth_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -971,7 +957,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 }
             }
         }
-
         private void txtWidth_Leave(object sender, EventArgs e)
         {
             if (_selectedFieldIndex.HasValue)
@@ -985,6 +970,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 }
             }
         }
+
         #endregion
 
         #region classes

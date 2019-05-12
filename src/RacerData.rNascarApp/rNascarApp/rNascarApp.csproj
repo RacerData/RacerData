@@ -123,23 +123,23 @@
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.50.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.50\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.0.51.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.51\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Harvester.Service, Version=1.0.42.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.8\lib\netstandard2.0\RacerData.NascarApi.Harvester.Service.dll</HintPath>
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.10\lib\netstandard2.0\RacerData.NascarApi.Harvester.Service.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.LapAverage.Service, Version=1.0.48.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.8\lib\netstandard2.0\RacerData.NascarApi.LapAverage.Service.dll</HintPath>
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.10\lib\netstandard2.0\RacerData.NascarApi.LapAverage.Service.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.LapTimes.Service, Version=1.0.39.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.8\lib\netstandard2.0\RacerData.NascarApi.LapTimes.Service.dll</HintPath>
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.10\lib\netstandard2.0\RacerData.NascarApi.LapTimes.Service.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi.Service, Version=1.0.65.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.8\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.10\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Services, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.8\lib\netstandard2.0\RacerData.NascarApi.Services.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Services, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.10\lib\netstandard2.0\RacerData.NascarApi.Services.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -201,12 +201,6 @@
     </Compile>
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard4.Designer.cs">
       <DependentUpon>CreateViewWizard4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\IWizardStep.cs" />
     <Compile Include="Controls\ListHeader.cs">
@@ -295,6 +289,8 @@
     </Compile>
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\DataFormatMapItem.cs" />
+    <Compile Include="Models\DataParserDrillDownException.cs" />
+    <Compile Include="Models\DataParserValueException.cs" />
     <Compile Include="Models\SortType.cs" />
     <Compile Include="Models\ViewDataContext.cs" />
     <Compile Include="Models\ViewDataMember.cs" />
@@ -366,9 +362,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard4.resx">
       <DependentUpon>CreateViewWizard4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListHeader.resx">
       <DependentUpon>ListHeader.cs</DependentUpon>

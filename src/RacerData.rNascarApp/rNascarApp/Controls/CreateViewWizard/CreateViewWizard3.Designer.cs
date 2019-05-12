@@ -226,7 +226,7 @@
             this.txtColTest.Name = "txtColTest";
             this.txtColTest.Size = new System.Drawing.Size(203, 21);
             this.txtColTest.TabIndex = 15;
-            this.txtColTest.TextChanged += new System.EventHandler(this.FormatTest_TextChanged);
+            this.txtColTest.TextChanged += new System.EventHandler(this.formatTest_TextChanged);
             // 
             // label2
             // 
@@ -245,7 +245,7 @@
             this.txtColFormat.Name = "txtColFormat";
             this.txtColFormat.Size = new System.Drawing.Size(179, 21);
             this.txtColFormat.TabIndex = 13;
-            this.txtColFormat.TextChanged += new System.EventHandler(this.FormatTest_TextChanged);
+            this.txtColFormat.TextChanged += new System.EventHandler(this.formatTest_TextChanged);
             // 
             // label5
             // 

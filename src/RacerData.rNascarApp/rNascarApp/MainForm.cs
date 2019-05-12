@@ -937,6 +937,8 @@ namespace RacerData.rNascarApp
         }
         protected virtual void ClearViewStates()
         {
+            _workspaceService.Save();
+
             foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
             {
                 RemoveUserControlBase(controlBase);
@@ -944,6 +946,8 @@ namespace RacerData.rNascarApp
         }
         protected virtual void LoadViewStates()
         {
+            _workspaceService = new WorkspaceService();
+
             foreach (Guid id in _workspaceService.CurrentWorkspace.ViewStates)
             {
                 var viewState = AppSettings.ViewStates.SingleOrDefault(v => v.Id == id);
@@ -1255,6 +1259,8 @@ namespace RacerData.rNascarApp
                 }
                 else
                 {
+                    // TODO :REMOVE
+                    SetMonitorState(false);
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
                         var data = controlBase.GetViewData(e.Data, ApiFeedType.LapTimeData);
@@ -1707,7 +1713,10 @@ namespace RacerData.rNascarApp
                     if (dialog.ShowDialog(this) == DialogResult.OK)
                     {
                         var newViewState = dialog.NewViewState;
+
                         AppSettings.ViewStates.Add(newViewState);
+
+                        _workspaceService.CurrentWorkspace.ViewStates.Add(newViewState.Id);
 
                         SaveAppState();
 

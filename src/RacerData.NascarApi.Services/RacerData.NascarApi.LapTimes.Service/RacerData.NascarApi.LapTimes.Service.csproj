@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="RacerData.Data.Aws" Version="1.0.10" />
-    <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.50" />
+    <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.51" />
     <PackageReference Include="RacerData.NascarApi.Service" Version="1.0.65" />
   </ItemGroup>
   

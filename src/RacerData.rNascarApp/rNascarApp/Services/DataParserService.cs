@@ -55,43 +55,62 @@ namespace RacerData.rNascarApp.Services
                 object dataMemberValue = dataSource;
                 int listDataMemberSectionIndex = -1;
 
-                if (dataMemberType.Name != "List`1")
+                if (!IsListType(dataMemberType.Name))
                 {
                     // Root is not a list type.
                     // Iterate each path section to get to the data member object that is a list.
                     for (int dataPathSectionIndex = 0; dataPathSectionIndex < dataPathSections.Length; dataPathSectionIndex++)
                     {
-                        if (dataPathSections[dataPathSectionIndex].Contains("[]"))
+                        try
                         {
-                            // This section is a list type
-                            dataMemberPropertyName = dataPathSections[dataPathSectionIndex].Replace("[]", "");
+                            if (dataPathSections[dataPathSectionIndex].Contains("[]"))
+                            {
+                                // This section is a list type
+                                dataMemberPropertyName = dataPathSections[dataPathSectionIndex].Replace("[]", "");
 
-                            dataMemberPropertyInfo = dataMemberType.GetProperty(dataMemberPropertyName);
+                                dataMemberPropertyInfo = dataMemberType.GetProperty(dataMemberPropertyName);
 
-                            dataMemberType = dataMemberPropertyInfo.PropertyType;
+                                dataMemberType = dataMemberPropertyInfo.PropertyType;
 
-                            dataMemberValue = dataMemberPropertyInfo.GetValue(dataMemberValue);
+                                dataMemberValue = dataMemberPropertyInfo.GetValue(dataMemberValue);
 
-                            listDataMemberSectionIndex = dataPathSectionIndex;
+                                listDataMemberSectionIndex = dataPathSectionIndex;
 
-                            break;
+                                break;
+                            }
+                            else
+                            {
+                                // This section is *not* a list type.
+                                // Update the fields and move to the next section.
+                                dataMemberPropertyName = dataPathSections[dataPathSectionIndex];
+
+                                dataMemberPropertyInfo = dataMemberType.GetProperty(dataMemberPropertyName);
+
+                                dataMemberType = dataMemberPropertyInfo.PropertyType;
+
+                                dataMemberValue = dataMemberPropertyInfo.GetValue(dataMemberValue);
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            // This section is *not* a list type.
-                            // Update the fields and move to the next section.
-                            dataMemberPropertyInfo = dataMemberType.GetProperty(dataMemberPropertyName);
-
-                            dataMemberType = dataMemberPropertyInfo.PropertyType;
-
-                            dataMemberValue = dataMemberPropertyInfo.GetValue(dataMemberValue);
+                            throw new DataParserDrillDownException("Error iterating data path", ex)
+                            {
+                                DataMemberProperty = dataMemberPropertyInfo,
+                                DataMemberValue = dataMemberValue,
+                                DataMemberType = dataMemberType,
+                                DataMemberPropertyName = dataMemberPropertyName,
+                                DataPathSectionIndex = dataPathSectionIndex,
+                                DataPathSections = dataPathSections,
+                                DataSource = dataSource.GetType().Name
+                            };
                         }
                     }
                 }
 
                 string[] dataPathSectionsFromList = null;
                 // At this point we either have a list object, or there is no list.
-                if (dataMemberType.Name != "List`1" || listDataMemberSectionIndex == dataPathSections.Length - 1)
+                if (IsListType(dataMemberType.Name) ||
+                    listDataMemberSectionIndex == dataPathSections.Length - 1)
                 {
                     // If we have a list, there should be more than one section left in the path.
                     // ex. {root}\Vehicles[]\Driver\Name
@@ -113,7 +132,7 @@ namespace RacerData.rNascarApp.Services
                 int maxDataRows = 1;
                 // Need to loop through the rows, and then drill down (if needed) for each row
                 // to get to the target data member.
-                if (dataMemberType.Name == "List`1")
+                if (IsListType(dataMemberType.Name))
                 {
                     string indexerName = (
                       (DefaultMemberAttribute)dataMemberType
@@ -136,6 +155,12 @@ namespace RacerData.rNascarApp.Services
                             listDataMemberCount :
                         listDataMemberCount;
                 }
+                else
+                {
+                    maxDataRows = RowCount.HasValue ?
+                        RowCount.Value :
+                        dataValues.GetLength(0);
+                }
 
                 // Load the object for each row, then drill down (if needed) to 
                 // get to the final path section.
@@ -143,38 +168,49 @@ namespace RacerData.rNascarApp.Services
                 for (int r = 0; r < maxDataRows; r++)
                 {
                     // Get the instance reference to the object at the correct row in the list.
-                    if (dataMemberType.Name == "List`1")
+                    if (IsListType(dataMemberType.Name))
                         currentRowValue = dataMemberPropertyInfo.GetValue(dataMemberValue, new Object[] { r });
                     else
                         currentRowValue = dataMemberValue;
 
                     var currentRowType = currentRowValue.GetType();
 
-                    PropertyInfo currentRowMemberProperty = null;
-                    object currentRowMemberValue = null;
+                    PropertyInfo currentRowMemberProperty = dataMemberPropertyInfo;
+                    object currentRowMemberValue = currentRowValue;
 
-                    // Drill down to the final data path section
-                    for (int x = 0; x < dataPathSectionsFromList.Length; x++)
+                    // Check to see if we need to drill down any more,
+                    // or if we already have the final value
+                    if (IsListType(dataMemberType.Name) || dataPathSectionsFromList.Length > 1)
                     {
-                        // Get the object at the path level
-                        // A class if not the final level, or
-                        // a property if at the final level
-                        currentRowMemberProperty = currentRowType.GetProperty(dataPathSectionsFromList[x]);
-                        currentRowMemberValue = currentRowMemberProperty.GetValue(currentRowValue);
-                        try
+                        // Drill down to the final data path section
+                        for (int drillDownLevelIndex = 0; drillDownLevelIndex < dataPathSectionsFromList.Length; drillDownLevelIndex++)
                         {
-                            currentRowType = currentRowMemberProperty.PropertyType;
-                            currentRowValue = currentRowMemberValue;
+                            try
+                            {
+                                // Get the object at the path level
+                                // A class if not the final level, or
+                                // a property if at the final level
+                                currentRowMemberProperty = currentRowType.GetProperty(dataPathSectionsFromList[drillDownLevelIndex]);
+                                currentRowMemberValue = currentRowMemberProperty.GetValue(currentRowValue);
+                                currentRowType = currentRowMemberProperty.PropertyType;
+                                currentRowValue = currentRowMemberValue;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new DataParserValueException("Error parsing data", ex)
+                                {
+                                    CurrentRowMemberProperty = currentRowMemberProperty,
+                                    CurrentRowMemberValue = currentRowMemberValue,
+                                    CurrentRowType = currentRowType,
+                                    CurrentRowValue = currentRowValue,
+                                    DrillDownLevelIndex = drillDownLevelIndex,
+                                    DataPathSectionsFromList = dataPathSectionsFromList,
+                                    DataSource = dataSource.GetType().Name
+                                };
+                            }
                         }
-                        catch (Exception)
-                        {
-
-                            throw;
-                        }
-                       
                     }
 
-                    //Console.WriteLine($"Writing {currentRowMemberValue} to {r},{i}");
                     // At the final path level.
                     dataValues[r, i] = currentRowMemberValue;
                 }
@@ -192,6 +228,18 @@ namespace RacerData.rNascarApp.Services
                     dataValues.OrderBy(x => x[SortColumnIndex.Value]) :
                     dataValues.OrderByDescending(x => x[SortColumnIndex.Value]);
         }
+
+        #endregion
+
+        #region protected
+
+        protected virtual bool IsListType(string dataMemberTypeName)
+        {
+            return dataMemberTypeName == "List`1" ||
+                    dataMemberTypeName == "IList`1";
+        }
+
+
 
         #endregion
     }

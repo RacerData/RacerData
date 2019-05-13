@@ -50,6 +50,7 @@
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewDesignerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.workspaceManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel0 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTrackName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -78,7 +79,7 @@
             this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlGrid = new System.Windows.Forms.Panel();
-            this.workspaceManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.tlsMain.SuspendLayout();
@@ -261,7 +262,8 @@
             this.themeToolStripMenuItem,
             this.viewDesignerToolStripMenuItem,
             this.displayFormatsToolStripMenuItem,
-            this.workspaceManagementToolStripMenuItem});
+            this.workspaceManagementToolStripMenuItem,
+            this.viewManagementToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
@@ -302,6 +304,15 @@
             this.displayFormatsToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.displayFormatsToolStripMenuItem.Text = "&Display Formats";
             this.displayFormatsToolStripMenuItem.Click += new System.EventHandler(this.displayFormatsToolStripMenuItem_Click);
+            // 
+            // workspaceManagementToolStripMenuItem
+            // 
+            this.workspaceManagementToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.workspaceManagementToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.workspaceManagementToolStripMenuItem.Name = "workspaceManagementToolStripMenuItem";
+            this.workspaceManagementToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.workspaceManagementToolStripMenuItem.Text = "&Workspace Management";
+            this.workspaceManagementToolStripMenuItem.Click += new System.EventHandler(this.workspaceManagementToolStripMenuItem_Click);
             // 
             // MainStatusStrip
             // 
@@ -596,14 +607,14 @@
             this.pnlGrid.Size = new System.Drawing.Size(1211, 553);
             this.pnlGrid.TabIndex = 4;
             // 
-            // workspaceManagementToolStripMenuItem
+            // viewManagementToolStripMenuItem
             // 
-            this.workspaceManagementToolStripMenuItem.BackColor = System.Drawing.Color.Black;
-            this.workspaceManagementToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.workspaceManagementToolStripMenuItem.Name = "workspaceManagementToolStripMenuItem";
-            this.workspaceManagementToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
-            this.workspaceManagementToolStripMenuItem.Text = "&Workspace Management";
-            this.workspaceManagementToolStripMenuItem.Click += new System.EventHandler(this.workspaceManagementToolStripMenuItem_Click);
+            this.viewManagementToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.viewManagementToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.viewManagementToolStripMenuItem.Name = "viewManagementToolStripMenuItem";
+            this.viewManagementToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.viewManagementToolStripMenuItem.Text = "View Management";
+            this.viewManagementToolStripMenuItem.Click += new System.EventHandler(this.viewManagementToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -691,6 +702,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripStatusLabel lblWorkspace;
         private System.Windows.Forms.ToolStripMenuItem workspaceManagementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewManagementToolStripMenuItem;
     }
 }
 

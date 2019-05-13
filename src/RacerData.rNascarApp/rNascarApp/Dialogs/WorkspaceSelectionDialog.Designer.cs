@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.pnlDialogButtons = new System.Windows.Forms.Panel();
-            this.btnSelect = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSelect = new System.Windows.Forms.Button();
             this.lstWorkspaces = new System.Windows.Forms.ListBox();
             this.lblPrompt = new System.Windows.Forms.Label();
             this.pnlDialogButtons.SuspendLayout();
@@ -46,17 +46,6 @@
             this.pnlDialogButtons.Size = new System.Drawing.Size(344, 44);
             this.pnlDialogButtons.TabIndex = 0;
             // 
-            // btnSelect
-            // 
-            this.btnSelect.Enabled = false;
-            this.btnSelect.Location = new System.Drawing.Point(12, 4);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(75, 34);
-            this.btnSelect.TabIndex = 0;
-            this.btnSelect.Text = "Select";
-            this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
-            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -69,6 +58,17 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnSelect
+            // 
+            this.btnSelect.Enabled = false;
+            this.btnSelect.Location = new System.Drawing.Point(12, 4);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(75, 34);
+            this.btnSelect.TabIndex = 0;
+            this.btnSelect.Text = "Select";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            // 
             // lstWorkspaces
             // 
             this.lstWorkspaces.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -79,6 +79,7 @@
             this.lstWorkspaces.Size = new System.Drawing.Size(344, 174);
             this.lstWorkspaces.TabIndex = 1;
             this.lstWorkspaces.SelectedIndexChanged += new System.EventHandler(this.lstWorkspaces_SelectedIndexChanged);
+            this.lstWorkspaces.DoubleClick += new System.EventHandler(this.lstWorkspaces_DoubleClick);
             // 
             // lblPrompt
             // 

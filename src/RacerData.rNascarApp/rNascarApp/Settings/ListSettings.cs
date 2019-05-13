@@ -61,5 +61,20 @@ namespace RacerData.rNascarApp.Settings
 
         #endregion
 
+        #region public
+
+        public ListSettings Copy()
+        {
+            return new ListSettings()
+            {
+                MaxRows = MaxRows,
+                RowHeight = RowHeight,
+                ShowCaptions = ShowCaptions,
+                ShowHeader = ShowHeader,
+                Columns = Columns.ToList()
+            };
+        }
+
+        #endregion
     }
 }

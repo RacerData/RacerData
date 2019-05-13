@@ -34,14 +34,9 @@ namespace RacerData.rNascarApp.Dialogs
 
         #endregion
 
-        #region private
+        #region protected
 
-        private void lstWorkspaces_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            btnSelect.Enabled = (lstWorkspaces.SelectedItem != null);
-        }
-
-        private void btnSelect_Click(object sender, EventArgs e)
+        protected virtual void SelectWorkspace()
         {
             if (lstWorkspaces.SelectedItem == null)
                 return;
@@ -51,9 +46,28 @@ namespace RacerData.rNascarApp.Dialogs
             DialogResult = DialogResult.OK;
         }
 
+        #endregion
+
+        #region private
+
+        private void lstWorkspaces_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnSelect.Enabled = (lstWorkspaces.SelectedItem != null);
+        }
+
+        private void btnSelect_Click(object sender, EventArgs e)
+        {
+            SelectWorkspace();
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void lstWorkspaces_DoubleClick(object sender, EventArgs e)
+        {
+            SelectWorkspace();
         }
 
         #endregion

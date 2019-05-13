@@ -196,6 +196,13 @@ namespace RacerData.rNascarApp.Dialogs
             numColumns.DataBindings.Clear();
             numRows.DataBindings.Clear();
 
+            txtName.Clear();
+            chkPractice.Checked = false;
+            chkQualifying.Checked = false;
+            chkRace.Checked = false;
+            numColumns.Value = numColumns.Minimum;
+            numRows.Value = numRows.Minimum;
+
             lstViews.DataSource = null;
         }
 
@@ -260,8 +267,11 @@ namespace RacerData.rNascarApp.Dialogs
 
                 if (confirmDeletePromptResult == DialogResult.Yes)
                 {
-                    // delete it
                     Workspaces.Remove(Workspace);
+
+                    Workspace = null;
+
+                    ClearWorkspaceDetails();
 
                     DisplayWorkspaces();
                 }

@@ -28,7 +28,22 @@ namespace RacerData.rNascarApp.Models
         public ViewCellPosition CellPosition { get; set; } = new ViewCellPosition();
         public ListSettings ListSettings { get; set; } = new ListSettings();
         public Guid ThemeId { get; set; }
-        //public bool IsDisplayed { get; set; }
+
+        public ViewState Copy()
+        {
+            return new ViewState()
+            {
+                Id = Guid.NewGuid(),
+                Name = $"Copy of {Name}",
+                HeaderText = HeaderText,
+                CellPosition = CellPosition,
+                Description = Description,
+                Index = Index,
+                ThemeId = ThemeId,
+                ViewType = ViewType,
+                ListSettings = ListSettings.Copy()
+            };
+        }
 
         public override string ToString()
         {

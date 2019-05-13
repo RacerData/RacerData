@@ -890,7 +890,45 @@ namespace RacerData.rNascarApp
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error displaying Create View Wizard", ex);
+                ExceptionHandler("Error displaying Workspace Management form", ex);
+            }
+        }
+        #endregion
+
+        #region views
+
+        private void viewManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayViewManagement();
+        }
+
+        protected virtual void DisplayViewManagement()
+        {
+            try
+            {
+                using (var dialog = new ViewManagementDialog()
+                {
+                    Log = this.Log,
+                    Views = AppSettings.ViewStates
+                })
+                {
+                    var viewManagementDialogResult = dialog.ShowDialog(this);
+
+                    if (viewManagementDialogResult == DialogResult.OK)
+                    {
+                        AppSettings.Save();
+                    }
+                    else
+                    {
+                        _appSettings = AppSettings.Load();
+                    }
+
+                    // TODO: Update existing views
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying View Management form", ex);
             }
         }
         #endregion
@@ -1720,9 +1758,6 @@ namespace RacerData.rNascarApp
             {
                 var dataSourceFactory = new ViewDataSourceFactory();
                 var dataSources = dataSourceFactory.GetList();
-
-                var displayFormatFactory = new ViewDisplayFormatFactory();
-                var displayFormats = displayFormatFactory.GetViewDisplayFormats();
 
                 var mapService = new DisplayFormatMapService();
 

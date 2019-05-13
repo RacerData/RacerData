@@ -173,7 +173,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     }
                     else
                     {
-                        Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
+                        throw new ArgumentException($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
                     }
 
                     _mapService.Map[viewDataMember] = newViewDisplayFormat;
@@ -705,7 +705,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 }
                 else
                 {
-                    Console.WriteLine($"Unrecognized field type: {type}");
+                    throw new ArgumentException($"Unrecognized field type: {type}");
                 }
 
             }

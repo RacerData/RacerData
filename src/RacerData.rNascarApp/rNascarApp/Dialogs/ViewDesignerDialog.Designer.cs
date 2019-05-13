@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.pnlDataSourceDetails = new System.Windows.Forms.Panel();
             this.trvDataSources = new System.Windows.Forms.TreeView();
+            this.pnlDataSourceDetails = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlColumnDetails = new System.Windows.Forms.Panel();
             this.label17 = new System.Windows.Forms.Label();
@@ -66,7 +66,6 @@
             this.btnCancelEdit = new System.Windows.Forms.Button();
             this.btnEditSave = new System.Windows.Forms.Button();
             this.pnlViewStateDetails = new System.Windows.Forms.Panel();
-            this.chkShowView = new System.Windows.Forms.CheckBox();
             this.chkApplyTheme = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.cboViewType = new System.Windows.Forms.ComboBox();
@@ -125,15 +124,6 @@
             this.splitContainer1.SplitterDistance = 323;
             this.splitContainer1.TabIndex = 0;
             // 
-            // pnlDataSourceDetails
-            // 
-            this.pnlDataSourceDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlDataSourceDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlDataSourceDetails.Location = new System.Drawing.Point(0, 384);
-            this.pnlDataSourceDetails.Name = "pnlDataSourceDetails";
-            this.pnlDataSourceDetails.Size = new System.Drawing.Size(323, 100);
-            this.pnlDataSourceDetails.TabIndex = 0;
-            // 
             // trvDataSources
             // 
             this.trvDataSources.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -142,6 +132,15 @@
             this.trvDataSources.Size = new System.Drawing.Size(323, 360);
             this.trvDataSources.TabIndex = 1;
             this.trvDataSources.DoubleClick += new System.EventHandler(this.trvDataSources_DoubleClick);
+            // 
+            // pnlDataSourceDetails
+            // 
+            this.pnlDataSourceDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlDataSourceDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlDataSourceDetails.Location = new System.Drawing.Point(0, 384);
+            this.pnlDataSourceDetails.Name = "pnlDataSourceDetails";
+            this.pnlDataSourceDetails.Size = new System.Drawing.Size(323, 100);
+            this.pnlDataSourceDetails.TabIndex = 0;
             // 
             // label1
             // 
@@ -503,7 +502,6 @@
             // pnlViewStateDetails
             // 
             this.pnlViewStateDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlViewStateDetails.Controls.Add(this.chkShowView);
             this.pnlViewStateDetails.Controls.Add(this.chkApplyTheme);
             this.pnlViewStateDetails.Controls.Add(this.label15);
             this.pnlViewStateDetails.Controls.Add(this.cboViewType);
@@ -529,16 +527,6 @@
             this.pnlViewStateDetails.Name = "pnlViewStateDetails";
             this.pnlViewStateDetails.Size = new System.Drawing.Size(709, 135);
             this.pnlViewStateDetails.TabIndex = 20;
-            // 
-            // chkShowView
-            // 
-            this.chkShowView.AutoSize = true;
-            this.chkShowView.Location = new System.Drawing.Point(605, 67);
-            this.chkShowView.Name = "chkShowView";
-            this.chkShowView.Size = new System.Drawing.Size(79, 17);
-            this.chkShowView.TabIndex = 25;
-            this.chkShowView.Text = "Show View";
-            this.chkShowView.UseVisualStyleBackColor = true;
             // 
             // chkApplyTheme
             // 
@@ -859,7 +847,6 @@
         private System.Windows.Forms.Button btnSaveChanges;
         private System.Windows.Forms.Button btnDiscardChanges;
         private System.Windows.Forms.CheckBox chkApplyTheme;
-        private System.Windows.Forms.CheckBox chkShowView;
         private System.Windows.Forms.TextBox txtDataPath;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;

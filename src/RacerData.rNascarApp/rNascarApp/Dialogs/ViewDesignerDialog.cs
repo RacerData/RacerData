@@ -263,7 +263,6 @@ namespace RacerData.rNascarApp.Dialogs
 
             chkShowHeader.Checked = false;
             chkShowGridHeader.Checked = false;
-            chkShowView.Checked = false;
         }
 
         private void ClearColumnDetails()
@@ -329,7 +328,6 @@ namespace RacerData.rNascarApp.Dialogs
 
             chkShowHeader.Checked = viewState.ListSettings.ShowHeader;
             chkShowGridHeader.Checked = viewState.ListSettings.ShowCaptions;
-            chkShowView.Checked = viewState.IsDisplayed;
 
             cboThemes.SelectedValue = viewState.ThemeId;
             cboViewType.SelectedItem = viewState.ViewType;
@@ -389,7 +387,6 @@ namespace RacerData.rNascarApp.Dialogs
 
             viewState.ListSettings.ShowHeader = chkShowHeader.Checked;
             viewState.ListSettings.ShowCaptions = chkShowGridHeader.Checked;
-            viewState.IsDisplayed = chkShowView.Checked;
 
             if (cboViewType.SelectedItem != null)
                 viewState.ViewType = (ViewType)cboViewType.SelectedItem;

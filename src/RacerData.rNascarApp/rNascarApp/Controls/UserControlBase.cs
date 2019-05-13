@@ -178,14 +178,6 @@ namespace RacerData.rNascarApp.Controls
         {
             try
             {
-                if (viewData == null)
-                {
-#if DEBUG
-                    Console.WriteLine(" ****************** NULL VIEW DATA ****************** ");
-#endif
-                    return;
-                }
-
                 this.SuspendLayout();
 
                 var gridRows = pnlDetail.Controls

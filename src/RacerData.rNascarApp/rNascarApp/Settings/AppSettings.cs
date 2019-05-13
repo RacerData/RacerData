@@ -16,8 +16,6 @@ namespace RacerData.rNascarApp.Settings
         #region properties
 
         public IList<ViewState> ViewStates { get; set; } = new List<ViewState>();
-        public int GridRowCount { get; set; } = 4;
-        public int GridColumnCount { get; set; } = 4;
         public Size Size { get; set; }
         public Point Location { get; set; }
         public FormWindowState WindowState { get; set; }
@@ -27,7 +25,7 @@ namespace RacerData.rNascarApp.Settings
         #endregion
 
         #region public
-        
+
         public static AppSettings Load()
         {
             var settings = new AppSettings();

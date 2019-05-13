@@ -79,12 +79,13 @@ namespace RacerData.rNascarApp
 
         private Point _dragPoint = Point.Empty;
         private Panel _dragFrame = null;
-        private bool _saveSettingsOnExit = false;
+        private bool _saveSettingsOnExit = true;
         private IMonitorService _feedService = null;
         private IWorkspaceService _workspaceService = null;
         private Color _gridTableBackColor;
         private bool _isMonitorEnabled = false;
         private bool _isFullScreen = false;
+        private bool _isLoading = true;
         private FormBorderStyle _previousBorderStyle;
         private FormWindowState _previousWindowState;
 
@@ -204,8 +205,6 @@ namespace RacerData.rNascarApp
 
                 UserSettings = UserSettings.Load();
 
-                ViewStateUpdated += MainForm_ViewStateUpdated;
-
                 tlsMain.DataBindings.Add(new Binding("Visible", UserSettings, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
                 MainStatusStrip.DataBindings.Add(new Binding("Visible", UserSettings, "ShowStatusBar", false, DataSourceUpdateMode.OnPropertyChanged));
 
@@ -221,15 +220,11 @@ namespace RacerData.rNascarApp
 
                 dragTimer.Tick += DragTimer_Tick;
 
-                SetGridCellSizes(AppSettings.GridRowCount, AppSettings.GridColumnCount);
-
                 _workspaceService = ServiceProvider.Instance.GetRequiredService<IWorkspaceService>();
 
                 _workspaceService.WorkspaceChanged += WorkspaceService_WorkspaceChanged;
 
-                UpdateCurrentWorkspaceName(_workspaceService.CurrentWorkspace.Name);
-
-                LoadViewStates();
+                UpdateCurrentWorkspace(_workspaceService.CurrentWorkspace);
 
                 _gridTableBackColor = GridTable.BackColor;
 
@@ -239,6 +234,10 @@ namespace RacerData.rNascarApp
             catch (Exception ex)
             {
                 ExceptionHandler("Error initializing main form", ex);
+            }
+            finally
+            {
+                _isLoading = false;
             }
         }
         #endregion
@@ -363,12 +362,10 @@ namespace RacerData.rNascarApp
 
                 if ((newCell.Value.Y + rowSpan) > GridTable.RowCount)
                 {
-                    Console.WriteLine($"newCell={newCell.Value.X}:{newCell.Value.Y}; rowSpan={rowSpan}; newCell.Value.Y + rowSpan={newCell.Value.Y + rowSpan}; GridTable.RowCount={GridTable.RowCount}");
                     GridTable.BackColor = Color.Red;
                 }
                 else if ((newCell.Value.X + columnSpan) > GridTable.ColumnCount)
                 {
-                    Console.WriteLine($"newCell={newCell.Value.X}:{newCell.Value.Y}; columnSpan={columnSpan}; newCell.Value.X + columnSpan={newCell.Value.X + columnSpan }; GridTable.ColumnCount={GridTable.ColumnCount}");
                     GridTable.BackColor = Color.Red;
                 }
                 else
@@ -469,8 +466,6 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                controlBase.State.IsDisplayed = true;
-
                 controlBase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
                 GridTable.Controls.Add(controlBase, column, row);
@@ -515,17 +510,11 @@ namespace RacerData.rNascarApp
             controlBase.EditThemeRequest -= ControlBase_EditThemeRequest;
             controlBase.EditViewRequest -= ControlBase_EditViewRequest;
 
-            _workspaceService.CurrentWorkspace.ViewStates.Remove(controlBase.State.Id);
-
             controlBase.Dispose();
         }
 
         protected virtual void ControlBase_RemoveControlRequest(object sender, EventArgs e)
         {
-            ((UserControlBase)sender).State.IsDisplayed = false;
-
-            SaveViewStates();
-
             RemoveUserControlBase((UserControlBase)sender);
         }
         protected virtual void ControlBase_ResizeControlRequest(object sender, EventArgs e)
@@ -556,19 +545,12 @@ namespace RacerData.rNascarApp
         #region workspaces
         private void WorkspaceService_WorkspaceChanged(object sender, WorkspaceChangedEventArgs e)
         {
-            try
-            {
-                UpdateCurrentWorkspaceName(e.CurrentWorkspace.Name);
-
-                ResetViews();
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error setting current workspace", ex);
-            }
+            UpdateCurrentWorkspace(e.CurrentWorkspace);
         }
         private void workspaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveWorkspace();
+
             CreateNewWorkspace();
         }
         private void saveWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -579,6 +561,8 @@ namespace RacerData.rNascarApp
         {
             try
             {
+                SaveWorkspace();
+
                 var workspace = SelectWorkspace("Select workspace to copy");
 
                 if (workspace != null)
@@ -607,6 +591,8 @@ namespace RacerData.rNascarApp
         {
             try
             {
+                SaveWorkspace();
+
                 var workspace = SelectWorkspace("Select workspace to delete");
 
                 if (workspace != null)
@@ -617,10 +603,29 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error deleting workspace", ex);
             }
         }
-        protected virtual void UpdateCurrentWorkspaceName(string name)
+
+        protected virtual void UpdateCurrentWorkspace(Workspace workspace)
         {
-            this.Text = $"{ApplicationTitle} [{name}]";
-            lblWorkspace.Text = name;
+            try
+            {
+                this.SuspendLayout();
+
+                SetGridCellSizes(workspace.GridRowCount, workspace.GridColumnCount);
+
+                this.Text = $"{ApplicationTitle} [{workspace.Name}]";
+
+                lblWorkspace.Text = workspace.Name;
+
+                ReloadWorkspaceViews();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error setting current workspace", ex);
+            }
+            finally
+            {
+                this.ResumeLayout();
+            }
         }
         protected virtual Workspace SelectWorkspace(string title, string prompt = "")
         {
@@ -655,7 +660,7 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                _workspaceService.Save();
+                SaveAppState();
             }
             catch (Exception ex)
             {
@@ -699,15 +704,13 @@ namespace RacerData.rNascarApp
                             }
                             else
                             {
-                                var newWorkspace = new Workspace()
-                                {
-                                    Name = dialog.Value,
-                                    ViewStates = workspace.ViewStates.ToList()
-                                };
+                                var newWorkspace = workspace.Copy(dialog.Value);
 
                                 try
                                 {
                                     _workspaceService.AddWorkspace(newWorkspace);
+
+                                    _workspaceService.Save();
 
                                     _workspaceService.SetActiveWorkspace(newWorkspace.Name);
 
@@ -781,7 +784,9 @@ namespace RacerData.rNascarApp
                             {
                                 var newWorkspace = new Workspace()
                                 {
-                                    Name = dialog.Value
+                                    Name = dialog.Value,
+                                    GridColumnCount = GridTable.ColumnCount,
+                                    GridRowCount = GridTable.RowCount
                                 };
 
                                 try
@@ -851,6 +856,43 @@ namespace RacerData.rNascarApp
                 ExceptionHandler($"Error deleting workspace", ex);
             }
         }
+
+        private void workspaceManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayWorkspaceManagement();
+        }
+        protected virtual void DisplayWorkspaceManagement()
+        {
+            try
+            {
+                using (var dialog = new WorkspaceManagementDialog()
+                {
+                    Log = this.Log,
+                    GridRowCount = GridTable.RowCount,
+                    GridColumnCount = GridTable.ColumnCount,
+                    Workspaces = _workspaceService.Workspaces,
+                    Views = AppSettings.ViewStates
+                })
+                {
+                    var workspaceManagementDialogResult = dialog.ShowDialog(this);
+
+                    if (workspaceManagementDialogResult == DialogResult.OK)
+                    {
+                        _workspaceService.Save();
+                    }
+                    else
+                    {
+                        _workspaceService.Load();
+                    }
+
+                    UpdateCurrentWorkspace(_workspaceService.CurrentWorkspace);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying Create View Wizard", ex);
+            }
+        }
         #endregion
 
         #region view states  
@@ -899,7 +941,6 @@ namespace RacerData.rNascarApp
 
             if (item.Checked)
             {
-                viewState.IsDisplayed = true;
                 AddControl(viewState);
             }
             else
@@ -916,19 +957,20 @@ namespace RacerData.rNascarApp
                 if (controlToClose != null)
                 {
                     RemoveUserControlBase(controlToClose);
-                    viewState.IsDisplayed = false;
                 }
             }
         }
-        private void resetViewsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ResetViews();
-        }
-        protected virtual void ResetViews()
+
+        protected virtual void ReloadWorkspaceViews()
         {
             try
             {
-                ClearViewStates();
+                if (!_isLoading)
+                {
+                    ClearViewStates();
+
+                    _workspaceService.Load();
+                }
 
                 LoadViewStates();
             }
@@ -939,8 +981,6 @@ namespace RacerData.rNascarApp
         }
         protected virtual void ClearViewStates()
         {
-            _workspaceService.Save();
-
             foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
             {
                 RemoveUserControlBase(controlBase);
@@ -948,19 +988,21 @@ namespace RacerData.rNascarApp
         }
         protected virtual void LoadViewStates()
         {
-            _workspaceService = new WorkspaceService();
+            var currentWorkspace = _workspaceService.CurrentWorkspace;
 
-            foreach (Guid id in _workspaceService.CurrentWorkspace.ViewStates)
+            foreach (Guid viewStateId in currentWorkspace.ViewStates)
             {
-                var viewState = AppSettings.ViewStates.SingleOrDefault(v => v.Id == id);
+                var viewState = AppSettings.ViewStates.SingleOrDefault(v => v.Id == viewStateId);
 
-                if (viewState != null && viewState.IsDisplayed)
+                if (viewState == null)
                 {
-                    var controlBase = AddControl(viewState);
+                    throw new ArgumentException($"Invalid ViewState Id: {viewStateId} in {currentWorkspace.Name}");
                 }
+
+                var controlBase = AddControl(viewState);
             }
         }
-        protected virtual void SaveViewStates()
+        protected virtual void UpdateViewStates()
         {
             int i = 0;
 
@@ -1006,8 +1048,6 @@ namespace RacerData.rNascarApp
 
                 i++;
             }
-
-            AppSettings.Save();
         }
         #endregion
 
@@ -1038,18 +1078,18 @@ namespace RacerData.rNascarApp
         }
         protected virtual void BeforeFormCloses()
         {
-            SaveAppState();
-
             if (!_saveSettingsOnExit)
                 return;
 
             if (UserSettings != null)
                 UserSettings.Save();
 
-            SaveViewStates();
+            SaveAppState();
         }
         protected virtual void SaveAppState()
         {
+            UpdateViewStates();
+
             AppSettings.WindowState = this.WindowState;
 
             if (AppSettings.WindowState == FormWindowState.Normal)
@@ -1057,11 +1097,12 @@ namespace RacerData.rNascarApp
                 AppSettings.Size = this.Size;
                 AppSettings.Location = this.Location;
                 AppSettings.StartPosition = this.StartPosition;
-                AppSettings.GridColumnCount = GridTable.ColumnCount;
-                AppSettings.GridRowCount = GridTable.RowCount;
             }
 
             AppSettings.Save();
+
+            _workspaceService.CurrentWorkspace.GridColumnCount = GridTable.ColumnCount;
+            _workspaceService.CurrentWorkspace.GridRowCount = GridTable.RowCount;
 
             _workspaceService.Save();
         }
@@ -1498,43 +1539,15 @@ namespace RacerData.rNascarApp
                     {
                         AppSettings.ViewStates = dialog.ViewStates;
 
-                        AppSettings.Save();
+                        SaveAppState();
 
-                        foreach (ViewState viewState in AppSettings.ViewStates)
-                        {
-                            OnViewStateUpdated(viewState);
-                        }
+                        ReloadWorkspaceViews();
                     }
                 }
             }
             catch (Exception ex)
             {
                 ExceptionHandler("Error displaying view designer", ex);
-            }
-        }
-        private void MainForm_ViewStateUpdated(object sender, ViewState e)
-        {
-            if (!e.IsDisplayed)
-            {
-                foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().Where(u => u.State.Id == e.Id))
-                {
-                    controlBase.State.IsDisplayed = false;
-                    SaveViewStates();
-
-                    RemoveUserControlBase(controlBase);
-                }
-            }
-            else
-            {
-                var controlBase = GridTable.Controls.OfType<UserControlBase>().FirstOrDefault(u => u.State.Id == e.Id);
-
-                if (controlBase != null)
-                {
-                    controlBase.State.IsDisplayed = true;
-                    SaveViewStates();
-
-                    AddControl(e);
-                }
             }
         }
         #endregion
@@ -1606,7 +1619,6 @@ namespace RacerData.rNascarApp
 
                 rowCapacity = ((rowSpan + cell.Row) > rowCapacity) ? rowSpan + cell.Row : rowCapacity;
                 columnCapacity = ((columnSpan + cell.Column) > columnCapacity) ? columnSpan + cell.Column : columnCapacity;
-                //Console.WriteLine($"{cbase.Title} - rowSpan {rowSpan} + cell.Row {cell.Row} = {rowSpan + cell.Row} | GridTable.RowCount {GridTable.RowCount} ## columnSpan {columnSpan} + cell.Column {cell.Column} = {columnSpan + cell.Column} | GridTable.ColumnCount {GridTable.ColumnCount}");
             }
 
             SetGridCellSizes(rowCapacity, columnCapacity);
@@ -1628,6 +1640,12 @@ namespace RacerData.rNascarApp
             for (int i = 0; i < GridTable.ColumnCount; i++)
             {
                 GridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, newColumnSize));
+            }
+
+            if (_workspaceService != null && _workspaceService.CurrentWorkspace != null)
+            {
+                _workspaceService.CurrentWorkspace.GridColumnCount = columnCount;
+                _workspaceService.CurrentWorkspace.GridRowCount = rowCount;
             }
         }
         #endregion
@@ -1724,7 +1742,7 @@ namespace RacerData.rNascarApp
 
                         SaveAppState();
 
-                        ResetViews();
+                        ReloadWorkspaceViews();
                     }
                 }
             }

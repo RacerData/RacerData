@@ -201,7 +201,7 @@ namespace RacerData.rNascarApp.Dialogs
                         }
                         else
                         {
-                            Console.WriteLine($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
+                            throw new ArgumentException($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
                         }
 
                         MapService.AddNewFormatToMap(viewDataMember, newViewDisplayFormat);
@@ -307,9 +307,9 @@ namespace RacerData.rNascarApp.Dialogs
         {
             foreach (TreeNode node in nodes)
             {
-                if (node.Tag != null && 
-                    node.Tag is DataFormatMapItem && 
-                    ((DataFormatMapItem)node.Tag).DataMember.DataFeed  == target.DataFeed &&
+                if (node.Tag != null &&
+                    node.Tag is DataFormatMapItem &&
+                    ((DataFormatMapItem)node.Tag).DataMember.DataFeed == target.DataFeed &&
                     ((DataFormatMapItem)node.Tag).DataMember.Name == target.Name)
                 {
                     trvDataSources.SelectedNode = node;

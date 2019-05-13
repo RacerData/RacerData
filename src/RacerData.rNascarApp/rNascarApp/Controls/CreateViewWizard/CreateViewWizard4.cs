@@ -542,7 +542,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 }
                 else
                 {
-                    Console.WriteLine($"Unrecognized field type: {type}");
+                    throw new ArgumentException($"Unrecognized field type: {type}");
                 }
 
             }
@@ -583,7 +583,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             viewState.ListSettings.ShowHeader = true;
             viewState.ListSettings.ShowCaptions = true;
-            viewState.IsDisplayed = true;
 
             viewState.ViewType = Models.ViewType.List;
 

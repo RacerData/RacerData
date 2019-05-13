@@ -113,7 +113,7 @@ namespace RacerData.rNascarApp.Services
             var workspace = Workspaces.SingleOrDefault(w => w.Name == name);
 
             if (workspace == null)
-                throw new ArgumentException($"Workspace name '{name}' not found", nameof(workspace));
+                throw new ArgumentException($"Workspace '{name}' not found", nameof(workspace));
 
             if (!workspace.IsActive)
             {
@@ -124,6 +124,8 @@ namespace RacerData.rNascarApp.Services
 
                 workspace.IsActive = true;
 
+                Save();
+
                 OnWorkspaceChanged(workspace);
             }
         }
@@ -131,12 +133,11 @@ namespace RacerData.rNascarApp.Services
         public void Load()
         {
             var filePath = GetSettingsFilePath();
-
             Workspaces = LoadWorkspaces(filePath);
         }
 
         public void Save()
-        {
+        {           
             var filePath = GetSettingsFilePath();
 
             JsonSerializerSettings settings = new JsonSerializerSettings

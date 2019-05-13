@@ -13,7 +13,8 @@ namespace RacerData.rNascarApp.Services
 
         void AddWorkspace(Workspace workspace);
         void RemoveWorkspace(Workspace workspace);
-        void Save();
         void SetActiveWorkspace(string name);
+        void Save();
+        void Load();
     }
 }

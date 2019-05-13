@@ -18,22 +18,25 @@ namespace RacerData.rNascarApp.Settings
             {
                 ApiFeedType feeds = ApiFeedType.None;
 
-                var dataFeedName = DataFeed.Replace("[]", "");
+                if (!String.IsNullOrEmpty(DataFeed))
+                {
+                    var dataFeedName = DataFeed.Replace("[]", "");
 
-                if (dataFeedName == ApiFeedType.LapAverageData.ToString())
-                    feeds |= ApiFeedType.LapAverageData;
-                if (dataFeedName == ApiFeedType.LapTimeData.ToString())
-                    feeds |= ApiFeedType.LapTimeData;
-                if (dataFeedName == ApiFeedType.LiveFeedData.ToString())
-                    feeds |= ApiFeedType.LiveFeedData;
-                if (dataFeedName == ApiFeedType.LiveFlagData.ToString())
-                    feeds |= ApiFeedType.LiveFlagData;
-                if (dataFeedName == ApiFeedType.LivePitData.ToString())
-                    feeds |= ApiFeedType.LivePitData;
-                if (dataFeedName == ApiFeedType.LivePointsData.ToString())
-                    feeds |= ApiFeedType.LivePointsData;
-                if (dataFeedName == ApiFeedType.LiveQualifyingData.ToString())
-                    feeds |= ApiFeedType.LiveQualifyingData;
+                    if (dataFeedName == ApiFeedType.LapAverageData.ToString())
+                        feeds |= ApiFeedType.LapAverageData;
+                    if (dataFeedName == ApiFeedType.LapTimeData.ToString())
+                        feeds |= ApiFeedType.LapTimeData;
+                    if (dataFeedName == ApiFeedType.LiveFeedData.ToString())
+                        feeds |= ApiFeedType.LiveFeedData;
+                    if (dataFeedName == ApiFeedType.LiveFlagData.ToString())
+                        feeds |= ApiFeedType.LiveFlagData;
+                    if (dataFeedName == ApiFeedType.LivePitData.ToString())
+                        feeds |= ApiFeedType.LivePitData;
+                    if (dataFeedName == ApiFeedType.LivePointsData.ToString())
+                        feeds |= ApiFeedType.LivePointsData;
+                    if (dataFeedName == ApiFeedType.LiveQualifyingData.ToString())
+                        feeds |= ApiFeedType.LiveQualifyingData;
+                }
 
                 return feeds;
             }

@@ -1038,6 +1038,13 @@ namespace RacerData.rNascarApp
                     {
                         var newViewState = dialog.ViewState;
 
+                        newViewState.CellPosition.ColumnSpan = (newViewState.ListSettings.Columns.Where(c => c.Width.HasValue).Sum(c => c.Width.Value) / (int)GridTable.ColumnStyles[0].Width) + 1;
+                        newViewState.CellPosition.RowSpan = (((newViewState.ListSettings.MaxRows.HasValue ? 
+                            newViewState.ListSettings.MaxRows.Value : 
+                            10) * (newViewState.ListSettings.RowHeight.HasValue ? 
+                            newViewState.ListSettings.RowHeight.Value : 
+                            8)) / (int)GridTable.RowStyles[0].Height);
+
                         AppSettings.ViewStates.Add(newViewState);
 
                         _workspaceService.CurrentWorkspace.ViewStates.Add(newViewState.Id);

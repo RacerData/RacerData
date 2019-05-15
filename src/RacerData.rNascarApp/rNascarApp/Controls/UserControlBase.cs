@@ -208,7 +208,7 @@ namespace RacerData.rNascarApp.Controls
 
                                 if (!String.IsNullOrEmpty(column.Format))
                                 {
-                                    label.Text = FormatValue(viewData[i, x], column.Format);
+                                    label.Text = FieldFormatService.FormatValue(column.Type, column.Format, viewData[i, x].ToString());
                                 }
                                 else
                                 {
@@ -278,30 +278,6 @@ namespace RacerData.rNascarApp.Controls
                 }
             }
             GridHeader.SendToBack();
-        }
-
-        protected virtual string FormatValue(object value, string format)
-        {
-            string formattedValue = null;
-
-            if (value == null)
-            {
-                formattedValue = String.Empty;
-            }
-            else if (value is int)
-            {
-                formattedValue = ((int)value).ToString(format);
-            }
-            else if (value is double)
-            {
-                formattedValue = ((double)value).ToString(format);
-            }
-            else
-            {
-                formattedValue = value.ToString();
-            }
-
-            return formattedValue;
         }
 
         protected virtual void ApplyTheme(Theme theme)

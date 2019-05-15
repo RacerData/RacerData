@@ -41,9 +41,21 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
 
         public List<VehicleNLapAverage> GetBestLapAverages(int targetLapCount)
         {
-            var averages = _vehicleLapHistory.Values.SelectMany(a => a.GetBestLapAverage(targetLapCount));
+            var averages = _vehicleLapHistory.
+                Values.
+                SelectMany(a => a.GetBestLapAverage(targetLapCount));
 
-            return averages.Where(a => a != null).OrderBy(a => a.AverageLapTime).ToList();
+            var grouped = averages.
+                Where(a => a != null).
+                GroupBy(
+                v => v.VehicleId,
+                v => v,
+                (key, g) => new { VehicleId = key, BestAverageLapTime = g.OrderBy(l => l.AverageLapTime).FirstOrDefault() });
+
+            return grouped.
+                Select(a => a.BestAverageLapTime).
+                OrderBy(l => l.AverageLapTime).
+                ToList();
         }
 
         public List<VehicleNLapAverage> GetLastLapAverages(int targetLapCount)

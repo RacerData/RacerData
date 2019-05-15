@@ -42,12 +42,12 @@
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.btnEditFields = new System.Windows.Forms.Button();
             this.lstFields = new System.Windows.Forms.ListBox();
+            this.ctxFields = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeFieldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.ctxFields = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeFieldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewManagementToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.pnlSelection.SuspendLayout();
             this.pnlDialogButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -107,7 +107,7 @@
             this.btnSaveAndClose.Size = new System.Drawing.Size(106, 37);
             this.btnSaveAndClose.TabIndex = 5;
             this.btnSaveAndClose.Text = "Save && Close";
-            this.toolTip1.SetToolTip(this.btnSaveAndClose, "Save all changes and close this form");
+            this.viewManagementToolTip.SetToolTip(this.btnSaveAndClose, "Save all changes and close this form");
             this.btnSaveAndClose.UseVisualStyleBackColor = true;
             this.btnSaveAndClose.Click += new System.EventHandler(this.btnCancelAndClose_Click);
             // 
@@ -119,7 +119,7 @@
             this.btnNew.Size = new System.Drawing.Size(82, 37);
             this.btnNew.TabIndex = 4;
             this.btnNew.Text = "New";
-            this.toolTip1.SetToolTip(this.btnNew, "Create a new workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnNew, "Create a new workspace");
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
@@ -132,7 +132,7 @@
             this.btnCancelOrCancelAndClose.Size = new System.Drawing.Size(106, 37);
             this.btnCancelOrCancelAndClose.TabIndex = 3;
             this.btnCancelOrCancelAndClose.Text = "Cancel && Close";
-            this.toolTip1.SetToolTip(this.btnCancelOrCancelAndClose, "Revert all changes and close the form");
+            this.viewManagementToolTip.SetToolTip(this.btnCancelOrCancelAndClose, "Revert all changes and close the form");
             this.btnCancelOrCancelAndClose.UseVisualStyleBackColor = true;
             this.btnCancelOrCancelAndClose.Click += new System.EventHandler(this.btnCancelOrSaveAndClose_Click);
             // 
@@ -144,7 +144,7 @@
             this.btnDelete.Size = new System.Drawing.Size(82, 37);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Delete";
-            this.toolTip1.SetToolTip(this.btnDelete, "Delete the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnDelete, "Delete the selected workspace");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -156,7 +156,7 @@
             this.btnCopy.Size = new System.Drawing.Size(82, 37);
             this.btnCopy.TabIndex = 1;
             this.btnCopy.Text = "Copy";
-            this.toolTip1.SetToolTip(this.btnCopy, "Make a copy of the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnCopy, "Make a copy of the selected workspace");
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
@@ -168,7 +168,7 @@
             this.btnEditSave.Size = new System.Drawing.Size(82, 37);
             this.btnEditSave.TabIndex = 0;
             this.btnEditSave.Text = "Edit";
-            this.toolTip1.SetToolTip(this.btnEditSave, "Edit the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnEditSave, "Edit the selected workspace");
             this.btnEditSave.UseVisualStyleBackColor = true;
             this.btnEditSave.Click += new System.EventHandler(this.btnEditOrSave_Click);
             // 
@@ -193,7 +193,7 @@
             this.btnEditFields.Size = new System.Drawing.Size(106, 37);
             this.btnEditFields.TabIndex = 8;
             this.btnEditFields.Text = "Edit Fields...";
-            this.toolTip1.SetToolTip(this.btnEditFields, "Edit the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnEditFields, "Edit the selected workspace");
             this.btnEditFields.UseVisualStyleBackColor = true;
             this.btnEditFields.Click += new System.EventHandler(this.btnEditFields_Click);
             // 
@@ -209,6 +209,21 @@
             this.lstFields.Name = "lstFields";
             this.lstFields.Size = new System.Drawing.Size(340, 139);
             this.lstFields.TabIndex = 7;
+            // 
+            // ctxFields
+            // 
+            this.ctxFields.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeFieldToolStripMenuItem});
+            this.ctxFields.Name = "ctxFields";
+            this.ctxFields.Size = new System.Drawing.Size(146, 26);
+            this.ctxFields.Opening += new System.ComponentModel.CancelEventHandler(this.ctxFields_Opening);
+            // 
+            // removeFieldToolStripMenuItem
+            // 
+            this.removeFieldToolStripMenuItem.Name = "removeFieldToolStripMenuItem";
+            this.removeFieldToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.removeFieldToolStripMenuItem.Text = "Remove Field";
+            this.removeFieldToolStripMenuItem.Click += new System.EventHandler(this.removeFieldToolStripMenuItem_Click);
             // 
             // label5
             // 
@@ -226,7 +241,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(341, 21);
             this.txtName.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.txtName, "Name of the workspace. Must be unique.");
+            this.viewManagementToolTip.SetToolTip(this.txtName, "Name of the workspace. Must be unique.");
             // 
             // label2
             // 
@@ -237,21 +252,6 @@
             this.label2.Size = new System.Drawing.Size(40, 15);
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
-            // 
-            // ctxFields
-            // 
-            this.ctxFields.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeFieldToolStripMenuItem});
-            this.ctxFields.Name = "ctxFields";
-            this.ctxFields.Size = new System.Drawing.Size(181, 48);
-            this.ctxFields.Opening += new System.ComponentModel.CancelEventHandler(this.ctxFields_Opening);
-            // 
-            // removeFieldToolStripMenuItem
-            // 
-            this.removeFieldToolStripMenuItem.Name = "removeFieldToolStripMenuItem";
-            this.removeFieldToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.removeFieldToolStripMenuItem.Text = "Remove Field";
-            this.removeFieldToolStripMenuItem.Click += new System.EventHandler(this.removeFieldToolStripMenuItem_Click);
             // 
             // ViewManagementDialog
             // 
@@ -293,7 +293,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnSaveAndClose;
-        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip viewManagementToolTip;
         private System.Windows.Forms.ListBox lstFields;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnEditFields;

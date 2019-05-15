@@ -120,7 +120,7 @@
             this.newToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.newToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources._new;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.newToolStripMenuItem.Text = "&New...";
             // 
             // viewToolStripMenuItem1
@@ -149,7 +149,7 @@
             this.openWorkspaceToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.openWorkspaceToolStripMenuItem1.Image = global::RacerData.rNascarApp.Properties.Resources.open;
             this.openWorkspaceToolStripMenuItem1.Name = "openWorkspaceToolStripMenuItem1";
-            this.openWorkspaceToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.openWorkspaceToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
             this.openWorkspaceToolStripMenuItem1.Text = "&Open Workspace";
             this.openWorkspaceToolStripMenuItem1.Click += new System.EventHandler(this.openWorkspaceToolStripMenuItem1_Click);
             // 
@@ -159,7 +159,7 @@
             this.saveWorkspaceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.saveWorkspaceToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.save;
             this.saveWorkspaceToolStripMenuItem.Name = "saveWorkspaceToolStripMenuItem";
-            this.saveWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.saveWorkspaceToolStripMenuItem.Text = "&Save Workspace";
             this.saveWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.saveWorkspaceToolStripMenuItem_Click);
             // 
@@ -169,14 +169,14 @@
             this.copyWorkspaceToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.copyWorkspaceToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.copy;
             this.copyWorkspaceToolStripMenuItem.Name = "copyWorkspaceToolStripMenuItem";
-            this.copyWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyWorkspaceToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.copyWorkspaceToolStripMenuItem.Text = "&Copy Workspace";
             this.copyWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.copyWorkspaceToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(166, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -184,7 +184,7 @@
             this.exitToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.exitToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.exit1;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -474,7 +474,6 @@
             this.btnMonitor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.btnMonitor.ForeColor = System.Drawing.Color.DarkGray;
             this.btnMonitor.Image = global::RacerData.rNascarApp.Properties.Resources.Running_16xLG;
-            this.btnMonitor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMonitor.Name = "btnMonitor";
             this.btnMonitor.Size = new System.Drawing.Size(95, 22);

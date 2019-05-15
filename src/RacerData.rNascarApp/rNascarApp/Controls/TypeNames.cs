@@ -10,5 +10,6 @@
         public const string RunTypeTypeName = "RunType";
         public const string VehicleStatusTypeName = "VehicleStatus";
         public const string FlagStateTypeName = "FlagState";
+        public const string TrackStateTypeName = "TrackState";
     }
 }

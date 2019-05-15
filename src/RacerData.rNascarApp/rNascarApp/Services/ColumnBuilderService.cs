@@ -1,23 +1,47 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Services
 {
     internal class ColumnBuilderService
     {
+        #region public
+
+        public static void BuildGridColumns(
+         ListSettings listSettings,
+         Control.ControlCollection headerControls,
+         Control.ControlCollection rowControls)
+        {
+            BuildGridColumns(listSettings, headerControls, rowControls, null);
+        }
+
         public static void BuildGridColumns(
             ListSettings listSettings,
             Control.ControlCollection headerControls,
-            Control.ControlCollection rowControls)
+            Control.ControlCollection rowControls,
+            Theme theme)
         {
             ClearControlCollection(headerControls);
             ClearControlCollection(rowControls);
 
+            var baseHeaderHeight = listSettings.RowHeight.HasValue ? listSettings.RowHeight.Value : headerControls.Owner.Height;
+
+            headerControls.Owner.Height = listSettings.MultilineHeader ? baseHeaderHeight * 2 : baseHeaderHeight;
+            rowControls.Owner.Height = baseHeaderHeight;
+
+            if (!listSettings.RowHeight.HasValue)
+                listSettings.RowHeight = baseHeaderHeight;
+
+            var columnIndex = 0;
+
             foreach (ListColumn column in listSettings.OrderedColumns)
             {
+                if (column.Index != columnIndex)
+                    column.Index = columnIndex;
+
                 if (headerControls != null)
                 {
                     var columnHeaderLabel = BuildColumnLabel(column, true);
@@ -29,6 +53,40 @@ namespace RacerData.rNascarApp.Services
                     var columnRowLabel = BuildColumnLabel(column);
                     rowControls.Add(columnRowLabel);
                 }
+
+                columnIndex++;
+            }
+
+            foreach (Label captionLabel in headerControls.OfType<Label>())
+            {
+                Bitmap stringLengthBitmap = new Bitmap(1, 1);
+                SizeF stringSize = new SizeF();
+                using (Graphics g = Graphics.FromImage(stringLengthBitmap))
+                {
+                    stringSize = g.MeasureString(captionLabel.Text, captionLabel.Font);
+                }
+
+                if (stringSize.Width > (captionLabel.Width - 4) &&
+                    listSettings.MultilineHeader == false &&
+                    listSettings.RowHeight.HasValue)
+                {
+                    listSettings.MultilineHeader = true;
+                    headerControls.Owner.Height = listSettings.RowHeight.Value * 2;
+                }
+                else if (stringSize.Width < (captionLabel.Width + 4) &&
+                    listSettings.MultilineHeader == true &&
+                    listSettings.RowHeight.HasValue)
+                {
+                    headerControls.Owner.Height = listSettings.RowHeight.Value;
+                }
+            }
+
+            if (headerControls.Owner is Panel && theme != null)
+            {
+                ApplyTheme(
+                  (Panel)headerControls.Owner,
+                  (Panel)rowControls.Owner,
+                  theme);
             }
 
             if (headerControls != null)
@@ -40,165 +98,60 @@ namespace RacerData.rNascarApp.Services
 
         public static void AlignControls(Control.ControlCollection controls, int? fillColumnIndex)
         {
-            ListColumn[] columns = new ListColumn[controls.OfType<Label>().Count()];
-            Label[] labels = new Label[controls.OfType<Label>().Count()];
-            
-            foreach (Label label in controls.OfType<Label>())
+            try
             {
-                if (label.Tag != null && label.Tag is ListColumn)
+                ListColumn[] columns = new ListColumn[controls.OfType<Label>().Count()];
+                Label[] labels = new Label[controls.OfType<Label>().Count()];
+
+                foreach (Label label in controls.OfType<Label>())
                 {
-                    ListColumn column = (ListColumn)label.Tag;
-                    columns[column.Index] = column;
-                    labels[column.Index] = label;
+                    if (label.Tag != null && label.Tag is ListColumn)
+                    {
+                        ListColumn column = (ListColumn)label.Tag;
+                        columns[column.Index] = column;
+                        labels[column.Index] = label;
+                    }
                 }
-            }
 
-            // set the dock styles
-            for (int idx = 0; idx < controls.Count; idx++)
-            {
-                var label = controls.OfType<Label>().FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == idx);
-
-                if (fillColumnIndex.HasValue)
+                // set the dock styles
+                for (int idx = 0; idx < controls.Count; idx++)
                 {
-                    if (idx < fillColumnIndex.Value)
+                    var label = controls.OfType<Label>().FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == idx);
+
+                    if (fillColumnIndex.HasValue)
+                    {
+                        if (idx < fillColumnIndex.Value)
+                        {
+                            label.Dock = DockStyle.Left;
+                            label.BringToFront();
+                        }
+                        else if (idx > fillColumnIndex.Value)
+                        {
+                            label.Dock = DockStyle.Right;
+                            label.SendToBack();
+                        }
+                    }
+                    else
                     {
                         label.Dock = DockStyle.Left;
                         label.BringToFront();
                     }
-                    else if (idx > fillColumnIndex.Value)
-                    {
-                        label.Dock = DockStyle.Right;
-                        label.SendToBack();
-                    }
                 }
-                else
-                {
-                    label.Dock = DockStyle.Left;
-                    label.BringToFront();
-                }
-            }
-
-            if (fillColumnIndex.HasValue)
-            {
-                var label = controls.OfType<Label>().FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == fillColumnIndex.Value);
-
-                label.Dock = DockStyle.Fill;
-                label.BringToFront();
-            }
-        }
-
-        public static void AlignControls(IList<Label> controls, int? fillColumnIndex)
-        {
-            foreach (Label label in controls)
-            {
-                label.Dock = DockStyle.None;
-            }
-
-            ListColumn[] columns = new ListColumn[controls.Count()];
-            Label[] labels = new Label[controls.Count()]; int cIdx = 0;
-            foreach (Label label in controls)
-            {
-                if (label.Tag != null && label.Tag is ListColumn)
-                {
-                    ListColumn column = (ListColumn)label.Tag;
-                    columns[cIdx] = column;
-                    labels[cIdx] = label;
-                }
-            }
-
-            // set the dock styles
-            for (int idx = 0; idx < controls.Count; idx++)
-            {
-                var label = controls.FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == idx);
 
                 if (fillColumnIndex.HasValue)
                 {
-                    if (idx < fillColumnIndex.Value)
-                    {
-                        label.Dock = DockStyle.Left;
-                        label.BringToFront();
-                    }
-                    else if (fillColumnIndex.Value == idx)
-                    {
+                    var label = controls.OfType<Label>().FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == fillColumnIndex.Value);
 
-                    }
-                    else if (idx > fillColumnIndex.Value)
-                    {
-                        label.Dock = DockStyle.Right;
-                        label.SendToBack();
-                    }
-                }
-                else
-                {
-                    label.Dock = DockStyle.Left;
+                    label.Dock = DockStyle.Fill;
                     label.BringToFront();
                 }
             }
-
-            // position the labels
-            //for (int idx = 0; idx < controls.Count; idx++)
-            //{
-            //    var label = controls.OfType<Label>().FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == idx);
-
-            //    if (fillColumnIndex.HasValue)
-            //    {
-            //        if (fillColumnIndex.Value < idx)
-            //        {
-            //            label.BringToFront();
-            //        }
-            //        else if (fillColumnIndex.Value > idx)
-            //        {
-            //            label.SendToBack();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        label.BringToFront();
-            //    }
-            //}
-
-            if (fillColumnIndex.HasValue)
+            catch (System.Exception ex)
             {
-                var label = controls.FirstOrDefault(c => c.Tag != null && c.Tag is ListColumn && ((ListColumn)c.Tag).Index == fillColumnIndex.Value);
-
-                label.Dock = DockStyle.Fill;
-                label.BringToFront();
+                throw new System.Exception($"Error aligning columns: {ex.Message}", ex);
             }
-
-            //if (fillColumnIndex.HasValue)
-            //{
-            //    for (int i = 0; i < fillColumnIndex.Value; i++)
-            //    {
-            //        controls[i].Dock = DockStyle.Left;
-            //    }
-
-            //    for (int i = fillColumnIndex.Value + 1; i < controls.Count; i++)
-            //    {
-            //        controls[i].Dock = DockStyle.Right;
-            //    }
-
-            //    controls[fillColumnIndex.Value].Dock = DockStyle.Fill;
-            //    controls[fillColumnIndex.Value].BringToFront();
-            //}
-            //else
-            //{
-            //    for (int i = controls.Count - 1; i >= 0; i--)
-            //    {
-            //        if (i == 0)
-            //        {
-            //            controls[i].Dock = DockStyle.Left;
-            //        }
-            //        else
-            //        {
-            //            controls[i].Dock = DockStyle.Right;
-            //        }
-
-            //        controls[0].Dock = DockStyle.Fill;
-            //        controls[0].BringToFront();
-            //    }
-            //}
-
         }
+
         public static Label BuildColumnLabel(ListColumn column, bool isHeader = false)
         {
             var columnLabel = new Label()
@@ -208,10 +161,9 @@ namespace RacerData.rNascarApp.Services
                     $"lbl{column.DataMember}",
                 Text = isHeader ?
                     column.Caption :
-                    string.Empty,
+                    FieldFormatService.FormatValue(column.ConvertedType, column.Format, column.Sample),
                 TextAlign = column.Alignment,
                 AutoSize = false,
-                BackColor = Color.FromKnownColor(KnownColor.Control),
                 BorderStyle = column.HasBorder ? BorderStyle.FixedSingle : BorderStyle.None,
                 Margin = new Padding(0, 0, 0, 0),
                 Tag = column
@@ -235,5 +187,28 @@ namespace RacerData.rNascarApp.Services
                 control.Dispose();
             }
         }
+
+        #endregion
+
+        #region protected
+
+        protected static void ApplyTheme(
+            Panel pnlCaptions,
+            Panel pnlFields,
+            Theme theme)
+        {
+            if (theme == null)
+                return;
+
+            pnlCaptions.BackColor = theme.GridColumnHeaderBackColor;
+            pnlCaptions.ForeColor = theme.GridColumnHeaderForeColor;
+            pnlCaptions.Font = theme.GridColumnHeaderFont;
+
+            pnlFields.BackColor = theme.PrimaryBackColor;
+            pnlFields.ForeColor = theme.PrimaryForeColor;
+            pnlFields.Font = theme.GridFont;
+        }
+
+        #endregion
     }
 }

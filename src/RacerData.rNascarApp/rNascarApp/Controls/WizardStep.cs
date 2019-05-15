@@ -31,7 +31,7 @@ namespace RacerData.rNascarApp.Controls
 
         #region properties
 
-        protected static CreateViewContext CreateViewContext { get; set; } = null;
+        protected static CreateViewContext Context { get; set; } = null;
 
         public int Index { get; set; }
         public string Caption { get; set; }
@@ -50,7 +50,7 @@ namespace RacerData.rNascarApp.Controls
             }
         }
         private bool _isBusy = false;
-        public bool CanGoPrevious
+        public virtual bool CanGoPrevious
         {
 
             get
@@ -64,7 +64,7 @@ namespace RacerData.rNascarApp.Controls
             }
         }
         private bool _isComplete = false;
-        public bool IsComplete
+        public virtual bool IsComplete
         {
 
             get
@@ -78,7 +78,7 @@ namespace RacerData.rNascarApp.Controls
             }
         }
         private bool _canGoNext = false;
-        public bool CanGoNext
+        public virtual bool CanGoNext
         {
 
             get
@@ -101,9 +101,9 @@ namespace RacerData.rNascarApp.Controls
         {
             InitializeComponent();
 
-            CreateViewContext = new CreateViewContext();
+            Context = new CreateViewContext();
 
-            CreateViewContext.PropertyChanged += CreateViewContext_PropertyChanged;
+            Context.PropertyChanged += CreateViewContext_PropertyChanged;
         }
 
         private void CreateViewContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -118,12 +118,13 @@ namespace RacerData.rNascarApp.Controls
 
         public virtual CreateViewContext GetDataSource()
         {
-            return null;
+            return Context;
         }
 
         public virtual void SetDataObject(CreateViewContext data)
         {
-
+            if (data != null)
+                Context = data;
         }
 
         public virtual void ActivateStep()

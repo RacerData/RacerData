@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using RacerData.rNascarApp.Models;
 
@@ -33,6 +35,32 @@ namespace RacerData.rNascarApp.Settings
             var loaded = settings.Load<AppSettings>();
 
             return loaded;
+        }
+
+        public void ProcessChangeSet(ChangeSet<ViewState> changes)
+        {
+            foreach (ViewState deleted in changes.Deleted)
+            {
+                var existing = ViewStates.SingleOrDefault(v => v.Id == deleted.Id);
+
+                if (existing != null)
+                    ViewStates.Remove(existing);
+            }
+
+            foreach (ViewState added in changes.Added)
+            {
+                ViewStates.Add(added);
+            }
+
+            foreach (ViewState updated in changes.Edited)
+            {
+                var existing = ViewStates.SingleOrDefault(v => v.Id == updated.Id);
+
+                if (existing != null)
+                    ViewStates.Remove(existing);
+
+                ViewStates.Add(updated);
+            }
         }
 
         #endregion

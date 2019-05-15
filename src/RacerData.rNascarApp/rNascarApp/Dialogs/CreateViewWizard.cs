@@ -39,7 +39,9 @@ namespace RacerData.rNascarApp.Dialogs
         public IList<ViewState> ViewStates { get; set; } = new List<ViewState>();
         public DisplayFormatMapService MapService { get; set; }
 
-        public ViewState NewViewState { get; set; }
+        public CreateViewContext Context { get; set; }
+
+        public ViewState ViewState { get; set; }
 
         #endregion
 
@@ -80,6 +82,11 @@ namespace RacerData.rNascarApp.Dialogs
 
             step4.PropertyChanged += WizardLastStep_PropertyChanged;
             DisplayStepCaptions();
+
+            if (Context != null && Context.IsEditing == true)
+            {
+                _wizardIndex = 2;
+            }
 
             ActivateWizardStep(_wizardIndex);
         }
@@ -155,6 +162,11 @@ namespace RacerData.rNascarApp.Dialogs
 
                 UpdateStepCaptions(index);
 
+                if (Context != null && Context.IsEditing == true && index == 2)
+                {
+                    activeStep.SetDataObject(Context);
+                }
+
                 activeStep.ActivateStep();
             }
             catch (Exception ex)
@@ -211,7 +223,8 @@ namespace RacerData.rNascarApp.Dialogs
             if (e.PropertyName == "IsComplete")
             {
                 IWizardStep lastStep = (WizardStep)sender;
-                NewViewState = (ViewState)((CreateViewWizard4)lastStep).GetViewState();
+                var context = lastStep.GetDataSource();
+                ViewState = context.ViewState;
 
                 DialogResult = DialogResult.OK;
             }

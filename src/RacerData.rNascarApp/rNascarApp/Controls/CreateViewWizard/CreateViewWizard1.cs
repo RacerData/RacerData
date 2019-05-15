@@ -80,7 +80,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 isValid = false;
                 Error += "No data sources\r\n";
             }
-            else if (CreateViewContext.ViewDataSource == null)
+            else if (Context.ViewDataSource == null)
             {
                 isValid = false;
                 Error += "No data source selected\r\n";
@@ -147,7 +147,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         private void CreateViewWizard1_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(CreateViewContext.ViewDataSource))
+            if (e.PropertyName == nameof(Context.ViewDataSource))
                 CanGoNext = ValidateStep();
         }
 
@@ -158,7 +158,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             if (e.Node.Tag is ViewDataSource)
             {
-                CreateViewContext.ViewDataSource = (ViewDataSource)e.Node.Tag;
+                Context.ViewDataSource = (ViewDataSource)e.Node.Tag;
                 _selectedNode = e.Node;
             }
         }

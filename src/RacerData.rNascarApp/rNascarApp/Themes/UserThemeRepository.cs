@@ -240,7 +240,14 @@ namespace RacerData.rNascarApp.Themes
 
             if (!Directory.Exists(themeDirectory))
             {
-                Directory.CreateDirectory(themeDirectory);
+                try
+                {
+                    Directory.CreateDirectory(themeDirectory);
+                }
+                catch (Exception)
+                {
+                    // throws exception in IDE
+                }
             }
 
             return themeDirectory;

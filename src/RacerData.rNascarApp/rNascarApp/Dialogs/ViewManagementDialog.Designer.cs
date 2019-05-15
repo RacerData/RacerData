@@ -33,9 +33,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cboViewStates = new System.Windows.Forms.ComboBox();
             this.pnlDialogButtons = new System.Windows.Forms.Panel();
-            this.btnCancelAndClose = new System.Windows.Forms.Button();
+            this.btnSaveAndClose = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
-            this.btnCancelSaveAndClose = new System.Windows.Forms.Button();
+            this.btnCancelOrCancelAndClose = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnEditSave = new System.Windows.Forms.Button();
@@ -46,9 +46,12 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ctxFields = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeFieldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlSelection.SuspendLayout();
             this.pnlDialogButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
+            this.ctxFields.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlSelection
@@ -83,9 +86,9 @@
             // 
             // pnlDialogButtons
             // 
-            this.pnlDialogButtons.Controls.Add(this.btnCancelAndClose);
+            this.pnlDialogButtons.Controls.Add(this.btnSaveAndClose);
             this.pnlDialogButtons.Controls.Add(this.btnNew);
-            this.pnlDialogButtons.Controls.Add(this.btnCancelSaveAndClose);
+            this.pnlDialogButtons.Controls.Add(this.btnCancelOrCancelAndClose);
             this.pnlDialogButtons.Controls.Add(this.btnDelete);
             this.pnlDialogButtons.Controls.Add(this.btnCopy);
             this.pnlDialogButtons.Controls.Add(this.btnEditSave);
@@ -95,18 +98,18 @@
             this.pnlDialogButtons.Size = new System.Drawing.Size(600, 50);
             this.pnlDialogButtons.TabIndex = 1;
             // 
-            // btnCancelAndClose
+            // btnSaveAndClose
             // 
-            this.btnCancelAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelAndClose.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelAndClose.Location = new System.Drawing.Point(369, 6);
-            this.btnCancelAndClose.Name = "btnCancelAndClose";
-            this.btnCancelAndClose.Size = new System.Drawing.Size(106, 37);
-            this.btnCancelAndClose.TabIndex = 5;
-            this.btnCancelAndClose.Text = "Cancel && Close";
-            this.toolTip1.SetToolTip(this.btnCancelAndClose, "Cancel all changes and close this form");
-            this.btnCancelAndClose.UseVisualStyleBackColor = true;
-            this.btnCancelAndClose.Click += new System.EventHandler(this.btnCancelAndClose_Click);
+            this.btnSaveAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveAndClose.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveAndClose.Location = new System.Drawing.Point(369, 6);
+            this.btnSaveAndClose.Name = "btnSaveAndClose";
+            this.btnSaveAndClose.Size = new System.Drawing.Size(106, 37);
+            this.btnSaveAndClose.TabIndex = 5;
+            this.btnSaveAndClose.Text = "Save && Close";
+            this.toolTip1.SetToolTip(this.btnSaveAndClose, "Save all changes and close this form");
+            this.btnSaveAndClose.UseVisualStyleBackColor = true;
+            this.btnSaveAndClose.Click += new System.EventHandler(this.btnCancelAndClose_Click);
             // 
             // btnNew
             // 
@@ -120,18 +123,18 @@
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
-            // btnCancelSaveAndClose
+            // btnCancelOrCancelAndClose
             // 
-            this.btnCancelSaveAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelSaveAndClose.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelSaveAndClose.Location = new System.Drawing.Point(482, 6);
-            this.btnCancelSaveAndClose.Name = "btnCancelSaveAndClose";
-            this.btnCancelSaveAndClose.Size = new System.Drawing.Size(106, 37);
-            this.btnCancelSaveAndClose.TabIndex = 3;
-            this.btnCancelSaveAndClose.Text = "Save && Close";
-            this.toolTip1.SetToolTip(this.btnCancelSaveAndClose, "Save all changes and close the form");
-            this.btnCancelSaveAndClose.UseVisualStyleBackColor = true;
-            this.btnCancelSaveAndClose.Click += new System.EventHandler(this.btnCancelOrSaveAndClose_Click);
+            this.btnCancelOrCancelAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelOrCancelAndClose.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelOrCancelAndClose.Location = new System.Drawing.Point(482, 6);
+            this.btnCancelOrCancelAndClose.Name = "btnCancelOrCancelAndClose";
+            this.btnCancelOrCancelAndClose.Size = new System.Drawing.Size(106, 37);
+            this.btnCancelOrCancelAndClose.TabIndex = 3;
+            this.btnCancelOrCancelAndClose.Text = "Cancel && Close";
+            this.toolTip1.SetToolTip(this.btnCancelOrCancelAndClose, "Revert all changes and close the form");
+            this.btnCancelOrCancelAndClose.UseVisualStyleBackColor = true;
+            this.btnCancelOrCancelAndClose.Click += new System.EventHandler(this.btnCancelOrSaveAndClose_Click);
             // 
             // btnDelete
             // 
@@ -192,7 +195,6 @@
             this.btnEditFields.Text = "Edit Fields...";
             this.toolTip1.SetToolTip(this.btnEditFields, "Edit the selected workspace");
             this.btnEditFields.UseVisualStyleBackColor = true;
-            this.btnEditFields.Visible = false;
             this.btnEditFields.Click += new System.EventHandler(this.btnEditFields_Click);
             // 
             // lstFields
@@ -200,6 +202,7 @@
             this.lstFields.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstFields.ContextMenuStrip = this.ctxFields;
             this.lstFields.FormattingEnabled = true;
             this.lstFields.ItemHeight = 15;
             this.lstFields.Location = new System.Drawing.Point(12, 78);
@@ -235,6 +238,21 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
             // 
+            // ctxFields
+            // 
+            this.ctxFields.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeFieldToolStripMenuItem});
+            this.ctxFields.Name = "ctxFields";
+            this.ctxFields.Size = new System.Drawing.Size(181, 48);
+            this.ctxFields.Opening += new System.ComponentModel.CancelEventHandler(this.ctxFields_Opening);
+            // 
+            // removeFieldToolStripMenuItem
+            // 
+            this.removeFieldToolStripMenuItem.Name = "removeFieldToolStripMenuItem";
+            this.removeFieldToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeFieldToolStripMenuItem.Text = "Remove Field";
+            this.removeFieldToolStripMenuItem.Click += new System.EventHandler(this.removeFieldToolStripMenuItem_Click);
+            // 
             // ViewManagementDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -255,6 +273,7 @@
             this.pnlDialogButtons.ResumeLayout(false);
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
+            this.ctxFields.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -266,17 +285,19 @@
         private System.Windows.Forms.Panel pnlDetails;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboViewStates;
-        private System.Windows.Forms.Button btnCancelSaveAndClose;
+        private System.Windows.Forms.Button btnCancelOrCancelAndClose;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnEditSave;
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnCancelAndClose;
+        private System.Windows.Forms.Button btnSaveAndClose;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ListBox lstFields;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnEditFields;
+        private System.Windows.Forms.ContextMenuStrip ctxFields;
+        private System.Windows.Forms.ToolStripMenuItem removeFieldToolStripMenuItem;
     }
 }

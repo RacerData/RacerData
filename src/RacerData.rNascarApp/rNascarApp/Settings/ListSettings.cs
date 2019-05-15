@@ -12,6 +12,7 @@ namespace RacerData.rNascarApp.Settings
 
         public int? MaxRows { get; set; }
         public int? RowHeight { get; set; }
+        public bool MultilineHeader { get; set; } = false;
         public bool ShowCaptions { get; set; } = true;
         public bool ShowHeader { get; set; } = true;
         public IList<ListColumn> Columns { get; set; } = new List<ListColumn>();

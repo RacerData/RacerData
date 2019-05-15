@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Services
@@ -13,6 +14,8 @@ namespace RacerData.rNascarApp.Services
 
         void AddWorkspace(Workspace workspace);
         void RemoveWorkspace(Workspace workspace);
+        void ProcessChangeSet(ChangeSet<ViewState> changes);
+        void ProcessChangeSet(ChangeSet<Workspace> changes);
         void SetActiveWorkspace(string name);
         void Save();
         void Load();

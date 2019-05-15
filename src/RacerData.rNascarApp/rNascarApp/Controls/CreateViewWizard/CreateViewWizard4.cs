@@ -24,7 +24,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         private IList<FlowLayoutPanel> _oddPanels = new List<FlowLayoutPanel>();
         private IList<FlowLayoutPanel> _evenPanels = new List<FlowLayoutPanel>();
 
-        private ViewState _newViewState = null;
         private List<Theme> _themes = null;
 
         private bool _isSaved = false;
@@ -165,10 +164,10 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         #region public
 
-        public ViewState GetViewState()
-        {
-            return _newViewState;
-        }
+        //public ViewState GetViewState()
+        //{
+        //    return _newViewState;
+        //}
 
         public override void ActivateStep()
         {
@@ -176,7 +175,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             base.ActivateStep();
 
-            DisplayNewView();
+            DisplayView();
 
             UpdateValidation();
 
@@ -249,6 +248,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             cboThemes.DataSource = null;
             cboThemes.DisplayMember = "Name";
+            cboThemes.ValueMember = "Id";
             cboThemes.DataSource = _themes;
             cboThemes.SelectedIndex = 0;
         }
@@ -340,7 +340,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         protected virtual void DisplayFields()
         {
             pnlCaptions.Controls.Clear();
-            foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns)
+            foreach (ListColumn viewListColumn in Context.ViewListColumns)
             {
                 var captionLabel = GetCaptionLabel(viewListColumn);
                 pnlCaptions.Controls.Add(captionLabel);
@@ -350,7 +350,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 panel.Controls.Clear();
 
-                foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns)
+                foreach (ListColumn viewListColumn in Context.ViewListColumns)
                 {
                     var fieldLabel = GetLabel(viewListColumn);
                     panel.Controls.Add(fieldLabel);
@@ -361,7 +361,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 panel.Controls.Clear();
 
-                foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns)
+                foreach (ListColumn viewListColumn in Context.ViewListColumns)
                 {
                     var fieldLabel = GetLabel(viewListColumn);
                     panel.Controls.Add(fieldLabel);
@@ -381,8 +381,19 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             //}
         }
 
-        protected virtual void DisplayNewView()
+        protected virtual void DisplayView()
         {
+            if (Context.IsEditing && Context.ViewState != null)
+            {
+                txtTitle.Text = Context.ViewState.HeaderText;
+
+                numMaxRows.Value = Context.ViewState.ListSettings.MaxRows.HasValue ?
+                    Context.ViewState.ListSettings.MaxRows.Value :
+                    numMaxRows.Minimum;
+
+                cboThemes.SelectedValue = Context.ViewState.ThemeId;
+            }
+
             DisplayFields();
         }
 
@@ -453,18 +464,20 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 ExceptionHandler("Error setting name for new view", ex);
             }
         }
-
+        // TODO MOVE TO FORMAT SERVICE - INCLUDE FORMATTING FOR ACTUAL VALUES
         protected virtual string FormatSampleValue(string type, string format, string value)
         {
             var formattedText = String.Empty;
 
+            var typeName = type.Replace("System.", "");
+
             try
             {
-                if (type == TypeNames.StringTypeName)
+                if (typeName == TypeNames.StringTypeName)
                 {
                     formattedText = value;
                 }
-                else if (type == TypeNames.Int32TypeName)
+                else if (typeName == TypeNames.Int32TypeName)
                 {
                     int buffer = 0;
                     if (!Int32.TryParse(value, out buffer))
@@ -485,7 +498,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
-                else if (type == TypeNames.DecimalTypeName || type == TypeNames.DoubleTypeName)
+                else if (typeName == TypeNames.DecimalTypeName || typeName == TypeNames.DoubleTypeName)
                 {
                     double buffer = 0.0;
                     if (!double.TryParse(value, out buffer))
@@ -506,7 +519,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
-                else if (type == TypeNames.TimeSpanTypeName)
+                else if (typeName == TypeNames.TimeSpanTypeName)
                 {
                     TimeSpan buffer = new TimeSpan();
                     if (!TimeSpan.TryParse(value, out buffer))
@@ -528,28 +541,32 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
-                else if (type == TypeNames.RunTypeTypeName)
+                else if (typeName == TypeNames.RunTypeTypeName)
                 {
                     formattedText = value;
                 }
-                else if (type == TypeNames.VehicleStatusTypeName)
+                else if (typeName == TypeNames.VehicleStatusTypeName)
                 {
                     formattedText = value;
                 }
-                else if (type == TypeNames.FlagStateTypeName)
+                else if (typeName == TypeNames.FlagStateTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (typeName == TypeNames.TrackStateTypeName)
                 {
                     formattedText = value;
                 }
                 else
                 {
-                    throw new ArgumentException($"Unrecognized field type: {type}");
+                    throw new ArgumentException($"Unrecognized field type: {typeName}");
                 }
 
             }
             catch (FormatException)
             {
                 formattedText = "-ERROR-";
-                Error = $"Invalid format for {type}";
+                Error = $"Invalid format for {typeName}";
             }
             catch (Exception)
             {
@@ -561,30 +578,20 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         protected virtual void SaveView()
         {
-            _newViewState = new ViewState()
-            {
-                Name = lblViewTitle.Text
-            };
+            if (Context.ViewState == null)
+                Context.ViewState = new ViewState();
 
-            UpdateViewState(_newViewState);
+            UpdateViewState(Context.ViewState);
 
-            _newViewState.ListSettings.Columns = CreateViewContext.ViewListColumns.ToList();
+            Context.ViewState.ListSettings.Columns = Context.ViewListColumns.ToList();
 
             IsComplete = true;
         }
 
         protected virtual void UpdateViewState(ViewState viewState)
         {
+            viewState.Name = txtTitle.Text.Trim();
             viewState.HeaderText = lblViewTitle.Text.Trim();
-
-            viewState.ListSettings.MaxRows = (int)numMaxRows.Value;
-
-            viewState.ListSettings.RowHeight = null;
-
-            viewState.ListSettings.ShowHeader = true;
-            viewState.ListSettings.ShowCaptions = true;
-
-            viewState.ViewType = Models.ViewType.List;
 
             if (cboThemes.SelectedItem != null)
                 viewState.ThemeId = _theme.Id;
@@ -613,12 +620,12 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         private void cboThemes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            _theme = (Theme)cboThemes.SelectedItem;
+
             if (cboThemes.SelectedItem == null)
                 return;
 
-            Theme selectedTheme = (Theme)cboThemes.SelectedItem;
-
-            if (selectedTheme.Name == "None")
+            if (_theme.Name == "None")
             {
                 ClearTheme();
             }

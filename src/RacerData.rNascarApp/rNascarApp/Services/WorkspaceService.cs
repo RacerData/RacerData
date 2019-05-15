@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Services
@@ -108,6 +109,40 @@ namespace RacerData.rNascarApp.Services
             Workspaces.Remove(existing);
         }
 
+        public void ProcessChangeSet(ChangeSet<Workspace> changes)
+        {
+            foreach (Workspace deleted in changes.Deleted)
+            {
+                RemoveWorkspace(deleted);
+            }
+
+            foreach (Workspace added in changes.Added)
+            {
+                AddWorkspace(added);
+            }
+
+            foreach (Workspace updated in changes.Edited)
+            {
+                var existing = Workspaces.SingleOrDefault(v => v.Name == updated.Name);
+
+                if (existing != null)
+                    RemoveWorkspace(existing);
+
+                AddWorkspace(updated);
+            }
+        }
+
+        public void ProcessChangeSet(ChangeSet<ViewState> changes)
+        {
+            foreach (ViewState deleted in changes.Deleted)
+            {
+                foreach (Workspace workspace in Workspaces.Where(w => w.ViewStates.Contains(deleted.Id)))
+                {
+                    workspace.ViewStates.Remove(deleted.Id);
+                }
+            }
+        }
+
         public void SetActiveWorkspace(string name)
         {
             var workspace = Workspaces.SingleOrDefault(w => w.Name == name);
@@ -137,7 +172,7 @@ namespace RacerData.rNascarApp.Services
         }
 
         public void Save()
-        {           
+        {
             var filePath = GetSettingsFilePath();
 
             JsonSerializerSettings settings = new JsonSerializerSettings

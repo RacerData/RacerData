@@ -19,6 +19,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         #region properties
 
+        public bool IsEditing { get; set; }
+
         private ViewDataSource _viewDataSource = null;
         public ViewDataSource ViewDataSource
         {
@@ -30,6 +32,20 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 _viewDataSource = value;
                 OnPropertyChanged(nameof(ViewDataSource));
+            }
+        }
+
+        private ViewState _viewState = null;
+        public ViewState ViewState
+        {
+            get
+            {
+                return _viewState;
+            }
+            set
+            {
+                _viewState = value;
+                OnPropertyChanged(nameof(ViewState));
             }
         }
 

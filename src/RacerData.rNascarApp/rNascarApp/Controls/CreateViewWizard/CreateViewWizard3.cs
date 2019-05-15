@@ -57,6 +57,19 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         protected IList<ColumnLabel> ColumnLabels { get; set; } = new List<ColumnLabel>();
 
+        public override bool CanGoPrevious
+        {
+            get
+            {
+                return base.CanGoPrevious && !Context.IsEditing;
+            }
+            set
+            {
+                base.CanGoPrevious = value;
+                OnPropertyChanged(nameof(CanGoPrevious));
+            }
+        }
+
         #endregion
 
         #region ctor/load
@@ -93,19 +106,24 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             var listColumns = BuildListColumnsList();
 
-            CreateViewContext.ViewListColumns = new BindingList<ListColumn>(listColumns);
+            Context.ViewListColumns = new BindingList<ListColumn>(listColumns);
         }
 
         #endregion
 
         #region public 
 
+        public override void SetDataObject(CreateViewContext data)
+        {
+            Context = data;
+        }
+
         public override void ActivateStep()
         {
             base.ActivateStep();
 
-            if (CreateViewContext.ViewListColumns.Count == 0)
-                CreateViewContext.ViewListColumns = new BindingList<ListColumn>(BuildListColumnsList());
+            if (Context.ViewListColumns.Count == 0)
+                Context.ViewListColumns = new BindingList<ListColumn>(BuildListColumnsList());
 
             DisplayFields();
 
@@ -122,7 +140,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             bool isValid = true;
             Error = "";
 
-            if (CreateViewContext.ViewListColumns == null || CreateViewContext.ViewListColumns.Count != CreateViewContext.ViewDataMembers.Count)
+            if (Context.ViewListColumns == null)
             {
                 isValid = true;
                 Error = "List settings not configured";
@@ -143,7 +161,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             int i = 0;
 
-            foreach (ViewDataMember viewDataMember in CreateViewContext.ViewDataMembers)
+            foreach (ViewDataMember viewDataMember in Context.ViewDataMembers)
             {
                 if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
                 {
@@ -173,7 +191,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     }
                     else
                     {
-                        throw new ArgumentException($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
+                        newViewDisplayFormat.Sample = $"[{viewDataMember.Name}]";
                     }
 
                     _mapService.Map[viewDataMember] = newViewDisplayFormat;
@@ -213,7 +231,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             int? stretchColumnIndex = null;
 
-            foreach (ListColumn viewListColumn in CreateViewContext.ViewListColumns.OrderBy(c => c.Index))
+            foreach (ListColumn viewListColumn in Context.ViewListColumns.OrderBy(c => c.Index))
             {
                 /** Caption Label **/
                 var captionLabel = ColumnBuilderService.BuildColumnLabel(viewListColumn, true);
@@ -267,7 +285,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         }
         protected virtual void UpdateColumnAligmnents()
         {
-            var stretchColumn = CreateViewContext.ViewListColumns.FirstOrDefault(c => c.Width == null);
+            var stretchColumn = Context.ViewListColumns.FirstOrDefault(c => c.Width == null);
             UpdateColumnAligmnents(stretchColumn?.Index);
         }
         protected virtual void UpdateColumnAligmnents(int? stretchColumnIndex)
@@ -295,9 +313,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 i++;
             }
 
-            var listColumns = CreateViewContext.ViewListColumns.OrderBy(v => v.Index).ToList();
+            var listColumns = Context.ViewListColumns.OrderBy(v => v.Index).ToList();
 
-            CreateViewContext.ViewListColumns = new BindingList<ListColumn>(listColumns);
+            Context.ViewListColumns = new BindingList<ListColumn>(listColumns);
         }
 
         private void ConfigureResize(Label label)
@@ -460,7 +478,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 columnLabel.Column.Width = columnLabel.FieldLabel.Width;
             }
 
-            var viewListColumn = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
+            var viewListColumn = Context.ViewListColumns[_selectedFieldIndex.Value];
 
             viewListColumn.Caption = txtColCaption.Text;
             viewListColumn.Alignment = calAlignment.Alignment;
@@ -479,7 +497,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 }
             }
 
-            CreateViewContext.ViewListColumns[_selectedFieldIndex.Value] = viewListColumn;
+            Context.ViewListColumns[_selectedFieldIndex.Value] = viewListColumn;
 
             SetUIEditState(false, null);
         }
@@ -538,7 +556,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         }
         protected virtual void DisplayColumnDetails(int index)
         {
-            var viewListColumn = CreateViewContext.ViewListColumns.FirstOrDefault(c => c.Index == index);
+            var viewListColumn = Context.ViewListColumns.FirstOrDefault(c => c.Index == index);
 
             txtColCaption.Text = viewListColumn.Caption;
             txtColType.Text = viewListColumn.Type;
@@ -585,16 +603,16 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             _preStretchWidths.Clear();
 
-            foreach (ListColumn column in CreateViewContext.ViewListColumns)
+            foreach (ListColumn column in Context.ViewListColumns)
             {
                 _preStretchWidths.Add(column.Width);
             }
         }
         private void RevertColumnWidths()
         {
-            for (int i = 0; i < CreateViewContext.ViewListColumns.Count; i++)
+            for (int i = 0; i < Context.ViewListColumns.Count; i++)
             {
-                CreateViewContext.ViewListColumns[i].Width = _preStretchWidths[i];
+                Context.ViewListColumns[i].Width = _preStretchWidths[i];
             }
         }
 
@@ -607,9 +625,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(_selectedFieldIndex.Value);
 
-            var viewListColumn = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
+            var viewListColumn = Context.ViewListColumns[_selectedFieldIndex.Value];
 
-            var field = CreateViewContext.ViewDataMembers[_selectedFieldIndex.Value];
+            var field = Context.ViewDataMembers[_selectedFieldIndex.Value];
 
             var type = String.IsNullOrEmpty(viewListColumn.ConvertedType) ? field.Type.Name : viewListColumn.ConvertedType;
 
@@ -621,13 +639,15 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             var formattedText = String.Empty;
 
+            var typeName = type.Replace("System.", "");
+
             try
             {
-                if (type == TypeNames.StringTypeName)
+                if (typeName == TypeNames.StringTypeName)
                 {
                     formattedText = value;
                 }
-                else if (type == TypeNames.Int32TypeName)
+                else if (typeName == TypeNames.Int32TypeName)
                 {
                     int buffer = 0;
                     if (!Int32.TryParse(value, out buffer))
@@ -648,7 +668,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
-                else if (type == TypeNames.DecimalTypeName || type == TypeNames.DoubleTypeName)
+                else if (typeName == TypeNames.DecimalTypeName || typeName == TypeNames.DoubleTypeName)
                 {
                     double buffer = 0.0;
                     if (!double.TryParse(value, out buffer))
@@ -669,7 +689,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
-                else if (type == TypeNames.TimeSpanTypeName)
+                else if (typeName == TypeNames.TimeSpanTypeName)
                 {
                     TimeSpan buffer = new TimeSpan();
                     if (!TimeSpan.TryParse(value, out buffer))
@@ -691,32 +711,36 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         }
                     }
                 }
-                else if (type == TypeNames.RunTypeTypeName)
+                else if (typeName == TypeNames.RunTypeTypeName)
                 {
                     formattedText = value;
                 }
-                else if (type == TypeNames.VehicleStatusTypeName)
+                else if (typeName == TypeNames.VehicleStatusTypeName)
                 {
                     formattedText = value;
                 }
-                else if (type == TypeNames.FlagStateTypeName)
+                else if (typeName == TypeNames.FlagStateTypeName)
+                {
+                    formattedText = value;
+                }
+                else if (typeName == TypeNames.TrackStateTypeName)
                 {
                     formattedText = value;
                 }
                 else
                 {
-                    throw new ArgumentException($"Unrecognized field type: {type}");
+                    throw new ArgumentException($"Unrecognized field type: {typeName}");
                 }
 
             }
             catch (FormatException)
             {
                 formattedText = "-ERROR-";
-                Error = $"Invalid format for {type}";
+                Error = $"Invalid format for {typeName}";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                ExceptionHandler("Error formatting sample data", ex);
             }
 
             return formattedText;
@@ -868,7 +892,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 !_selectedFieldIndex.HasValue)
                 return;
 
-            var viewListColumn = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
+            var viewListColumn = Context.ViewListColumns[_selectedFieldIndex.Value];
             var selectedConvertedType = (KeyValuePair<string, string>)cboConvertedType.SelectedItem;
 
             if (selectedConvertedType.Value == "NONE")
@@ -922,7 +946,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 txtWidth.Enabled = false;
 
-                foreach (ListColumn column in CreateViewContext.ViewListColumns)
+                foreach (ListColumn column in Context.ViewListColumns)
                 {
                     if (column.Index != _selectedFieldIndex.Value)
                         column.Width = pnlFields.Controls.OfType<Label>().FirstOrDefault(c => ((ListColumn)c.Tag).Index == column.Index).Width;// ColumnLabels.FirstOrDefault(c => c.DisplayIndex == _selectedFieldIndex.Value).FieldLabel.Width;
@@ -948,7 +972,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 if (_selectedFieldIndex.HasValue)
                 {
                     int width = 0;
-                    var column = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
+                    var column = Context.ViewListColumns[_selectedFieldIndex.Value];
                     if (Int32.TryParse(txtWidth.Text, out width))
                     {
                         CaptionLabel.Width = width;
@@ -962,7 +986,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             if (_selectedFieldIndex.HasValue)
             {
                 int width = 0;
-                var column = CreateViewContext.ViewListColumns[_selectedFieldIndex.Value];
+                var column = Context.ViewListColumns[_selectedFieldIndex.Value];
                 if (Int32.TryParse(txtWidth.Text, out width))
                 {
                     CaptionLabel.Width = width;

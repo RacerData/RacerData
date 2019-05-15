@@ -12,6 +12,7 @@ using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Service;
 using RacerData.NascarApi.Service.Ports;
 using RacerData.rNascarApp.Controls;
+using RacerData.rNascarApp.Controls.Wizard;
 using RacerData.rNascarApp.Dialogs;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Logging;
@@ -140,6 +141,7 @@ namespace RacerData.rNascarApp
             InitializeComponent();
 
             tlsMain.Renderer = new ToolStripRenderer();
+            menuStrip1.Renderer = new ToolStripRenderer();
 
             Logger.Setup();
 
@@ -468,7 +470,13 @@ namespace RacerData.rNascarApp
             {
                 controlBase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
-                GridTable.Controls.Add(controlBase, column, row);
+                if (row < 1) row = 1;
+                if (column < 1) column = 1;
+                if (rowSpan < 1) rowSpan = 1;
+                if (columnSpan < 1) columnSpan = 1;
+
+                //GridTable.Controls.Add(controlBase, column, row);
+                GridTable.Controls.Add(controlBase);//, column, row);
                 GridTable.SetRowSpan(controlBase, rowSpan);
                 GridTable.SetColumnSpan(controlBase, columnSpan);
 
@@ -486,14 +494,10 @@ namespace RacerData.rNascarApp
                 if (!_workspaceService.CurrentWorkspace.ViewStates.Contains(controlBase.State.Id))
                     _workspaceService.CurrentWorkspace.ViewStates.Add(controlBase.State.Id);
             }
-            catch (IndexOutOfRangeException)
-            {
-                MessageBox.Show(this, "Can't add another view", "Grid Full", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                GridTable.Controls.Remove(controlBase);
-            }
             catch (Exception ex)
             {
                 ExceptionHandler("Error adding a new view", ex);
+                GridTable.Controls.Remove(controlBase);
             }
 
             return controlBase;
@@ -534,7 +538,7 @@ namespace RacerData.rNascarApp
         }
         private void ControlBase_EditViewRequest(object sender, ViewState e)
         {
-            DisplayViewDesignerDialog(e);
+            DisplayViewManagement(e);
         }
         private void ControlBase_EditThemeRequest(object sender, Guid e)
         {
@@ -543,10 +547,12 @@ namespace RacerData.rNascarApp
         #endregion
 
         #region workspaces
+
         private void WorkspaceService_WorkspaceChanged(object sender, WorkspaceChangedEventArgs e)
         {
             UpdateCurrentWorkspace(e.CurrentWorkspace);
         }
+
         private void workspaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveWorkspace();
@@ -587,20 +593,113 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error setting active workspace", ex);
             }
         }
-        private void removeWorkspaceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void workspaceManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayWorkspaceManagement();
+        }
+
+        // dropdown menu item
+        private void workspacesDropDownButton1_DropDownOpening(object sender, EventArgs e)
         {
             try
             {
-                SaveWorkspace();
+                foreach (ToolStripMenuItem item in workspacesDropDownButton1.DropDownItems.OfType<ToolStripMenuItem>())
+                {
+                    if (item.Tag is Workspace)
+                        item.CheckedChanged -= WorkspaceSelectionMenuItem_CheckedChanged;
+                }
 
-                var workspace = SelectWorkspace("Select workspace to delete");
+                workspacesDropDownButton1.DropDownItems.Clear();
 
-                if (workspace != null)
-                    DeleteWorkspace(workspace);
+                foreach (Workspace workspace in _workspaceService.Workspaces)
+                {
+                    var workspaceMenuItem = new ToolStripMenuItem();
+                    workspaceMenuItem.Name = $"{workspace.Name.Replace(" ", "_")}MenuItem";
+                    workspaceMenuItem.Size = new Size(180, 22);
+
+                    workspaceMenuItem.Text = workspace.IsDefaultPracticeWorkspace ? $"{workspace.Name} [Practice]" :
+                        workspace.IsDefaultQualifyingWorkspace ? $"{workspace.Name} [Qualifying]" :
+                        workspace.IsDefaultRaceWorkspace ? $"{workspace.Name} [Race]" :
+                        workspace.Name;
+
+                    workspaceMenuItem.CheckOnClick = true;
+                    workspaceMenuItem.Checked = workspace.IsActive;
+                    workspaceMenuItem.Tag = workspace;
+
+                    workspaceMenuItem.CheckedChanged += WorkspaceSelectionMenuItem_CheckedChanged;
+                    workspacesDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { workspaceMenuItem });
+
+                    workspaceMenuItem.ForeColor = workspacesDropDownButton1.ForeColor;
+                    workspaceMenuItem.BackColor = workspacesDropDownButton1.BackColor;
+                    workspaceMenuItem.Font = lblCurrentWorkspaceCaption.Font;
+
+                }
+
+                var separator = new ToolStripSeparator();
+                separator.Name = "workspaceManagementSeparatorMenuItem";
+                separator.Size = new Size(180, 22);
+                separator.ForeColor = workspacesDropDownButton1.ForeColor;
+                separator.BackColor = workspacesDropDownButton1.BackColor;
+                workspacesDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { separator });
+
+                // add a menu item for workspace management
+                var workspaceManagementMenuItem = new ToolStripMenuItem();
+                workspaceManagementMenuItem.Name = "workspaceManagementMenuItem";
+                workspaceManagementMenuItem.Size = new Size(180, 22);
+                workspaceManagementMenuItem.Text = "Workspace Manager";
+                workspaceManagementMenuItem.Click += (s, args) => { DisplayWorkspaceManagement(); };
+                workspaceManagementMenuItem.Image = Properties.Resources.workspace;
+                workspaceManagementMenuItem.ForeColor = workspacesDropDownButton1.ForeColor;
+                workspaceManagementMenuItem.BackColor = workspacesDropDownButton1.BackColor;
+                workspaceManagementMenuItem.Font = lblCurrentWorkspaceCaption.Font;
+                workspacesDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { workspaceManagementMenuItem });
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error deleting workspace", ex);
+                ExceptionHandler("Error displaying workspace list", ex);
+            }
+        }
+        private void WorkspaceSelectionMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            Workspace workspace = (Workspace)item.Tag;
+
+            if (item.Checked)
+            {
+                _workspaceService.SetActiveWorkspace(workspace.Name);
+            }
+        }
+
+        protected virtual void DisplayWorkspaceManagement()
+        {
+            try
+            {
+                using (var dialog = new WorkspaceManagementDialog()
+                {
+                    Log = this.Log,
+                    GridRowCount = GridTable.RowCount,
+                    GridColumnCount = GridTable.ColumnCount,
+                    Workspaces = _workspaceService.Workspaces,
+                    Views = AppSettings.ViewStates
+                })
+                {
+                    var workspaceManagementDialogResult = dialog.ShowDialog(this);
+
+                    if (workspaceManagementDialogResult == DialogResult.OK)
+                    {
+                        _workspaceService.Save();
+                    }
+                    else
+                    {
+                        _workspaceService.Load();
+                    }
+
+                    UpdateCurrentWorkspace(_workspaceService.CurrentWorkspace);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying Workspace Management form", ex);
             }
         }
 
@@ -616,7 +715,9 @@ namespace RacerData.rNascarApp
 
                 lblWorkspace.Text = workspace.Name;
 
-                ReloadWorkspaceViews();
+                workspacesDropDownButton1.Text = workspace.Name;
+
+                ReloadViews();
             }
             catch (Exception ex)
             {
@@ -856,59 +957,31 @@ namespace RacerData.rNascarApp
                 ExceptionHandler($"Error deleting workspace", ex);
             }
         }
-
-        private void workspaceManagementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayWorkspaceManagement();
-        }
-        protected virtual void DisplayWorkspaceManagement()
-        {
-            try
-            {
-                using (var dialog = new WorkspaceManagementDialog()
-                {
-                    Log = this.Log,
-                    GridRowCount = GridTable.RowCount,
-                    GridColumnCount = GridTable.ColumnCount,
-                    Workspaces = _workspaceService.Workspaces,
-                    Views = AppSettings.ViewStates
-                })
-                {
-                    var workspaceManagementDialogResult = dialog.ShowDialog(this);
-
-                    if (workspaceManagementDialogResult == DialogResult.OK)
-                    {
-                        _workspaceService.Save();
-                    }
-                    else
-                    {
-                        _workspaceService.Load();
-                    }
-
-                    UpdateCurrentWorkspace(_workspaceService.CurrentWorkspace);
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error displaying Workspace Management form", ex);
-            }
-        }
         #endregion
 
-        #region views
-
-        private void viewManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        #region view functions
+        #region view management
+        private void viewDesignerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplayViewManagement();
         }
+        private void btnViewDesigner_Click(object sender, EventArgs e)
+        {
+            DisplayViewManagement();
+        }
+        private void viewManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplayViewManagement(null);
+        }
 
-        protected virtual void DisplayViewManagement()
+        protected virtual void DisplayViewManagement(ViewState viewState = null)
         {
             try
             {
                 using (var dialog = new ViewManagementDialog()
                 {
                     Log = this.Log,
+                    View = viewState,
                     Views = AppSettings.ViewStates
                 })
                 {
@@ -916,14 +989,23 @@ namespace RacerData.rNascarApp
 
                     if (viewManagementDialogResult == DialogResult.OK)
                     {
+                        var changes = dialog.ChangeSet;
+
+                        _appSettings.ProcessChangeSet(changes);
+
+                        _workspaceService.ProcessChangeSet(changes);
+
                         AppSettings.Save();
+
+                        _workspaceService.Save();
+
+                        UpdateCurrentWorkspace(_workspaceService.CurrentWorkspace);
                     }
                     else
                     {
+                        // overwrites any changes
                         _appSettings = AppSettings.Load();
                     }
-
-                    // TODO: Update existing views
                 }
             }
             catch (Exception ex)
@@ -933,7 +1015,49 @@ namespace RacerData.rNascarApp
         }
         #endregion
 
-        #region view states  
+        #region view wizard
+        private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DisplayNewViewWizard();
+        }
+
+        protected virtual void DisplayNewViewWizard()
+        {
+            try
+            {
+                var dataSourceFactory = new ViewDataSourceFactory();
+                var dataSources = dataSourceFactory.GetList();
+
+                var mapService = new DisplayFormatMapService();
+
+                using (var dialog = new CreateViewWizard()
+                {
+                    DataSources = dataSources,
+                    MapService = mapService
+                })
+                {
+                    if (dialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        var newViewState = dialog.ViewState;
+
+                        AppSettings.ViewStates.Add(newViewState);
+
+                        _workspaceService.CurrentWorkspace.ViewStates.Add(newViewState.Id);
+
+                        SaveAppState();
+
+                        ReloadViews();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying Create View Wizard", ex);
+            }
+        }
+        #endregion
+
+        #region views  
         private void viewListToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             try
@@ -947,24 +1071,27 @@ namespace RacerData.rNascarApp
 
                 foreach (ViewState viewState in AppSettings.ViewStates)
                 {
-                    var fooToolStripMenuItem = new ToolStripMenuItem();
-                    fooToolStripMenuItem.Name = $"{viewState.Name.Replace(" ", "_")}MenuItem";
-                    fooToolStripMenuItem.Size = new Size(180, 22);
-                    fooToolStripMenuItem.Text = viewState.Name;
-                    fooToolStripMenuItem.CheckOnClick = true;
-                    fooToolStripMenuItem.Tag = viewState;
+                    var viewStateStripMenuItem = new ToolStripMenuItem();
+                    viewStateStripMenuItem.Name = $"{viewState.Name.Replace(" ", "_")}MenuItem";
+                    viewStateStripMenuItem.Size = new Size(180, 22);
+                    viewStateStripMenuItem.Text = viewState.Name;
+                    viewStateStripMenuItem.CheckOnClick = true;
+                    viewStateStripMenuItem.ForeColor = viewListToolStripMenuItem.ForeColor;
+                    viewStateStripMenuItem.BackColor = viewListToolStripMenuItem.BackColor;
+                    viewStateStripMenuItem.Font = viewListToolStripMenuItem.Font;
+                    viewStateStripMenuItem.Tag = viewState;
 
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
                         if (controlBase.State.Name == viewState.Name)
                         {
-                            fooToolStripMenuItem.Checked = true;
+                            viewStateStripMenuItem.Checked = true;
                             break;
                         }
                     }
 
-                    fooToolStripMenuItem.CheckedChanged += ViewStateStripMenuItem_CheckedChanged;
-                    viewListToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fooToolStripMenuItem });
+                    viewStateStripMenuItem.CheckedChanged += ViewStateStripMenuItem_CheckedChanged;
+                    viewListToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { viewStateStripMenuItem });
                 }
             }
             catch (Exception ex)
@@ -999,48 +1126,56 @@ namespace RacerData.rNascarApp
             }
         }
 
-        protected virtual void ReloadWorkspaceViews()
+        protected virtual void ReloadViews()
         {
             try
             {
                 if (!_isLoading)
                 {
-                    ClearViewStates();
+                    ClearViews();
 
                     _workspaceService.Load();
                 }
 
-                LoadViewStates();
+                LoadViews();
             }
             catch (Exception ex)
             {
                 ExceptionHandler("Error resetting views", ex);
             }
         }
-        protected virtual void ClearViewStates()
+        protected virtual void ClearViews()
         {
             foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>().ToList())
             {
                 RemoveUserControlBase(controlBase);
             }
         }
-        protected virtual void LoadViewStates()
+        protected virtual void LoadViews()
         {
             var currentWorkspace = _workspaceService.CurrentWorkspace;
 
-            foreach (Guid viewStateId in currentWorkspace.ViewStates)
+            foreach (Guid viewStateId in currentWorkspace.ViewStates.ToList())
             {
-                var viewState = AppSettings.ViewStates.SingleOrDefault(v => v.Id == viewStateId);
-
-                if (viewState == null)
+                try
                 {
-                    throw new ArgumentException($"Invalid ViewState Id: {viewStateId} in {currentWorkspace.Name}");
-                }
+                    var viewState = AppSettings.ViewStates.SingleOrDefault(v => v.Id == viewStateId);
 
-                var controlBase = AddControl(viewState);
+                    if (viewState == null)
+                    {
+                        currentWorkspace.ViewStates.Remove(viewStateId);
+                        throw new ArgumentException($"Invalid View Id {viewStateId} in Workspace '{currentWorkspace.Name}'.\r\nView has been removed from workspace.");
+                    }
+
+                    AddControl(viewState);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionHandler("Error loading workspace", ex);
+                }
             }
         }
-        protected virtual void UpdateViewStates()
+        protected virtual void UpdateViews()
         {
             int i = 0;
 
@@ -1088,6 +1223,7 @@ namespace RacerData.rNascarApp
             }
         }
         #endregion
+        #endregion
 
         #region main form properties
         protected virtual void MainForm_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1126,7 +1262,7 @@ namespace RacerData.rNascarApp
         }
         protected virtual void SaveAppState()
         {
-            UpdateViewStates();
+            UpdateViews();
 
             AppSettings.WindowState = this.WindowState;
 
@@ -1169,13 +1305,6 @@ namespace RacerData.rNascarApp
         {
             if (toolBarToolStripMenuItem.Checked != tlsMain.Visible)
                 toolBarToolStripMenuItem.Checked = tlsMain.Visible;
-        }
-        #endregion
-
-        #region options
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
         #endregion
 
@@ -1223,15 +1352,15 @@ namespace RacerData.rNascarApp
         {
             SetMonitorState(!_isMonitorEnabled);
         }
+
         private void SetMonitorState(bool enableMonitor)
         {
             try
             {
                 if (enableMonitor)
                 {
-                    txtMonitorState.BackColor = Color.LimeGreen;
                     btnMonitor.Text = "Stop";
-                    btnMonitor.Image = Properties.Resources.Symbols_Pause_32xLG;
+                    btnMonitor.Image = Properties.Resources.pause;
 
                     var feedTypes = GetFeedTypes();
 
@@ -1241,9 +1370,8 @@ namespace RacerData.rNascarApp
                 }
                 else
                 {
-                    txtMonitorState.BackColor = Color.DarkGreen;
                     btnMonitor.Text = "Start";
-                    btnMonitor.Image = Properties.Resources.Symbols_Play_32xLG;
+                    btnMonitor.Image = Properties.Resources.Running_16xLG;
 
                     _feedService.Unregister(this);
 
@@ -1268,6 +1396,15 @@ namespace RacerData.rNascarApp
 
             return feeds;
         }
+        private void UpdateStatusLabel(LiveFeedData data)
+        {
+            var series = data.SeriesType.ToString();
+            lblTrackName.Text = data.TrackName;
+            lblEvent.Text = $"{series} {data.RunName}";
+            lblSession.Text = data.RunType.ToString();
+            lblTrackState.Text = data.FlagState.ToString();
+        }
+
         public void Monitor_LiveFeedStarted(object sender, LiveFeedStartedEventArgs e)
         {
         }
@@ -1306,7 +1443,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving live feed data", ex);
             }
         }
-
         public void Monitor_LapAveragesUpdated(object sender, LapAveragesUpdatedEventArgs e)
         {
             try
@@ -1330,7 +1466,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving lap average data", ex);
             }
         }
-
         public void Monitor_LapTimesUpdated(object sender, LapTimesUpdatedEventArgs e)
         {
             try
@@ -1356,7 +1491,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving lap time data", ex);
             }
         }
-
         public void Monitor_LivePointsDataUpdated(object sender, LivePointsDataUpdatedEventArgs e)
         {
             try
@@ -1380,7 +1514,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving live points data", ex);
             }
         }
-
         public void Monitor_LivePitDataUpdated(object sender, LivePitDataUpdatedEventArgs e)
         {
             try
@@ -1404,7 +1537,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving live pit data", ex);
             }
         }
-
         public void Monitor_LiveFlagDataUpdated(object sender, LiveFlagDataUpdatedEventArgs e)
         {
             try
@@ -1428,7 +1560,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving live flag data", ex);
             }
         }
-
         public void Monitor_LiveQualifyingDataUpdated(object sender, LiveQualifyingDataUpdatedEventArgs e)
         {
             try
@@ -1452,40 +1583,6 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error receiving live qualifying data", ex);
             }
         }
-
-
-        public virtual void Monitor_NascarApiDataUpdated<T>(object sender, NascarApiDataUpdatedEventArgs<T> e)
-        {
-            try
-            {
-                if (this.InvokeRequired)
-                {
-                    var d = new LiveQualifyingDataSafeCallDelegate(Monitor_LiveQualifyingDataUpdated);
-                    Invoke(d, new object[] { sender, e });
-                }
-                else
-                {
-                    foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
-                    {
-                        var data = controlBase.GetViewData(e.Data, e.ApiFeedType);
-                        controlBase.UpdateListRowsData(data);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error receiving live data", ex);
-            }
-        }
-
-        private void UpdateStatusLabel(LiveFeedData data)
-        {
-            var series = data.SeriesType.ToString();
-            lblTrackName.Text = data.TrackName;
-            lblEvent.Text = $"{series} {data.RunName}";
-            lblSession.Text = data.RunType.ToString();
-            lblTrackState.Text = data.FlagState.ToString();
-        }
         #endregion
 
         #region theme designer
@@ -1493,10 +1590,11 @@ namespace RacerData.rNascarApp
         {
             DisplayThemeDialog();
         }
-        private void btnThemeDesigner_Click(object sender, EventArgs e)
+        protected virtual void ThemeDialog_UpdatedTheme(object sender, Theme theme)
         {
-            DisplayThemeDialog();
+            OnThemeUpdated(theme);
         }
+
         protected virtual void DisplayThemeDialog()
         {
             DisplayThemeDialog(null);
@@ -1536,65 +1634,9 @@ namespace RacerData.rNascarApp
                 ExceptionHandler("Error displaying themes designer", ex);
             }
         }
-        protected virtual void ThemeDialog_UpdatedTheme(object sender, Theme theme)
-        {
-            OnThemeUpdated(theme);
-        }
-        #endregion
-
-        #region view designer
-        private void viewDesignerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DisplayViewDesignerDialog();
-        }
-        private void btnViewDesigner_Click(object sender, EventArgs e)
-        {
-            DisplayViewDesignerDialog();
-        }
-        protected virtual void DisplayViewDesignerDialog()
-        {
-            DisplayViewDesignerDialog(null);
-        }
-        protected virtual void DisplayViewDesignerDialog(ViewState viewStateToEdit)
-        {
-            try
-            {
-                var localAppSettings = AppSettings.Load();
-                var factory = new ViewDataSourceFactory();
-                var sources = factory.GetList();
-
-                IViewDesigner dialog = null;
-
-                using (dialog = new ViewDesignerDialog()
-                {
-                    ViewStates = localAppSettings.ViewStates,
-                    Themes = this.Themes,
-                    DataSources = sources,
-                    ViewStateId = viewStateToEdit?.Id
-                })
-                {
-                    if (dialog.ShowDialog(this) == DialogResult.OK)
-                    {
-                        AppSettings.ViewStates = dialog.ViewStates;
-
-                        SaveAppState();
-
-                        ReloadWorkspaceViews();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error displaying view designer", ex);
-            }
-        }
         #endregion
 
         #region grid size
-        private void btnGridSize_Click(object sender, EventArgs e)
-        {
-            DisplayGridResizeDialog();
-        }
         private void gridSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DisplayGridResizeDialog();
@@ -1607,6 +1649,7 @@ namespace RacerData.rNascarApp
         {
             SetGridCellSizes(GridTable.RowCount, GridTable.ColumnCount);
         }
+
         protected virtual void DisplayGridResizeDialog()
         {
             try
@@ -1693,10 +1736,6 @@ namespace RacerData.rNascarApp
         {
             DisplayViewDisplayFormatDialog();
         }
-        private void btnDisplayFormats_Click(object sender, EventArgs e)
-        {
-            DisplayViewDisplayFormatDialog();
-        }
 
         protected virtual void DisplayViewDisplayFormatDialog()
         {
@@ -1742,58 +1781,13 @@ namespace RacerData.rNascarApp
         }
         #endregion
 
-        #region Create view wizard
-        private void viewToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            DisplayViewDesignWizard();
-        }
-        private void btnNewVeiwWizard_Click(object sender, EventArgs e)
-        {
-            DisplayViewDesignWizard();
-        }
-
-        protected virtual void DisplayViewDesignWizard()
-        {
-            try
-            {
-                var dataSourceFactory = new ViewDataSourceFactory();
-                var dataSources = dataSourceFactory.GetList();
-
-                var mapService = new DisplayFormatMapService();
-
-                using (var dialog = new CreateViewWizard()
-                {
-                    DataSources = dataSources,
-                    MapService = mapService
-                })
-                {
-                    if (dialog.ShowDialog(this) == DialogResult.OK)
-                    {
-                        var newViewState = dialog.NewViewState;
-
-                        AppSettings.ViewStates.Add(newViewState);
-
-                        _workspaceService.CurrentWorkspace.ViewStates.Add(newViewState.Id);
-
-                        SaveAppState();
-
-                        ReloadWorkspaceViews();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error displaying Create View Wizard", ex);
-            }
-        }
-        #endregion
-
         #region full screen
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F11)
                 ToggleFullscreen();
         }
+
         protected virtual void ToggleFullscreen()
         {
             if (_isFullScreen)
@@ -1820,12 +1814,145 @@ namespace RacerData.rNascarApp
 
         public class ToolStripRenderer : ToolStripSystemRenderer
         {
+            // https://referencesource.microsoft.com/#system.windows.forms/winforms/managed/system/winforms/ToolStripRenderer.cs
+
+            public static Color PanelBlue = Color.FromArgb(255, 51, 153, 255);
+            public static Color IconBlue = Color.FromArgb(255, 122, 193, 255);
+
+            public static Color LightLightGrey = Color.FromArgb(255, 104, 104, 104);
+            public static Color LightGrey = Color.FromArgb(255, 63, 63, 70);
+            public static Color MediumGrey = Color.FromArgb(255, 45, 45, 48);
+            public static Color DarkGrey = Color.FromArgb(255, 37, 37, 38);
+            public static Color DarkDarkGrey = Color.FromArgb(255, 28, 28, 28);
+
+            public static Color UnselectedItemBackColor = MediumGrey;
+            public static Color SelectedItemBackColor = PanelBlue;
+            public static Color SeparatorBackColor = LightGrey;
+            public static Color BorderColor = PanelBlue;
+
             public ToolStripRenderer() { }
 
+            /// <summary>
+            /// Hide the border
+            /// </summary>
+            /// <param name="e"></param>
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
             {
                 // comment to prevent toolstrip border from being drawn
-                //base.OnRenderToolStripBorder(e);
+                //base.OnRenderToolStripBorder(e);               
+            }
+
+            protected override void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
+            {
+                base.OnRenderDropDownButtonBackground(e);
+                //Color c = LightLightGrey;
+                //using (SolidBrush brush = new SolidBrush(c))
+                //    e.Graphics.FillRectangle(brush, e.Item.ContentRectangle);
+            }
+
+            protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
+            {
+                e.ArrowColor = PanelBlue;
+                base.OnRenderArrow(e);
+                //Color c = Color.Gold;// LightLightGrey;
+                //using (SolidBrush brush = new SolidBrush(c))
+                //    e.Graphics.FillRectangle(brush, e.ArrowRectangle);
+            }
+
+            /// <summary>
+            /// Border surrounding all drop down menu items
+            /// Can be overwritten by ImageMargin
+            /// </summary>
+            /// <param name="e"></param>
+            protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+            {
+                ToolStripDropDown dr = e.ToolStrip as ToolStripDropDown;
+
+                if (dr != null)
+                {
+                    Rectangle rc = e.AffectedBounds;
+                    Color c = BorderColor;
+                    using (SolidBrush brush = new SolidBrush(c))
+                        e.Graphics.FillRectangle(brush, rc);
+
+                    rc.Inflate(-1, -1);
+                    Color cInner = UnselectedItemBackColor;
+                    using (SolidBrush brush = new SolidBrush(cInner))
+                        e.Graphics.FillRectangle(brush, rc);
+                }
+            }
+
+            /// <summary>
+            /// Checked indicator image
+            /// </summary>
+            /// <param name="e"></param>
+            protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
+            {
+                int width = 20;
+                int height = 20;
+                Bitmap selectedIndicator = new Bitmap(width, height);
+                using (Graphics gfx = Graphics.FromImage(selectedIndicator))
+                using (SolidBrush brush = new SolidBrush(IconBlue))
+                {
+                    gfx.FillRectangle(brush, 0, 0, width, height);
+                }
+
+                var myE = new ToolStripItemImageRenderEventArgs(e.Graphics, e.Item, selectedIndicator, e.ImageRectangle);
+                base.OnRenderItemCheck(myE);
+            }
+
+            /// <summary>
+            /// Vertical line on far right of menu item
+            /// </summary>
+            /// <param name="e"></param>
+            protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
+            {
+                Rectangle rc = new Rectangle(Point.Empty, e.AffectedBounds.Size);
+                Color c = BorderColor;
+                using (SolidBrush brush = new SolidBrush(c))
+                    e.Graphics.FillRectangle(brush, rc);
+
+                rc.Inflate(-1, -1);
+                Color cInner = UnselectedItemBackColor;
+                using (SolidBrush brush = new SolidBrush(cInner))
+                    e.Graphics.FillRectangle(brush, rc);
+            }
+
+            /// <summary>
+            /// Background color for non-separator items
+            /// </summary>
+            /// <param name="e"></param>
+            protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+            {
+                Rectangle rc = new Rectangle(new Point(1, 0), e.Item.Size);
+                Color c = e.Item.Selected ? SelectedItemBackColor : UnselectedItemBackColor;
+                using (SolidBrush brush = new SolidBrush(c))
+                    e.Graphics.FillRectangle(brush, rc);
+            }
+
+            /// <summary>
+            /// Separator body
+            /// </summary>
+            /// <param name="e"></param>
+            protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
+            {
+                if ((e.Item as ToolStripSeparator) == null)
+                {
+                    base.OnRenderSeparator(e);
+                    return;
+                }
+
+                if (!e.Vertical)
+                {
+                    ToolStripSeparator toolStripSeparator = (ToolStripSeparator)e.Item;
+                    int width = toolStripSeparator.Width;
+                    int height = toolStripSeparator.Height;
+                    e.Graphics.FillRectangle(new SolidBrush(SeparatorBackColor), 0, 0, width, height);
+                }
+                else
+                {
+                    base.OnRenderSeparator(e);
+                }
             }
         }
 

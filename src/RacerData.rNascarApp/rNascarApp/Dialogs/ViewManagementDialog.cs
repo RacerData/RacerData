@@ -37,6 +37,7 @@ namespace RacerData.rNascarApp.Dialogs
         public ILog Log { get; set; }
         public ViewState View { get; set; }
         public IList<ViewState> Views { get; set; }
+        public ChangeSet<ViewState> ChangeSet { get; protected set; }
 
         protected bool HasSelection
         {
@@ -71,9 +72,11 @@ namespace RacerData.rNascarApp.Dialogs
 
         private void ViewManagementDialog_Load(object sender, EventArgs e)
         {
-            _viewsState = PersistViewsState(Views.ToList());
+            ChangeSet = new ChangeSet<ViewState>();
 
-            DisplayViews(View);
+            _viewsState = SerializeItemList(Views.ToList());
+
+            DisplayViews(View?.Id);
 
             PropertyChanged += ViewManagementDialog_PropertyChanged;
 
@@ -84,7 +87,7 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region protected
 
-        protected virtual string PersistViewsState(List<ViewState> views)
+        protected virtual string SerializeItemList(List<ViewState> views)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
@@ -97,11 +100,11 @@ namespace RacerData.rNascarApp.Dialogs
                     Formatting.Indented,
                     settings);
         }
-        protected virtual List<ViewState> RestoreViewsState(string json)
+        protected virtual List<ViewState> DeserializeItemList(string json)
         {
             return JsonConvert.DeserializeObject<List<ViewState>>(json);
         }
-        protected virtual string PersistViewState(ViewState view)
+        protected virtual string SerializeItem(ViewState view)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
@@ -114,7 +117,7 @@ namespace RacerData.rNascarApp.Dialogs
                     Formatting.Indented,
                     settings);
         }
-        protected virtual ViewState RestoreViewState(string json)
+        protected virtual ViewState DeserializeItem(string json)
         {
             return JsonConvert.DeserializeObject<ViewState>(json);
         }
@@ -132,11 +135,11 @@ namespace RacerData.rNascarApp.Dialogs
         {
             btnEditSave.Enabled = HasSelection;
             btnEditSave.Text = IsEditing ? "Save" : "Edit";
-            btnCancelSaveAndClose.Enabled = true;
-            btnCancelSaveAndClose.Text = IsEditing ? "Cancel" : "Save && Close";
+            btnCancelOrCancelAndClose.Enabled = true;
+            btnCancelOrCancelAndClose.Text = IsEditing ? "Cancel" : "Cancel && Close";
 
-            btnCancelAndClose.Visible = !IsEditing;
-            btnCancelAndClose.Enabled = true;
+            btnSaveAndClose.Visible = !IsEditing;
+            btnSaveAndClose.Enabled = true;
 
             btnNew.Enabled = !IsEditing;
             btnCopy.Enabled = !IsEditing && HasSelection;
@@ -146,14 +149,15 @@ namespace RacerData.rNascarApp.Dialogs
             pnlDetails.Enabled = IsEditing;
         }
 
-        protected virtual void DisplayViews(ViewState view = null)
+        protected virtual void DisplayViews(Guid? id = null)
         {
             cboViewStates.DataSource = null;
             cboViewStates.DisplayMember = "Name";
+            cboViewStates.ValueMember = "Id";
             cboViewStates.DataSource = Views.OrderBy(v => v.Name).ToList();
 
-            if (view != null)
-                cboViewStates.SelectedItem = view;
+            if (id.HasValue)
+                cboViewStates.SelectedValue = id.Value;
             else
                 cboViewStates.SelectedIndex = -1;
         }
@@ -170,7 +174,7 @@ namespace RacerData.rNascarApp.Dialogs
         }
         protected virtual void UpdateViewsFields(ViewState view)
         {
-            lstFields.DisplayMember = "Name";
+            lstFields.DisplayMember = "Caption";
             lstFields.ValueMember = "Index";
             lstFields.DataSource = view.ListSettings.OrderedColumns;
             lstFields.SelectedIndex = -1;
@@ -186,7 +190,7 @@ namespace RacerData.rNascarApp.Dialogs
 
         protected virtual void BeginEdit()
         {
-            _viewState = PersistViewState(View);
+            _viewState = SerializeItem(View);
 
             IsNew = false;
             IsEditing = true;
@@ -217,7 +221,7 @@ namespace RacerData.rNascarApp.Dialogs
             IsNew = false;
             IsEditing = true;
 
-            btnCancelSaveAndClose.Enabled = false;
+            btnCancelOrCancelAndClose.Enabled = false;
             btnEditSave.Enabled = false;
 
             try
@@ -259,41 +263,89 @@ namespace RacerData.rNascarApp.Dialogs
             IsNew = false;
             IsEditing = false;
 
-            DisplayViews(View);
+            DisplayViews(View?.Id);
         }
         protected virtual void CancelEdit()
         {
             if (!IsNew && !String.IsNullOrEmpty(_viewState))
             {
-                View = RestoreViewState(_viewState);
+                View = DeserializeItem(_viewState);
                 _viewState = String.Empty;
             }
 
             IsNew = false;
             IsEditing = false;
 
-            DisplayViews(View);
+            DisplayViews(View?.Id);
         }
         protected virtual void DisplayViewEditor(ViewState view)
         {
             try
             {
-                // TODO:
+                using (var dialog = new ColumnEditorView()
+                {
+                    ViewState = View,
+                    ShowViewSettings = true
+                })
+                {
+                    var result = dialog.ShowDialog(this);
+
+                    if (result == DialogResult.OK)
+                    {
+                        View = dialog.ViewState;
+
+                        DisplayViews(View?.Id);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                ExceptionHandler("Error editing view", ex);
+                ExceptionHandler("Error editing view fields", ex);
             }
         }
 
         protected virtual void RevertAndCloseDialog()
         {
-            Views = RestoreViewsState(_viewsState);
+            Views = DeserializeItemList(_viewsState);
             DialogResult = DialogResult.Cancel;
         }
         protected virtual void SaveAndCloseDialog()
         {
+            UpdateChangeSet();
+
             DialogResult = DialogResult.OK;
+        }
+
+        protected virtual void UpdateChangeSet()
+        {
+            var originalStates = DeserializeItemList(_viewsState);
+
+            foreach (ViewState originalState in originalStates)
+            {
+                var currentState = Views.FirstOrDefault(v => v.Id == originalState.Id);
+
+                if (currentState == null)
+                {
+                    ChangeSet.Deleted.Add(originalState);
+                }
+                else
+                {
+                    if (!currentState.Equals(originalState))
+                    {
+                        ChangeSet.Edited.Add(currentState);
+                    }
+                }
+            }
+
+            foreach (ViewState currentState in Views)
+            {
+                var originalState = originalStates.FirstOrDefault(v => v.Id == currentState.Id);
+
+                if (originalState == null)
+                {
+                    ChangeSet.Added.Add(currentState);
+                }
+            }
         }
 
         #endregion
@@ -317,6 +369,26 @@ namespace RacerData.rNascarApp.Dialogs
         private void btnEditFields_Click(object sender, EventArgs e)
         {
             DisplayViewEditor(View);
+        }
+
+        private void removeFieldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (View == null)
+                return;
+
+            ListColumn columnToRemove = (ListColumn)lstFields.SelectedItem;
+
+            if (columnToRemove == null)
+                return;
+
+            View.ListSettings.Columns.Remove(columnToRemove);
+
+            UpdateViewsFields(View);
+        }
+
+        private void ctxFields_Opening(object sender, CancelEventArgs e)
+        {
+            e.Cancel = (View == null || lstFields.SelectedItem == null);
         }
 
         // dialog buttons
@@ -344,11 +416,11 @@ namespace RacerData.rNascarApp.Dialogs
             if (IsEditing)
                 CancelEdit();
             else
-                SaveAndCloseDialog();
+                RevertAndCloseDialog();
         }
         private void btnCancelAndClose_Click(object sender, EventArgs e)
         {
-            RevertAndCloseDialog();
+            SaveAndCloseDialog();
         }
 
         #endregion

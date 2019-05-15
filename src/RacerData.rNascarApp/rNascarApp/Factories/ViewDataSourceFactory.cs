@@ -62,6 +62,11 @@ namespace RacerData.rNascarApp.Factories
                     var innerSource = GetNestedDataSource(propertyInfo, dataFeedName, dataFeedType, $"{path}", propertyInfo.Name);
                     source.NestedClasses.Add(innerSource);
                 }
+                else if (propertyInfo.PropertyType.FullName.StartsWith("RacerData"))
+                {
+                    var innerSource = GetNestedDataSource(propertyInfo, dataFeedName, dataFeedType, $"{path}", propertyInfo.Name);
+                    source.NestedClasses.Add(innerSource);
+                }
                 else
                 {
                     source.Fields.Add(new ViewDataMember()
@@ -103,6 +108,11 @@ namespace RacerData.rNascarApp.Factories
                 else if (propertyInfo.PropertyType.Name.StartsWith("System"))
                 {
                     var innerSource = GetNestedDataSource(propertyInfo, dataFeedName, dataFeedType, $"{memberPath}", $"{propertyInfo.Name}");
+                    source.NestedClasses.Add(innerSource);
+                }
+                else if (propertyInfo.PropertyType.FullName.StartsWith("RacerData"))
+                {
+                    var innerSource = GetNestedDataSource(propertyInfo, dataFeedName, dataFeedType, $"{path}", propertyInfo.Name);
                     source.NestedClasses.Add(innerSource);
                 }
                 else

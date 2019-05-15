@@ -34,13 +34,13 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             base.ActivateStep();
 
-            DisplayDataSource(CreateViewContext.ViewDataSource);
+            DisplayDataSource(Context.ViewDataSource);
 
             lstSelected.DataSource = null;
             lstSelected.DisplayMember = "Caption";
-            lstSelected.DataSource = CreateViewContext.ViewDataMembers;
+            lstSelected.DataSource = Context.ViewDataMembers;
 
-            CreateViewContext.ViewDataMembers.ListChanged += SelectedDataMembers_ListChanged;
+            Context.ViewDataMembers.ListChanged += SelectedDataMembers_ListChanged;
 
             UpdateValidation();
         }
@@ -51,7 +51,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             lstSelected.DataSource = null;
 
-            CreateViewContext.ViewDataMembers.ListChanged -= SelectedDataMembers_ListChanged;
+            Context.ViewDataMembers.ListChanged -= SelectedDataMembers_ListChanged;
         }
 
         public override bool ValidateStep()
@@ -59,12 +59,12 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             bool isValid = true;
             Error = "";
 
-            if (CreateViewContext.ViewDataSource == null)
+            if (Context.ViewDataSource == null)
             {
                 isValid = false;
                 Error += "Data source empty\r\n";
             }
-            else if (CreateViewContext.ViewDataMembers.Count == 0)
+            else if (Context.ViewDataMembers.Count == 0)
             {
                 isValid = false;
                 Error += "No fields selected\r\n";
@@ -213,8 +213,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             var member = (ViewDataMember)lstSelected.SelectedItem;
 
-            if (CreateViewContext.ViewDataMembers.Contains(member))
-                CreateViewContext.ViewDataMembers.Remove(member);
+            if (Context.ViewDataMembers.Contains(member))
+                Context.ViewDataMembers.Remove(member);
         }
 
         private void trvDataSources_DoubleClick(object sender, EventArgs e)
@@ -240,8 +240,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             //member.Path = trvDataSources.SelectedNode.FullPath.Replace($"{trvDataSources.Nodes[0].FullPath}\\", "");
             //member.Path = member.Path.Replace(member.Caption, member.Name);
 
-            if (!CreateViewContext.ViewDataMembers.Contains(member))
-                CreateViewContext.ViewDataMembers.Add(member);
+            if (!Context.ViewDataMembers.Contains(member))
+                Context.ViewDataMembers.Add(member);
         }
 
         #endregion

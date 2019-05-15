@@ -15,7 +15,23 @@ namespace RacerData.NascarApi.Client.Models.LapTimes
         [JsonConverter(typeof(StringEnumConverter))]
         public VehicleStatus VehicleStatus { get; set; }
         public int EventElapsed { get; set; }
+        [JsonIgnore()]
+        public System.TimeSpan EventElapsedTimeSpan
+        {
+            get
+            {
+                return new System.TimeSpan(0, 0, EventElapsed);
+            }
+        }
         public double VehicleElapsed { get; set; }
+        [JsonIgnore()]
+        public System.TimeSpan VehicleElapsedTimeSpan
+        {
+            get
+            {
+                return System.TimeSpan.FromSeconds(VehicleElapsed);
+            }
+        }
 
         #endregion
 

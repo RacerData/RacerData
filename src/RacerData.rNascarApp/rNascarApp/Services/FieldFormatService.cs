@@ -59,7 +59,14 @@ namespace RacerData.rNascarApp.Services
             else if (typeName == TypeNames.TimeSpanTypeName)
             {
                 TimeSpan buffer = new TimeSpan();
-                if (!TimeSpan.TryParse(value, out buffer))
+                double doubleBuffer = 0;
+
+                if (double.TryParse(value, out doubleBuffer))
+                {
+                    buffer = TimeSpan.FromSeconds(doubleBuffer);
+                    formattedText = buffer.ToString(format);
+                }
+                else if (!TimeSpan.TryParse(value, out buffer))
                 {
                     formattedText = "--ERROR--";
                 }

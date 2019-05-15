@@ -12,6 +12,14 @@ namespace RacerData.NascarApi.Client.Models.LapAverages
         public string TrackName { get; set; }
         public string RunName { get; set; }
         public int Elapsed { get; set; }
+        [Newtonsoft.Json.JsonIgnore()]
+        public System.TimeSpan ElapsedTime
+        {
+            get
+            {
+                return new System.TimeSpan(0, 0, Elapsed);
+            }
+        }
 
         public List<VehicleNLapAverage> Best5LapAverages { get; set; }
         public List<VehicleNLapAverage> Best10LapAverages { get; set; }

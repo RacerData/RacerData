@@ -172,8 +172,8 @@ namespace RacerData.rNascarApp.Dialogs
                         }
                         else if (viewDataMember.Type.Name.ToString() == "TimeSpan")
                         {
-                            newViewDisplayFormat.Sample = "12:34:56.78";
-                            newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
+                            newViewDisplayFormat.Sample = "30.234";
+                            newViewDisplayFormat.Format = "ss\\.fff";
                         }
                         else if (viewDataMember.Type.Name.ToString() == "Boolean")
                         {

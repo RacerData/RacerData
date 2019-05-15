@@ -9,6 +9,14 @@
         public int StartLap { get; set; }
         public int EndLap { get; set; }
         public double AverageLapTime { get; set; }
+        [Newtonsoft.Json.JsonIgnore()]
+        public System.TimeSpan AverageLapTimeTimeSpan
+        {
+            get
+            {
+                return System.TimeSpan.FromSeconds(AverageLapTime);
+            }
+        }
 
         #endregion
 

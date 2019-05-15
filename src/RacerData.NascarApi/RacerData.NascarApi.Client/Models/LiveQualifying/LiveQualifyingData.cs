@@ -17,6 +17,22 @@
         public bool IsOnTrack { get; set; }
         public bool IsCurrentRound { get; set; }
         public int TimeLimit { get; set; }
+        [Newtonsoft.Json.JsonIgnore()]
+        public System.TimeSpan TimeLimitTimeSpan
+        {
+            get
+            {
+                return System.TimeSpan.FromSeconds(TimeLimit);
+            }
+        }
         public double LastLapTime { get; set; }
+        [Newtonsoft.Json.JsonIgnore()]
+        public System.TimeSpan LastLapTimeTimeSpan
+        {
+            get
+            {
+                return System.TimeSpan.FromSeconds(LastLapTime);
+            }
+        }
     }
 }

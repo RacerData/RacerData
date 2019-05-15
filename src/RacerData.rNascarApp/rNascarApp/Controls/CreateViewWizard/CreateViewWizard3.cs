@@ -170,28 +170,30 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                         Name = viewDataMember.Name
                     };
 
-                    if (viewDataMember.Type.Name.ToString() == "System.String")
+                    var typeName = viewDataMember.Type.Name.Replace("System.", "");
+
+                    if (typeName == "String")
                     {
                         newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
                     }
-                    else if (viewDataMember.Type.Name.ToString() == "System.Int32")
+                    else if (typeName == "Int32")
                     {
                         newViewDisplayFormat.Sample = "12345";
                         newViewDisplayFormat.Format = "###";
                     }
-                    else if (viewDataMember.Type.Name.ToString() == "System.Decimal" || viewDataMember.Type.Name.ToString() == "System.Double")
+                    else if (typeName == "Decimal" || typeName == "Double")
                     {
                         newViewDisplayFormat.Sample = "123.456";
                         newViewDisplayFormat.Format = "###.##0";
                     }
-                    else if (viewDataMember.Type.Name.ToString() == "System.TimeSpan")
+                    else if (typeName == "TimeSpan")
                     {
-                        newViewDisplayFormat.Sample = "12:34:56.78";
-                        newViewDisplayFormat.Format = "hh\\:mm\\:ss.fff";
+                        newViewDisplayFormat.Sample = "56.789";
+                        newViewDisplayFormat.Format = "ss.fff";
                     }
                     else
                     {
-                        newViewDisplayFormat.Sample = $"[{viewDataMember.Name}]";
+                        newViewDisplayFormat.Sample = "";
                     }
 
                     _mapService.Map[viewDataMember] = newViewDisplayFormat;
@@ -637,6 +639,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         }
         private string FormatSampleValue(string type, string format, string value)
         {
+            return FieldFormatService.FormatValue(type, format, value);
+
             var formattedText = String.Empty;
 
             var typeName = type.Replace("System.", "");
@@ -904,8 +908,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 viewListColumn.ConvertedType = selectedConvertedType.Value;
                 if (selectedConvertedType.Value == TypeNames.TimeSpanTypeName)
                 {
-                    txtColFormat.Text = "hh\\:mm\\:ss\\.fff";
-                    txtColTest.Text = "00:15:23.123";
+                    txtColFormat.Text = "ss\\.fff";
+                    txtColTest.Text = "23.123";
                 }
             }
 

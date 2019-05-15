@@ -10,6 +10,14 @@ namespace RacerData.NascarApi.Client.Models.LiveFlag
         [JsonConverter(typeof(StringEnumConverter))]
         public TrackState FlagState { get; set; }
         public double ElapsedTime { get; set; }
+        [Newtonsoft.Json.JsonIgnore()]
+        public System.TimeSpan ElapsedTimeTimeSpan
+        {
+            get
+            {
+                return System.TimeSpan.FromSeconds(ElapsedTime);
+            }
+        }
         public string Comment { get; set; }
         public string Beneficiary { get; set; }
         public TimeSpan TimeOfDay { get; set; }

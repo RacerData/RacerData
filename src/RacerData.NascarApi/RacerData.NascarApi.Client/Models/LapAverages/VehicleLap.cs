@@ -6,7 +6,15 @@
 
         public string VehicleId { get; set; }
         public int LapNumber { get; set; }
-        public double LapTime { get; set; }
+        public double LapTime { get; set; }        
+        [Newtonsoft.Json.JsonIgnore()]
+        public System.TimeSpan LapTimeTimeSpan
+        {
+            get
+            {
+                return System.TimeSpan.FromSeconds(LapTime);
+            }
+        }
 
         #endregion
 

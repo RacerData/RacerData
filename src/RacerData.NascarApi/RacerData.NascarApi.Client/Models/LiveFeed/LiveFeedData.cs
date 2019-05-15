@@ -9,6 +9,14 @@ namespace RacerData.NascarApi.Client.Models.LiveFeed
     {
         public int LapNumber { get; set; }
         public int Elapsed { get; set; }
+        [JsonIgnore()]
+        public TimeSpan ElapsedTimeSpan
+        {
+            get
+            {
+                return TimeSpan.FromSeconds(Elapsed);
+            }
+        }
         [JsonConverter(typeof(StringEnumConverter))]
         public TrackState FlagState { get; set; }
         public int RaceId { get; set; }

@@ -237,9 +237,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             member.DataFeed = data.Name;
 
-            //member.Path = trvDataSources.SelectedNode.FullPath.Replace($"{trvDataSources.Nodes[0].FullPath}\\", "");
-            //member.Path = member.Path.Replace(member.Caption, member.Name);
-
             if (!Context.ViewDataMembers.Contains(member))
                 Context.ViewDataMembers.Add(member);
         }

@@ -40,6 +40,10 @@
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnEditSave = new System.Windows.Forms.Button();
             this.pnlDetails = new System.Windows.Forms.Panel();
+            this.btnRemoveView = new System.Windows.Forms.Button();
+            this.btnAddView = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lstAllViews = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.lstViews = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -53,10 +57,6 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label6 = new System.Windows.Forms.Label();
-            this.lstAllViews = new System.Windows.Forms.ListBox();
-            this.btnAddView = new System.Windows.Forms.Button();
-            this.btnRemoveView = new System.Windows.Forms.Button();
             this.pnlSelection.SuspendLayout();
             this.pnlDialogButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -93,6 +93,7 @@
             this.cboWorkspaces.Name = "cboWorkspaces";
             this.cboWorkspaces.Size = new System.Drawing.Size(341, 23);
             this.cboWorkspaces.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.cboWorkspaces, "Select the workspace to edit");
             this.cboWorkspaces.SelectedIndexChanged += new System.EventHandler(this.cboWorkspaces_SelectedIndexChanged);
             // 
             // pnlDialogButtons
@@ -116,7 +117,7 @@
             this.btnCancelAndClose.Location = new System.Drawing.Point(411, 6);
             this.btnCancelAndClose.Name = "btnCancelAndClose";
             this.btnCancelAndClose.Size = new System.Drawing.Size(106, 37);
-            this.btnCancelAndClose.TabIndex = 5;
+            this.btnCancelAndClose.TabIndex = 4;
             this.btnCancelAndClose.Text = "Cancel && Close";
             this.toolTip1.SetToolTip(this.btnCancelAndClose, "Cancel all changes and close this form");
             this.btnCancelAndClose.UseVisualStyleBackColor = true;
@@ -128,7 +129,7 @@
             this.btnNew.Location = new System.Drawing.Point(100, 6);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(82, 37);
-            this.btnNew.TabIndex = 4;
+            this.btnNew.TabIndex = 1;
             this.btnNew.Text = "New";
             this.toolTip1.SetToolTip(this.btnNew, "Create a new workspace");
             this.btnNew.UseVisualStyleBackColor = true;
@@ -141,7 +142,7 @@
             this.btnCancelSaveAndClose.Location = new System.Drawing.Point(524, 6);
             this.btnCancelSaveAndClose.Name = "btnCancelSaveAndClose";
             this.btnCancelSaveAndClose.Size = new System.Drawing.Size(106, 37);
-            this.btnCancelSaveAndClose.TabIndex = 3;
+            this.btnCancelSaveAndClose.TabIndex = 5;
             this.btnCancelSaveAndClose.Text = "Save && Close";
             this.toolTip1.SetToolTip(this.btnCancelSaveAndClose, "Save all changes and close the form");
             this.btnCancelSaveAndClose.UseVisualStyleBackColor = true;
@@ -153,7 +154,7 @@
             this.btnDelete.Location = new System.Drawing.Point(276, 6);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(82, 37);
-            this.btnDelete.TabIndex = 2;
+            this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "Delete";
             this.toolTip1.SetToolTip(this.btnDelete, "Delete the selected workspace");
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -165,7 +166,7 @@
             this.btnCopy.Location = new System.Drawing.Point(188, 6);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(82, 37);
-            this.btnCopy.TabIndex = 1;
+            this.btnCopy.TabIndex = 2;
             this.btnCopy.Text = "Copy";
             this.toolTip1.SetToolTip(this.btnCopy, "Make a copy of the selected workspace");
             this.btnCopy.UseVisualStyleBackColor = true;
@@ -204,6 +205,48 @@
             this.pnlDetails.Size = new System.Drawing.Size(642, 240);
             this.pnlDetails.TabIndex = 2;
             // 
+            // btnRemoveView
+            // 
+            this.btnRemoveView.Location = new System.Drawing.Point(379, 156);
+            this.btnRemoveView.Name = "btnRemoveView";
+            this.btnRemoveView.Size = new System.Drawing.Size(85, 23);
+            this.btnRemoveView.TabIndex = 6;
+            this.btnRemoveView.Text = "Remove >>";
+            this.btnRemoveView.UseVisualStyleBackColor = true;
+            this.btnRemoveView.Click += new System.EventHandler(this.btnRemoveView_Click);
+            // 
+            // btnAddView
+            // 
+            this.btnAddView.Location = new System.Drawing.Point(379, 91);
+            this.btnAddView.Name = "btnAddView";
+            this.btnAddView.Size = new System.Drawing.Size(85, 23);
+            this.btnAddView.TabIndex = 5;
+            this.btnAddView.Text = "<< Add";
+            this.btnAddView.UseVisualStyleBackColor = true;
+            this.btnAddView.Click += new System.EventHandler(this.btnAddView_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(484, 57);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(96, 15);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Available Views";
+            // 
+            // lstAllViews
+            // 
+            this.lstAllViews.FormattingEnabled = true;
+            this.lstAllViews.ItemHeight = 15;
+            this.lstAllViews.Location = new System.Drawing.Point(487, 75);
+            this.lstAllViews.Name = "lstAllViews";
+            this.lstAllViews.Size = new System.Drawing.Size(143, 139);
+            this.lstAllViews.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.lstAllViews, "List of views that can be added to this workspace");
+            this.lstAllViews.SelectedIndexChanged += new System.EventHandler(this.lstAllViews_SelectedIndexChanged);
+            this.lstAllViews.DoubleClick += new System.EventHandler(this.lstAllViews_DoubleClick);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -221,8 +264,8 @@
             this.lstViews.Location = new System.Drawing.Point(215, 75);
             this.lstViews.Name = "lstViews";
             this.lstViews.Size = new System.Drawing.Size(143, 139);
-            this.lstViews.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.lstViews, "List of Views in this workspace");
+            this.lstViews.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.lstViews, "List of views in this workspace");
             this.lstViews.SelectedIndexChanged += new System.EventHandler(this.lstViews_SelectedIndexChanged);
             this.lstViews.DoubleClick += new System.EventHandler(this.lstViews_DoubleClick);
             // 
@@ -235,7 +278,7 @@
             this.groupBox1.Location = new System.Drawing.Point(11, 102);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(139, 112);
-            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Default Workspace:";
             this.toolTip1.SetToolTip(this.groupBox1, "Will automatically open this workspace when this type of live event is received");
@@ -295,7 +338,7 @@
             0});
             this.numColumns.Name = "numColumns";
             this.numColumns.Size = new System.Drawing.Size(64, 21);
-            this.numColumns.TabIndex = 4;
+            this.numColumns.TabIndex = 2;
             this.toolTip1.SetToolTip(this.numColumns, "The number of grid rows and columns for this workspace.");
             this.numColumns.Value = new decimal(new int[] {
             4,
@@ -328,7 +371,7 @@
             0});
             this.numRows.Name = "numRows";
             this.numRows.Size = new System.Drawing.Size(64, 21);
-            this.numRows.TabIndex = 2;
+            this.numRows.TabIndex = 1;
             this.toolTip1.SetToolTip(this.numRows, "The number of grid rows and columns for this workspace.");
             this.numRows.Value = new decimal(new int[] {
             4,
@@ -341,7 +384,7 @@
             this.txtName.Location = new System.Drawing.Point(12, 25);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(341, 21);
-            this.txtName.TabIndex = 1;
+            this.txtName.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtName, "Name of the workspace. Must be unique.");
             // 
             // label2
@@ -353,48 +396,6 @@
             this.label2.Size = new System.Drawing.Size(40, 15);
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(484, 57);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(96, 15);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Available Views";
-            // 
-            // lstAllViews
-            // 
-            this.lstAllViews.FormattingEnabled = true;
-            this.lstAllViews.ItemHeight = 15;
-            this.lstAllViews.Location = new System.Drawing.Point(487, 75);
-            this.lstAllViews.Name = "lstAllViews";
-            this.lstAllViews.Size = new System.Drawing.Size(143, 139);
-            this.lstAllViews.TabIndex = 12;
-            this.toolTip1.SetToolTip(this.lstAllViews, "List of Views in this workspace");
-            this.lstAllViews.SelectedIndexChanged += new System.EventHandler(this.lstAllViews_SelectedIndexChanged);
-            this.lstAllViews.DoubleClick += new System.EventHandler(this.lstAllViews_DoubleClick);
-            // 
-            // btnAddView
-            // 
-            this.btnAddView.Location = new System.Drawing.Point(379, 91);
-            this.btnAddView.Name = "btnAddView";
-            this.btnAddView.Size = new System.Drawing.Size(85, 23);
-            this.btnAddView.TabIndex = 14;
-            this.btnAddView.Text = "<< Add";
-            this.btnAddView.UseVisualStyleBackColor = true;
-            this.btnAddView.Click += new System.EventHandler(this.btnAddView_Click);
-            // 
-            // btnRemoveView
-            // 
-            this.btnRemoveView.Location = new System.Drawing.Point(379, 156);
-            this.btnRemoveView.Name = "btnRemoveView";
-            this.btnRemoveView.Size = new System.Drawing.Size(85, 23);
-            this.btnRemoveView.TabIndex = 15;
-            this.btnRemoveView.Text = "Remove >>";
-            this.btnRemoveView.UseVisualStyleBackColor = true;
-            this.btnRemoveView.Click += new System.EventHandler(this.btnRemoveView_Click);
             // 
             // WorkspaceManagementDialog
             // 

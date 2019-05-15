@@ -124,6 +124,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             if (Context.ViewListColumns.Count == 0)
                 Context.ViewListColumns = new BindingList<ListColumn>(BuildListColumnsList());
+            else
+                SyncColumnList();
 
             DisplayFields();
 
@@ -155,6 +157,33 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
         #region display
 
+        protected virtual void SyncColumnList()
+        {
+            foreach (ViewDataMember viewDataMember in Context.ViewDataMembers)
+            {
+                if (!Context.ViewListColumns.Any(c => c.DataPath == viewDataMember.Path))
+                {
+                    // new column was added.
+                    Context.ViewListColumns.Add(GetListColumn(viewDataMember, Context.ViewListColumns.Count));
+                }
+            }
+
+            foreach (ListColumn column in Context.ViewListColumns.ToList())
+            {
+                if (!Context.ViewDataMembers.Any(c => c.Path == column.DataPath))
+                {
+                    // column was removed.
+                    Context.ViewListColumns.Remove(column);
+                }
+            }
+
+            // Reset the indexes
+            for (int i = 0; i < Context.ViewListColumns.Count; i++)
+            {
+                Context.ViewListColumns[i].Index = i;
+            }
+        }
+
         protected virtual IList<ListColumn> BuildListColumnsList()
         {
             var viewListColumns = new List<ListColumn>();
@@ -163,66 +192,71 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             foreach (ViewDataMember viewDataMember in Context.ViewDataMembers)
             {
-                if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
-                {
-                    var newViewDisplayFormat = new ViewDisplayFormat()
-                    {
-                        Name = viewDataMember.Name
-                    };
-
-                    var typeName = viewDataMember.Type.Name.Replace("System.", "");
-
-                    if (typeName == "String")
-                    {
-                        newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
-                    }
-                    else if (typeName == "Int32")
-                    {
-                        newViewDisplayFormat.Sample = "12345";
-                        newViewDisplayFormat.Format = "###";
-                    }
-                    else if (typeName == "Decimal" || typeName == "Double")
-                    {
-                        newViewDisplayFormat.Sample = "123.456";
-                        newViewDisplayFormat.Format = "###.##0";
-                    }
-                    else if (typeName == "TimeSpan")
-                    {
-                        newViewDisplayFormat.Sample = "56.789";
-                        newViewDisplayFormat.Format = "ss.fff";
-                    }
-                    else
-                    {
-                        newViewDisplayFormat.Sample = "";
-                    }
-
-                    _mapService.Map[viewDataMember] = newViewDisplayFormat;
-                }
-
-                var viewDisplayFormat = _mapService.Map[viewDataMember];
-
-                viewListColumns.Add(new ListColumn()
-                {
-                    Index = i,
-                    Alignment = viewDisplayFormat.ContentAlignment,
-                    Caption = viewDataMember.Caption,
-                    Format = viewDisplayFormat.Format,
-                    Sample = viewDisplayFormat.Sample,
-                    Width = viewDisplayFormat.MaxWidth,
-                    Type = viewDataMember.Type.Name,
-                    ConvertedType = viewDataMember.ConvertedType.Name,
-                    SortType = i == 0 ? SortType.Ascending : SortType.None,
-                    DataMember = viewDataMember.Name,
-                    DataPath = viewDataMember.Path,
-                    DataFeed = viewDataMember.DataFeed
-                });
-
+                viewListColumns.Add(GetListColumn(viewDataMember, i));
                 i++;
             }
 
             _mapService.Save();
 
             return viewListColumns;
+        }
+
+        protected virtual ListColumn GetListColumn(ViewDataMember viewDataMember, int index)
+        {
+
+            if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
+            {
+                var newViewDisplayFormat = new ViewDisplayFormat()
+                {
+                    Name = viewDataMember.Name
+                };
+
+                var typeName = viewDataMember.Type.Name.Replace("System.", "");
+
+                if (typeName == "String")
+                {
+                    newViewDisplayFormat.Sample = "Abcdefg Hijklmnop";
+                }
+                else if (typeName == "Int32")
+                {
+                    newViewDisplayFormat.Sample = "12345";
+                    newViewDisplayFormat.Format = "###";
+                }
+                else if (typeName == "Decimal" || typeName == "Double")
+                {
+                    newViewDisplayFormat.Sample = "123.456";
+                    newViewDisplayFormat.Format = "###.##0";
+                }
+                else if (typeName == "TimeSpan")
+                {
+                    newViewDisplayFormat.Sample = "56.789";
+                    newViewDisplayFormat.Format = "ss.fff";
+                }
+                else
+                {
+                    newViewDisplayFormat.Sample = "";
+                }
+
+                _mapService.Map[viewDataMember] = newViewDisplayFormat;
+            }
+
+            var viewDisplayFormat = _mapService.Map[viewDataMember];
+
+            return new ListColumn()
+            {
+                Index = index,
+                Alignment = viewDisplayFormat.ContentAlignment,
+                Caption = viewDataMember.Caption,
+                Format = viewDisplayFormat.Format,
+                Sample = viewDisplayFormat.Sample,
+                Width = viewDisplayFormat.MaxWidth,
+                Type = viewDataMember.Type.Name,
+                ConvertedType = viewDataMember.ConvertedType.Name,
+                SortType = index == 0 ? SortType.Ascending : SortType.None,
+                DataMember = viewDataMember.Name,
+                DataPath = viewDataMember.Path,
+                DataFeed = viewDataMember.DataFeed
+            };
         }
 
         protected virtual void DisplayFields()

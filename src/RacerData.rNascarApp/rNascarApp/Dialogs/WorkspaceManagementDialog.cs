@@ -136,6 +136,16 @@ namespace RacerData.rNascarApp.Dialogs
             btnCancelSaveAndClose.Enabled = true;
             btnCancelSaveAndClose.Text = IsEditing ? "Cancel" : "Save && Close";
 
+            toolTip1.SetToolTip(btnEditSave,
+               (IsEditing ?
+               "Save your changes and finish editing" :
+               "Edit the selected View"));
+
+            toolTip1.SetToolTip(btnCancelSaveAndClose,
+               (IsEditing ?
+               "Revert changes and finish editing" :
+               "Save all changes and close this form"));
+
             btnCancelAndClose.Visible = !IsEditing;
             btnCancelAndClose.Enabled = true;
 

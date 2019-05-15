@@ -82,6 +82,7 @@
             this.cboViewStates.Name = "cboViewStates";
             this.cboViewStates.Size = new System.Drawing.Size(341, 23);
             this.cboViewStates.TabIndex = 0;
+            this.viewManagementToolTip.SetToolTip(this.cboViewStates, "Select the view to edit");
             this.cboViewStates.SelectedIndexChanged += new System.EventHandler(this.cboViews_SelectedIndexChanged);
             // 
             // pnlDialogButtons
@@ -105,7 +106,7 @@
             this.btnSaveAndClose.Location = new System.Drawing.Point(369, 6);
             this.btnSaveAndClose.Name = "btnSaveAndClose";
             this.btnSaveAndClose.Size = new System.Drawing.Size(106, 37);
-            this.btnSaveAndClose.TabIndex = 5;
+            this.btnSaveAndClose.TabIndex = 4;
             this.btnSaveAndClose.Text = "Save && Close";
             this.viewManagementToolTip.SetToolTip(this.btnSaveAndClose, "Save all changes and close this form");
             this.btnSaveAndClose.UseVisualStyleBackColor = true;
@@ -117,9 +118,9 @@
             this.btnNew.Location = new System.Drawing.Point(100, 6);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(82, 37);
-            this.btnNew.TabIndex = 4;
+            this.btnNew.TabIndex = 1;
             this.btnNew.Text = "New";
-            this.viewManagementToolTip.SetToolTip(this.btnNew, "Create a new workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnNew, "Create a new view");
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
@@ -130,7 +131,7 @@
             this.btnCancelOrCancelAndClose.Location = new System.Drawing.Point(482, 6);
             this.btnCancelOrCancelAndClose.Name = "btnCancelOrCancelAndClose";
             this.btnCancelOrCancelAndClose.Size = new System.Drawing.Size(106, 37);
-            this.btnCancelOrCancelAndClose.TabIndex = 3;
+            this.btnCancelOrCancelAndClose.TabIndex = 5;
             this.btnCancelOrCancelAndClose.Text = "Cancel && Close";
             this.viewManagementToolTip.SetToolTip(this.btnCancelOrCancelAndClose, "Revert all changes and close the form");
             this.btnCancelOrCancelAndClose.UseVisualStyleBackColor = true;
@@ -142,9 +143,9 @@
             this.btnDelete.Location = new System.Drawing.Point(276, 6);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(82, 37);
-            this.btnDelete.TabIndex = 2;
+            this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "Delete";
-            this.viewManagementToolTip.SetToolTip(this.btnDelete, "Delete the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnDelete, "Delete the selected view");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -154,9 +155,9 @@
             this.btnCopy.Location = new System.Drawing.Point(188, 6);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(82, 37);
-            this.btnCopy.TabIndex = 1;
+            this.btnCopy.TabIndex = 2;
             this.btnCopy.Text = "Copy";
-            this.viewManagementToolTip.SetToolTip(this.btnCopy, "Make a copy of the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnCopy, "Make a copy of the selected view");
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
@@ -168,7 +169,7 @@
             this.btnEditSave.Size = new System.Drawing.Size(82, 37);
             this.btnEditSave.TabIndex = 0;
             this.btnEditSave.Text = "Edit";
-            this.viewManagementToolTip.SetToolTip(this.btnEditSave, "Edit the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnEditSave, "Edit the selected view");
             this.btnEditSave.UseVisualStyleBackColor = true;
             this.btnEditSave.Click += new System.EventHandler(this.btnEditOrSave_Click);
             // 
@@ -191,9 +192,9 @@
             this.btnEditFields.Location = new System.Drawing.Point(369, 180);
             this.btnEditFields.Name = "btnEditFields";
             this.btnEditFields.Size = new System.Drawing.Size(106, 37);
-            this.btnEditFields.TabIndex = 8;
+            this.btnEditFields.TabIndex = 2;
             this.btnEditFields.Text = "Edit Fields...";
-            this.viewManagementToolTip.SetToolTip(this.btnEditFields, "Edit the selected workspace");
+            this.viewManagementToolTip.SetToolTip(this.btnEditFields, "Edit the selected view fields");
             this.btnEditFields.UseVisualStyleBackColor = true;
             this.btnEditFields.Click += new System.EventHandler(this.btnEditFields_Click);
             // 
@@ -208,7 +209,8 @@
             this.lstFields.Location = new System.Drawing.Point(12, 78);
             this.lstFields.Name = "lstFields";
             this.lstFields.Size = new System.Drawing.Size(340, 139);
-            this.lstFields.TabIndex = 7;
+            this.lstFields.TabIndex = 1;
+            this.viewManagementToolTip.SetToolTip(this.lstFields, "List of fields in the view");
             // 
             // ctxFields
             // 
@@ -240,8 +242,8 @@
             this.txtName.Location = new System.Drawing.Point(12, 25);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(341, 21);
-            this.txtName.TabIndex = 1;
-            this.viewManagementToolTip.SetToolTip(this.txtName, "Name of the workspace. Must be unique.");
+            this.txtName.TabIndex = 0;
+            this.viewManagementToolTip.SetToolTip(this.txtName, "Name of the view. Must be unique.");
             // 
             // label2
             // 

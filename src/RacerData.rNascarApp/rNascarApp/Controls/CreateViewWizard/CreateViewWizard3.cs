@@ -289,7 +289,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                 /** FieldLabel **/
                 var fieldLabel = ColumnBuilderService.BuildColumnLabel(viewListColumn, false);
                 fieldLabel.ContextMenuStrip = ctxCaptionLabel;
-                fieldLabel.Text = FormatSampleValue(
+                fieldLabel.Text = FieldFormatService.FormatValue(
                     viewListColumn.ConvertedType,
                     viewListColumn.Format,
                     String.IsNullOrEmpty(viewListColumn.Sample) ?
@@ -667,121 +667,9 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             var type = String.IsNullOrEmpty(viewListColumn.ConvertedType) ? field.Type.Name : viewListColumn.ConvertedType;
 
-            var formattedText = FormatSampleValue(type, txtColFormat.Text, txtColTest.Text);
+            var formattedText = FieldFormatService.FormatValue(type, txtColFormat.Text, txtColTest.Text);
 
             fieldLabel.Text = formattedText;
-        }
-        private string FormatSampleValue(string type, string format, string value)
-        {
-            return FieldFormatService.FormatValue(type, format, value);
-
-            var formattedText = String.Empty;
-
-            var typeName = type.Replace("System.", "");
-
-            try
-            {
-                if (typeName == TypeNames.StringTypeName)
-                {
-                    formattedText = value;
-                }
-                else if (typeName == TypeNames.Int32TypeName)
-                {
-                    int buffer = 0;
-                    if (!Int32.TryParse(value, out buffer))
-                    {
-                        formattedText = "--ERROR--";
-                        Error = "Test value must be a integer.";
-                    }
-                    else
-                    {
-                        try
-                        {
-                            formattedText = buffer.ToString(format);
-                        }
-                        catch (FormatException)
-                        {
-                            formattedText = "--ERROR--";
-                            Error = "Invalid format.\r\nValid format characters: '#', '0', and ','";
-                        }
-                    }
-                }
-                else if (typeName == TypeNames.DecimalTypeName || typeName == TypeNames.DoubleTypeName)
-                {
-                    double buffer = 0.0;
-                    if (!double.TryParse(value, out buffer))
-                    {
-                        formattedText = "--ERROR--";
-                        Error = "Test value must be a number, and may have values to the right of the decimal place.";
-                    }
-                    else
-                    {
-                        try
-                        {
-                            formattedText = buffer.ToString(format);
-                        }
-                        catch (FormatException)
-                        {
-                            formattedText = "--ERROR--";
-                            Error = "Invalid format.\r\nValid format characters: '#', '0', ',', and '.'";
-                        }
-                    }
-                }
-                else if (typeName == TypeNames.TimeSpanTypeName)
-                {
-                    TimeSpan buffer = new TimeSpan();
-                    if (!TimeSpan.TryParse(value, out buffer))
-                    {
-                        formattedText = "--ERROR--";
-                        Error = "Test value must be a time interval.\r\nValid format characters: '#', '0', ',', and '.'";
-                    }
-                    else
-                    {
-                        try
-                        {
-                            formattedText = buffer.ToString(format);
-                        }
-                        catch (FormatException)
-                        {
-                            formattedText = "Invalid format";
-                            Error = "Valid format characters: 'd', 'h', 'm', 's', 'f', '\\:', and '\\.'.\r\n" +
-                                "':' and '.' must have a leading backslash (\\: and \\.)";
-                        }
-                    }
-                }
-                else if (typeName == TypeNames.RunTypeTypeName)
-                {
-                    formattedText = value;
-                }
-                else if (typeName == TypeNames.VehicleStatusTypeName)
-                {
-                    formattedText = value;
-                }
-                else if (typeName == TypeNames.FlagStateTypeName)
-                {
-                    formattedText = value;
-                }
-                else if (typeName == TypeNames.TrackStateTypeName)
-                {
-                    formattedText = value;
-                }
-                else
-                {
-                    throw new ArgumentException($"Unrecognized field type: {typeName}");
-                }
-
-            }
-            catch (FormatException)
-            {
-                formattedText = "-ERROR-";
-                Error = $"Invalid format for {typeName}";
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error formatting sample data", ex);
-            }
-
-            return formattedText;
         }
 
         #endregion

@@ -400,6 +400,9 @@ namespace RacerData.rNascarApp
                             this.GridTable.Controls.Remove(controlBase);
                             this.GridTable.Controls.Add(controlBase, newCell.Value.X, newCell.Value.Y);
                         }
+
+                        controlBase.State.CellPosition.Row = newCell.Value.X;
+                        controlBase.State.CellPosition.Column = newCell.Value.Y;
                     }
                 }
 
@@ -469,13 +472,12 @@ namespace RacerData.rNascarApp
             {
                 controlBase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
-                if (row < 1) row = 1;
-                if (column < 1) column = 1;
-                if (rowSpan < 1) rowSpan = 1;
-                if (columnSpan < 1) columnSpan = 1;
+                if (row < 1 || row > GridTable.RowCount) row = 1;
+                if (column < 1 || column > GridTable.ColumnCount) column = 1;
+                if (rowSpan < 1 || rowSpan > GridTable.RowCount) rowSpan = 1;
+                if (columnSpan < 1 || columnSpan > GridTable.ColumnCount) columnSpan = 1;
 
-                //GridTable.Controls.Add(controlBase, column, row);
-                GridTable.Controls.Add(controlBase);//, column, row);
+                GridTable.Controls.Add(controlBase, column, row);
                 GridTable.SetRowSpan(controlBase, rowSpan);
                 GridTable.SetColumnSpan(controlBase, columnSpan);
 
@@ -1039,10 +1041,10 @@ namespace RacerData.rNascarApp
                         var newViewState = dialog.ViewState;
 
                         newViewState.CellPosition.ColumnSpan = (newViewState.ListSettings.Columns.Where(c => c.Width.HasValue).Sum(c => c.Width.Value) / (int)GridTable.ColumnStyles[0].Width) + 1;
-                        newViewState.CellPosition.RowSpan = (((newViewState.ListSettings.MaxRows.HasValue ? 
-                            newViewState.ListSettings.MaxRows.Value : 
-                            10) * (newViewState.ListSettings.RowHeight.HasValue ? 
-                            newViewState.ListSettings.RowHeight.Value : 
+                        newViewState.CellPosition.RowSpan = (((newViewState.ListSettings.MaxRows.HasValue ?
+                            newViewState.ListSettings.MaxRows.Value :
+                            10) * (newViewState.ListSettings.RowHeight.HasValue ?
+                            newViewState.ListSettings.RowHeight.Value :
                             8)) / (int)GridTable.RowStyles[0].Height);
 
                         AppSettings.ViewStates.Add(newViewState);

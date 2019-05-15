@@ -82,6 +82,25 @@ namespace RacerData.rNascarApp.Services
                     }
                 }
             }
+            else if (typeName == TypeNames.DateTimeTypeName)
+            {
+                DateTime buffer = new DateTime();
+                if (!DateTime.TryParse(value, out buffer))
+                {
+                    formattedText = "--ERROR--";
+                }
+                else
+                {
+                    try
+                    {
+                        formattedText = buffer.ToString(format);
+                    }
+                    catch (FormatException)
+                    {
+                        formattedText = "Invalid format";
+                    }
+                }
+            }
             else if (typeName == TypeNames.RunTypeTypeName)
             {
                 formattedText = value;

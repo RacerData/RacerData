@@ -7,6 +7,7 @@
         public const string DecimalTypeName = "Decimal";
         public const string DoubleTypeName = "Double";
         public const string TimeSpanTypeName = "TimeSpan";
+        public const string DateTimeTypeName = "DateTime";
         public const string RunTypeTypeName = "RunType";
         public const string VehicleStatusTypeName = "VehicleStatus";
         public const string FlagStateTypeName = "FlagState";

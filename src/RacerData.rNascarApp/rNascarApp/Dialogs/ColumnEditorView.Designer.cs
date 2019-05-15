@@ -41,7 +41,7 @@
             this.pnlDialogButtons.Controls.Add(this.btnSave);
             this.pnlDialogButtons.Controls.Add(this.btnCancel);
             this.pnlDialogButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlDialogButtons.Location = new System.Drawing.Point(0, 278);
+            this.pnlDialogButtons.Location = new System.Drawing.Point(0, 326);
             this.pnlDialogButtons.Name = "pnlDialogButtons";
             this.pnlDialogButtons.Size = new System.Drawing.Size(933, 55);
             this.pnlDialogButtons.TabIndex = 1;
@@ -53,6 +53,7 @@
             this.btnSave.Enabled = false;
             this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.btnSave.FlatAppearance.BorderSize = 2;
+            this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.Black;
@@ -70,6 +71,7 @@
             this.btnCancel.BackColor = System.Drawing.Color.Silver;
             this.btnCancel.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.btnCancel.FlatAppearance.BorderSize = 2;
+            this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
@@ -89,8 +91,8 @@
             this.listColumnEditor1.IsEditing = false;
             this.listColumnEditor1.Location = new System.Drawing.Point(0, 0);
             this.listColumnEditor1.Name = "listColumnEditor1";
-            this.listColumnEditor1.ShowViewSettings = false;
-            this.listColumnEditor1.Size = new System.Drawing.Size(933, 278);
+            this.listColumnEditor1.ShowViewSettings = true;
+            this.listColumnEditor1.Size = new System.Drawing.Size(933, 326);
             this.listColumnEditor1.TabIndex = 2;
             this.listColumnEditor1.ViewState = null;
             // 
@@ -98,7 +100,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(933, 333);
+            this.ClientSize = new System.Drawing.Size(933, 381);
             this.Controls.Add(this.listColumnEditor1);
             this.Controls.Add(this.pnlDialogButtons);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

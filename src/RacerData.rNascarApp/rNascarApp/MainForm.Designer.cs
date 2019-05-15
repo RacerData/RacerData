@@ -31,50 +31,50 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.lblTrackName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblEvent = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblSession = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblTrackState = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblWorkspace = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tlsMain = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.workspacesDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.fffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridTable = new System.Windows.Forms.TableLayoutPanel();
-            this.ctxGridTable = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dragTimer = new System.Windows.Forms.Timer(this.components);
-            this.pnlGrid = new System.Windows.Forms.Panel();
-            this.btnMonitor = new System.Windows.Forms.ToolStripButton();
-            this.lblCurrentWorkspaceCaption = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripStatusLabel0 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.workspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWorkspaceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyWorkspaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userSettingsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.workspaceManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel0 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblTrackName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEvent = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSession = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblTrackState = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblWorkspace = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsMain = new System.Windows.Forms.ToolStrip();
+            this.btnMonitor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblCurrentWorkspaceCaption = new System.Windows.Forms.ToolStripLabel();
+            this.workspacesDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.fffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.GridTable = new System.Windows.Forms.TableLayoutPanel();
+            this.ctxGridTable = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dragTimer = new System.Windows.Forms.Timer(this.components);
+            this.pnlGrid = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.tlsMain.SuspendLayout();
@@ -110,294 +110,6 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusBarToolStripMenuItem,
-            this.toolBarToolStripMenuItem,
-            this.logFileToolStripMenuItem,
-            this.userSettingsFileToolStripMenuItem,
-            this.viewListToolStripMenuItem});
-            this.viewToolStripMenuItem.ForeColor = System.Drawing.Color.DarkGray;
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
-            this.viewToolStripMenuItem.Text = "&View";
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gridSizeToolStripMenuItem,
-            this.themeToolStripMenuItem,
-            this.displayFormatsToolStripMenuItem,
-            this.workspaceManagementToolStripMenuItem,
-            this.viewManagementToolStripMenuItem});
-            this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.toolsToolStripMenuItem.Text = "&Tools";
-            // 
-            // MainStatusStrip
-            // 
-            this.MainStatusStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.MainStatusStrip.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel0,
-            this.lblTrackName,
-            this.toolStripStatusLabel3,
-            this.lblEvent,
-            this.toolStripStatusLabel1,
-            this.lblSession,
-            this.toolStripStatusLabel2,
-            this.lblTrackState,
-            this.toolStripStatusLabel4,
-            this.lblWorkspace});
-            this.MainStatusStrip.Location = new System.Drawing.Point(0, 182);
-            this.MainStatusStrip.Name = "MainStatusStrip";
-            this.MainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.MainStatusStrip.Size = new System.Drawing.Size(1077, 28);
-            this.MainStatusStrip.TabIndex = 1;
-            this.MainStatusStrip.Text = "statusStrip1";
-            this.MainStatusStrip.VisibleChanged += new System.EventHandler(this.MainStatusStrip_VisibleChanged);
-            // 
-            // lblTrackName
-            // 
-            this.lblTrackName.AutoSize = false;
-            this.lblTrackName.AutoToolTip = true;
-            this.lblTrackName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.lblTrackName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.lblTrackName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblTrackName.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblTrackName.Name = "lblTrackName";
-            this.lblTrackName.Size = new System.Drawing.Size(200, 23);
-            this.lblTrackName.Text = "-none-";
-            this.lblTrackName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblEvent
-            // 
-            this.lblEvent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.lblEvent.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.lblEvent.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblEvent.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblEvent.Name = "lblEvent";
-            this.lblEvent.Size = new System.Drawing.Size(147, 23);
-            this.lblEvent.Spring = true;
-            this.lblEvent.Text = "-none-";
-            this.lblEvent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblSession
-            // 
-            this.lblSession.AutoSize = false;
-            this.lblSession.AutoToolTip = true;
-            this.lblSession.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.lblSession.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.lblSession.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblSession.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblSession.Name = "lblSession";
-            this.lblSession.Size = new System.Drawing.Size(100, 23);
-            this.lblSession.Text = "-none-";
-            this.lblSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblTrackState
-            // 
-            this.lblTrackState.AutoSize = false;
-            this.lblTrackState.AutoToolTip = true;
-            this.lblTrackState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.lblTrackState.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.lblTrackState.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblTrackState.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblTrackState.Name = "lblTrackState";
-            this.lblTrackState.Size = new System.Drawing.Size(100, 23);
-            this.lblTrackState.Text = "-none-";
-            this.lblTrackState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblWorkspace
-            // 
-            this.lblWorkspace.AutoSize = false;
-            this.lblWorkspace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.lblWorkspace.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblWorkspace.ForeColor = System.Drawing.Color.LightGray;
-            this.lblWorkspace.Name = "lblWorkspace";
-            this.lblWorkspace.Size = new System.Drawing.Size(150, 23);
-            this.lblWorkspace.Text = "-none-";
-            this.lblWorkspace.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tlsMain
-            // 
-            this.tlsMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.tlsMain.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnMonitor,
-            this.toolStripSeparator1,
-            this.lblCurrentWorkspaceCaption,
-            this.workspacesDropDownButton1,
-            this.toolStripSeparator2});
-            this.tlsMain.Location = new System.Drawing.Point(0, 24);
-            this.tlsMain.Name = "tlsMain";
-            this.tlsMain.Size = new System.Drawing.Size(1077, 25);
-            this.tlsMain.TabIndex = 2;
-            this.tlsMain.Text = "toolStrip1";
-            this.tlsMain.VisibleChanged += new System.EventHandler(this.MainToolStrip_VisibleChanged);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // workspacesDropDownButton1
-            // 
-            this.workspacesDropDownButton1.AutoSize = false;
-            this.workspacesDropDownButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.workspacesDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.fffToolStripMenuItem});
-            this.workspacesDropDownButton1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.workspacesDropDownButton1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.workspacesDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.workspacesDropDownButton1.Name = "workspacesDropDownButton1";
-            this.workspacesDropDownButton1.Size = new System.Drawing.Size(250, 22);
-            this.workspacesDropDownButton1.Text = "[workspace]";
-            this.workspacesDropDownButton1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.workspacesDropDownButton1.DropDownOpening += new System.EventHandler(this.workspacesDropDownButton1_DropDownOpening);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // fffToolStripMenuItem
-            // 
-            this.fffToolStripMenuItem.Name = "fffToolStripMenuItem";
-            this.fffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.fffToolStripMenuItem.Text = "fff";
-            // 
-            // GridTable
-            // 
-            this.GridTable.AllowDrop = true;
-            this.GridTable.AutoSize = true;
-            this.GridTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.GridTable.ColumnCount = 4;
-            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.ContextMenuStrip = this.ctxGridTable;
-            this.GridTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GridTable.Location = new System.Drawing.Point(0, 0);
-            this.GridTable.Name = "GridTable";
-            this.GridTable.RowCount = 5;
-            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.GridTable.Size = new System.Drawing.Size(1077, 133);
-            this.GridTable.TabIndex = 3;
-            this.GridTable.DragDrop += new System.Windows.Forms.DragEventHandler(this.GridTable_DragDrop);
-            this.GridTable.DragOver += new System.Windows.Forms.DragEventHandler(this.GridTable_DragOver);
-            this.GridTable.Resize += new System.EventHandler(this.GridTable_Resize);
-            // 
-            // ctxGridTable
-            // 
-            this.ctxGridTable.BackColor = System.Drawing.Color.DimGray;
-            this.ctxGridTable.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gridSizeToolStripMenuItem1});
-            this.ctxGridTable.Name = "ctxGridTable";
-            this.ctxGridTable.Size = new System.Drawing.Size(124, 26);
-            // 
-            // gridSizeToolStripMenuItem1
-            // 
-            this.gridSizeToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.gridSizeToolStripMenuItem1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.gridSizeToolStripMenuItem1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gridSizeToolStripMenuItem1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.gridSizeToolStripMenuItem1.Name = "gridSizeToolStripMenuItem1";
-            this.gridSizeToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
-            this.gridSizeToolStripMenuItem1.Text = "Grid Size";
-            this.gridSizeToolStripMenuItem1.Click += new System.EventHandler(this.gridSizeToolStripMenuItem1_Click);
-            // 
-            // dragTimer
-            // 
-            this.dragTimer.Interval = 20;
-            // 
-            // pnlGrid
-            // 
-            this.pnlGrid.AutoScroll = true;
-            this.pnlGrid.Controls.Add(this.GridTable);
-            this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlGrid.Location = new System.Drawing.Point(0, 49);
-            this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(1077, 133);
-            this.pnlGrid.TabIndex = 4;
-            // 
-            // btnMonitor
-            // 
-            this.btnMonitor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.btnMonitor.ForeColor = System.Drawing.Color.DarkGray;
-            this.btnMonitor.Image = global::RacerData.rNascarApp.Properties.Resources.Running_16xLG;
-            this.btnMonitor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMonitor.Name = "btnMonitor";
-            this.btnMonitor.Size = new System.Drawing.Size(95, 22);
-            this.btnMonitor.Text = "Start Monitor";
-            this.btnMonitor.ToolTipText = "Monitor On/Off";
-            this.btnMonitor.Click += new System.EventHandler(this.btnMonitor_Click);
-            // 
-            // lblCurrentWorkspaceCaption
-            // 
-            this.lblCurrentWorkspaceCaption.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblCurrentWorkspaceCaption.Image = global::RacerData.rNascarApp.Properties.Resources.workspace;
-            this.lblCurrentWorkspaceCaption.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
-            this.lblCurrentWorkspaceCaption.Name = "lblCurrentWorkspaceCaption";
-            this.lblCurrentWorkspaceCaption.Size = new System.Drawing.Size(135, 22);
-            this.lblCurrentWorkspaceCaption.Text = "Current Workspace: ";
-            // 
-            // toolStripStatusLabel0
-            // 
-            this.toolStripStatusLabel0.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.toolStripStatusLabel0.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.toolStripStatusLabel0.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolStripStatusLabel0.Image = global::RacerData.rNascarApp.Properties.Resources.track2;
-            this.toolStripStatusLabel0.Name = "toolStripStatusLabel0";
-            this.toolStripStatusLabel0.Size = new System.Drawing.Size(60, 23);
-            this.toolStripStatusLabel0.Text = "Track:";
-            // 
-            // toolStripStatusLabel3
-            // 
-            this.toolStripStatusLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolStripStatusLabel3.Image = global::RacerData.rNascarApp.Properties.Resources._event;
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(56, 23);
-            this.toolStripStatusLabel3.Text = "Event:";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolStripStatusLabel1.Image = global::RacerData.rNascarApp.Properties.Resources.session;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(72, 23);
-            this.toolStripStatusLabel1.Text = "Session:";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolStripStatusLabel2.Image = global::RacerData.rNascarApp.Properties.Resources.flag;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(87, 23);
-            this.toolStripStatusLabel2.Text = "Track State:";
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolStripStatusLabel4.Image = global::RacerData.rNascarApp.Properties.Resources.workspace;
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(88, 23);
-            this.toolStripStatusLabel4.Text = "Workspace:";
             // 
             // newToolStripMenuItem
             // 
@@ -461,6 +173,11 @@
             this.copyWorkspaceToolStripMenuItem.Text = "&Copy Workspace";
             this.copyWorkspaceToolStripMenuItem.Click += new System.EventHandler(this.copyWorkspaceToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
@@ -471,6 +188,19 @@
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBarToolStripMenuItem,
+            this.toolBarToolStripMenuItem,
+            this.logFileToolStripMenuItem,
+            this.userSettingsFileToolStripMenuItem,
+            this.viewListToolStripMenuItem});
+            this.viewToolStripMenuItem.ForeColor = System.Drawing.Color.DarkGray;
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.viewToolStripMenuItem.Text = "&View";
+            // 
             // statusBarToolStripMenuItem
             // 
             this.statusBarToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
@@ -480,7 +210,7 @@
             this.statusBarToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.statusBarToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.status;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             this.statusBarToolStripMenuItem.CheckedChanged += new System.EventHandler(this.statusBarToolStripMenuItem_CheckedChanged);
             // 
@@ -493,7 +223,7 @@
             this.toolBarToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.toolBarToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.tool;
             this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.toolBarToolStripMenuItem.Text = "&Tool Bar";
             this.toolBarToolStripMenuItem.CheckedChanged += new System.EventHandler(this.toolBarToolStripMenuItem_CheckedChanged);
             // 
@@ -503,7 +233,7 @@
             this.logFileToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.logFileToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.logFile;
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.logFileToolStripMenuItem.Text = "&Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
@@ -513,7 +243,7 @@
             this.userSettingsFileToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.userSettingsFileToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.settings;
             this.userSettingsFileToolStripMenuItem.Name = "userSettingsFileToolStripMenuItem";
-            this.userSettingsFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.userSettingsFileToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.userSettingsFileToolStripMenuItem.Text = "&User Settings File";
             this.userSettingsFileToolStripMenuItem.Click += new System.EventHandler(this.userSettingsFileToolStripMenuItem_Click);
             // 
@@ -523,9 +253,23 @@
             this.viewListToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.viewListToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.views2;
             this.viewListToolStripMenuItem.Name = "viewListToolStripMenuItem";
-            this.viewListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewListToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.viewListToolStripMenuItem.Text = "View List";
             this.viewListToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewListToolStripMenuItem_DropDownOpening);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridSizeToolStripMenuItem,
+            this.themeToolStripMenuItem,
+            this.displayFormatsToolStripMenuItem,
+            this.workspaceManagementToolStripMenuItem,
+            this.viewManagementToolStripMenuItem});
+            this.toolsToolStripMenuItem.ForeColor = System.Drawing.Color.DarkGray;
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // gridSizeToolStripMenuItem
             // 
@@ -577,22 +321,278 @@
             this.viewManagementToolStripMenuItem.Text = "&View Management";
             this.viewManagementToolStripMenuItem.Click += new System.EventHandler(this.viewManagementToolStripMenuItem_Click);
             // 
+            // MainStatusStrip
+            // 
+            this.MainStatusStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.MainStatusStrip.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel0,
+            this.lblTrackName,
+            this.toolStripStatusLabel3,
+            this.lblEvent,
+            this.toolStripStatusLabel1,
+            this.lblSession,
+            this.toolStripStatusLabel2,
+            this.lblTrackState,
+            this.toolStripStatusLabel4,
+            this.lblWorkspace});
+            this.MainStatusStrip.Location = new System.Drawing.Point(0, 381);
+            this.MainStatusStrip.Name = "MainStatusStrip";
+            this.MainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.MainStatusStrip.Size = new System.Drawing.Size(1077, 28);
+            this.MainStatusStrip.TabIndex = 1;
+            this.MainStatusStrip.Text = "statusStrip1";
+            this.MainStatusStrip.VisibleChanged += new System.EventHandler(this.MainStatusStrip_VisibleChanged);
+            // 
+            // toolStripStatusLabel0
+            // 
+            this.toolStripStatusLabel0.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripStatusLabel0.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabel0.ForeColor = System.Drawing.Color.DarkGray;
+            this.toolStripStatusLabel0.Image = global::RacerData.rNascarApp.Properties.Resources.track2;
+            this.toolStripStatusLabel0.Name = "toolStripStatusLabel0";
+            this.toolStripStatusLabel0.Size = new System.Drawing.Size(60, 23);
+            this.toolStripStatusLabel0.Text = "Track:";
+            // 
+            // lblTrackName
+            // 
+            this.lblTrackName.AutoSize = false;
+            this.lblTrackName.AutoToolTip = true;
+            this.lblTrackName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.lblTrackName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblTrackName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTrackName.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblTrackName.Name = "lblTrackName";
+            this.lblTrackName.Size = new System.Drawing.Size(200, 23);
+            this.lblTrackName.Text = "-none-";
+            this.lblTrackName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.DarkGray;
+            this.toolStripStatusLabel3.Image = global::RacerData.rNascarApp.Properties.Resources._event;
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(56, 23);
+            this.toolStripStatusLabel3.Text = "Event:";
+            // 
+            // lblEvent
+            // 
+            this.lblEvent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.lblEvent.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblEvent.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblEvent.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblEvent.Name = "lblEvent";
+            this.lblEvent.Size = new System.Drawing.Size(147, 23);
+            this.lblEvent.Spring = true;
+            this.lblEvent.Text = "-none-";
+            this.lblEvent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.DarkGray;
+            this.toolStripStatusLabel1.Image = global::RacerData.rNascarApp.Properties.Resources.session;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(72, 23);
+            this.toolStripStatusLabel1.Text = "Session:";
+            // 
+            // lblSession
+            // 
+            this.lblSession.AutoSize = false;
+            this.lblSession.AutoToolTip = true;
+            this.lblSession.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.lblSession.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblSession.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSession.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblSession.Name = "lblSession";
+            this.lblSession.Size = new System.Drawing.Size(100, 23);
+            this.lblSession.Text = "-none-";
+            this.lblSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.DarkGray;
+            this.toolStripStatusLabel2.Image = global::RacerData.rNascarApp.Properties.Resources.flag;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(87, 23);
+            this.toolStripStatusLabel2.Text = "Track State:";
+            // 
+            // lblTrackState
+            // 
+            this.lblTrackState.AutoSize = false;
+            this.lblTrackState.AutoToolTip = true;
+            this.lblTrackState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.lblTrackState.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblTrackState.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTrackState.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblTrackState.Name = "lblTrackState";
+            this.lblTrackState.Size = new System.Drawing.Size(100, 23);
+            this.lblTrackState.Text = "-none-";
+            this.lblTrackState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.DarkGray;
+            this.toolStripStatusLabel4.Image = global::RacerData.rNascarApp.Properties.Resources.workspace;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(88, 23);
+            this.toolStripStatusLabel4.Text = "Workspace:";
+            // 
+            // lblWorkspace
+            // 
+            this.lblWorkspace.AutoSize = false;
+            this.lblWorkspace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.lblWorkspace.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblWorkspace.ForeColor = System.Drawing.Color.LightGray;
+            this.lblWorkspace.Name = "lblWorkspace";
+            this.lblWorkspace.Size = new System.Drawing.Size(150, 23);
+            this.lblWorkspace.Text = "-none-";
+            this.lblWorkspace.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tlsMain
+            // 
+            this.tlsMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tlsMain.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tlsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnMonitor,
+            this.toolStripSeparator1,
+            this.lblCurrentWorkspaceCaption,
+            this.workspacesDropDownButton1,
+            this.toolStripSeparator2});
+            this.tlsMain.Location = new System.Drawing.Point(0, 24);
+            this.tlsMain.Name = "tlsMain";
+            this.tlsMain.Size = new System.Drawing.Size(1077, 25);
+            this.tlsMain.TabIndex = 2;
+            this.tlsMain.Text = "toolStrip1";
+            this.tlsMain.VisibleChanged += new System.EventHandler(this.MainToolStrip_VisibleChanged);
+            // 
+            // btnMonitor
+            // 
+            this.btnMonitor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.btnMonitor.ForeColor = System.Drawing.Color.DarkGray;
+            this.btnMonitor.Image = global::RacerData.rNascarApp.Properties.Resources.Running_16xLG;
+            this.btnMonitor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnMonitor.Name = "btnMonitor";
+            this.btnMonitor.Size = new System.Drawing.Size(95, 22);
+            this.btnMonitor.Text = "Start Monitor";
+            this.btnMonitor.ToolTipText = "Monitor On/Off";
+            this.btnMonitor.Click += new System.EventHandler(this.btnMonitor_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lblCurrentWorkspaceCaption
+            // 
+            this.lblCurrentWorkspaceCaption.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblCurrentWorkspaceCaption.Image = global::RacerData.rNascarApp.Properties.Resources.workspace;
+            this.lblCurrentWorkspaceCaption.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
+            this.lblCurrentWorkspaceCaption.Name = "lblCurrentWorkspaceCaption";
+            this.lblCurrentWorkspaceCaption.Size = new System.Drawing.Size(135, 22);
+            this.lblCurrentWorkspaceCaption.Text = "Current Workspace: ";
+            // 
+            // workspacesDropDownButton1
+            // 
+            this.workspacesDropDownButton1.AutoSize = false;
+            this.workspacesDropDownButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.workspacesDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.fffToolStripMenuItem});
+            this.workspacesDropDownButton1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.workspacesDropDownButton1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.workspacesDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.workspacesDropDownButton1.Name = "workspacesDropDownButton1";
+            this.workspacesDropDownButton1.Size = new System.Drawing.Size(250, 22);
+            this.workspacesDropDownButton1.Text = "[workspace]";
+            this.workspacesDropDownButton1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.workspacesDropDownButton1.DropDownOpening += new System.EventHandler(this.workspacesDropDownButton1_DropDownOpening);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(83, 6);
+            // 
+            // fffToolStripMenuItem
+            // 
+            this.fffToolStripMenuItem.Name = "fffToolStripMenuItem";
+            this.fffToolStripMenuItem.Size = new System.Drawing.Size(86, 22);
+            this.fffToolStripMenuItem.Text = "fff";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripMenuItem2
+            // GridTable
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.GridTable.AllowDrop = true;
+            this.GridTable.AutoSize = true;
+            this.GridTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.GridTable.ColumnCount = 4;
+            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.ContextMenuStrip = this.ctxGridTable;
+            this.GridTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GridTable.Location = new System.Drawing.Point(0, 0);
+            this.GridTable.Name = "GridTable";
+            this.GridTable.RowCount = 5;
+            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.GridTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.GridTable.Size = new System.Drawing.Size(1077, 332);
+            this.GridTable.TabIndex = 3;
+            this.GridTable.DragDrop += new System.Windows.Forms.DragEventHandler(this.GridTable_DragDrop);
+            this.GridTable.DragOver += new System.Windows.Forms.DragEventHandler(this.GridTable_DragOver);
+            this.GridTable.Resize += new System.EventHandler(this.GridTable_Resize);
+            // 
+            // ctxGridTable
+            // 
+            this.ctxGridTable.BackColor = System.Drawing.Color.DimGray;
+            this.ctxGridTable.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gridSizeToolStripMenuItem1});
+            this.ctxGridTable.Name = "ctxGridTable";
+            this.ctxGridTable.Size = new System.Drawing.Size(124, 26);
+            // 
+            // gridSizeToolStripMenuItem1
+            // 
+            this.gridSizeToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.gridSizeToolStripMenuItem1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.gridSizeToolStripMenuItem1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridSizeToolStripMenuItem1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.gridSizeToolStripMenuItem1.Name = "gridSizeToolStripMenuItem1";
+            this.gridSizeToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.gridSizeToolStripMenuItem1.Text = "Grid Size";
+            this.gridSizeToolStripMenuItem1.Click += new System.EventHandler(this.gridSizeToolStripMenuItem1_Click);
+            // 
+            // dragTimer
+            // 
+            this.dragTimer.Interval = 20;
+            // 
+            // pnlGrid
+            // 
+            this.pnlGrid.AutoScroll = true;
+            this.pnlGrid.Controls.Add(this.GridTable);
+            this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlGrid.Location = new System.Drawing.Point(0, 49);
+            this.pnlGrid.Name = "pnlGrid";
+            this.pnlGrid.Size = new System.Drawing.Size(1077, 332);
+            this.pnlGrid.TabIndex = 4;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1077, 210);
+            this.ClientSize = new System.Drawing.Size(1077, 409);
             this.Controls.Add(this.pnlGrid);
             this.Controls.Add(this.tlsMain);
             this.Controls.Add(this.MainStatusStrip);

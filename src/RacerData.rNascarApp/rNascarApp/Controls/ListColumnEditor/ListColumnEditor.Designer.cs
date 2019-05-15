@@ -252,10 +252,10 @@
             this.grpEditField.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpEditField.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpEditField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.grpEditField.Location = new System.Drawing.Point(0, 201);
+            this.grpEditField.Location = new System.Drawing.Point(0, 250);
             this.grpEditField.Margin = new System.Windows.Forms.Padding(3, 3, 3, 7);
             this.grpEditField.Name = "grpEditField";
-            this.grpEditField.Size = new System.Drawing.Size(912, 148);
+            this.grpEditField.Size = new System.Drawing.Size(912, 159);
             this.grpEditField.TabIndex = 12;
             this.grpEditField.TabStop = false;
             this.grpEditField.Text = "Selected Column Settings";
@@ -318,7 +318,7 @@
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(912, 112);
+            this.pnlTop.Size = new System.Drawing.Size(912, 159);
             this.pnlTop.TabIndex = 13;
             // 
             // pnlHeader
@@ -355,9 +355,9 @@
             this.grpViewSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.grpViewSettings.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpViewSettings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.grpViewSettings.Location = new System.Drawing.Point(0, 112);
+            this.grpViewSettings.Location = new System.Drawing.Point(0, 159);
             this.grpViewSettings.Name = "grpViewSettings";
-            this.grpViewSettings.Size = new System.Drawing.Size(912, 89);
+            this.grpViewSettings.Size = new System.Drawing.Size(912, 91);
             this.grpViewSettings.TabIndex = 14;
             this.grpViewSettings.TabStop = false;
             this.grpViewSettings.Text = "View Settings";
@@ -392,7 +392,7 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ListColumnEditor";
-            this.Size = new System.Drawing.Size(912, 349);
+            this.Size = new System.Drawing.Size(912, 409);
             this.Load += new System.EventHandler(this.ListColumnEditor_Load);
             this.ctxCaptionLabel.ResumeLayout(false);
             this.grpEditField.ResumeLayout(false);

@@ -80,7 +80,6 @@ namespace RacerData.rNascarApp
 
         private Point _dragPoint = Point.Empty;
         private Panel _dragFrame = null;
-        private bool _saveSettingsOnExit = true;
         private IMonitorService _feedService = null;
         private IWorkspaceService _workspaceService = null;
         private Color _gridTableBackColor;
@@ -632,7 +631,6 @@ namespace RacerData.rNascarApp
                     workspaceMenuItem.ForeColor = workspacesDropDownButton1.ForeColor;
                     workspaceMenuItem.BackColor = workspacesDropDownButton1.BackColor;
                     workspaceMenuItem.Font = lblCurrentWorkspaceCaption.Font;
-
                 }
 
                 var separator = new ToolStripSeparator();
@@ -1243,7 +1241,6 @@ namespace RacerData.rNascarApp
         #region form closing
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _saveSettingsOnExit = true;
             this.Close();
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1252,9 +1249,6 @@ namespace RacerData.rNascarApp
         }
         protected virtual void BeforeFormCloses()
         {
-            if (!_saveSettingsOnExit)
-                return;
-
             if (UserSettings != null)
                 UserSettings.Save();
 
@@ -1609,6 +1603,7 @@ namespace RacerData.rNascarApp
                 {
                     Themes = themes,
                     ViewStates = AppSettings.ViewStates,
+                    UserSettings = this.UserSettings,
                     ThemeId = themeId
                 })
                 {

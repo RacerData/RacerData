@@ -62,9 +62,14 @@ namespace RacerData.rNascarApp.Dialogs
                     };
                 }
 
+                if (UserSettings.CustomColors != null)
+                    _colorDialog.CustomColors = UserSettings.CustomColors;
+
                 return _colorDialog;
             }
         }
+
+        public UserSettings UserSettings { get; set; }
 
         #endregion
 
@@ -270,7 +275,7 @@ namespace RacerData.rNascarApp.Dialogs
         {
             try
             {
-                Themes = UserThemeRepository.GetThemes().Where(t=>t.IsApplicationType == false).ToList();
+                Themes = UserThemeRepository.GetThemes().Where(t => t.IsApplicationType == false).ToList();
                 PopulateThemeList();
 
                 lstThemes.SelectedIndex = -1;
@@ -443,6 +448,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             if (ColorDialog.ShowDialog(this) == DialogResult.OK)
             {
+                UserSettings.CustomColors = ColorDialog.CustomColors;
                 return ColorDialog.Color;
             }
 
@@ -745,6 +751,7 @@ namespace RacerData.rNascarApp.Dialogs
         private void btnSave_Click(object sender, EventArgs e)
         {
             _currentSampleView.UpdateTheme(_selectedTheme);
+
             DialogResult = DialogResult.OK;
         }
 
@@ -755,6 +762,7 @@ namespace RacerData.rNascarApp.Dialogs
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+
             DialogResult = DialogResult.Cancel;
         }
 

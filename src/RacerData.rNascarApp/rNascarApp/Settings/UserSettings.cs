@@ -41,6 +41,7 @@ namespace RacerData.rNascarApp.Settings
 
         public bool ShowToolBar { get; set; }
         public bool ShowStatusBar { get; set; }
+        public int[] CustomColors { get; set; }
 
         protected override string SettingsFileName => UserSettingsFileName;
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascarApp", "rNascarApp\rNascarApp.csproj", "{9331E682-37ED-4FE1-A0B6-C78329D30DD6}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "rNascarApp Setup", "rNascarApp Setup\rNascarApp Setup.vdproj", "{0F1AFF28-52AE-46F2-923E-369D1A600E0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F1AFF28-52AE-46F2-923E-369D1A600E0F}.Debug|Any CPU.ActiveCfg = Debug
+		{0F1AFF28-52AE-46F2-923E-369D1A600E0F}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

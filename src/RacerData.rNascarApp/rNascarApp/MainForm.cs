@@ -711,7 +711,9 @@ namespace RacerData.rNascarApp
 
                 SetGridCellSizes(workspace.GridRowCount, workspace.GridColumnCount);
 
-                this.Text = $"{ApplicationTitle} [{workspace.Name}]";
+                string version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+
+                this.Text = $"{ApplicationTitle} v{version} [{workspace.Name}]";
 
                 lblWorkspace.Text = workspace.Name;
 

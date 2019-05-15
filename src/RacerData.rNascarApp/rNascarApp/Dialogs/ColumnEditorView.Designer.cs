@@ -50,6 +50,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.BackColor = System.Drawing.Color.Silver;
+            this.btnSave.Enabled = false;
             this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
             this.btnSave.FlatAppearance.BorderSize = 2;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -84,6 +85,7 @@
             // 
             this.listColumnEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listColumnEditor1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listColumnEditor1.HasChanges = false;
             this.listColumnEditor1.IsEditing = false;
             this.listColumnEditor1.Location = new System.Drawing.Point(0, 0);
             this.listColumnEditor1.Name = "listColumnEditor1";
@@ -103,7 +105,7 @@
             this.Name = "ColumnEditorView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View Columns Editor";
-            this.Load += new System.EventHandler(this.ListColumnControlTest_Load);
+            this.Load += new System.EventHandler(this.ListColumnEditor1_Load);
             this.pnlDialogButtons.ResumeLayout(false);
             this.ResumeLayout(false);
 

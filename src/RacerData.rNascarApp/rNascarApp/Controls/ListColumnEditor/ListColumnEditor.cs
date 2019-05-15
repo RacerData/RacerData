@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;
@@ -45,6 +46,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
         private Color _unselectedFieldBackColor = Color.White;
         private Color _selectedBackColor = Color.Yellow;
 
+        private string _originalViewState = String.Empty;
         private bool _allowResize = false;
         private bool _isLoadingFieldDetails = false;
         private int? _selectedFieldIndex = null;
@@ -68,6 +70,20 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             {
                 _isEditing = value;
                 OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+
+        private bool _hasChanges = false;
+        public bool HasChanges
+        {
+            get
+            {
+                return _hasChanges;
+            }
+            set
+            {
+                _hasChanges = value;
+                OnPropertyChanged(nameof(HasChanges));
             }
         }
 
@@ -101,6 +117,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             set
             {
                 _viewState = value;
+                _originalViewState = SerializeItem(_viewState);
                 DisplayViewState();
             }
         }
@@ -276,6 +293,8 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
                 _allowResize = false;
 
                 UpdateViewListItems();
+
+                UpdateHasChanges();
             };
 
             label.Controls.Add(resizePictureBox);
@@ -473,6 +492,8 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
 
             IsEditing = isEditing;
             _isLoadingFieldDetails = false;
+
+            UpdateHasChanges();
 
         }
         protected virtual void ColumnSelected(int index)
@@ -706,6 +727,35 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             }
         }
 
+        protected virtual void UpdateHasChanges()
+        {
+            var currentViewState = SerializeItem(ViewState);
+
+            HasChanges = (_originalViewState != currentViewState);
+        }
+
+        protected virtual string SerializeItem(ViewState view)
+        {
+            if (view == null)
+                return string.Empty;
+
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                NullValueHandling = NullValueHandling.Include
+            };
+
+            return JsonConvert.SerializeObject(
+                    view,
+                    Formatting.Indented,
+                    settings);
+        }
+
+        protected virtual ViewState DeserializeItem(string json)
+        {
+            return JsonConvert.DeserializeObject<ViewState>(json);
+        }
+
         #endregion
 
         #region private
@@ -768,6 +818,8 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             }
 
             UpdateColumnAligmnents();
+
+            UpdateHasChanges();
         }
 
         private void selectedLabel_WidthChanged(object sender, EventArgs e)

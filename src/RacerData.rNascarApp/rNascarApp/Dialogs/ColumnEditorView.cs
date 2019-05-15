@@ -69,7 +69,7 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region private
 
-        private void ListColumnControlTest_Load(object sender, EventArgs e)
+        private void ListColumnEditor1_Load(object sender, EventArgs e)
         {
             try
             {
@@ -92,6 +92,12 @@ namespace RacerData.rNascarApp.Dialogs
             if (e.PropertyName == nameof(listColumnEditor1.IsEditing))
             {
                 pnlDialogButtons.Enabled = !listColumnEditor1.IsEditing;
+                btnSave.Enabled = (!listColumnEditor1.IsEditing && listColumnEditor1.HasChanges);
+            }
+            else if (e.PropertyName == nameof(listColumnEditor1.HasChanges))
+            {
+                btnSave.Enabled = (pnlDialogButtons.Enabled && listColumnEditor1.HasChanges);
+                Console.WriteLine($"Save Enabled: {btnSave.Enabled}");
             }
         }
 

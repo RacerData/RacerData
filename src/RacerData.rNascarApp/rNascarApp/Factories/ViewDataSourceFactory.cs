@@ -12,11 +12,11 @@ using RacerData.rNascarApp.Models;
 
 namespace RacerData.rNascarApp.Factories
 {
-    class ViewDataSourceFactory
+    class ViewDataSourceFactory : IViewDataSourceFactory
     {
         #region public
 
-        public IList<ViewDataSource> GetList()
+        public IList<ViewDataSource> GetDataSources()
         {
             IList<ViewDataSource> sources = new List<ViewDataSource>();
 

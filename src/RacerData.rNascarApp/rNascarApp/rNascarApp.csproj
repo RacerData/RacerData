@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Users\Rob\source\repos\rNascar\setup\ts\</PublishUrl>
-    <Install>true</Install>
+    <Install>false</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
@@ -25,7 +25,7 @@
     <MapFileExtensions>false</MapFileExtensions>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>0.1.0.1</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -57,13 +57,20 @@
     <ManifestKeyFile>rNascarTS_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>rNascarApp.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=8.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -73,10 +80,10 @@
       <HintPath>..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.6.1.0\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Core.3.3.101.6\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\packages\AWSSDK.Core.3.3.101.10\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.S3.3.3.101.13\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>..\packages\AWSSDK.S3.3.3.101.17\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -120,8 +127,8 @@
     <Reference Include="RacerData.Commmon.Results, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Commmon.Results.1.0.1\lib\netstandard2.0\RacerData.Commmon.Results.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.Data.Aws, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.Data.Aws.1.0.10\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
+    <Reference Include="RacerData.Data.Aws, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Aws.1.1.1\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
@@ -143,6 +150,9 @@
     </Reference>
     <Reference Include="RacerData.NascarApi.Services, Version=1.0.75.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.Services.1.0.75\lib\netstandard2.0\RacerData.NascarApi.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="RacerData.UpdaterService, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.UpdaterService.1.0.1\lib\netstandard2.0\RacerData.UpdaterService.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -269,6 +279,18 @@
     <Compile Include="Controls\Wizard\WizardTest.Designer.cs">
       <DependentUpon>WizardTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SplashForm.Designer.cs">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DisplayFormatMapDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -287,7 +309,6 @@
     <Compile Include="Dialogs\InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\IViewDesigner.cs" />
     <Compile Include="Dialogs\ColumnEditorView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,12 +332,6 @@
     </Compile>
     <Compile Include="Dialogs\ViewColumnsEditor.Designer.cs">
       <DependentUpon>ViewColumnsEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ViewDesignerDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ViewDesignerDialog.Designer.cs">
-      <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\CreateViewWizard.cs">
       <SubType>Form</SubType>
@@ -343,7 +358,9 @@
       <DependentUpon>WorkspaceSelectionDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
-    <Compile Include="Factories\DisplayFormatMapService.cs" />
+    <Compile Include="Factories\IViewDisplayFormatFactory.cs" />
+    <Compile Include="Services\DisplayFormatMapService.cs" />
+    <Compile Include="Factories\IViewDataSourceFactory.cs" />
     <Compile Include="Factories\ViewDataSourceFactory.cs" />
     <Compile Include="Factories\ViewDisplayFormatFactory.cs" />
     <Compile Include="MainForm.cs">
@@ -358,6 +375,9 @@
     <Compile Include="Models\DataParserDrillDownException.cs" />
     <Compile Include="Models\DataParserTypeException.cs" />
     <Compile Include="Models\DataParserValueException.cs" />
+    <Compile Include="Models\DirectoryType.cs" />
+    <Compile Include="Services\IDisplayFormatMapService.cs" />
+    <Compile Include="Services\IRevertableService.cs" />
     <Compile Include="Models\SortType.cs" />
     <Compile Include="Models\ViewDataContext.cs" />
     <Compile Include="Models\ViewDataMember.cs" />
@@ -365,22 +385,36 @@
     <Compile Include="Models\ViewDisplayFormat.cs" />
     <Compile Include="Models\ViewListItem.cs" />
     <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Services\DirectoryService.cs" />
+    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\IDirectoryService.cs" />
+    <Compile Include="Services\IFileService.cs" />
+    <Compile Include="Services\ISerializer.cs" />
+    <Compile Include="Services\IStateService.cs" />
+    <Compile Include="Services\IWorkspaceService.cs" />
+    <Compile Include="Services\RevertableService.cs" />
+    <Compile Include="Services\Serializer.cs" />
+    <Compile Include="Services\StateService.cs" />
     <Compile Include="Services\DataParserService.cs" />
     <Compile Include="Services\FieldFormatService.cs" />
-    <Compile Include="Services\IWorkspaceService.cs" />
+    <Compile Include="Services\LocalUpdaterService.cs" />
+    <Compile Include="Services\StateChangedEventArgs.cs" />
+    <Compile Include="Services\ViewStateIdsChangedEventArgs.cs" />
+    <Compile Include="Services\ViewStatesChangedEventArgs.cs" />
+    <Compile Include="Services\WorkspacesChangedEventArgs.cs" />
     <Compile Include="Services\WorkspaceService.cs" />
     <Compile Include="Services\WorkspaceChangedEventArgs.cs" />
-    <Compile Include="Settings\Workspace.cs" />
+    <Compile Include="Models\Workspace.cs" />
     <Compile Include="Services\ColumnBuilderService.cs" />
-    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Settings\IState.cs" />
+    <Compile Include="Settings\State.cs" />
     <Compile Include="Settings\SettingsBase.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProviderInstance.cs" />
     <Compile Include="Models\ViewCellPosition.cs" />
-    <Compile Include="Settings\ListColumn.cs" />
-    <Compile Include="Settings\ListSettings.cs" />
+    <Compile Include="Models\ListColumn.cs" />
+    <Compile Include="Models\ListDefinition.cs" />
     <Compile Include="Models\ViewState.cs" />
     <Compile Include="Themes\SampleFormView.cs">
       <SubType>UserControl</SubType>
@@ -454,6 +488,12 @@
     <EmbeddedResource Include="Controls\Wizard\WizardTest.resx">
       <DependentUpon>WizardTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\DisplayFormatMapDialog.resx">
       <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -474,9 +514,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ViewColumnsEditor.resx">
       <DependentUpon>ViewColumnsEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ViewDesignerDialog.resx">
-      <DependentUpon>ViewDesignerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\CreateViewWizard.resx">
       <DependentUpon>CreateViewWizard.cs</DependentUpon>
@@ -518,10 +555,11 @@
     <EmbeddedResource Include="Themes\SampleView.resx">
       <DependentUpon>SampleView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="appsettings.json">
+    <None Include="app.settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -550,9 +588,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\AWSSDK.S3.3.3.101.13\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\2%28two%29rows,2%28two%29columns_9715.png" />
@@ -687,10 +722,20 @@
     <None Include="Resources\Running_16xLG.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\racerdata-background.png" />
+    <None Include="Resources\rNascarApp-logo-600x150.png" />
+    <None Include="Resources\rNascarLogo.png" />
+    <None Include="Resources\BuildDate.txt" />
     <Content Include="rNascarApp.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.3.101.17\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(TargetDir)*.*" "$(SolutionDir)..\..\bin"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>echo %25date%25 %25time%25 &gt; "$(ProjectDir)\Resources\BuildDate.txt"</PreBuildEvent>
   </PropertyGroup>
 </Project>

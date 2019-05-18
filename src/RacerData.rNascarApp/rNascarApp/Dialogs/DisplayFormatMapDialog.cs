@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using log4net;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Models;
+using RacerData.rNascarApp.Services;
 
 namespace RacerData.rNascarApp.Dialogs
 {
@@ -25,32 +26,41 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region fields
 
+        private readonly IList<ViewDataSource> _dataSources = null;
+        private readonly IDisplayFormatMapService _mapService = null;
         private ILog _log { get; set; }
         private bool _isEditMode = false;
 
         #endregion
 
-        #region properties
-
-        public IList<ViewDataSource> DataSources { get; set; } = new List<ViewDataSource>();
-        public DisplayFormatMapService MapService { get; set; }
-
-        #endregion
-
         #region ctor/load
 
-        public DisplayFormatMapDialog()
+        internal DisplayFormatMapDialog()
         {
             InitializeComponent();
+        }
+        public DisplayFormatMapDialog(
+            ILog log,
+            IDisplayFormatMapService mapService,
+            IViewDataSourceFactory dataSourceFactory)
+            : this()
+        {
+            if (dataSourceFactory == null)
+                throw new ArgumentNullException(nameof(dataSourceFactory));
+
+            _dataSources = dataSourceFactory.GetDataSources();
+
+            _log = log ?? throw new ArgumentNullException(nameof(log));
+            _mapService = mapService ?? throw new ArgumentNullException(nameof(mapService));
         }
 
         private void DisplayFormatMapDialog_Load(object sender, EventArgs e)
         {
             _log = LogManager.GetLogger("Display Format Map Dialog");
 
-            DisplayDataSources(DataSources);
+            DisplayDataSources(_dataSources);
 
-            LoadDisplayFormats(MapService.DisplayFormats);
+            LoadDisplayFormats(_mapService.DisplayFormats);
         }
 
         #endregion
@@ -64,9 +74,7 @@ namespace RacerData.rNascarApp.Dialogs
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
             _log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+
             MessageBox.Show($"{message}: {ex.Message}");
         }
 
@@ -141,13 +149,13 @@ namespace RacerData.rNascarApp.Dialogs
 
                 var fieldNode = new TreeNode(viewDataMember.Caption);
 
-                if (!MapService.Map.ContainsKey(viewDataMember) || MapService.Map[viewDataMember].Name == "Default")
+                if (!_mapService.Map.ContainsKey(viewDataMember) || _mapService.Map[viewDataMember].Name == "Default")
                 {
-                    var displayFormat = MapService.DisplayFormats.FirstOrDefault(f => f.Name == viewDataMember.Name);
+                    var displayFormat = _mapService.DisplayFormats.FirstOrDefault(f => f.Name == viewDataMember.Name);
 
                     if (displayFormat != null)
                     {
-                        MapService.Map[viewDataMember] = displayFormat;
+                        _mapService.Map[viewDataMember] = displayFormat;
                     }
                     else
                     {
@@ -204,13 +212,13 @@ namespace RacerData.rNascarApp.Dialogs
                             throw new ArgumentException($"Unrecognized field type: {viewDataMember.Type.Name.ToString()}, field: {viewDataMember.Name}");
                         }
 
-                        MapService.AddNewFormatToMap(viewDataMember, newViewDisplayFormat);
+                        _mapService.AddNewFormatToMap(viewDataMember, newViewDisplayFormat);
 
                         mapAdded = true;
                     }
                 }
 
-                var viewDisplayFormat = MapService.Map[viewDataMember];
+                var viewDisplayFormat = _mapService.Map[viewDataMember];
 
                 dataFormatMapItem.DisplayFormat = viewDisplayFormat;
 
@@ -222,7 +230,7 @@ namespace RacerData.rNascarApp.Dialogs
             }
 
             if (mapAdded)
-                MapService.Save();
+                _mapService.Save();
 
             foreach (ViewDataSource dataList in dataSource.Lists)
             {
@@ -282,7 +290,7 @@ namespace RacerData.rNascarApp.Dialogs
             if (format == null)
                 return;
 
-            foreach (var item in MapService.Map.Where(m => m.Value.Name == format.Name))
+            foreach (var item in _mapService.Map.Where(m => m.Value.Name == format.Name))
             {
                 var usedByItem = new UsedByItem()
                 {
@@ -423,7 +431,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             btnClearFormat.Enabled = false;
 
-            MapService.Map.Remove(mapItem.DataMember);
+            _mapService.Map.Remove(mapItem.DataMember);
         }
 
         private void btnSetFormat_Click(object sender, EventArgs e)
@@ -451,13 +459,13 @@ namespace RacerData.rNascarApp.Dialogs
 
             btnClearFormat.Enabled = true;
 
-            if (MapService.Map.ContainsKey(mapItem.DataMember))
+            if (_mapService.Map.ContainsKey(mapItem.DataMember))
             {
-                MapService.Map[mapItem.DataMember] = mapItem.DisplayFormat;
+                _mapService.Map[mapItem.DataMember] = mapItem.DisplayFormat;
             }
             else
             {
-                MapService.Map.Add(mapItem.DataMember, mapItem.DisplayFormat);
+                _mapService.Map.Add(mapItem.DataMember, mapItem.DisplayFormat);
             }
 
             UpdateUsedByList(selectedFormat);
@@ -545,7 +553,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             ClearFormatDisplay();
 
-            LoadDisplayFormats(MapService.DisplayFormats);
+            LoadDisplayFormats(_mapService.DisplayFormats);
 
             lstDisplayFormats.SelectedIndex = -1;
 
@@ -553,12 +561,12 @@ namespace RacerData.rNascarApp.Dialogs
 
             _isEditMode = false;
 
-            foreach (var item in MapService.Map.Where(v => v.Value.Name == originalName).ToList())
+            foreach (var item in _mapService.Map.Where(v => v.Value.Name == originalName).ToList())
             {
-                MapService.Map[item.Key] = format;
+                _mapService.Map[item.Key] = format;
             }
 
-            DisplayDataSources(DataSources);
+            DisplayDataSources(_dataSources);
         }
 
         private void SaveNewFormat()
@@ -587,11 +595,11 @@ namespace RacerData.rNascarApp.Dialogs
                 format.MaxWidth = maxWidth;
             }
 
-            MapService.DisplayFormats.Add(format);
+            _mapService.DisplayFormats.Add(format);
 
             ClearFormatDisplay();
 
-            LoadDisplayFormats(MapService.DisplayFormats);
+            LoadDisplayFormats(_mapService.DisplayFormats);
 
             lstDisplayFormats.SelectedItem = format;
         }
@@ -673,7 +681,7 @@ namespace RacerData.rNascarApp.Dialogs
 
         private void SaveMap()
         {
-            MapService.Save();
+            _mapService.Save();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -715,16 +723,16 @@ namespace RacerData.rNascarApp.Dialogs
 
         private void DeleteFormat(ViewDisplayFormat format)
         {
-            foreach (var item in MapService.Map.Where(v => v.Value.Name == format.Name).ToList())
+            foreach (var item in _mapService.Map.Where(v => v.Value.Name == format.Name).ToList())
             {
-                MapService.Map.Remove(item);
+                _mapService.Map.Remove(item);
             }
 
-            MapService.DisplayFormats.Remove(format);
+            _mapService.DisplayFormats.Remove(format);
 
-            LoadDisplayFormats(MapService.DisplayFormats);
+            LoadDisplayFormats(_mapService.DisplayFormats);
 
-            DisplayDataSources(DataSources);
+            DisplayDataSources(_dataSources);
         }
         #endregion
 

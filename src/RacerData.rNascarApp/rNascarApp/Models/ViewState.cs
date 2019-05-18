@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using RacerData.rNascarApp.Settings;
+using System.ComponentModel;
 
 namespace RacerData.rNascarApp.Models
 {
-    public class ViewState : IEquatable<ViewState>
+    public class ViewState : IEquatable<ViewState>, INotifyPropertyChanged
     {
+        #region events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
         #region properties
 
         private Guid _id;
@@ -21,17 +32,122 @@ namespace RacerData.rNascarApp.Models
             set
             {
                 _id = value;
+                OnPropertyChanged(nameof(Id));
             }
         }
-        public string Name { get; set; }
-        public string HeaderText { get; set; }
-        public string Description { get; set; }
-        public int Index { get; set; }
-        public ViewType ViewType { get; set; }
-        public ViewCellPosition CellPosition { get; set; } = new ViewCellPosition();
-        public ListSettings ListSettings { get; set; } = new ListSettings();
-        public Guid ThemeId { get; set; }
 
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        private string _headerText;
+        public string HeaderText
+        {
+            get
+            {
+                return _headerText;
+            }
+            set
+            {
+                _headerText = value;
+                OnPropertyChanged(nameof(HeaderText));
+            }
+        }
+
+        private string _description;
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+
+        private int _index;
+        public int Index
+        {
+            get
+            {
+                return _index;
+            }
+            set
+            {
+                _index = value;
+                OnPropertyChanged(nameof(Index));
+            }
+        }
+
+        private ViewType _viewType;
+        public ViewType ViewType
+        {
+            get
+            {
+                return _viewType;
+            }
+            set
+            {
+                _viewType = value;
+                OnPropertyChanged(nameof(ViewType));
+            }
+        }
+
+        private ListDefinition _listDefinition = new ListDefinition();
+        public ListDefinition ListDefinition
+        {
+            get
+            {
+                return _listDefinition;
+            }
+            set
+            {
+                _listDefinition = value;
+                OnPropertyChanged(nameof(ListDefinition));
+            }
+        }
+
+        private ViewCellPosition _cellPosition = new ViewCellPosition();
+        public ViewCellPosition CellPosition
+        {
+            get
+            {
+                return _cellPosition;
+            }
+            set
+            {
+                _cellPosition = value;
+                OnPropertyChanged(nameof(CellPosition));
+            }
+        }
+        
+        private Guid _themeId;
+        public Guid ThemeId
+        {
+            get
+            {
+                return _themeId;
+            }
+            set
+            {
+                _themeId = value;
+                OnPropertyChanged(nameof(ThemeId));
+            }
+        }
+        
         #endregion
 
         #region public
@@ -48,7 +164,7 @@ namespace RacerData.rNascarApp.Models
                 Index = Index,
                 ThemeId = ThemeId,
                 ViewType = ViewType,
-                ListSettings = ListSettings.Copy()
+                ListDefinition = ListDefinition.Copy()
             };
         }
 
@@ -67,28 +183,26 @@ namespace RacerData.rNascarApp.Models
         public bool Equals(ViewState other)
         {
             return other != null &&
-                   _id.Equals(other._id) &&
                    Id.Equals(other.Id) &&
                    Name == other.Name &&
                    Description == other.Description &&
                    Index == other.Index &&
                    ViewType == other.ViewType &&
                    EqualityComparer<ViewCellPosition>.Default.Equals(CellPosition, other.CellPosition) &&
-                   EqualityComparer<ListSettings>.Default.Equals(ListSettings, other.ListSettings) &&
+                   EqualityComparer<ListDefinition>.Default.Equals(ListDefinition, other.ListDefinition) &&
                    ThemeId.Equals(other.ThemeId);
         }
 
         public override int GetHashCode()
         {
             var hashCode = 389143722;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(_id);
             hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(Id);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
             hashCode = hashCode * -1521134295 + Index.GetHashCode();
             hashCode = hashCode * -1521134295 + ViewType.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<ViewCellPosition>.Default.GetHashCode(CellPosition);
-            hashCode = hashCode * -1521134295 + EqualityComparer<ListSettings>.Default.GetHashCode(ListSettings);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ListDefinition>.Default.GetHashCode(ListDefinition);
             hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(ThemeId);
             return hashCode;
         }

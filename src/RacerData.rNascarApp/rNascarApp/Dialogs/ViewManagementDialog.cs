@@ -4,41 +4,31 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using log4net;
-using Newtonsoft.Json;
-using RacerData.rNascarApp.Controls.CreateViewWizard;
-using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Services;
 
 namespace RacerData.rNascarApp.Dialogs
 {
-    public partial class ViewManagementDialog : Form, INotifyPropertyChanged
+    public partial class ViewManagementDialog : Form
     {
-        #region events
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         #region fields
 
-        private string _viewsState = string.Empty;
-        private string _viewState = string.Empty;
+        private Guid? _revertItemKey = null;
+        private Guid _revertListKey = Guid.Empty;
+        private readonly IRevertableService _revertableService = null;
+        private readonly ILog _log = null;
+        private readonly IStateService _stateService = null;
+        private readonly ISerializer _serializer = null;
 
         #endregion
 
         #region properties
 
-        public ILog Log { get; set; }
         public ViewState View { get; set; }
         public IList<ViewState> Views { get; set; }
-        public ChangeSet<ViewState> ChangeSet { get; protected set; }
+        public ChangeSet<ViewState> ChangeSet { get; protected set; } = new ChangeSet<ViewState>();
 
+        protected bool IsNew { get; set; }
         protected bool HasSelection
         {
             get
@@ -56,29 +46,39 @@ namespace RacerData.rNascarApp.Dialogs
             set
             {
                 _isEditing = value;
-                OnPropertyChanged(nameof(IsEditing));
+                SetFormState();
             }
         }
-        protected bool IsNew { get; set; }
 
         #endregion
 
         #region ctor/load
 
-        public ViewManagementDialog()
+        internal ViewManagementDialog()
         {
             InitializeComponent();
         }
 
+        public ViewManagementDialog(
+         ILog log,
+         IStateService stateService,
+         ISerializer serializer,
+         IRevertableService revertableService)
+         : this()
+        {
+            _log = log ?? throw new ArgumentNullException(nameof(log));
+            _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _revertableService = revertableService ?? throw new ArgumentNullException(nameof(revertableService));
+
+            Views = _serializer.DeepCopy(_stateService.State.ViewStates);
+        }
+
         private void ViewManagementDialog_Load(object sender, EventArgs e)
         {
-            ChangeSet = new ChangeSet<ViewState>();
-
-            _viewsState = SerializeItemList(Views.ToList());
+            _revertListKey = _revertableService.PersistState((BindingList<ViewState>)Views);
 
             DisplayViews(View?.Id);
-
-            PropertyChanged += ViewManagementDialog_PropertyChanged;
 
             SetFormState();
         }
@@ -87,47 +87,10 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region protected
 
-        protected virtual string SerializeItemList(List<ViewState> views)
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
-
-            return JsonConvert.SerializeObject(
-                    views,
-                    Formatting.Indented,
-                    settings);
-        }
-        protected virtual List<ViewState> DeserializeItemList(string json)
-        {
-            return JsonConvert.DeserializeObject<List<ViewState>>(json);
-        }
-        protected virtual string SerializeItem(ViewState view)
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
-
-            return JsonConvert.SerializeObject(
-                    view,
-                    Formatting.Indented,
-                    settings);
-        }
-        protected virtual ViewState DeserializeItem(string json)
-        {
-            return JsonConvert.DeserializeObject<ViewState>(json);
-        }
-
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
-            Log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+            _log?.Error(message, ex);
+
             MessageBox.Show(this, ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -138,7 +101,7 @@ namespace RacerData.rNascarApp.Dialogs
             btnCancelOrCancelAndClose.Enabled = true;
             btnCancelOrCancelAndClose.Text = IsEditing ? "Cancel" : "Cancel && Close";
 
-            viewManagementToolTip.SetToolTip(btnEditSave, 
+            viewManagementToolTip.SetToolTip(btnEditSave,
                 (IsEditing ?
                 "Save your changes and finish editing" :
                 "Edit the selected View"));
@@ -180,13 +143,15 @@ namespace RacerData.rNascarApp.Dialogs
 
             txtName.DataBindings.Add(new Binding("Text", view, "Name"));
 
+            numMaxRows.Value = view.ListDefinition.MaxRows.HasValue ? view.ListDefinition.MaxRows.Value : 8;
+
             UpdateViewsFields(view);
         }
         protected virtual void UpdateViewsFields(ViewState view)
         {
             lstFields.DisplayMember = "Caption";
             lstFields.ValueMember = "Index";
-            lstFields.DataSource = view.ListSettings.OrderedColumns;
+            lstFields.DataSource = view.ListDefinition.OrderedColumns;
             lstFields.SelectedIndex = -1;
         }
         protected virtual void ClearViewDetails()
@@ -200,7 +165,7 @@ namespace RacerData.rNascarApp.Dialogs
 
         protected virtual void BeginEdit()
         {
-            _viewState = SerializeItem(View);
+            _revertItemKey = _revertableService.PersistState(View);
 
             IsNew = false;
             IsEditing = true;
@@ -270,17 +235,22 @@ namespace RacerData.rNascarApp.Dialogs
                 Views.Add(View);
             }
 
+            View.ListDefinition.MaxRows = (int)numMaxRows.Value;
+
             IsNew = false;
             IsEditing = false;
+
+            _revertableService.ClearState(_revertItemKey.Value);
+            _revertItemKey = null;
 
             DisplayViews(View?.Id);
         }
         protected virtual void CancelEdit()
         {
-            if (!IsNew && !String.IsNullOrEmpty(_viewState))
+            if (!IsNew && _revertItemKey.HasValue)
             {
-                View = DeserializeItem(_viewState);
-                _viewState = String.Empty;
+                View = _revertableService.RevertState<ViewState>(_revertItemKey.Value);
+                _revertItemKey = null;
             }
 
             IsNew = false;
@@ -288,6 +258,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             DisplayViews(View?.Id);
         }
+
         protected virtual void DisplayViewEditor(ViewState view)
         {
             try
@@ -316,19 +287,21 @@ namespace RacerData.rNascarApp.Dialogs
 
         protected virtual void RevertAndCloseDialog()
         {
-            Views = DeserializeItemList(_viewsState);
+            Views = _revertableService.RevertState<List<ViewState>>(_revertListKey);
             DialogResult = DialogResult.Cancel;
         }
         protected virtual void SaveAndCloseDialog()
         {
             UpdateChangeSet();
 
+            _revertableService.ClearState(_revertListKey);
+
             DialogResult = DialogResult.OK;
         }
 
         protected virtual void UpdateChangeSet()
         {
-            var originalStates = DeserializeItemList(_viewsState);
+            List<ViewState> originalStates = _revertableService.PeekState<List<ViewState>>(_revertListKey);
 
             foreach (ViewState originalState in originalStates)
             {
@@ -362,11 +335,6 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region private
 
-        private void ViewManagementDialog_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            SetFormState();
-        }
-
         private void cboViews_SelectedIndexChanged(object sender, EventArgs e)
         {
             View = (ViewState)cboViewStates.SelectedItem;
@@ -374,11 +342,6 @@ namespace RacerData.rNascarApp.Dialogs
             DisplayViewDetails(View);
 
             SetFormState();
-        }
-
-        private void btnEditFields_Click(object sender, EventArgs e)
-        {
-            DisplayViewEditor(View);
         }
 
         private void removeFieldToolStripMenuItem_Click(object sender, EventArgs e)
@@ -391,17 +354,19 @@ namespace RacerData.rNascarApp.Dialogs
             if (columnToRemove == null)
                 return;
 
-            View.ListSettings.Columns.Remove(columnToRemove);
+            View.ListDefinition.Columns.Remove(columnToRemove);
 
             UpdateViewsFields(View);
         }
-
         private void ctxFields_Opening(object sender, CancelEventArgs e)
         {
             e.Cancel = (View == null || lstFields.SelectedItem == null);
         }
 
-        // dialog buttons
+        private void btnEditFields_Click(object sender, EventArgs e)
+        {
+            DisplayViewEditor(View);
+        }
         private void btnEditOrSave_Click(object sender, EventArgs e)
         {
             if (IsEditing)

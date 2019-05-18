@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using log4net;
 using RacerData.rNascarApp.Models;
+using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Themes;
 
@@ -62,14 +63,16 @@ namespace RacerData.rNascarApp.Dialogs
                     };
                 }
 
-                if (UserSettings.CustomColors != null)
-                    _colorDialog.CustomColors = UserSettings.CustomColors;
+                if (StateService.State.CustomColors != null)
+                    _colorDialog.CustomColors = StateService.State.CustomColors;
 
                 return _colorDialog;
             }
         }
 
-        public UserSettings UserSettings { get; set; }
+        public IStateService StateService { get; set; }
+        //public UserSettings UserSettings { get; set; }
+
 
         #endregion
 
@@ -265,9 +268,7 @@ namespace RacerData.rNascarApp.Dialogs
         {
             if (_log != null)
                 _log.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+
             MessageBox.Show($"{message}: {ex.Message}");
         }
 
@@ -448,7 +449,7 @@ namespace RacerData.rNascarApp.Dialogs
 
             if (ColorDialog.ShowDialog(this) == DialogResult.OK)
             {
-                UserSettings.CustomColors = ColorDialog.CustomColors;
+                StateService.State.CustomColors = ColorDialog.CustomColors;
                 return ColorDialog.Color;
             }
 

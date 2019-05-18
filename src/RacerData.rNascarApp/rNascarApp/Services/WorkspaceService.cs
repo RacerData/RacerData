@@ -1,24 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
-using Newtonsoft.Json;
+using log4net;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Services
 {
     public class WorkspaceService : IWorkspaceService
     {
-        #region events
+        #region consts
 
-        public event EventHandler<WorkspaceChangedEventArgs> WorkspaceChanged;
-        protected virtual void OnWorkspaceChanged(Workspace workspace)
+        private const string JsonFileName = "workspaces.json";
+        private const DirectoryType Directory = DirectoryType.Settings;
+
+        #endregion
+
+        #region events
+        /// <summary>
+        /// Current workspace before change
+        /// </summary>
+        public event EventHandler<WorkspaceChangedEventArgs> CurrentWorkspaceChanging;
+        protected virtual void OnCurrentWorkspaceChanging(Workspace workspace)
         {
-            var handler = WorkspaceChanged;
+            var handler = CurrentWorkspaceChanging;
             handler?.Invoke(this, new WorkspaceChangedEventArgs() { CurrentWorkspace = workspace });
         }
+
+        /// <summary>
+        /// Current workspace changed
+        /// </summary>
+        public event EventHandler<WorkspaceChangedEventArgs> CurrentWorkspaceChanged;
+        protected virtual void OnCurrentWorkspaceChanged(Workspace workspace)
+        {
+            var handler = CurrentWorkspaceChanged;
+            handler?.Invoke(this, new WorkspaceChangedEventArgs() { CurrentWorkspace = workspace });
+        }
+
+        /// <summary>
+        /// Workspaces list is changed
+        /// </summary>
+        public event EventHandler<WorkspacesChangedEventArgs> WorkspacesChanged;
+        protected virtual void OnWorkspacesChanged(IList<Workspace> workspaces)
+        {
+            var handler = WorkspacesChanged;
+            handler?.Invoke(this, new WorkspacesChangedEventArgs() { Workspaces = workspaces });
+        }
+
+        /// <summary>
+        /// Item in the Workspaces binding list changed
+        /// </summary>
+        public event EventHandler<ListChangedEventArgs> WorkspacesListItemChanged;
+        private void OnWorkspacesListItemChanged(object sender, ListChangedEventArgs e)
+        {
+            var handler = WorkspacesListItemChanged;
+            handler?.Invoke(this, e);
+        }
+
+        #endregion
+
+        #region fields
+
+        private readonly ILog _log = null;
+        private readonly IDirectoryService _directoryService = null;
+        private readonly ISerializer _serializer = null;
+        private readonly IRevertableService _revertableService = null;
+        private Guid? _savedStateKey = null;
 
         #endregion
 
@@ -47,31 +95,47 @@ namespace RacerData.rNascarApp.Services
             }
         }
 
-        private IList<Workspace> _workspaces;
-        public IList<Workspace> Workspaces
+        private BindingList<Workspace> _workspaces;
+        public BindingList<Workspace> Workspaces
         {
             get
             {
                 if (_workspaces == null)
                 {
-                    _workspaces = GetDefaultWorkspaces();
+                    var workspaceList = LoadFromFile();
+                    _workspaces = new BindingList<Workspace>(workspaceList);
+                    _workspaces.ListChanged += OnWorkspacesListItemChanged;
+                    UpdateSavedState(_workspaces.ToList());
                 }
 
                 return _workspaces;
             }
             protected set
             {
-                _workspaces = value;
+                if (_workspaces != null)
+                {
+                    _workspaces.ListChanged -= OnWorkspacesListItemChanged;
+                }
+                _workspaces = new BindingList<Workspace>(value);
+                _workspaces.ListChanged += OnWorkspacesListItemChanged;
+
+                OnWorkspacesChanged(_workspaces.ToList());
             }
         }
 
-        protected static string SettingsFileName { get => "workspaces.json"; }
-
-        protected static string SettingsDirectory
+        public bool HasChanges
         {
             get
             {
-                return $"{Path.GetDirectoryName(Application.ExecutablePath)}\\settings\\";
+                return StateHasChanges();
+            }
+        }
+
+        protected string FilePath
+        {
+            get
+            {
+                return _directoryService.GetFullPath(Directory, JsonFileName);
             }
         }
 
@@ -79,9 +143,16 @@ namespace RacerData.rNascarApp.Services
 
         #region ctor
 
-        public WorkspaceService()
+        public WorkspaceService(
+            ILog log,
+            IDirectoryService directoryService,
+            ISerializer serializer,
+            IRevertableService revertableService)
         {
-            Load();
+            _log = log ?? throw new ArgumentNullException(nameof(log));
+            _directoryService = directoryService ?? throw new ArgumentNullException(nameof(directoryService));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _revertableService = revertableService ?? throw new ArgumentNullException(nameof(revertableService));
         }
 
         #endregion
@@ -98,15 +169,7 @@ namespace RacerData.rNascarApp.Services
 
         public void RemoveWorkspace(Workspace workspace)
         {
-            var existing = Workspaces.SingleOrDefault(w => w.Name == workspace.Name);
-
-            if (existing == null)
-                throw new InvalidOperationException($"Workspace not found with name {workspace.Name}");
-
-            if (existing.IsActive == true)
-                throw new InvalidOperationException($"Cannot remove active workspace");
-
-            Workspaces.Remove(existing);
+            RemoveWorkspace(workspace, false);
         }
 
         public void ProcessChangeSet(ChangeSet<Workspace> changes)
@@ -126,7 +189,7 @@ namespace RacerData.rNascarApp.Services
                 var existing = Workspaces.SingleOrDefault(v => v.Name == updated.Name);
 
                 if (existing != null)
-                    RemoveWorkspace(existing);
+                    RemoveWorkspace(existing, true);
 
                 AddWorkspace(updated);
             }
@@ -152,78 +215,130 @@ namespace RacerData.rNascarApp.Services
 
             if (!workspace.IsActive)
             {
-                foreach (Workspace activeWorkspaces in Workspaces.Where(w => w.IsActive == true).ToList())
-                {
-                    activeWorkspaces.IsActive = false;
-                }
+                var currentActive = CurrentWorkspace;
+
+                OnCurrentWorkspaceChanging(currentActive);
+
+                currentActive.IsActive = false;
 
                 workspace.IsActive = true;
 
                 Save();
 
-                OnWorkspaceChanged(workspace);
+                OnCurrentWorkspaceChanged(workspace);
             }
-        }
-
-        public void Load()
-        {
-            var filePath = GetSettingsFilePath();
-            Workspaces = LoadWorkspaces(filePath);
         }
 
         public void Save()
         {
-            var filePath = GetSettingsFilePath();
-
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
-
-            var json = JsonConvert.SerializeObject(
-                    Workspaces,
-                    Formatting.Indented,
-                    settings);
-
-            File.WriteAllText(filePath, json);
+            SaveToFile();
         }
 
         #endregion
 
         #region protected
 
-        protected static IList<Workspace> LoadWorkspaces(string filePath)
+        protected List<Workspace> GetDefaultWorkspaces()
         {
-            var json = File.ReadAllText(filePath);
+            return new List<Workspace>() { GetDefaultWorkspace() };
+        }
 
-            var workspaces = JsonConvert.DeserializeObject<IList<Workspace>>(json);
+        protected Workspace GetDefaultWorkspace()
+        {
+            return new Workspace() { Name = Workspace.DefaultWorkspaceName };
+        }
 
-            if (!workspaces.Any(w => w.Name == Workspace.DefaultWorkspaceName))
+        protected virtual void RemoveWorkspace(Workspace workspace, bool overrideActiveCheck)
+        {
+            var existing = Workspaces.SingleOrDefault(w => w.Name == workspace.Name);
+
+            if (existing == null)
+                throw new InvalidOperationException($"Workspace not found with name {workspace.Name}");
+
+            if (!overrideActiveCheck && existing.IsActive == true)
+                throw new InvalidOperationException($"Cannot remove active workspace");
+
+            Workspaces.Remove(existing);
+        }
+
+        protected virtual List<Workspace> LoadFromFile()
+        {
+            List<Workspace> workspaces = null;
+
+            try
             {
-                workspaces.Add(new Workspace() { Name = Workspace.DefaultWorkspaceName });
+                workspaces = _serializer.DeserializeFromFile<List<Workspace>>(FilePath);
+
+                if (workspaces == null)
+                {
+                    workspaces = GetDefaultWorkspaces();
+
+                    return SaveToFile(workspaces);
+                }
+
+                UpdateSavedState(workspaces);
+
+                return workspaces;
+            }
+            catch (FileNotFoundException ex)
+            {
+                _log?.Error($"File '{JsonFileName}' not found", ex);
+
+                workspaces = new List<Workspace>();
+
+                return SaveToFile(workspaces);
+            }
+            catch (Exception ex)
+            {
+                _log?.Error($"Error loading {JsonFileName}", ex);
             }
 
             return workspaces;
         }
 
-        protected static IList<Workspace> GetDefaultWorkspaces()
+        protected virtual void SaveToFile()
         {
-            var defaultWorkspace = GetDefaultWorkspace();
-            return new List<Workspace>() { defaultWorkspace };
+            SaveToFile((List<Workspace>)Workspaces.ToList());
         }
 
-        protected static Workspace GetDefaultWorkspace()
+        protected virtual List<Workspace> SaveToFile(List<Workspace> workspaces)
         {
-            return new Workspace() { Name = Workspace.DefaultWorkspaceName };
+            if (workspaces == null)
+                throw new ArgumentNullException(nameof(workspaces));
+
+            _serializer.SerializeToFile(workspaces, FilePath);
+
+            UpdateSavedState(workspaces);
+
+            return workspaces;
         }
 
-        protected static string GetSettingsFilePath()
+        protected virtual void UpdateSavedState(List<Workspace> workspaces)
         {
-            if (!Directory.Exists(SettingsDirectory))
-                Directory.CreateDirectory(SettingsDirectory);
+            ClearSavedState();
 
-            return Path.Combine(SettingsDirectory, SettingsFileName);
+            _savedStateKey = _revertableService.PersistState(workspaces);
+        }
+
+        protected virtual void ClearSavedState()
+        {
+            if (_savedStateKey.HasValue)
+            {
+                _revertableService.ClearState(_savedStateKey.Value);
+            }
+        }
+
+        protected virtual bool StateHasChanges()
+        {
+            if (!_savedStateKey.HasValue)
+                return false;
+
+            var savedState = _revertableService.PeekState<List<Workspace>>(_savedStateKey.Value);
+
+            Guid currentStateKey = _revertableService.PersistState(Workspaces.ToList());
+            var currentState = _revertableService.PeekState<List<Workspace>>(currentStateKey);
+
+            return !currentState.Equals(savedState);
         }
 
         #endregion

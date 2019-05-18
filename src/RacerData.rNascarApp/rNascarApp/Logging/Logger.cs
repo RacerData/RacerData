@@ -13,22 +13,42 @@ namespace RacerData.rNascarApp.Logging
         {
             Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
 
-            PatternLayout patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "%date %-5level %logger - %message%newline";
-            patternLayout.ActivateOptions();
+            // event log
+            PatternLayout eventLogPatternLayout = new PatternLayout();
+            eventLogPatternLayout.ConversionPattern = "%date %-5level %logger - %message%newline";
+            eventLogPatternLayout.ActivateOptions();
 
-            RollingFileAppender roller = new RollingFileAppender();
-            roller.AppendToFile = true;
-            roller.File = GetLogFilePath();
-            roller.Layout = patternLayout;
-            roller.MaxSizeRollBackups = 5;
-            roller.MaximumFileSize = "1GB";
-            roller.RollingStyle = RollingFileAppender.RollingMode.Size;
-            roller.StaticLogFileName = true;
-            roller.ActivateOptions();
-            roller.ImmediateFlush = true;
+            EventLogAppender eventLogAppender = new EventLogAppender();
+            eventLogAppender.Layout = eventLogPatternLayout;
+            hierarchy.Root.AddAppender(eventLogAppender);
 
-            hierarchy.Root.AddAppender(roller);
+            // console
+            PatternLayout consolePatternLayout = new PatternLayout();
+            consolePatternLayout.ConversionPattern = "%date %-5level %logger - %message%newline";
+            consolePatternLayout.ActivateOptions();
+
+            ConsoleAppender consoleAppender = new ConsoleAppender();
+            consoleAppender.Layout = consolePatternLayout;
+            hierarchy.Root.AddAppender(consoleAppender);
+
+            // file
+            PatternLayout rollingFilePatternLayout = new PatternLayout();
+            rollingFilePatternLayout.ConversionPattern = "%date %-5level %logger - %message%newline";
+            rollingFilePatternLayout.ActivateOptions();
+
+            RollingFileAppender rollingFileAppender = new RollingFileAppender();            
+            rollingFileAppender.AppendToFile = true;
+            rollingFileAppender.File = GetLogFilePath();
+            rollingFileAppender.MaxSizeRollBackups = 5;
+            rollingFileAppender.MaximumFileSize = "1GB";
+            rollingFileAppender.RollingStyle = RollingFileAppender.RollingMode.Size;
+            rollingFileAppender.StaticLogFileName = true;
+            rollingFileAppender.ImmediateFlush = true;
+            rollingFileAppender.Layout = rollingFilePatternLayout;
+            rollingFileAppender.ActivateOptions();
+
+            hierarchy.Root.AddAppender(rollingFileAppender);
+
 
             hierarchy.Root.Level = Level.Error;
             hierarchy.Configured = true;

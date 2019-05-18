@@ -3,7 +3,7 @@ using RacerData.rNascarApp.Models;
 
 namespace RacerData.rNascarApp.Factories
 {
-    class ViewDisplayFormatFactory
+    class ViewDisplayFormatFactory : IViewDisplayFormatFactory
     {
         public IList<ViewDisplayFormat> GetViewDisplayFormats()
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Models;
 
 namespace RacerData.rNascarApp.Dialogs
 {

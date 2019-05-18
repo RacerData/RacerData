@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"> 
+  <Fragment> 
+    <ComponentGroup Id="MesDependance" Directory="INSTALLFOLDER"> 
+      <Component Id="AutoMapper"> 
+                    <File  Id="AutoMapper" Name="AutoMapper.dll" Source="$(var.rNascarApp.TargetPath)AutoMapper.dll" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="AutoMapper.Extensions.Microsoft.DependencyInjection"> 
+                    <File  Id="AutoMapper.Extensions.Microsoft.DependencyInjection" Name="AutoMapper.Extensions.Microsoft.DependencyInjection.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="AWSSDK.Core"> 
+                    <File  Id="AWSSDK.Core" Name="AWSSDK.Core.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="AWSSDK.S3"> 
+                    <File  Id="AWSSDK.S3" Name="AWSSDK.S3.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="log4net"> 
+                    <File  Id="log4net" Name="log4net.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.Configuration.Abstractions"> 
+                    <File  Id="Microsoft.Extensions.Configuration.Abstractions" Name="Microsoft.Extensions.Configuration.Abstractions.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.Configuration.Binder"> 
+                    <File  Id="Microsoft.Extensions.Configuration.Binder" Name="Microsoft.Extensions.Configuration.Binder.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.Configuration"> 
+                    <File  Id="Microsoft.Extensions.Configuration" Name="Microsoft.Extensions.Configuration.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.Configuration.FileExtensions"> 
+                    <File  Id="Microsoft.Extensions.Configuration.FileExtensions" Name="Microsoft.Extensions.Configuration.FileExtensions.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.Configuration.Json"> 
+                    <File  Id="Microsoft.Extensions.Configuration.Json" Name="Microsoft.Extensions.Configuration.Json.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.DependencyInjection.Abstractions"> 
+                    <File  Id="Microsoft.Extensions.DependencyInjection.Abstractions" Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.DependencyInjection"> 
+                    <File  Id="Microsoft.Extensions.DependencyInjection" Name="Microsoft.Extensions.DependencyInjection.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.FileProviders.Abstractions"> 
+                    <File  Id="Microsoft.Extensions.FileProviders.Abstractions" Name="Microsoft.Extensions.FileProviders.Abstractions.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.FileProviders.Physical"> 
+                    <File  Id="Microsoft.Extensions.FileProviders.Physical" Name="Microsoft.Extensions.FileProviders.Physical.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.FileSystemGlobbing"> 
+                    <File  Id="Microsoft.Extensions.FileSystemGlobbing" Name="Microsoft.Extensions.FileSystemGlobbing.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Microsoft.Extensions.Primitives"> 
+                    <File  Id="Microsoft.Extensions.Primitives" Name="Microsoft.Extensions.Primitives.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="NascarApi.Client"> 
+                    <File  Id="NascarApi.Client" Name="NascarApi.Client.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="NascarApi"> 
+                    <File  Id="NascarApi" Name="NascarApi.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="NascarFeed"> 
+                    <File  Id="NascarFeed" Name="NascarFeed.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="NascarFeed.Reader"> 
+		<File  Id="NascarFeed.Reader" Name="NascarFeed.Reader.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="Newtonsoft.Json"> 
+		<File  Id="Newtonsoft.Json" Name="Newtonsoft.Json.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.Commmon.Results"> 
+		<File  Id="RacerData.Commmon.Results" Name="RacerData.Commmon.Results.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.Data.Aws"> 
+		<File  Id="RacerData.Data.Aws" Name="RacerData.Data.Aws.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi.Client"> 
+		<File  Id="RacerData.NascarApi.Client" Name="RacerData.NascarApi.Client.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi"> 
+		<File  Id="RacerData.NascarApi" Name="RacerData.NascarApi.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi.Harvester.Service"> 
+		<File  Id="RacerData.NascarApi.Harvester.Service" Name="RacerData.NascarApi.Harvester.Service.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi.LapAverage.Service"> 
+		<File  Id="RacerData.NascarApi.LapAverage.Service" Name="RacerData.NascarApi.LapAverage.Service.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi.LapTimes.Service"> 
+		<File  Id="RacerData.NascarApi.LapTimes.Service" Name="RacerData.NascarApi.LapTimes.Service.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi.Service"> 
+		<File  Id="RacerData.NascarApi.Service" Name="RacerData.NascarApi.Service.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.NascarApi.Services"> 
+      <File  Id="RacerData.NascarApi.Services" Name="RacerData.NascarApi.Services.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RacerData.UpdaterService"> 
+                    <File  Id="RacerData.UpdaterService" Name="RacerData.UpdaterService.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="RestSharp"> 
+                    <File  Id="RestSharp" Name="RestSharp.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="System.Buffers"> 
+                    <File  Id="System.Buffers" Name="System.Buffers.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="System.Memory"> 
+                    <File  Id="System.Memory" Name="System.Memory.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="System.Numerics.Vectors"> 
+                    <File  Id="System.Numerics.Vectors" Name="System.Numerics.Vectors.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+      <Component Id="System.Runtime.CompilerServices.Unsafe"> 
+                    <File  Id="System.Runtime.CompilerServices.Unsafe" Name="System.Runtime.CompilerServices.Unsafe.dll" Source="$(var.rNascarApp.TargetPath)" Vital="yes" KeyPath="yes" DiskId="1"/> 
+      </Component> 
+    </ComponentGroup> 
+  </Fragment> 
+</Wix> 

@@ -48,10 +48,13 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.viewManagementToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.numMaxRows = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             this.pnlSelection.SuspendLayout();
             this.pnlDialogButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.ctxFields.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxRows)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlSelection
@@ -175,6 +178,8 @@
             // 
             // pnlDetails
             // 
+            this.pnlDetails.Controls.Add(this.label3);
+            this.pnlDetails.Controls.Add(this.numMaxRows);
             this.pnlDetails.Controls.Add(this.btnEditFields);
             this.pnlDetails.Controls.Add(this.lstFields);
             this.pnlDetails.Controls.Add(this.label5);
@@ -255,6 +260,38 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
             // 
+            // numMaxRows
+            // 
+            this.numMaxRows.Location = new System.Drawing.Point(369, 78);
+            this.numMaxRows.Maximum = new decimal(new int[] {
+            43,
+            0,
+            0,
+            0});
+            this.numMaxRows.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMaxRows.Name = "numMaxRows";
+            this.numMaxRows.Size = new System.Drawing.Size(64, 21);
+            this.numMaxRows.TabIndex = 7;
+            this.numMaxRows.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(366, 60);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 15);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Max Rows";
+            // 
             // ViewManagementDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -276,6 +313,7 @@
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
             this.ctxFields.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxRows)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -301,5 +339,7 @@
         private System.Windows.Forms.Button btnEditFields;
         private System.Windows.Forms.ContextMenuStrip ctxFields;
         private System.Windows.Forms.ToolStripMenuItem removeFieldToolStripMenuItem;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown numMaxRows;
     }
 }

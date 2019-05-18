@@ -37,7 +37,7 @@ namespace RacerData.rNascarApp.Controls
 
             if (handler != null)
             {
-                handler.Invoke(this, State.ThemeId);
+                handler.Invoke(this, View.ThemeId);
             }
         }
 
@@ -48,7 +48,7 @@ namespace RacerData.rNascarApp.Controls
 
             if (handler != null)
             {
-                handler.Invoke(this, State);
+                handler.Invoke(this, View);
             }
         }
 
@@ -86,7 +86,7 @@ namespace RacerData.rNascarApp.Controls
 
         #region properties
 
-        public ViewState State { get; set; }
+        public ViewState View { get; set; }
 
         protected virtual ListHeader GridHeader { get; set; } = new ListHeader();
 
@@ -105,7 +105,7 @@ namespace RacerData.rNascarApp.Controls
         public UserControlBase(ViewState viewState)
             : this()
         {
-            State = viewState;
+            View = viewState;
         }
 
         public UserControlBase()
@@ -119,40 +119,40 @@ namespace RacerData.rNascarApp.Controls
 
         public void InitializeView(ViewState state)
         {
-            State = state;
+            View = state;
 
             lblHeader.Text = state.HeaderText;
 
-            lblHeader.Visible = state.ListSettings.ShowHeader;
+            lblHeader.Visible = state.ListDefinition.ShowHeader;
 
-            tipDescription.SetToolTip(lblHeader, this.State.Description);
+            tipDescription.SetToolTip(lblHeader, this.View.Description);
 
-            tipDescription.SetToolTip(pnlDetail, this.State.Description);
+            tipDescription.SetToolTip(pnlDetail, this.View.Description);
 
-            InitializeGridRows(state.ListSettings);
+            InitializeGridRows(state.ListDefinition);
 
-            var sortColumn = State.
-                ListSettings.
+            var sortColumn = View.
+                ListDefinition.
                 OrderedColumns.
                 FirstOrDefault(c => c.SortType != SortType.None);
 
             _parserService = new DataParserService()
             {
-                Columns = State.ListSettings.Columns,
-                RowCount = State.ListSettings.MaxRows,
-                ApiFeedType = State.ListSettings.ApiFeedType,
+                Columns = View.ListDefinition.Columns,
+                RowCount = View.ListDefinition.MaxRows,
+                ApiFeedType = View.ListDefinition.ApiFeedType,
                 SortColumnIndex = sortColumn.Index,
                 SortType = sortColumn.SortType
             };
 
-            _theme = UserThemeRepository.GetThemeOrDefault(State.ThemeId);
+            _theme = UserThemeRepository.GetThemeOrDefault(View.ThemeId);
 
             ApplyTheme(_theme);
         }
 
         public virtual void OnThemeUpdated(object sender, Theme theme)
         {
-            if (theme.Id == State.ThemeId)
+            if (theme.Id == View.ThemeId)
             {
                 ApplyTheme(theme);
             }
@@ -160,7 +160,7 @@ namespace RacerData.rNascarApp.Controls
 
         public virtual void OnViewStateUpdated(object sender, ViewState viewState)
         {
-            if (viewState.Id == State.Id)
+            if (viewState.Id == View.Id)
             {
                 InitializeView(viewState);
             }
@@ -168,7 +168,7 @@ namespace RacerData.rNascarApp.Controls
 
         public virtual object[,] GetViewData(object data, ApiFeedType apiFeedType)
         {
-            if (State.ListSettings.ApiFeedType.HasFlag(apiFeedType))
+            if (View.ListDefinition.ApiFeedType.HasFlag(apiFeedType))
                 return _parserService.GetListData(data);
             else
                 return null;
@@ -238,35 +238,35 @@ namespace RacerData.rNascarApp.Controls
 
         #region protected
 
-        protected virtual void InitializeGridRows(ListSettings settings)
+        protected virtual void InitializeGridRows(ListDefinition listDefinition)
         {
             ClearGridControls();
 
-            if (settings.ShowCaptions)
+            if (listDefinition.ShowCaptions)
             {
                 GridHeader = new ListHeader()
                 {
-                    Height = settings.RowHeight.HasValue ? settings.RowHeight.Value : DefaultRowHeight
+                    Height = listDefinition.RowHeight.HasValue ? listDefinition.RowHeight.Value : DefaultRowHeight
                 };
             }
 
             var gridRow = new ListRow()
             {
-                Height = settings.RowHeight.HasValue ? settings.RowHeight.Value : DefaultRowHeight,
+                Height = listDefinition.RowHeight.HasValue ? listDefinition.RowHeight.Value : DefaultRowHeight,
                 Index = 0
             };
 
-            ColumnBuilderService.BuildGridColumns(settings, GridHeader.Controls, gridRow.Controls);
+            ColumnBuilderService.BuildGridColumns(listDefinition, GridHeader.Controls, gridRow.Controls);
 
             pnlDetail.Controls.Add(GridHeader);
 
-            if (State.ListSettings.Columns.Count > 0)
+            if (View.ListDefinition.Columns.Count > 0)
             {
                 gridRow.Controls.OfType<Label>().FirstOrDefault(c => ((ListColumn)c.Tag).Index == 0).Text = "0";
 
                 pnlDetail.Controls.Add(gridRow);
 
-                var maxRows = settings.MaxRows.HasValue ? settings.MaxRows.Value : 8;
+                var maxRows = listDefinition.MaxRows.HasValue ? listDefinition.MaxRows.Value : 8;
 
                 for (int i = 1; i < maxRows; i++)
                 {
@@ -336,7 +336,7 @@ namespace RacerData.rNascarApp.Controls
 
                 foreach (Theme theme in themes.OrderBy(t => t.Name))
                 {
-                    var themeName = (theme.Id == State.ThemeId) ?
+                    var themeName = (theme.Id == View.ThemeId) ?
                         $"[{theme.Name}]" :
                         theme.Name;
 
@@ -359,7 +359,7 @@ namespace RacerData.rNascarApp.Controls
                 var menuItem = (ToolStripMenuItem)sender;
                 var theme = (Theme)menuItem.Tag;
 
-                State.ThemeId = theme.Id;
+                View.ThemeId = theme.Id;
 
                 ApplyTheme(theme);
             }
@@ -371,8 +371,8 @@ namespace RacerData.rNascarApp.Controls
 
         private void UserControlBase_Load(object sender, EventArgs e)
         {
-            if (State != null)
-                InitializeView(State);
+            if (View != null)
+                InitializeView(View);
         }
 
         private void lblHeader_FontChanged(object sender, EventArgs e)

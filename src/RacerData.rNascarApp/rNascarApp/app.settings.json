@@ -1,0 +1,26 @@
+﻿{
+  "harvester": {
+    "rootDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Harvested Data",
+    "lapAverageDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Lap Averages",
+    "lapTimeDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Lap Times"
+  },
+  "monitor": {
+    "verbose": "true",
+    "autoStartService": "false",
+    "interval": "3000"
+  },
+  "mock": {
+    "useMock": "false",
+    "liveFeedSourceDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Harvested Data\\XFinity\\Dover Int'l Speedway\\05-04-2019\\Allied Steel Buildings 200",
+    "lapTimeSourceDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Lap Times\\XFinity\\Dover Int'l Speedway\\05-05-2019\\Allied Steel Buildings 200",
+    "lapAverageSourceDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Lap Averages\\XFinity\\Dover Int'l Speedway\\05-05-2019\\Allied Steel Buildings 200",
+    "liveFlagSourceDirectory": "",
+    "livePitSourceDirectory": "",
+    "liveQualifyingSourceDirectory": "",
+    "livePointsSourceDirectory": ""
+  },
+  "aws": {
+    "lapAverages": "//LapAverages",
+    "lapTimes": "//LapTimes"
+  }
+}

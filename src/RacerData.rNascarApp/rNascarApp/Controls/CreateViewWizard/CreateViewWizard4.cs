@@ -387,8 +387,8 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             {
                 txtTitle.Text = Context.ViewState.HeaderText;
 
-                numMaxRows.Value = Context.ViewState.ListSettings.MaxRows.HasValue ?
-                    Context.ViewState.ListSettings.MaxRows.Value :
+                numMaxRows.Value = Context.ViewState.ListDefinition.MaxRows.HasValue ?
+                    Context.ViewState.ListDefinition.MaxRows.Value :
                     numMaxRows.Minimum;
 
                 cboThemes.SelectedValue = Context.ViewState.ThemeId;
@@ -583,7 +583,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
 
             UpdateViewState(Context.ViewState);
 
-            Context.ViewState.ListSettings.Columns = Context.ViewListColumns.ToList();
+            Context.ViewState.ListDefinition.Columns = Context.ViewListColumns.ToList();
 
             IsComplete = true;
         }

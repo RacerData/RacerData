@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
 
 namespace RacerData.rNascarApp.Services
 {
     public interface IWorkspaceService
     {
-        event EventHandler<WorkspaceChangedEventArgs> WorkspaceChanged;
+        event EventHandler<WorkspaceChangedEventArgs> CurrentWorkspaceChanging;
+        event EventHandler<WorkspaceChangedEventArgs> CurrentWorkspaceChanged;
+        event EventHandler<WorkspacesChangedEventArgs> WorkspacesChanged;
+        event EventHandler<ListChangedEventArgs> WorkspacesListItemChanged;
 
         Workspace CurrentWorkspace { get; }
-        IList<Workspace> Workspaces { get; }
+        BindingList<Workspace> Workspaces { get; }
+        bool HasChanges { get; }
 
+        void SetActiveWorkspace(string name);
         void AddWorkspace(Workspace workspace);
         void RemoveWorkspace(Workspace workspace);
         void ProcessChangeSet(ChangeSet<ViewState> changes);
         void ProcessChangeSet(ChangeSet<Workspace> changes);
-        void SetActiveWorkspace(string name);
         void Save();
-        void Load();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Models;
 
 namespace RacerData.rNascarApp.Services
 {

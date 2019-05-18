@@ -40,9 +40,7 @@ namespace RacerData.rNascarApp.Dialogs
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
             Log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+
             MessageBox.Show(this, ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 

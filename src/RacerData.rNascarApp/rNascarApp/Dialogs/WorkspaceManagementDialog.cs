@@ -4,41 +4,34 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using log4net;
-using Newtonsoft.Json;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Services;
 
 namespace RacerData.rNascarApp.Dialogs
 {
-    public partial class WorkspaceManagementDialog : Form, INotifyPropertyChanged
+    public partial class WorkspaceManagementDialog : Form
     {
-        #region events
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
         #region fields
 
-        private string _workspacesState = string.Empty;
-        private string _workspaceState = string.Empty;
+        private Guid? _revertItemKey = null;
+        private Guid _revertListKey = Guid.Empty;
+        private readonly IRevertableService _revertableService = null;
+        private readonly ILog _log = null;
+        private readonly IStateService _stateService = null;
+        private readonly IWorkspaceService _workspaceService = null;
+        private readonly ISerializer _serializer = null;
 
         #endregion
 
         #region properties
 
-        public ILog Log { get; set; }
         public Workspace Workspace { get; set; }
         public IList<Workspace> Workspaces { get; set; }
         public IList<ViewState> Views { get; set; }
-        public int GridRowCount { get; set; } = 8;
-        public int GridColumnCount { get; set; } = 8;
 
+        public ChangeSet<Workspace> ChangeSet { get; protected set; } = new ChangeSet<Workspace>();
+
+        protected bool IsNew { get; set; }
         protected bool HasSelection
         {
             get
@@ -56,27 +49,45 @@ namespace RacerData.rNascarApp.Dialogs
             set
             {
                 _isEditing = value;
-                OnPropertyChanged(nameof(IsEditing));
+                SetFormState();
             }
         }
-        protected bool IsNew { get; set; }
 
         #endregion
 
         #region ctor/load
 
-        public WorkspaceManagementDialog()
+        internal WorkspaceManagementDialog()
         {
             InitializeComponent();
         }
 
+        public WorkspaceManagementDialog(
+            ILog log,
+            IStateService stateService,
+            IWorkspaceService workspaceService,
+            ISerializer serializer,
+            IRevertableService revertableService)
+            : this()
+        {
+            _log = log ?? throw new ArgumentNullException(nameof(log));
+            _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
+            _workspaceService = workspaceService ?? throw new ArgumentNullException(nameof(workspaceService));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _revertableService = revertableService ?? throw new ArgumentNullException(nameof(revertableService));
+
+            Views = _stateService.State.ViewStates;
+
+            Workspaces = _serializer.DeepCopy(_workspaceService.Workspaces);
+
+            Workspace = Workspaces.FirstOrDefault(w => w.IsActive);
+        }
+
         private void WorkspaceManagementDialog_Load(object sender, EventArgs e)
         {
-            _workspacesState = PersistWorkspacesState(Workspaces.ToList());
+            _revertListKey = _revertableService.PersistState((BindingList<Workspace>)Workspaces);
 
             DisplayWorkspaces(Workspace);
-
-            PropertyChanged += WorkspaceManagementDialog_PropertyChanged;
 
             SetFormState();
         }
@@ -85,47 +96,10 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region protected
 
-        protected virtual string PersistWorkspacesState(List<Workspace> workspaces)
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
-
-            return JsonConvert.SerializeObject(
-                    workspaces,
-                    Formatting.Indented,
-                    settings);
-        }
-        protected virtual List<Workspace> RestoreWorkspacesState(string json)
-        {
-            return JsonConvert.DeserializeObject<List<Workspace>>(json);
-        }
-        protected virtual string PersistWorkspaceState(Workspace workspace)
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
-
-            return JsonConvert.SerializeObject(
-                    workspace,
-                    Formatting.Indented,
-                    settings);
-        }
-        protected virtual Workspace RestoreWorkspaceState(string json)
-        {
-            return JsonConvert.DeserializeObject<Workspace>(json);
-        }
-
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
-            Log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+            _log?.Error(message, ex);
+
             MessageBox.Show(this, ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -224,7 +198,7 @@ namespace RacerData.rNascarApp.Dialogs
                 return;
             }
 
-            _workspaceState = PersistWorkspaceState(Workspace);
+            _revertItemKey = _revertableService.PersistState(Workspace);
 
             IsNew = false;
             IsEditing = true;
@@ -234,8 +208,8 @@ namespace RacerData.rNascarApp.Dialogs
             Workspace = new Workspace()
             {
                 Name = "New Workspace",
-                GridColumnCount = GridColumnCount,
-                GridRowCount = GridRowCount
+                GridColumnCount = _workspaceService.CurrentWorkspace.GridColumnCount,
+                GridRowCount = _workspaceService.CurrentWorkspace.GridRowCount
             };
 
             DisplayWorkspaceDetails(Workspace);
@@ -305,14 +279,17 @@ namespace RacerData.rNascarApp.Dialogs
             IsNew = false;
             IsEditing = false;
 
+            _revertableService.ClearState(_revertItemKey.Value);
+            _revertItemKey = null;
+
             DisplayWorkspaces(Workspace);
         }
         protected virtual void CancelEdit()
         {
-            if (!IsNew && !String.IsNullOrEmpty(_workspaceState))
+            if (!IsNew && _revertItemKey.HasValue)
             {
-                Workspace = RestoreWorkspaceState(_workspaceState);
-                _workspaceState = String.Empty;
+                Workspace = _revertableService.RevertState<Workspace>(_revertItemKey.Value);
+                _revertItemKey = null;
             }
 
             IsNew = false;
@@ -320,13 +297,18 @@ namespace RacerData.rNascarApp.Dialogs
 
             DisplayWorkspaces(Workspace);
         }
+
         protected virtual void RevertAndCloseDialog()
         {
-            Workspaces = RestoreWorkspacesState(_workspacesState);
+            Workspaces = _revertableService.RevertState<List<Workspace>>(_revertListKey);
             DialogResult = DialogResult.Cancel;
         }
         protected virtual void SaveAndCloseDialog()
         {
+            UpdateChangeSet();
+
+            _revertableService.ClearState(_revertListKey);
+
             DialogResult = DialogResult.OK;
         }
 
@@ -352,14 +334,41 @@ namespace RacerData.rNascarApp.Dialogs
             UpdateViewsLists(Workspace);
         }
 
+        protected virtual void UpdateChangeSet()
+        {
+            List<Workspace> originalStates = _revertableService.PeekState<List<Workspace>>(_revertListKey);
+
+            foreach (Workspace originalState in originalStates)
+            {
+                var currentState = Workspaces.FirstOrDefault(v => v.Name == originalState.Name);
+
+                if (currentState == null)
+                {
+                    ChangeSet.Deleted.Add(originalState);
+                }
+                else
+                {
+                    if (!currentState.Equals(originalState))
+                    {
+                        ChangeSet.Edited.Add(currentState);
+                    }
+                }
+            }
+
+            foreach (Workspace currentState in Workspaces)
+            {
+                var originalState = originalStates.FirstOrDefault(v => v.Name == currentState.Name);
+
+                if (originalState == null)
+                {
+                    ChangeSet.Added.Add(currentState);
+                }
+            }
+        }
+
         #endregion
 
         #region private
-
-        private void WorkspaceManagementDialog_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            SetFormState();
-        }
 
         private void cboWorkspaces_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -370,7 +379,6 @@ namespace RacerData.rNascarApp.Dialogs
             SetFormState();
         }
 
-        // dialog buttons
         private void btnEditOrSave_Click(object sender, EventArgs e)
         {
             if (IsEditing)
@@ -402,7 +410,6 @@ namespace RacerData.rNascarApp.Dialogs
             RevertAndCloseDialog();
         }
 
-        // add/remove views
         private void lstViews_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnRemoveView.Enabled = (lstViews.SelectedItem != null);

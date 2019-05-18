@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Services;
@@ -16,7 +17,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         #region fields
 
         private IList<FormatListItem> _formatListItems = new List<FormatListItem>();
-        private DisplayFormatMapService _mapService = null;
+        private IDisplayFormatMapService _mapService = null;
         private Point _dragPoint = Point.Empty;
         private Point _dragPointToClient = Point.Empty;
         private Panel _dragFrame;
@@ -92,7 +93,7 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
         {
             lblCaption.Text = Caption;
 
-            _mapService = new DisplayFormatMapService();
+            _mapService = ServiceProvider.Instance.GetRequiredService<IDisplayFormatMapService>();
 
             _dragFrame = new Panel()
             {

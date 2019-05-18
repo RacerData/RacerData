@@ -32,9 +32,20 @@ namespace RacerData.rNascarApp.Settings
         {
             var settings = new AppSettings();
 
-            var loaded = settings.Load<AppSettings>();
+            try
+            {
+                var loaded = settings.Load<AppSettings>();
 
-            return loaded;
+                return loaded;
+            }
+            catch (Exception ex)
+            {
+                settings.ExceptionHandler("Error loading AppSettings", ex);
+
+                settings = settings.GetDefaultSettings<AppSettings>();
+            }
+
+            return settings;
         }
 
         public void ProcessChangeSet(ChangeSet<ViewState> changes)
@@ -61,6 +72,23 @@ namespace RacerData.rNascarApp.Settings
 
                 ViewStates.Add(updated);
             }
+        }
+
+        #endregion
+
+        #region protected
+
+        protected override T GetDefaultSettings<T>()
+        {
+            var defaultSettings = new AppSettings()
+            {
+                Size = new Size(500, 500),
+                Location = new Point(0, 0),
+                WindowState = FormWindowState.Normal,
+                StartPosition = FormStartPosition.CenterScreen,
+            } as T;
+
+            return defaultSettings;
         }
 
         #endregion

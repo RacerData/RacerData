@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using log4net.Core;
 
 namespace RacerData.rNascarApp.Settings
@@ -53,7 +54,20 @@ namespace RacerData.rNascarApp.Settings
         {
             var settings = new UserSettings();
 
-            return settings.Load<UserSettings>();
+            try
+            {
+                var loaded = settings.Load<UserSettings>();
+
+                return loaded;
+            }
+            catch (Exception ex)
+            {
+                settings.ExceptionHandler("Error loading UserSettings", ex);
+
+                settings = settings.GetDefaultSettings<UserSettings>();
+            }
+
+            return settings;
         }
 
         #endregion

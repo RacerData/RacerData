@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+
+  <Bundle Name="rNascar Timing and Scoring"
+          Version="0.8.0.0"
+          Manufacturer="RacerData Software"
+          UpgradeCode="{6EB861A1-DCF7-43C1-B4FD-B215F6349D8A}">
+
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLargeLicense">      
+      <bal:WixStandardBootstrapperApplication
+        LicenseFile="RacerDataLicense.rtf"
+        ShowVersion="yes"
+        SuppressOptionsUI="yes" />
+    </BootstrapperApplicationRef>
+    
+    <Chain>
+      <!--Install .Net Framework 4.7.2-->
+      <PackageGroupRef Id="NetFx472Redist"/>
+
+      <!--Install Product-->
+      <MsiPackage
+        Id="rNascarApp"
+        DisplayInternalUI="yes"
+        Compressed="yes"
+        SourceFile="$(var.rNascarSetup.TargetPath)"
+        Vital="yes">
+      </MsiPackage>
+    </Chain>
+  </Bundle>
+</Wix>

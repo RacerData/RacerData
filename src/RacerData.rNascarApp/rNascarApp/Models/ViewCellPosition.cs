@@ -4,7 +4,7 @@
     {
         public int Row { get; set; }
         public int Column { get; set; }
-        private int _rowSpan = 1;
+        private int _rowSpan = 0;
         public int RowSpan
         {
             get
@@ -16,7 +16,7 @@
                 _rowSpan = value > 0 ? value : 1;
             }
         }
-        private int _columnSpan = 1;
+        private int _columnSpan = 0;
         public int ColumnSpan
         {
             get

@@ -20,6 +20,8 @@ namespace RacerData.Data.Aws.Internal
         #region properties
 
         protected string BucketPath { get; private set; }
+        protected string BucketPrefix { get; private set; }
+
 
         #endregion
 
@@ -30,7 +32,9 @@ namespace RacerData.Data.Aws.Internal
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            BucketPath = $"{configuration.Bucket}{configuration.Directory}";
+            //BucketPath = $"{configuration.Bucket}{configuration.Directory}";
+            BucketPath = configuration.Bucket;
+            BucketPrefix = configuration.Directory;
 
             var bucketRegion = RegionEndpoint.GetBySystemName(configuration.RegionEndpoint);
 
@@ -52,7 +56,9 @@ namespace RacerData.Data.Aws.Internal
                 {
                     BucketName = BucketPath,
                     StartAfter = startKey,
-                    MaxKeys = take
+                    MaxKeys = take,
+                    Delimiter = "/",
+                    Prefix = BucketPrefix
                 };
 
                 ListObjectsV2Response response = await _client.ListObjectsV2Async(request);
@@ -79,6 +85,14 @@ namespace RacerData.Data.Aws.Internal
                             Key = entry.Key,
                             ETag = entry.ETag,
                             LastModified = entry.LastModified
+                        });
+                    }
+
+                    foreach (string directory in response.CommonPrefixes)
+                    {
+                        awsResponse.Items.Add(new AwsCommonPrefixItem()
+                        {
+                            Key = directory
                         });
                     }
 

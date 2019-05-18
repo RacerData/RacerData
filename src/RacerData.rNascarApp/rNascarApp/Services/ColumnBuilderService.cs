@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Services
@@ -11,15 +11,15 @@ namespace RacerData.rNascarApp.Services
         #region public
 
         public static void BuildGridColumns(
-         ListSettings listSettings,
+         ListDefinition listDefinition,
          Control.ControlCollection headerControls,
          Control.ControlCollection rowControls)
         {
-            BuildGridColumns(listSettings, headerControls, rowControls, null);
+            BuildGridColumns(listDefinition, headerControls, rowControls, null);
         }
 
         public static void BuildGridColumns(
-            ListSettings listSettings,
+            ListDefinition listDefinition,
             Control.ControlCollection headerControls,
             Control.ControlCollection rowControls,
             Theme theme)
@@ -27,17 +27,17 @@ namespace RacerData.rNascarApp.Services
             ClearControlCollection(headerControls);
             ClearControlCollection(rowControls);
 
-            var baseHeaderHeight = listSettings.RowHeight.HasValue ? listSettings.RowHeight.Value : headerControls.Owner.Height;
+            var baseHeaderHeight = listDefinition.RowHeight.HasValue ? listDefinition.RowHeight.Value : headerControls.Owner.Height;
 
-            headerControls.Owner.Height = listSettings.MultilineHeader ? baseHeaderHeight * 2 : baseHeaderHeight;
+            headerControls.Owner.Height = listDefinition.MultilineHeader ? baseHeaderHeight * 2 : baseHeaderHeight;
             rowControls.Owner.Height = baseHeaderHeight;
 
-            if (!listSettings.RowHeight.HasValue)
-                listSettings.RowHeight = baseHeaderHeight;
+            if (!listDefinition.RowHeight.HasValue)
+                listDefinition.RowHeight = baseHeaderHeight;
 
             var columnIndex = 0;
 
-            foreach (ListColumn column in listSettings.OrderedColumns)
+            foreach (ListColumn column in listDefinition.OrderedColumns)
             {
                 if (column.Index != columnIndex)
                     column.Index = columnIndex;
@@ -67,17 +67,17 @@ namespace RacerData.rNascarApp.Services
                 }
 
                 if (stringSize.Width > (captionLabel.Width - 4) &&
-                    listSettings.MultilineHeader == false &&
-                    listSettings.RowHeight.HasValue)
+                    listDefinition.MultilineHeader == false &&
+                    listDefinition.RowHeight.HasValue)
                 {
-                    listSettings.MultilineHeader = true;
-                    headerControls.Owner.Height = listSettings.RowHeight.Value * 2;
+                    listDefinition.MultilineHeader = true;
+                    headerControls.Owner.Height = listDefinition.RowHeight.Value * 2;
                 }
                 else if (stringSize.Width < (captionLabel.Width + 4) &&
-                    listSettings.MultilineHeader == true &&
-                    listSettings.RowHeight.HasValue)
+                    listDefinition.MultilineHeader == true &&
+                    listDefinition.RowHeight.HasValue)
                 {
-                    headerControls.Owner.Height = listSettings.RowHeight.Value;
+                    headerControls.Owner.Height = listDefinition.RowHeight.Value;
                 }
             }
 
@@ -90,10 +90,10 @@ namespace RacerData.rNascarApp.Services
             }
 
             if (headerControls != null)
-                AlignControls(headerControls, listSettings.FillColumnIndex);
+                AlignControls(headerControls, listDefinition.FillColumnIndex);
 
             if (rowControls != null)
-                AlignControls(rowControls, listSettings.FillColumnIndex);
+                AlignControls(rowControls, listDefinition.FillColumnIndex);
         }
 
         public static void AlignControls(Control.ControlCollection controls, int? fillColumnIndex)

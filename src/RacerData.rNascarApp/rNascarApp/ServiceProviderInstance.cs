@@ -4,10 +4,11 @@ using log4net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.Data.Aws;
-using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Service;
+using RacerData.rNascarApp.Dialogs;
+using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Services;
-using RacerData.rNascarApp.Settings;
+using RacerData.UpdaterService;
 
 namespace RacerData.rNascarApp
 {
@@ -38,14 +39,32 @@ namespace RacerData.rNascarApp
             log.Info("rNascarApp Started");
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true)
+                .AddJsonFile("app.settings.json", optional: true)
                 .Build();
 
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
+
+            services.AddSingleton<IFileService>(new FileService());
+            services.AddSingleton<IViewDataSourceFactory>(new ViewDataSourceFactory());
+            services.AddTransient<IDisplayFormatMapService, DisplayFormatMapService>();
+            services.AddTransient<IViewDisplayFormatFactory, ViewDisplayFormatFactory>();
+
             services.AddScoped<IWorkspaceService, WorkspaceService>();
+            services.AddScoped<IStateService, StateService>();
+            services.AddScoped<IRevertableService, RevertableService>();
+
+            services.AddTransient<IDirectoryService, DirectoryService>();
+            services.AddTransient<ISerializer, Serializer>();
+
+            services.AddTransient<WorkspaceManagementDialog, WorkspaceManagementDialog>();
+            services.AddTransient<ViewManagementDialog, ViewManagementDialog>();
+            services.AddTransient<DisplayFormatMapDialog, DisplayFormatMapDialog>();
+            services.AddTransient<CreateViewWizard, CreateViewWizard>();
+
             services.AddNascarApiService();
             services.AddAwsData();
+            services.AddUpdateService();
 
             Mapper.Initialize(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
 

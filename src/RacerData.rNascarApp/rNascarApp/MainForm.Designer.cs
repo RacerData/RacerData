@@ -43,8 +43,6 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.userSettingsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +50,10 @@
             this.displayFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.workspaceManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForupdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel0 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTrackName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -76,6 +78,7 @@
             this.gridSizeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlGrid = new System.Windows.Forms.Panel();
+            this.dragFrame = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.tlsMain.SuspendLayout();
@@ -90,7 +93,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
-            this.toolsToolStripMenuItem});
+            this.toolsToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
@@ -142,7 +146,7 @@
             this.workspaceToolStripMenuItem.Name = "workspaceToolStripMenuItem";
             this.workspaceToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.workspaceToolStripMenuItem.Text = "&Workspace";
-            this.workspaceToolStripMenuItem.Click += new System.EventHandler(this.workspaceToolStripMenuItem_Click);
+            this.workspaceToolStripMenuItem.Click += new System.EventHandler(this.newWorkspaceToolStripMenuItem_Click);
             // 
             // openWorkspaceToolStripMenuItem1
             // 
@@ -194,8 +198,6 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusBarToolStripMenuItem,
             this.toolBarToolStripMenuItem,
-            this.logFileToolStripMenuItem,
-            this.userSettingsFileToolStripMenuItem,
             this.viewListToolStripMenuItem});
             this.viewToolStripMenuItem.ForeColor = System.Drawing.Color.DarkGray;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
@@ -211,7 +213,7 @@
             this.statusBarToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.statusBarToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.status;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             this.statusBarToolStripMenuItem.CheckedChanged += new System.EventHandler(this.statusBarToolStripMenuItem_CheckedChanged);
             // 
@@ -224,29 +226,9 @@
             this.toolBarToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.toolBarToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.tool;
             this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.toolBarToolStripMenuItem.Text = "&Tool Bar";
             this.toolBarToolStripMenuItem.CheckedChanged += new System.EventHandler(this.toolBarToolStripMenuItem_CheckedChanged);
-            // 
-            // logFileToolStripMenuItem
-            // 
-            this.logFileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.logFileToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.logFileToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.logFile;
-            this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.logFileToolStripMenuItem.Text = "&Log File";
-            this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
-            // 
-            // userSettingsFileToolStripMenuItem
-            // 
-            this.userSettingsFileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.userSettingsFileToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.userSettingsFileToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.settings;
-            this.userSettingsFileToolStripMenuItem.Name = "userSettingsFileToolStripMenuItem";
-            this.userSettingsFileToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.userSettingsFileToolStripMenuItem.Text = "&User Settings File";
-            this.userSettingsFileToolStripMenuItem.Click += new System.EventHandler(this.userSettingsFileToolStripMenuItem_Click);
             // 
             // viewListToolStripMenuItem
             // 
@@ -254,7 +236,7 @@
             this.viewListToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.viewListToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.views2;
             this.viewListToolStripMenuItem.Name = "viewListToolStripMenuItem";
-            this.viewListToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.viewListToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.viewListToolStripMenuItem.Text = "View List";
             this.viewListToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewListToolStripMenuItem_DropDownOpening);
             // 
@@ -321,6 +303,45 @@
             this.viewManagementToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.viewManagementToolStripMenuItem.Text = "&View Management";
             this.viewManagementToolStripMenuItem.Click += new System.EventHandler(this.viewManagementToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.checkForupdatesToolStripMenuItem,
+            this.displayLogFileToolStripMenuItem});
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.Color.DarkGray;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.aboutToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // checkForupdatesToolStripMenuItem
+            // 
+            this.checkForupdatesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.checkForupdatesToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.checkForupdatesToolStripMenuItem.Name = "checkForupdatesToolStripMenuItem";
+            this.checkForupdatesToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.checkForupdatesToolStripMenuItem.Text = "Check for &updates";
+            this.checkForupdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForupdatesToolStripMenuItem_Click);
+            // 
+            // displayLogFileToolStripMenuItem
+            // 
+            this.displayLogFileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.displayLogFileToolStripMenuItem.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.displayLogFileToolStripMenuItem.Image = global::RacerData.rNascarApp.Properties.Resources.logFile;
+            this.displayLogFileToolStripMenuItem.Name = "displayLogFileToolStripMenuItem";
+            this.displayLogFileToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.displayLogFileToolStripMenuItem.Text = "Display &Log File";
+            this.displayLogFileToolStripMenuItem.Click += new System.EventHandler(this.displayLogFileToolStripMenuItem_Click);
             // 
             // MainStatusStrip
             // 
@@ -576,6 +597,7 @@
             // dragTimer
             // 
             this.dragTimer.Interval = 20;
+            this.dragTimer.Tick += new System.EventHandler(this.DragTimer_Tick);
             // 
             // pnlGrid
             // 
@@ -587,12 +609,22 @@
             this.pnlGrid.Size = new System.Drawing.Size(1077, 332);
             this.pnlGrid.TabIndex = 4;
             // 
+            // dragFrame
+            // 
+            this.dragFrame.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dragFrame.Location = new System.Drawing.Point(612, 12);
+            this.dragFrame.Name = "dragFrame";
+            this.dragFrame.Size = new System.Drawing.Size(67, 34);
+            this.dragFrame.TabIndex = 0;
+            this.dragFrame.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1077, 409);
+            this.Controls.Add(this.dragFrame);
             this.Controls.Add(this.pnlGrid);
             this.Controls.Add(this.tlsMain);
             this.Controls.Add(this.MainStatusStrip);
@@ -642,8 +674,6 @@
         private System.Windows.Forms.ToolStripMenuItem statusBarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolBarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem logFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem userSettingsFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
         private System.Windows.Forms.Timer dragTimer;
         private System.Windows.Forms.Panel pnlGrid;
@@ -670,6 +700,11 @@
         private System.Windows.Forms.ToolStripLabel lblCurrentWorkspaceCaption;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkForupdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem displayLogFileToolStripMenuItem;
+        private System.Windows.Forms.Panel dragFrame;
     }
 }
 

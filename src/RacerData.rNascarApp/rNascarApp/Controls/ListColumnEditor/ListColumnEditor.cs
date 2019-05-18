@@ -193,20 +193,20 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             if (ViewState == null)
                 return;
 
-            if (ViewState.ListSettings.ShowHeader)
+            if (ViewState.ListDefinition.ShowHeader)
             {
                 lblHeader.Text = ViewState.HeaderText;
             }
 
-            BuildColumnControls(ViewState.ListSettings);
+            BuildColumnControls(ViewState.ListDefinition);
         }
 
-        protected virtual void BuildColumnControls(ListSettings listSettings)
+        protected virtual void BuildColumnControls(ListDefinition listDefinition)
         {
-            if (listSettings == null)
+            if (listDefinition == null)
                 return;
 
-            ColumnBuilderService.BuildGridColumns(listSettings,
+            ColumnBuilderService.BuildGridColumns(listDefinition,
                 pnlCaptions.Controls,
                 pnlFields.Controls,
                 _viewTheme);
@@ -407,7 +407,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
                 ((ListColumn)label.Tag).Width = label.Width;
             }
 
-            var viewListColumn = ViewState.ListSettings.OrderedColumns[_selectedFieldIndex.Value];
+            var viewListColumn = ViewState.ListDefinition.OrderedColumns[_selectedFieldIndex.Value];
 
             viewListColumn.Caption = txtColCaption.Text;
             viewListColumn.Alignment = calAlignment.Alignment;
@@ -429,7 +429,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             if (cboThemes.SelectedItem != null)
                 ViewState.ThemeId = ((Theme)cboThemes.SelectedItem).Id;
 
-            ViewState.ListSettings.OrderedColumns[_selectedFieldIndex.Value] = viewListColumn;
+            ViewState.ListDefinition.OrderedColumns[_selectedFieldIndex.Value] = viewListColumn;
 
             SetUIEditState(false, null);
         }
@@ -442,7 +442,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
 
         protected virtual void UpdateColumnAligmnents()
         {
-            var stretchColumn = ViewState.ListSettings.Columns.FirstOrDefault(c => c.Width == null);
+            var stretchColumn = ViewState.ListDefinition.Columns.FirstOrDefault(c => c.Width == null);
             UpdateColumnAligmnents(stretchColumn?.Index);
         }
         protected virtual void UpdateColumnAligmnents(int? stretchColumnIndex)
@@ -516,7 +516,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             if (cboThemes.Items.Count == 0)
                 LoadThemes();
 
-            var viewListColumn = ViewState.ListSettings.Columns.FirstOrDefault(c => c.Index == index);
+            var viewListColumn = ViewState.ListDefinition.Columns.FirstOrDefault(c => c.Index == index);
 
             txtColCaption.Text = viewListColumn.Caption;
 
@@ -547,16 +547,16 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
         {
             _preStretchWidths.Clear();
 
-            foreach (ListColumn column in ViewState.ListSettings.OrderedColumns)
+            foreach (ListColumn column in ViewState.ListDefinition.OrderedColumns)
             {
                 _preStretchWidths.Add(column.Width);
             }
         }
         protected virtual void RevertColumnWidths()
         {
-            for (int i = 0; i < ViewState.ListSettings.OrderedColumns.Count; i++)
+            for (int i = 0; i < ViewState.ListDefinition.OrderedColumns.Count; i++)
             {
-                ViewState.ListSettings.OrderedColumns[i].Width = _preStretchWidths[i];
+                ViewState.ListDefinition.OrderedColumns[i].Width = _preStretchWidths[i];
             }
         }
 
@@ -565,7 +565,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             if (_isLoadingFieldDetails)
                 return;
 
-            for (int i = 0; i < ViewState.ListSettings.Columns.Count; i++)
+            for (int i = 0; i < ViewState.ListDefinition.Columns.Count; i++)
             {
                 FormatSampleValue(i);
             }
@@ -583,7 +583,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
 
             var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(columnIndex);
 
-            var viewListColumn = ViewState.ListSettings.OrderedColumns[columnIndex];
+            var viewListColumn = ViewState.ListDefinition.OrderedColumns[columnIndex];
 
             var type = viewListColumn.ConvertedType;
 
@@ -604,7 +604,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
 
             var fieldLabel = pnlFields.Controls.OfType<Label>().ElementAt(columnIndex);
 
-            var viewListColumn = ViewState.ListSettings.OrderedColumns[columnIndex];
+            var viewListColumn = ViewState.ListDefinition.OrderedColumns[columnIndex];
 
             var type = viewListColumn.ConvertedType;
 
@@ -667,7 +667,7 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             if (_selectedFieldIndex.HasValue)
             {
                 int width = 0;
-                var column = ViewState.ListSettings.OrderedColumns[_selectedFieldIndex.Value];
+                var column = ViewState.ListDefinition.OrderedColumns[_selectedFieldIndex.Value];
                 if (Int32.TryParse(txtWidth.Text, out width))
                 {
                     CaptionLabel.Width = width;
@@ -688,18 +688,18 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             }
 
             if (stringSize.Width > (captionLabel.Width - 2) &&
-                ViewState.ListSettings.MultilineHeader == false &&
-                ViewState.ListSettings.RowHeight.HasValue)
+                ViewState.ListDefinition.MultilineHeader == false &&
+                ViewState.ListDefinition.RowHeight.HasValue)
             {
-                ViewState.ListSettings.MultilineHeader = true;
-                pnlCaptions.Height = ViewState.ListSettings.RowHeight.Value * 2;
+                ViewState.ListDefinition.MultilineHeader = true;
+                pnlCaptions.Height = ViewState.ListDefinition.RowHeight.Value * 2;
             }
             else if (stringSize.Width < (captionLabel.Width - 2) &&
-                ViewState.ListSettings.MultilineHeader == true &&
-                ViewState.ListSettings.RowHeight.HasValue)
+                ViewState.ListDefinition.MultilineHeader == true &&
+                ViewState.ListDefinition.RowHeight.HasValue)
             {
-                ViewState.ListSettings.MultilineHeader = false;
-                pnlCaptions.Height = ViewState.ListSettings.RowHeight.Value;
+                ViewState.ListDefinition.MultilineHeader = false;
+                pnlCaptions.Height = ViewState.ListDefinition.RowHeight.Value;
             }
         }
 

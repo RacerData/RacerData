@@ -8,12 +8,12 @@ using RacerData.rNascarApp.Controls;
 using RacerData.rNascarApp.Controls.CreateViewWizard;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
+using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Dialogs
 {
-    public partial class CreateViewWizard : Form, IViewDesigner
+    public partial class CreateViewWizard : Form
     {
         #region consts
 
@@ -25,7 +25,9 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region fields
 
-        private ILog _log { get; set; }
+        private readonly ILog _log = null;
+        private readonly IList<ViewDataSource> _dataSources = null;
+        private readonly IDisplayFormatMapService _mapService = null;
         private int _wizardIndex = 0;
         private IDictionary<int, IWizardStep> _wizardSteps = new Dictionary<int, IWizardStep>();
 
@@ -35,9 +37,9 @@ namespace RacerData.rNascarApp.Dialogs
 
         public Guid? ViewStateId { get; set; }
         public IList<Theme> Themes { get; set; }
-        public IList<ViewDataSource> DataSources { get; set; } = new List<ViewDataSource>();
+        //public IList<ViewDataSource> DataSources { get; set; } = new List<ViewDataSource>();
         public IList<ViewState> ViewStates { get; set; } = new List<ViewState>();
-        public DisplayFormatMapService MapService { get; set; }
+        //public IDisplayFormatMapService MapService { get; set; }
 
         public CreateViewContext Context { get; set; }
 
@@ -47,17 +49,26 @@ namespace RacerData.rNascarApp.Dialogs
 
         #region ctor/load
 
-        public CreateViewWizard()
+        internal CreateViewWizard()
         {
             InitializeComponent();
+        }
+        public CreateViewWizard(
+            IViewDataSourceFactory dataSourceFactory,
+            IDisplayFormatMapService mapService)
+            : this()
+        {
+            if (dataSourceFactory == null)
+                throw new ArgumentNullException(nameof(dataSourceFactory));
+
+            _dataSources = dataSourceFactory.GetDataSources();
+            _mapService = mapService ?? throw new ArgumentNullException(nameof(mapService));
         }
 
         private void ViewDesignerDialog2_Load(object sender, EventArgs e)
         {
-            _log = LogManager.GetLogger("View Designer");
-
             var step1 = new CreateViewWizard1();
-            step1.DataSources = this.DataSources;
+            step1.DataSources = _dataSources;
             step1.AdvanceStepRequest += (s, a) =>
             {
                 AdvanceStep();
@@ -178,9 +189,7 @@ namespace RacerData.rNascarApp.Dialogs
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
             _log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+
             MessageBox.Show($"{message}: {ex.Message}");
         }
 

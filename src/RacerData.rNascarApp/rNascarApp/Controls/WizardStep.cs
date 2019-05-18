@@ -149,9 +149,7 @@ namespace RacerData.rNascarApp.Controls
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
             Log?.Error(message, ex);
-#if DEBUG
-            Console.WriteLine(ex);
-#endif
+
             MessageBox.Show($"{message}: {ex.Message}");
         }
 

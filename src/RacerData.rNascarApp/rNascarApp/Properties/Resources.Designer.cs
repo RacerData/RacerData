@@ -91,6 +91,16 @@ namespace RacerData.rNascarApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sat 05/18/2019 10:57:14.59 
+        ///.
+        /// </summary>
+        internal static string BuildDate {
+            get {
+                return ResourceManager.GetString("BuildDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap check {
@@ -283,9 +293,39 @@ namespace RacerData.rNascarApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap racerdata_background {
+            get {
+                object obj = ResourceManager.GetObject("racerdata-background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap remove {
             get {
                 object obj = ResourceManager.GetObject("remove", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rNascarApp_logo_600x150 {
+            get {
+                object obj = ResourceManager.GetObject("rNascarApp-logo-600x150", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rNascarLogo {
+            get {
+                object obj = ResourceManager.GetObject("rNascarLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -5,23 +5,47 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascarApp", "rNascarApp\rNascarApp.csproj", "{9331E682-37ED-4FE1-A0B6-C78329D30DD6}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "rNascarApp Setup", "rNascarApp Setup\rNascarApp Setup.vdproj", "{0F1AFF28-52AE-46F2-923E-369D1A600E0F}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "rNascarSetup", "RacerData.rNascarApp.Setup\rNascarSetup.wixproj", "{F4802369-F129-48B9-8CA2-654E06FBE20A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{4F30167E-3E96-49D5-A539-D9BE347E15E0}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "rNascarInstaller", "rNascarInstaller\rNascarInstaller.wixproj", "{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Debug|x86.Build.0 = Debug|Any CPU
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F1AFF28-52AE-46F2-923E-369D1A600E0F}.Debug|Any CPU.ActiveCfg = Debug
-		{0F1AFF28-52AE-46F2-923E-369D1A600E0F}.Release|Any CPU.ActiveCfg = Release
+		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Release|x86.ActiveCfg = Release|Any CPU
+		{9331E682-37ED-4FE1-A0B6-C78329D30DD6}.Release|x86.Build.0 = Release|Any CPU
+		{F4802369-F129-48B9-8CA2-654E06FBE20A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F4802369-F129-48B9-8CA2-654E06FBE20A}.Debug|x86.ActiveCfg = Debug|x86
+		{F4802369-F129-48B9-8CA2-654E06FBE20A}.Debug|x86.Build.0 = Debug|x86
+		{F4802369-F129-48B9-8CA2-654E06FBE20A}.Release|Any CPU.ActiveCfg = Release|x86
+		{F4802369-F129-48B9-8CA2-654E06FBE20A}.Release|x86.ActiveCfg = Release|x86
+		{F4802369-F129-48B9-8CA2-654E06FBE20A}.Release|x86.Build.0 = Release|x86
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}.Debug|x86.ActiveCfg = Debug|x86
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}.Debug|x86.Build.0 = Debug|x86
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}.Release|Any CPU.ActiveCfg = Release|x86
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}.Release|x86.ActiveCfg = Release|x86
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F4802369-F129-48B9-8CA2-654E06FBE20A} = {4F30167E-3E96-49D5-A539-D9BE347E15E0}
+		{171F9BBD-4A39-47EE-9480-82C06AB2CD0E} = {4F30167E-3E96-49D5-A539-D9BE347E15E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3223D79-89A1-4106-9C08-BDAD975AE450}

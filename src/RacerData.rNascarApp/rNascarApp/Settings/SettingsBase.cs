@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using log4net;
 using Newtonsoft.Json;
 
 namespace RacerData.rNascarApp.Settings
@@ -8,6 +9,8 @@ namespace RacerData.rNascarApp.Settings
     public abstract class SettingsBase
     {
         #region properties
+
+        protected ILog Log { get; set; }
 
         protected abstract string SettingsFileName { get; }
 
@@ -21,56 +24,98 @@ namespace RacerData.rNascarApp.Settings
 
         #endregion
 
+        #region ctor
+
+        public SettingsBase()
+        {
+            Log = LogManager.GetLogger("Settings");
+        }
+
+        #endregion
+
         #region public
 
         public bool Save()
         {
-            var filePath = GetSettingsFilePath();
-
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            try
             {
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Include
-            };
+                var filePath = GetSettingsFilePath();
 
-            var content = JsonConvert.SerializeObject(
-                    this,
-                    Formatting.Indented,
-                    settings);
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All,
+                    NullValueHandling = NullValueHandling.Include
+                };
 
-            File.WriteAllText(filePath, content);
+                var content = JsonConvert.SerializeObject(
+                        this,
+                        Formatting.Indented,
+                        settings);
 
-            return true;
+                File.WriteAllText(filePath, content);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error saving settings file", ex);
+            }
+
+            return false;
         }
 
         public string GetSettingsFilePath()
         {
-            if (!Directory.Exists(SettingsDirectory))
-                Directory.CreateDirectory(SettingsDirectory);
+            try
+            {
+                if (!Directory.Exists(SettingsDirectory))
+                    Directory.CreateDirectory(SettingsDirectory);
 
-            return Path.Combine(SettingsDirectory, SettingsFileName);
+                return Path.Combine(SettingsDirectory, SettingsFileName);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error getting settings file path", ex);
+            }
+
+            return @".\";
         }
 
         #endregion
 
         #region protected
+        protected virtual void ExceptionHandler(string message, Exception ex)
+        {
+            Log?.Error(message, ex);
+
+            MessageBox.Show(ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
         protected T Load<T>() where T : SettingsBase, new()
         {
-            var filePath = GetSettingsFilePath();
-
-            if (!File.Exists(filePath))
+            try
             {
-                var defaultSettings = new T();
+                var filePath = GetSettingsFilePath();
 
-                defaultSettings.Save();
+                if (!File.Exists(filePath))
+                {
+                    var defaultSettings = new T();
 
-                return defaultSettings;
+                    defaultSettings.Save();
+
+                    return defaultSettings;
+                }
+
+                var settingsContent = File.ReadAllText(filePath);
+
+                return JsonConvert.DeserializeObject<T>(settingsContent);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error loading settings file", ex);
             }
 
-            var settingsContent = File.ReadAllText(filePath);
-
-            return JsonConvert.DeserializeObject<T>(settingsContent);
+            return default(T);
         }
 
         protected virtual T GetDefaultSettings<T>() where T : class, new()

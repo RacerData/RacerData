@@ -232,6 +232,17 @@ namespace RacerData.rNascarApp.Dialogs
         {
             if (IsNew)
             {
+                if (Views.Any(v => v.Name == View.Name))
+                {
+                    MessageBox.Show(this,
+                      "Duplicate name",
+                      "View name must be unique",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Warning);
+
+                    return;
+                }
+
                 Views.Add(View);
             }
 

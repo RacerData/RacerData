@@ -6,7 +6,7 @@ using RacerData.rNascarApp.Themes;
 
 namespace RacerData.rNascarApp.Services
 {
-    internal class ColumnBuilderService : IColumnBuilderService
+    internal class ColumnBuilderService2 : IColumnBuilderService
     {
         #region public
 

@@ -273,6 +273,17 @@ namespace RacerData.rNascarApp.Dialogs
         {
             if (IsNew)
             {
+                if (Workspaces.Any(v => v.Name == Workspace.Name))
+                {
+                    MessageBox.Show(this,
+                      "Duplicate name",
+                      "Workspace name must be unique",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Warning);
+
+                    return;
+                }
+
                 Workspaces.Add(Workspace);
             }
 

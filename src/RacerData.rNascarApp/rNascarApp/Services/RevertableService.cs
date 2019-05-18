@@ -53,6 +53,11 @@ namespace RacerData.rNascarApp.Services
             return item;
         }
 
+        public string PeekStateData<T>(Guid key) where T : class, new()
+        {
+            return _stateMap[key]; ;
+        }
+
         public void ClearAllStates()
         {
             foreach (var key in _stateMap.Keys.ToList())

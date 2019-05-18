@@ -199,10 +199,10 @@ namespace RacerData.rNascarApp.Services
             if (!_savedStateKey.HasValue)
                 return false;
 
-            var savedState = _revertableService.PeekState<State>(_savedStateKey.Value);
+            var savedState = _revertableService.PeekStateData<State>(_savedStateKey.Value);
 
             Guid currentStateKey = _revertableService.PersistState(State);
-            var currentState = _revertableService.PeekState<State>(currentStateKey);
+            var currentState = _revertableService.PeekStateData<State>(currentStateKey);
 
             return !currentState.Equals(savedState);
         }

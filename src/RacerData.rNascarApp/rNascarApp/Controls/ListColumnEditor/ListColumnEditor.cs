@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Services;
@@ -160,6 +161,8 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             }
         }
 
+        public IColumnBuilderService ColumnBuilderService { get; set; }
+
         #endregion
 
         #region ctor/load
@@ -182,6 +185,8 @@ namespace RacerData.rNascarApp.Controls.ListColumnEditor
             DisableChildren(grpEditField);
 
             grpViewSettings.Visible = ShowViewSettings;
+
+            ColumnBuilderService = ServiceProvider.Instance.GetRequiredService<IColumnBuilderService>();
         }
 
         #endregion

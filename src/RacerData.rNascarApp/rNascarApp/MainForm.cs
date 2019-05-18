@@ -113,6 +113,10 @@ namespace RacerData.rNascarApp
         {
             try
             {
+                this.Hide();
+
+                Application.DoEvents();
+
                 this.SuspendLayout();
 
                 InitializeMainForm();
@@ -123,9 +127,12 @@ namespace RacerData.rNascarApp
             }
             finally
             {
-                SplashForm.CloseSplash(SplashForm.SplashTypeOfMessage.Success, string.Empty, false);
+                if (Properties.Settings.Default.ShowSplash)
+                    SplashForm.CloseSplash(SplashForm.SplashTypeOfMessage.Success, string.Empty, false);
 
                 this.ResumeLayout(true);
+
+                this.Show();
 
                 this.Activate();
             }
@@ -442,48 +449,29 @@ namespace RacerData.rNascarApp
             for (i = heights.Length - 1; i >= 0 && point.Y < h; i--)
                 h -= heights[i];
 
-            int row = i + 1;
+            int row = i;// + 1;
 
             return new Point(col, row);
         }
         #endregion
 
         #region control base
-        protected virtual UserControlBase AddControl(ViewState viewState)
-        {
-            UserControlBase controlBase = new UserControlBase(viewState);
 
-            return AddControl(
-                controlBase,
-                viewState.CellPosition.Row,
-                viewState.CellPosition.Column,
-                viewState.CellPosition.RowSpan,
-                viewState.CellPosition.ColumnSpan);
-        }
-
-        protected virtual UserControlBase AddControl(
-            UserControlBase controlBase,
-            int row,
-            int column,
-            int rowSpan,
-            int columnSpan)
+        protected virtual UserControlBase AddControl(ViewState view)
         {
+            UserControlBase controlBase = null;
+
             try
             {
+                SetViewSize(view);
+
+                controlBase = new UserControlBase(view);
+
                 controlBase.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
-                controlBase.View.CellPosition.Row = Math.Min(row, GridTable.RowCount);
-                controlBase.View.CellPosition.Column = Math.Min(row, GridTable.ColumnCount);
-                controlBase.View.CellPosition.RowSpan = Math.Min(rowSpan, GridTable.RowCount);
-                controlBase.View.CellPosition.ColumnSpan = Math.Min(columnSpan, GridTable.ColumnCount);
-
-                if (controlBase.View.CellPosition.RowSpan == 0 ||
-                    controlBase.View.CellPosition.ColumnSpan == 0)
-                    SetViewSize(controlBase.View);
-
-                GridTable.Controls.Add(controlBase, column, row);
-                GridTable.SetRowSpan(controlBase, rowSpan);
-                GridTable.SetColumnSpan(controlBase, columnSpan);
+                GridTable.Controls.Add(controlBase, view.CellPosition.Column, view.CellPosition.Row);
+                GridTable.SetRowSpan(controlBase, view.CellPosition.RowSpan);
+                GridTable.SetColumnSpan(controlBase, view.CellPosition.ColumnSpan);
 
                 UpdateGridCapacity();
 
@@ -1085,18 +1073,18 @@ namespace RacerData.rNascarApp
         private void ViewStateStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            ViewState viewState = (ViewState)item.Tag;
+            ViewState view = (ViewState)item.Tag;
 
             if (item.Checked)
             {
-                AddControl(viewState);
+                AddControl(view);
             }
             else
             {
                 UserControlBase controlToClose = null;
                 foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                 {
-                    if (controlBase.View.Name == viewState.Name)
+                    if (controlBase.View.Name == view.Name)
                     {
                         controlToClose = controlBase;
                         break;
@@ -1112,13 +1100,70 @@ namespace RacerData.rNascarApp
 
         protected virtual void SetViewSize(ViewState view)
         {
-            view.CellPosition.ColumnSpan = (view.ListDefinition.Columns.Where(c => c.Width.HasValue).Sum(c => c.Width.Value) / (int)GridTable.ColumnStyles[0].Width) + 1;
-            view.CellPosition.RowSpan = (((view.ListDefinition.MaxRows.HasValue ?
-                view.ListDefinition.MaxRows.Value :
-                10) * (view.ListDefinition.RowHeight.HasValue ?
-                view.ListDefinition.RowHeight.Value :
-                8)) / (int)GridTable.RowStyles[0].Height);
+            UpdateNullRowWidths(view);
+
+            view.CellPosition.Row = Math.Min(view.CellPosition.Row, GridTable.RowCount);
+            view.CellPosition.Column = Math.Min(view.CellPosition.Column, GridTable.ColumnCount);
+            view.CellPosition.RowSpan = Math.Min(view.CellPosition.RowSpan, GridTable.RowCount);
+            view.CellPosition.ColumnSpan = Math.Min(view.CellPosition.ColumnSpan, GridTable.ColumnCount);
+
+            if (view.CellPosition.RowSpan <= 1 && view.CellPosition.ColumnSpan <= 1)
+            {
+                view.CellPosition.RowSpan = _stateService.State.DefaultViewSize.X;
+                view.CellPosition.ColumnSpan = _stateService.State.DefaultViewSize.Y;
+            }
+
+            return;
+
+            // TODO - refactor SetViewSize
+
+            //var defaultRowCount = 8;
+            //var defaultRowHeight = 24;
+            //var defaultColumnWidth = 150;
+
+            //// width
+            //var gridWidth = view.ListDefinition.Columns.Sum(c => c.Width.HasValue ? c.Width.Value : defaultColumnWidth);
+
+            //view.CellPosition.ColumnSpan = (gridWidth / (int)GridTable.ColumnStyles[0].Width);
+
+            //// height
+            //var listRowsCount = view.ListDefinition.MaxRows.HasValue ?
+            //    view.ListDefinition.MaxRows.Value :
+            //    defaultRowCount;
+
+            //var captionCount = view.ListDefinition.ShowCaptions ? 1 : 0;
+            //var headerCount = view.ListDefinition.ShowHeader ? 1 : 0;
+            //headerCount += view.ListDefinition.MultilineHeader ? 1 : 0;
+
+            //var totalGridRowCount = listRowsCount + captionCount + headerCount;
+
+            //var rowHeight = view.ListDefinition.RowHeight.HasValue ?
+            //    view.ListDefinition.RowHeight.Value :
+            //    defaultRowHeight;
+
+            //var gridHeight = rowHeight * totalGridRowCount;
+
+            //view.CellPosition.RowSpan = (gridHeight / (int)GridTable.RowStyles[0].Height);
         }
+
+        protected virtual void UpdateNullRowWidths(ViewState view)
+        {
+            if (view.ListDefinition.Columns.Count(c => c.Width == null && c.Fill == false) <= 0)
+                return;
+
+            Image image = new Bitmap(1, 1);
+            Graphics graphics = Graphics.FromImage(image);
+            var theme = _themes.FirstOrDefault(t => t.Id == view.ThemeId);
+            foreach (var column in view.ListDefinition.Columns)
+            {
+                if (column.Width == null && !column.Fill)
+                {
+                    SizeF labelTextSize = graphics.MeasureString(column.Caption, theme.GridFont);
+                    column.Width = (int)Math.Round(labelTextSize.Width);
+                }
+            }
+        }
+
         protected virtual void ReloadViews()
         {
             try
@@ -1230,6 +1275,10 @@ namespace RacerData.rNascarApp
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveWindowState();
+
+            UpdateViews();
+
             if (!_stateService.State.AutoSaveOnExit &&
                 (e.CloseReason == CloseReason.UserClosing ||
                 e.CloseReason == CloseReason.ApplicationExitCall))
@@ -1246,7 +1295,10 @@ namespace RacerData.rNascarApp
         {
             bool cancelClose = false;
 
-            if (_workspaceService.HasChanges || _stateService.HasChanges)
+            var workspaceHasChanges = _workspaceService.HasChanges;
+            var stateHasChanges = _stateService.HasChanges;
+
+            if (workspaceHasChanges || stateHasChanges)
             {
                 var promptResult = MessageBox.Show(this,
                     "Save changes before exiting?",
@@ -1269,17 +1321,12 @@ namespace RacerData.rNascarApp
 
         protected virtual void SaveApplicationStates()
         {
-            SaveWindowState();
-
-            UpdateViews();
-
             _stateService.Save();
             _workspaceService.Save();
         }
 
         protected virtual void SaveWindowState()
         {
-
             if (WindowState == FormWindowState.Maximized)
             {
                 Properties.Settings.Default.Location = RestoreBounds.Location;
@@ -1772,12 +1819,6 @@ namespace RacerData.rNascarApp
                 {
                     GridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, newColumnSize));
                 }
-
-                //if (_workspaceService != null && _workspaceService.CurrentWorkspace != null)
-                //{
-                //    _workspaceService.CurrentWorkspace.GridColumnCount = columnCount;
-                //    _workspaceService.CurrentWorkspace.GridRowCount = rowCount;
-                //}
             }
             catch (Exception ex)
             {

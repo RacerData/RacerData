@@ -26,6 +26,7 @@ namespace RacerData.rNascarApp.Settings
         FormStartPosition StartPosition { get; set; }
         BindingList<ViewState> ViewStates { get; set; }
         FormWindowState WindowState { get; set; }
+        Point DefaultViewSize { get; set; }
 
         event PropertyChangedEventHandler PropertyChanged;
     }

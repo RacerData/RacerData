@@ -31,7 +31,7 @@ namespace RacerData.rNascarApp.Dialogs
         internal SplashForm()
         {
             InitializeComponent();
-            lblLoading.Text = "Please wait Loading";
+            lblLoading.Text = "Firing it up!";
         }
 
         public static void ShowSplashScreen()

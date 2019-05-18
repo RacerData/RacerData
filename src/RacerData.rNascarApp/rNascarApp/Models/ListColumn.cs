@@ -45,6 +45,7 @@ namespace RacerData.rNascarApp.Models
         public string ConvertedType { get; set; }
         public string Type { get; set; }
         public int? Width { get; set; }
+        public bool Fill { get; set; }
         public ContentAlignment Alignment { get; set; } = ContentAlignment.MiddleLeft;
         public string Format { get; set; }
         public string Sample { get; set; }

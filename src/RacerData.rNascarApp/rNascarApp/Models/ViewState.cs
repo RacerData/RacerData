@@ -133,7 +133,7 @@ namespace RacerData.rNascarApp.Models
                 OnPropertyChanged(nameof(CellPosition));
             }
         }
-        
+
         private Guid _themeId;
         public Guid ThemeId
         {
@@ -147,7 +147,7 @@ namespace RacerData.rNascarApp.Models
                 OnPropertyChanged(nameof(ThemeId));
             }
         }
-        
+
         #endregion
 
         #region public
@@ -182,7 +182,7 @@ namespace RacerData.rNascarApp.Models
 
         public bool Equals(ViewState other)
         {
-            return other != null &&
+            var result = other != null &&
                    Id.Equals(other.Id) &&
                    Name == other.Name &&
                    Description == other.Description &&
@@ -191,11 +191,15 @@ namespace RacerData.rNascarApp.Models
                    EqualityComparer<ViewCellPosition>.Default.Equals(CellPosition, other.CellPosition) &&
                    EqualityComparer<ListDefinition>.Default.Equals(ListDefinition, other.ListDefinition) &&
                    ThemeId.Equals(other.ThemeId);
+
+            return result;
+
         }
 
         public override int GetHashCode()
         {
             var hashCode = 389143722;
+
             hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(Id);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
@@ -204,17 +208,22 @@ namespace RacerData.rNascarApp.Models
             hashCode = hashCode * -1521134295 + EqualityComparer<ViewCellPosition>.Default.GetHashCode(CellPosition);
             hashCode = hashCode * -1521134295 + EqualityComparer<ListDefinition>.Default.GetHashCode(ListDefinition);
             hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(ThemeId);
+
             return hashCode;
         }
 
         public static bool operator ==(ViewState state1, ViewState state2)
         {
-            return EqualityComparer<ViewState>.Default.Equals(state1, state2);
+            var result = EqualityComparer<ViewState>.Default.Equals(state1, state2);
+
+            return result;
         }
 
         public static bool operator !=(ViewState state1, ViewState state2)
         {
-            return !(state1 == state2);
+            var result = !(state1 == state2);
+
+            return result;
         }
 
         #endregion

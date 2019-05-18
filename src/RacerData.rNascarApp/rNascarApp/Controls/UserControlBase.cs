@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using RacerData.NascarApi.Client.Models.LapAverages;
 using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
@@ -95,6 +96,22 @@ namespace RacerData.rNascarApp.Controls
             get
             {
                 return pnlDetail.Controls.OfType<ListRow>().Where(l => l.Index >= 0).ToList();
+            }
+        }
+        private IColumnBuilderService _columnBuilderService = null;
+
+        protected IColumnBuilderService ColumnBuilderService
+        {
+            get
+            {
+                if (_columnBuilderService == null)
+                    _columnBuilderService = ServiceProvider.Instance.GetRequiredService<IColumnBuilderService>();
+
+                return _columnBuilderService;
+            }
+            set
+            {
+                _columnBuilderService = value;
             }
         }
 

@@ -333,12 +333,12 @@ namespace RacerData.rNascarApp.Services
             if (!_savedStateKey.HasValue)
                 return false;
 
-            var savedState = _revertableService.PeekState<List<Workspace>>(_savedStateKey.Value);
+            var savedState = _revertableService.PeekStateData<List<Workspace>>(_savedStateKey.Value);
 
             Guid currentStateKey = _revertableService.PersistState(Workspaces.ToList());
-            var currentState = _revertableService.PeekState<List<Workspace>>(currentStateKey);
+            var currentState = _revertableService.PeekStateData<List<Workspace>>(currentStateKey);
 
-            return !currentState.Equals(savedState);
+            return !savedState.Equals(currentState);
         }
 
         #endregion

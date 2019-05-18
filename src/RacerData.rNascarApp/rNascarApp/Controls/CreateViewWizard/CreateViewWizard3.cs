@@ -71,6 +71,23 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             }
         }
 
+
+        private IColumnBuilderService _columnBuilderService = null;
+        public IColumnBuilderService ColumnBuilderService
+        {
+            get
+            {
+                if (_columnBuilderService == null)
+                    _columnBuilderService = ServiceProvider.Instance.GetRequiredService<IColumnBuilderService>();
+
+                return _columnBuilderService;
+            }
+            set
+            {
+                _columnBuilderService = value;
+            }
+        }
+
         #endregion
 
         #region ctor/load

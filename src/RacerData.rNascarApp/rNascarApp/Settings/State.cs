@@ -303,6 +303,7 @@ namespace RacerData.rNascarApp.Settings
                 OnPropertyChanged(nameof(AutoSaveOnExit));
             }
         }
+        public Point DefaultViewSize { get; set; } = new Point(2, 2);
 
         #endregion      
     }

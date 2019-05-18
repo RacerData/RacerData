@@ -49,6 +49,9 @@ namespace RacerData.rNascarApp
             services.AddSingleton<IViewDataSourceFactory>(new ViewDataSourceFactory());
             services.AddTransient<IDisplayFormatMapService, DisplayFormatMapService>();
             services.AddTransient<IViewDisplayFormatFactory, ViewDisplayFormatFactory>();
+            services.AddTransient<IColumnBuilderService, ColumnBuilderService>();
+            services.AddTransient<IColumnBuilderService, ColumnBuilderService2>();
+
 
             services.AddScoped<IWorkspaceService, WorkspaceService>();
             services.AddScoped<IStateService, StateService>();

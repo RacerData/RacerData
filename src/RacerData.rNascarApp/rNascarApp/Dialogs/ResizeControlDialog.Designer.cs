@@ -41,11 +41,6 @@
             // numRowSpan
             // 
             this.numRowSpan.Location = new System.Drawing.Point(15, 27);
-            this.numRowSpan.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
             this.numRowSpan.Minimum = new decimal(new int[] {
             1,
             0,
@@ -64,11 +59,6 @@
             // numColSpan
             // 
             this.numColSpan.Location = new System.Drawing.Point(118, 27);
-            this.numColSpan.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
             this.numColSpan.Minimum = new decimal(new int[] {
             1,
             0,

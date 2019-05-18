@@ -21,47 +21,6 @@ namespace RacerData.rNascarApp.Controls
             Dock = DockStyle.Top;
         }
 
-        //public void AddColumns(IList<ViewListColumn> columns)
-        //{
-        //    foreach (ViewListColumn column in columns.OrderBy(c => c.Index))
-        //    {
-        //        AddColumn(column);
-        //    }
-        //    for (int i = Controls.Count - 1; i >= 0; i--)
-        //    {
-        //        if (i == 0)
-        //        {
-        //            Controls[i].Dock = DockStyle.Fill;
-        //        }
-        //        else
-        //        {
-        //            Controls[i].Dock = DockStyle.Right;
-        //            Controls[i].BringToFront();
-        //        }
-        //    }
-        //}
-
-        //public virtual void AddColumn(ViewListColumn column)
-        //{
-        //    var columnHeader = new Label()
-        //    {
-        //        Text = "-",
-        //        TextAlign = column.Alignment,
-        //        AutoSize = false,
-        //        Dock = DockStyle.Right,
-        //        BackColor = Color.FromKnownColor(KnownColor.Control),
-        //        BorderStyle = BorderStyle.FixedSingle,
-        //        Tag = column
-        //    };
-
-        //    Controls.Add(columnHeader);
-
-        //    if (column.Width.HasValue)
-        //        columnHeader.Size = new Size(column.Width.Value, columnHeader.Height);
-
-        //    columnHeader.BringToFront();
-        //}
-
         public virtual void ApplyTheme(Theme theme)
         {
             if (Index % 2 == 0)

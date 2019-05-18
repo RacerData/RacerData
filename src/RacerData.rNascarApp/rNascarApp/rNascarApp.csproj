@@ -359,6 +359,7 @@
     </Compile>
     <Compile Include="Extensions\MultidimensionalArrayExtensions.cs" />
     <Compile Include="Factories\IViewDisplayFormatFactory.cs" />
+    <Compile Include="Services\ColumnBuilderService2.cs" />
     <Compile Include="Services\DisplayFormatMapService.cs" />
     <Compile Include="Factories\IViewDataSourceFactory.cs" />
     <Compile Include="Factories\ViewDataSourceFactory.cs" />
@@ -376,6 +377,7 @@
     <Compile Include="Models\DataParserTypeException.cs" />
     <Compile Include="Models\DataParserValueException.cs" />
     <Compile Include="Models\DirectoryType.cs" />
+    <Compile Include="Services\IColumnBuilderService.cs" />
     <Compile Include="Services\IDisplayFormatMapService.cs" />
     <Compile Include="Services\IRevertableService.cs" />
     <Compile Include="Models\SortType.cs" />

@@ -1,0 +1,12 @@
+﻿{
+  "aws": {
+    "lapAverages": "Data/LapAverages",
+    "lapTimes": "Data/LapTimes",
+    "setup": "Setup/rNascar",
+    "patch": "Patch/rNascar",
+    "logs": "Logs/rNascar",
+    "sharedThemes": "Shared/Themes",
+    "sharedWorkspaces": "Shared/Workspaces",
+    "sharedViews": "Shared/Views"
+  }
+}

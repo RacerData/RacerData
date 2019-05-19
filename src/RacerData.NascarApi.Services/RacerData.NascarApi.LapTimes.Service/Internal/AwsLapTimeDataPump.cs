@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using log4net;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using RacerData.Commmon.Results;
 using RacerData.Data.Aws.Models;
 using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Client.Models.LapTimes;
@@ -12,15 +15,28 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
         #region fields
 
         private readonly IAwsRepository _repository;
+        private readonly ILog _log;
+        private readonly string _prefix = string.Empty;
 
         #endregion
 
         #region ctor
 
         public AwsLapTimeDataPump(
-            IAwsRepository repository)
+            ILog log,
+            IAwsRepositoryFactory repositoryFactory,
+            IConfiguration configuration)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            if (repositoryFactory == null)
+                throw new ArgumentNullException(nameof(repositoryFactory));
+
+            _repository = repositoryFactory.GetAwsRepository(AwsRepositoryType.LapTimes);
+
+            _log = log ?? throw new ArgumentNullException(nameof(log));
+
+            var rawConfigurationValue = configuration["aws:LapTimes"];
+
+            _prefix = rawConfigurationValue.EndsWith("/") ? rawConfigurationValue.TrimEnd('/') : rawConfigurationValue;
         }
 
         #endregion
@@ -42,7 +58,12 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
                 ContentType = contentType
             };
 
-            await _repository.PutAsync(item);
+            var result = await _repository.PutAsync(item);
+
+            if (!result.IsSuccessful())
+            {
+                throw new Exception($"Error writing lap time data to AWS: {result.Exception.Message}", result.Exception);
+            }
         }
 
         #endregion
@@ -51,7 +72,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         protected virtual string GetKey(LapTimeData lapTimes)
         {
-            return $"{lapTimes.SeriesId}-{lapTimes.RaceId}-{lapTimes.RunId}";
+            return $"{_prefix}/{lapTimes.SeriesId}-{lapTimes.RaceId}-{lapTimes.RunId}";
         }
 
         protected virtual string GetContent(LapTimeData lapTimes)
@@ -64,7 +85,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Internal
 
         protected virtual string GetContentType(LapTimeData lapTimes)
         {
-            return "application/json";
+            return AwsContentType.Json;
         }
 
         #endregion

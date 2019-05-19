@@ -33,7 +33,7 @@ namespace RacerData.Updater.UI
             log.Info("RacerData.Updater");
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true)
+                .AddJsonFile("app.settings.json", optional: true)
                 .Build();
 
             services.AddSingleton<IConfiguration>(configuration);

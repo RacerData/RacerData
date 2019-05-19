@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using log4net;
+using Microsoft.Extensions.Configuration;
 using RacerData.Commmon.Results;
 using RacerData.Common.Results;
 using RacerData.Data.Aws.Models;
 using RacerData.Data.Aws.Ports;
-using RacerData.UpdaterService.Internal;
 using RacerData.UpdaterService.Models;
 using RacerData.UpdaterService.Ports;
 
@@ -23,16 +22,19 @@ namespace RacerData.UpdaterService.Adapters
         private readonly ILog _log;
         private readonly IAwsRepositoryFactory _repositoryFactory;
         private readonly IResultFactory<UpdateService> _resultFactory;
+        private readonly string _prefix = string.Empty;
 
         public UpdateService(
             ILog log,
             IAwsRepositoryFactory repositoryFactory,
-            IResultFactory<UpdateService> resultFactory)
+            IResultFactory<UpdateService> resultFactory,
+            IConfiguration configuration)
         {
             _log = log ?? throw new ArgumentNullException(nameof(log));
 
             _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
+            _prefix = configuration["aws:Setup"].TrimEnd('/');
         }
 
         public async Task<IResult<UpdateResponse>> GetUpdatesAsync(string key, Version version)
@@ -46,16 +48,26 @@ namespace RacerData.UpdaterService.Adapters
 
                 var repository = GetUpdatesRepository(key);
 
-                var versions = await repository.SelectListAsync(100);
+                var result = await repository.SelectListAsync(100);
 
-                foreach (IAwsListItem item in versions)
+                if (!result.IsSuccessful())
+                {
+                    throw new Exception($"Error reading available updates from AWS: {result.Exception.Message}", result.Exception);
+                }
+
+                var versions = result.Value;
+
+                foreach (IAwsItem item in versions)
                 {
                     Console.WriteLine($"{AwsUpdateBucketUrl}{item.Key}");
 
-                    if (item is AwsCommonPrefixItem)
+                    var itemTitle = item.Key.Replace(_prefix, "");
+
+                    if (itemTitle.EndsWith("/") && itemTitle.Length > 1)
                     {
-                        // setup/rNascar/0.1.1.5/
-                        var versionSection = item.Key.Split('/')[2];
+                        // item.Key=setup/rNascar/0.1.1.5/
+                        // itemTitle=/0.1.1.5/
+                        var versionSection = itemTitle.Replace("/", "");
                         var updateVersion = Version.Parse(versionSection);
 
                         if (updateVersion.Minor > version.Minor)
@@ -83,13 +95,22 @@ namespace RacerData.UpdaterService.Adapters
             {
                 var response = new UpdateFilesResponse();
 
-                var repository = GetFilesRepository(key);
+                var repository = GetUpdatesRepository(key);
 
-                var versions = await repository.SelectListAsync(100);
+                var result = await repository.SelectListAsync(100);
 
-                foreach (IAwsListItem item in versions)
+                if (!result.IsSuccessful())
                 {
-                    if (item is AwsListItem && !item.Key.EndsWith("/"))
+                    throw new Exception($"Error reading update files from AWS: {result.Exception.Message}", result.Exception);
+                }
+
+                var versions = result.Value;
+
+                foreach (IAwsItem item in versions)
+                {
+                    var itemTitle = item.Key.Replace(_prefix, "");
+
+                    if (!itemTitle.EndsWith("/"))
                     {
                         response.UpdateFiles.Add(new UpdateFile()
                         {
@@ -119,7 +140,7 @@ namespace RacerData.UpdaterService.Adapters
 
                     var randomGuid = Guid.NewGuid();
 
-                    response.TempDirectory  = Path.Combine(tempPath, randomGuid.ToString());
+                    response.TempDirectory = Path.Combine(tempPath, randomGuid.ToString());
 
                     Directory.CreateDirectory(response.TempDirectory);
 
@@ -147,18 +168,9 @@ namespace RacerData.UpdaterService.Adapters
             }
         }
 
-        protected virtual IAwsRepository GetUpdatesRepository(string appKey, string newVersion = "")
+        protected virtual IAwsRepository GetUpdatesRepository(string appKey)
         {
-            var configuration = new AwsUpdateConfiguration(appKey, newVersion);
-
-            return _repositoryFactory.GetAwsRepository(configuration);
-        }
-
-        protected virtual IAwsRepository GetFilesRepository(string appKey)
-        {
-            var configuration = new AwsUpdateFilesConfiguration(appKey);
-
-            return _repositoryFactory.GetAwsRepository(configuration);
+            return _repositoryFactory.GetAwsRepository(AwsRepositoryType.Setup);
         }
     }
 }

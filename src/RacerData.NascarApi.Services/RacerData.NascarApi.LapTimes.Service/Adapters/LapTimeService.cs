@@ -2,12 +2,10 @@
 using System.Text;
 using log4net;
 using Microsoft.Extensions.Configuration;
-using RacerData.Data.Aws.Ports;
 using RacerData.NascarApi.Client.Models;
 using RacerData.NascarApi.Client.Models.LapTimes;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.LapTimes.Service.Internal;
-using RacerData.NascarApi.LapTimes.Service.Models;
 using RacerData.NascarApi.LapTimes.Service.Ports;
 using RacerData.NascarApi.Service;
 using RacerData.NascarApi.Service.Adapters;
@@ -32,7 +30,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
         #region fields
 
         private readonly ILapTimeDataFileWriter _lapTimeFileWriter;
-        private readonly AwsLapTimeDataPump _dataPump;
+        private readonly IAwsLapTimeDataPump _dataPump;
         private readonly ILapTimeParser _lapTimeParser;
         private readonly ILog _log;
         private LapTimeData _lapTimes;
@@ -48,7 +46,7 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
 
         public LapTimeService(
             IConfiguration configuration,
-            IAwsRepositoryFactory awsRepositoryFactory,
+            IAwsLapTimeDataPump dataPump,
             ILapTimeParser lapTimeParser,
             ILapTimeDataFileWriter lapTimeFileWriter,
             ILog log)
@@ -56,14 +54,9 @@ namespace RacerData.NascarApi.LapTimes.Service.Adapters
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            if (awsRepositoryFactory == null)
-                throw new ArgumentNullException(nameof(awsRepositoryFactory));
-
             _verbose = configuration["monitor:verbose"] == "true";
 
-            IAwsBucketConfiguration awsConfiguraiton = new AwsLapTimeBucketConfiguration();
-            var lapTimeRepository = awsRepositoryFactory.GetAwsRepository(awsConfiguraiton);
-            _dataPump = new AwsLapTimeDataPump(lapTimeRepository);
+            _dataPump = dataPump ?? throw new ArgumentNullException(nameof(dataPump));
 
             _lapTimeFileWriter = lapTimeFileWriter ?? throw new ArgumentNullException(nameof(lapTimeFileWriter));
             _lapTimeParser = lapTimeParser ?? throw new ArgumentNullException(nameof(lapTimeParser));

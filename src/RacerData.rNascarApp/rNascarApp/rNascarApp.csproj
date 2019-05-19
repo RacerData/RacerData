@@ -127,32 +127,32 @@
     <Reference Include="RacerData.Commmon.Results, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Commmon.Results.1.0.1\lib\netstandard2.0\RacerData.Commmon.Results.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.Data.Aws, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.Data.Aws.1.1.6\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
+    <Reference Include="RacerData.Data.Aws, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Aws.2.0.0\lib\netstandard2.0\RacerData.Data.Aws.dll</HintPath>
     </Reference>
     <Reference Include="RacerData.NascarApi, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.NascarApi.1.0.12\lib\netstandard2.0\RacerData.NascarApi.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Client, Version=1.0.53.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Client.1.0.53\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Client, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Client.1.1.0\lib\netstandard2.0\RacerData.NascarApi.Client.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Harvester.Service, Version=1.0.79.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.81\lib\netstandard2.0\RacerData.NascarApi.Harvester.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Harvester.Service, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.1.1\lib\netstandard2.0\RacerData.NascarApi.Harvester.Service.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.LapAverage.Service, Version=1.0.79.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.81\lib\netstandard2.0\RacerData.NascarApi.LapAverage.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.LapAverage.Service, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.1.1\lib\netstandard2.0\RacerData.NascarApi.LapAverage.Service.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.LapTimes.Service, Version=1.0.79.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.81\lib\netstandard2.0\RacerData.NascarApi.LapTimes.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.LapTimes.Service, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.1.1\lib\netstandard2.0\RacerData.NascarApi.LapTimes.Service.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Service, Version=1.0.79.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.81\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Service, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.1.1\lib\netstandard2.0\RacerData.NascarApi.Service.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.NascarApi.Services, Version=1.0.81.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.NascarApi.Services.1.0.81\lib\netstandard2.0\RacerData.NascarApi.Services.dll</HintPath>
+    <Reference Include="RacerData.NascarApi.Services, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.NascarApi.Services.1.1.1\lib\netstandard2.0\RacerData.NascarApi.Services.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.UpdaterService, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.UpdaterService.1.0.1\lib\netstandard2.0\RacerData.UpdaterService.dll</HintPath>
+    <Reference Include="RacerData.UpdaterService, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.UpdaterService.1.1.2\lib\netstandard2.0\RacerData.UpdaterService.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>

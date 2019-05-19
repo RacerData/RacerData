@@ -37,7 +37,7 @@ namespace RacerData.LiveFeedMonitor
             log.Info("LiveFeedMonitor Started");
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true)
+                .AddJsonFile("app.settings.json", optional: true)
                 .Build();
 
             services.AddSingleton<IConfiguration>(configuration);

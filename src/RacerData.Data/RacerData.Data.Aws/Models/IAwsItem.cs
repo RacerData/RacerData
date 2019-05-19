@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RacerData.Data.Aws.Models
 {
@@ -18,6 +19,21 @@ namespace RacerData.Data.Aws.Models
         /// Httpcontent type
         /// </summary>
         string ContentType { get; set; }
+
+        /// <summary>
+        /// Size of the content
+        /// </summary>
+        int ContentLength { get; set; }
+
+        /// <summary>
+        /// Item ETag
+        /// </summary>
+        string ETag { get; set; }
+
+        /// <summary>
+        /// Last modified timestamp
+        /// </summary>
+        DateTime LastModified { get; set; }
 
         /// <summary>
         /// Metadata tags for the item

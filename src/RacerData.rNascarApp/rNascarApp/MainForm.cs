@@ -146,7 +146,6 @@ namespace RacerData.rNascarApp
             {
                 SplashForm.SplashMessage("Initializing logging...");
                 _log = LogManager.GetLogger("MainForm");
-                LogInfo("rNascar Timing & Scoring App Started");
 
                 SplashForm.SplashMessage("Applying window state...");
                 ApplyWindowState();
@@ -1533,6 +1532,7 @@ namespace RacerData.rNascarApp
                 }
                 else
                 {
+                    SetMonitorState(false);
                     foreach (UserControlBase controlBase in GridTable.Controls.OfType<UserControlBase>())
                     {
                         var data = controlBase.GetViewData(e.Data, ApiFeedType.LapAverageData);

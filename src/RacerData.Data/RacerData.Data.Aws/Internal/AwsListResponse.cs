@@ -1,31 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using RacerData.Data.Aws.Models;
 
 namespace RacerData.Data.Aws.Internal
 {
-    class AwsListResponse
+    class AwsListResponse : AwsResponse
     {
         #region properties
 
-        public IList<AwsItemListResponse> Responses { get; set; }
-
-        private bool _isSuccess = true;
-        public bool IsSuccess
-        {
-            get
-            {
-                if (Exception != null)
-                    return false;
-                else
-                    return _isSuccess;
-            }
-            set
-            {
-                _isSuccess = value;
-            }
-        }
-
-        public Exception Exception { get; set; }
+        public IList<IAwsItem> Items { get; set; }
 
         #endregion
 
@@ -33,7 +16,7 @@ namespace RacerData.Data.Aws.Internal
 
         public AwsListResponse()
         {
-            Responses = new List<AwsItemListResponse>();
+            Items = new List<IAwsItem>();
         }
 
         #endregion

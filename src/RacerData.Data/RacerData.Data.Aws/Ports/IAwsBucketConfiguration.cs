@@ -9,7 +9,7 @@
         /// <summary>
         /// Directory path inside the bucket, like "//BucketSubdirectory1//BucketSubdirectory2"
         /// </summary>
-        string Directory { get; set; }
+        string Prefix { get; set; }
         /// <summary>
         /// The region based on its system name like "us-west-1"
         /// </summary>

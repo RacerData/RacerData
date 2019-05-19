@@ -126,20 +126,20 @@ namespace RacerData.NascarApi.Service.Adapters
             if (handler != null)
                 handler.Invoke(this, new LiveQualifyingDataUpdatedEventArgs() { Data = data });
         }
-        
+
         #endregion
 
         #region fields
 
-        private ILog _log;
-        private IMapper _mapper;
-        private INascarApiClient _nascarApiClient;
+        private readonly ILog _log;
+        private readonly IMapper _mapper;
+        private readonly INascarApiClient _nascarApiClient;
         private CancellationToken _cancellationToken;
         private CancellationTokenSource _cancellationTokenSource;
         private Timer _sleepTimer;
         private Timer _pollTimer;
-        private int _pollInterval = DefaultPollInterval;
-        private bool _verbose = false;
+        private readonly int _pollInterval = DefaultPollInterval;
+        private readonly bool _verbose = false;
         private int? _lastElapsedTime;
         private int _lastLapTimeUpdate = -1;
         private int _lastLapAverageUpdate = -1;

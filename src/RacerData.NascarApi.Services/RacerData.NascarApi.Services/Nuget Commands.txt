@@ -2,4 +2,4 @@
 // then run these from package manager console
 
 nuget pack .\RacerData.NascarApi.Services\RacerData.NascarApi.Services.nuspec
-nuget add RacerData.NascarApi.Services.1.0.75.nupkg -Source C:\Users\Rob\source\repos\RacerData\packages\
+nuget add RacerData.NascarApi.Services.1.0.83.nupkg -Source C:\Users\Rob\source\repos\RacerData\packages\

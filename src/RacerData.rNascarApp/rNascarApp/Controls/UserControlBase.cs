@@ -134,24 +134,37 @@ namespace RacerData.rNascarApp.Controls
 
         #region public
 
-        public void InitializeView(ViewState state)
+        public void InitializeView(ViewState view)
         {
-            View = state;
+            if (view.ListDefinition.Columns.Count == 0)
+                throw new InvalidOperationException("View has no columns");
 
-            lblHeader.Text = state.HeaderText;
+            View = view;
 
-            lblHeader.Visible = state.ListDefinition.ShowHeader;
+            lblHeader.Text = view.HeaderText;
+
+            lblHeader.Visible = view.ListDefinition.ShowHeader;
 
             tipDescription.SetToolTip(lblHeader, this.View.Description);
 
             tipDescription.SetToolTip(pnlDetail, this.View.Description);
 
-            InitializeGridRows(state.ListDefinition);
+            InitializeGridRows(view.ListDefinition);
 
             var sortColumn = View.
                 ListDefinition.
                 OrderedColumns.
                 FirstOrDefault(c => c.SortType != SortType.None);
+
+            if (sortColumn == null)
+            {
+                sortColumn = View.
+                   ListDefinition.
+                   OrderedColumns.
+                   FirstOrDefault();
+
+                sortColumn.SortType = SortType.Ascending;
+            }
 
             _parserService = new DataParserService()
             {

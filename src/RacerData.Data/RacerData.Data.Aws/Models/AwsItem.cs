@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RacerData.Data.Aws.Models
 {
@@ -9,6 +10,9 @@ namespace RacerData.Data.Aws.Models
         public string Key { get; set; }
         public string Content { get; set; }
         public string ContentType { get; set; }
+        public int ContentLength { get; set; }
+        public string ETag { get; set; }
+        public DateTime LastModified { get; set; }
 
         public IDictionary<string, string> Metadata { get; set; }
 

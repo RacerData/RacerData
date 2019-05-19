@@ -5,7 +5,7 @@ using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
 
-namespace RacerData.rNascarApp.Logging
+namespace RacerData.Data.TestApp.Logging
 {
     public class Logger
     {
@@ -15,24 +15,37 @@ namespace RacerData.rNascarApp.Logging
             {
                 Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
 
-                // event log
-                PatternLayout eventLogPatternLayout = new PatternLayout();
-                eventLogPatternLayout.ConversionPattern = "%date %-5level %logger - %message%newline";
-                eventLogPatternLayout.ActivateOptions();
-
-                EventLogAppender eventLogAppender = new EventLogAppender();
-                eventLogAppender.Layout = eventLogPatternLayout;
-                eventLogAppender.ApplicationName = "rNascarApp";
-                hierarchy.Root.AddAppender(eventLogAppender);
-
                 // console
                 PatternLayout consolePatternLayout = new PatternLayout();
                 consolePatternLayout.ConversionPattern = "%date %-5level %logger - %message%newline";
                 consolePatternLayout.ActivateOptions();
 
-                ConsoleAppender consoleAppender = new ConsoleAppender();
-                consoleAppender.Layout = consolePatternLayout;
-                hierarchy.Root.AddAppender(consoleAppender);
+                ColoredConsoleAppender coloredConsoleAppender = new ColoredConsoleAppender();
+                coloredConsoleAppender.Layout = consolePatternLayout;
+
+                coloredConsoleAppender.AddMapping(new ColoredConsoleAppender.LevelColors()
+                {
+                    Level = Level.Info,
+                    ForeColor = ColoredConsoleAppender.Colors.Blue,
+                    BackColor = ColoredConsoleAppender.Colors.White
+                });
+
+                coloredConsoleAppender.AddMapping(new ColoredConsoleAppender.LevelColors()
+                {
+                    Level = Level.Error,
+                    ForeColor = ColoredConsoleAppender.Colors.Red,
+                    BackColor = ColoredConsoleAppender.Colors.Yellow
+                });
+
+                coloredConsoleAppender.AddMapping(new ColoredConsoleAppender.LevelColors()
+                {
+                    Level = Level.Warn,
+                    ForeColor = ColoredConsoleAppender.Colors.Red,
+                    BackColor = ColoredConsoleAppender.Colors.White
+                });
+
+                coloredConsoleAppender.ActivateOptions();
+                hierarchy.Root.AddAppender(coloredConsoleAppender);
 
                 // file
                 PatternLayout rollingFilePatternLayout = new PatternLayout();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace RacerData.Data.Aws.Internal
@@ -27,7 +28,18 @@ namespace RacerData.Data.Aws.Internal
             }
         }
 
+        public IDictionary<string, string> Metadata { get; set; }
+
         public Exception Exception { get; set; }
+
+        #endregion
+
+        #region ctor
+
+        public AwsResponse()
+        {
+            Metadata = new Dictionary<string, string>();
+        }
 
         #endregion
     }

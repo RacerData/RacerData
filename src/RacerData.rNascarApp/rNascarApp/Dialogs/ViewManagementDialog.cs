@@ -251,8 +251,11 @@ namespace RacerData.rNascarApp.Dialogs
             IsNew = false;
             IsEditing = false;
 
-            _revertableService.ClearState(_revertItemKey.Value);
-            _revertItemKey = null;
+            if (_revertItemKey.HasValue)
+            {
+                _revertableService.ClearState(_revertItemKey.Value);
+                _revertItemKey = null;
+            }
 
             DisplayViews(View?.Id);
         }

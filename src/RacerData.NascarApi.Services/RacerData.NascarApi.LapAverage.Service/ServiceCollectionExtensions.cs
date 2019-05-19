@@ -11,7 +11,7 @@ namespace RacerData.NascarApi.LapAverage.Service
     {
         public static IServiceCollection AddLapAverageService(this IServiceCollection services)
         {            
-            services.AddTransient<IAwsBucketConfiguration, AwsConfiguration>();
+            //services.AddTransient<IAwsBucketConfiguration, AwsConfiguration>();
 
             services.AddAwsData();
 

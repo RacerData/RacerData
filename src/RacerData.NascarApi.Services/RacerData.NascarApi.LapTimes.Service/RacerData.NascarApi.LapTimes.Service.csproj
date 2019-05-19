@@ -6,8 +6,12 @@
     <Company>RacerData Software</Company>
     <Description>Lap time harvesting service for NascarApi</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.75</Version>
+    <Version>1.0.82</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Internal\AwsLapTImeBucketConfiguration.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
@@ -15,7 +19,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="RacerData.Data.Aws" Version="1.0.10" />
+    <PackageReference Include="RacerData.Data.Aws" Version="1.1.6" />
     <PackageReference Include="RacerData.NascarApi.Client" Version="1.0.53" />
     <PackageReference Include="RacerData.NascarApi.Service" Version="1.0.65" />
   </ItemGroup>

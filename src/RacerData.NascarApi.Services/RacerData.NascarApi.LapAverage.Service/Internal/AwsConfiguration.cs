@@ -11,7 +11,7 @@ namespace RacerData.NascarApi.LapAverage.Service.Internal
         public AwsConfiguration()
         {
             Bucket = "racerdatasoftware.com";
-            Directory = "//LapAverages";
+            Directory = "/LapAverages";
             RegionEndpoint = "us-east-1";
         }
     }

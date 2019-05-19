@@ -20,8 +20,13 @@
     "livePointsSourceDirectory": ""
   },
   "aws": {
-    "lapAverages": "/LapAverages",
-    "lapTimes": "/LapTimes",
-    "setup":  "Setup"
+    "lapAverages": "Data/LapAverages",
+    "lapTimes": "Data/LapTimes",
+    "setup": "Setup",
+    "patch": "Patch",
+    "logs": "Logs",
+    "sharedThemes": "Shared/Themes",
+    "sharedWorkspaces": "Shared/Workspaces",
+    "sharedViews": "Shared/Views"
   }
 }

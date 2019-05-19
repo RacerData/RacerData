@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using log4net;
 using RacerData.Data.Aws.Models;
 using RacerData.Data.Aws.Ports;
 
@@ -13,32 +14,51 @@ namespace RacerData.Data.Aws.Internal
     {
         #region fields
 
+        private readonly ILog _log = null;
         protected static IAmazonS3 _client;
 
         #endregion
 
         #region properties
 
-        protected string BucketPath { get; private set; }
+        protected string BucketName { get; private set; }
         protected string BucketPrefix { get; private set; }
-
 
         #endregion
 
         #region ctor
 
-        public AwsBucket(IAwsBucketConfiguration configuration)
+        public AwsBucket(
+            ILog log,
+            IAwsBucketConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
+            try
+            {
+                _log = log ?? throw new ArgumentNullException(nameof(log));
 
-            //BucketPath = $"{configuration.Bucket}{configuration.Directory}";
-            BucketPath = configuration.Bucket;
-            BucketPrefix = configuration.Directory;
+                if (configuration == null)
+                    throw new ArgumentNullException(nameof(configuration));
 
-            var bucketRegion = RegionEndpoint.GetBySystemName(configuration.RegionEndpoint);
+                BucketName = configuration.Bucket;
 
-            _client = new AmazonS3Client(bucketRegion);
+                if (!String.IsNullOrEmpty(configuration.Prefix) && configuration.Prefix.EndsWith("/"))
+                {
+                    BucketPrefix = configuration.Prefix.TrimEnd('/');
+                }
+                else
+                {
+                    BucketPrefix = configuration.Prefix;
+                }
+
+                var bucketRegion = RegionEndpoint.GetBySystemName(configuration.RegionEndpoint);
+
+                _client = new AmazonS3Client(bucketRegion);
+            }
+            catch (Exception ex)
+            {
+                _log?.Error("Error in AWSBucket ctor", ex);
+                throw;
+            }
         }
 
         #endregion
@@ -47,56 +67,54 @@ namespace RacerData.Data.Aws.Internal
 
         public async Task<AwsListResponse> GetListAsync(int take, string startKey = "")
         {
-            AwsListResponse awsResponses = new AwsListResponse();
-            AwsItemListResponse awsResponse = new AwsItemListResponse();
+            return await GetListAsync(take, startKey, BucketPrefix);
+        }
+
+        public async Task<AwsListResponse> GetListAsync(int take, string startKey = "", string prefix = "")
+        {
+            AwsListResponse awsResponse = new AwsListResponse();
 
             try
             {
                 ListObjectsV2Request request = new ListObjectsV2Request
                 {
-                    BucketName = BucketPath,
+                    BucketName = BucketName,
                     StartAfter = startKey,
                     MaxKeys = take,
                     Delimiter = "/",
-                    Prefix = BucketPrefix
+                    Prefix = prefix
                 };
 
-                ListObjectsV2Response response = await _client.ListObjectsV2Async(request);
-
-                awsResponse.RequestId = response.ResponseMetadata.RequestId;
-                awsResponse.HttpStatusCode = response.HttpStatusCode;
+                ListObjectsV2Response response = null;
 
                 do
                 {
                     response = await _client.ListObjectsV2Async(request);
 
-                    awsResponse = new AwsItemListResponse()
-                    {
-                        RequestId = response.ResponseMetadata.RequestId,
-                        HttpStatusCode = response.HttpStatusCode
-                    };
-
-                    awsResponses.Responses.Add(awsResponse);
+                    awsResponse.HttpStatusCode = response.HttpStatusCode;
+                    awsResponse.RequestId = response.ResponseMetadata.RequestId;
 
                     foreach (S3Object entry in response.S3Objects)
                     {
-                        awsResponse.Items.Add(new AwsListItem()
+                        var item = new AwsItem()
                         {
                             Key = entry.Key,
                             ETag = entry.ETag,
                             LastModified = entry.LastModified
-                        });
+                        };
+
+                        awsResponse.Items.Add(item);
                     }
 
-                    foreach (string directory in response.CommonPrefixes)
+                    foreach (string commonPrefix in response.CommonPrefixes)
                     {
-                        awsResponse.Items.Add(new AwsCommonPrefixItem()
-                        {
-                            Key = directory
-                        });
-                    }
+                        var innerResponse = await GetListAsync(100, "", commonPrefix);
 
-                    Console.WriteLine("Next Continuation Token: {0}", response.NextContinuationToken);
+                        foreach (var innerItem in innerResponse.Items)
+                        {
+                            awsResponse.Items.Add(innerItem);
+                        }
+                    }
 
                     request.ContinuationToken = response.NextContinuationToken;
 
@@ -104,64 +122,92 @@ namespace RacerData.Data.Aws.Internal
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
-                awsResponses.Exception = amazonS3Exception;
-            }
-            catch (Exception e)
-            {
-                awsResponses.Exception = e;
-            }
-
-            return awsResponses;
-        }
-
-        public async Task<AwsItemResponse> GetAsync(string key)
-        {
-#if DEBUG
-            System.Console.WriteLine($"*** AwsBucket.Get bucketPath:{BucketPath}, key:{key}");
-#endif
-            AwsItemResponse awsResponse = new AwsItemResponse();
-
-            try
-            {
-                GetObjectRequest request = new GetObjectRequest
+                if (amazonS3Exception.ErrorCode == "NoSuchKey")
                 {
-                    BucketName = BucketPath,
-                    Key = key
-                };
-
-                using (GetObjectResponse objResponse = await _client.GetObjectAsync(request))
-                using (Stream responseStream = objResponse.ResponseStream)
-                using (StreamReader reader = new StreamReader(responseStream))
-                {
-                    awsResponse.HttpStatusCode = objResponse.HttpStatusCode;
-                    awsResponse.VersionId = objResponse.VersionId;
-                    awsResponse.ETag = objResponse.ETag;
-                    awsResponse.LastModified = objResponse.LastModified;
-
-                    awsResponse.Item.ContentType = objResponse.Headers["ContentType"];
-
-                    foreach (string metadataKey in objResponse.Metadata.Keys)
-                    {
-                        awsResponse.Item.Metadata.Add(metadataKey, objResponse.Metadata[metadataKey]);
-                    }
-
-                    awsResponse.Item.Content = reader.ReadToEnd();
+                    awsResponse.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
                 }
-            }
-            catch (AmazonS3Exception amazonS3Exception)
-            {
-                Console.WriteLine($"BucketPath: {BucketPath}\r\nkey {key}\r\nAmazonS3Exception:{amazonS3Exception.Message}");
+
+                _log?.Error("*** AmazonS3Exception in AWSBucket GetListAsync", amazonS3Exception);
+
                 awsResponse.Exception = amazonS3Exception;
             }
             catch (Exception e)
             {
-                Console.WriteLine($"BucketPath: {BucketPath}\r\nkey {key}\r\nException:{e.Message}");
+                _log?.Error("Exception in AWSBucket GetListAsync", e);
+
                 awsResponse.Exception = e;
             }
 
             return awsResponse;
         }
 
+        public async Task<AwsItemResponse> GetAsync(string key)
+        {
+            return await GetAsync("", key);
+        }
+        public async Task<AwsItemResponse> GetAsync(string prefix, string key)
+        {
+            AwsItemResponse awsResponse = new AwsItemResponse();
+
+            try
+            {
+                GetObjectRequest request = new GetObjectRequest
+                {
+                    BucketName = BucketName,
+                    Key = $"{prefix}{key}"
+                };
+
+                using (GetObjectResponse objResponse = await _client.GetObjectAsync(request))
+                {
+                    using (Stream responseStream = objResponse.ResponseStream)
+                    {
+                        using (StreamReader reader = new StreamReader(responseStream, true))
+                        {
+                            awsResponse.Item.Content = reader.ReadToEnd();
+                        }
+                    }
+
+                    awsResponse.HttpStatusCode = objResponse.HttpStatusCode;
+                    awsResponse.VersionId = objResponse.VersionId;
+                    awsResponse.ETag = objResponse.ETag;
+                    awsResponse.LastModified = objResponse.LastModified;
+
+                    foreach (string metadataKey in objResponse.Metadata.Keys)
+                    {
+                        awsResponse.Item.Metadata.Add(metadataKey, objResponse.Metadata[metadataKey]);
+                    }
+
+                    awsResponse.Item.Key = objResponse.Key;
+                    awsResponse.Item.ETag = objResponse.ETag;
+                    awsResponse.Item.LastModified = objResponse.LastModified;
+                    awsResponse.Item.ContentType = objResponse.Headers["Content-Type"];
+                    int contentLength = -1;
+                    if (int.TryParse(objResponse.Headers["Content-Length"], out contentLength))
+                        awsResponse.Item.ContentLength = contentLength;
+                }
+
+            }
+            catch (AmazonS3Exception amazonS3Exception)
+            {
+                if (amazonS3Exception.ErrorCode == "NoSuchKey")
+                {
+                    awsResponse.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+                }
+
+                awsResponse.Exception = amazonS3Exception;
+
+                _log?.Error("AmazonS3Exception in AWSBucket GetAsync", amazonS3Exception);
+            }
+            catch (Exception e)
+            {
+                _log?.Error("Exception in AWSBucket GetAsync", e);
+
+                awsResponse.Exception = e;
+            }
+
+            return awsResponse;
+        }
+        
         public async Task<AwsItemResponse> PutAsync(IAwsItem item)
         {
             AwsItemResponse awsResponse = new AwsItemResponse() { Item = item };
@@ -170,8 +216,8 @@ namespace RacerData.Data.Aws.Internal
             {
                 var request = new PutObjectRequest
                 {
-                    BucketName = BucketPath,
-                    Key = item.Key,
+                    BucketName = BucketName,
+                    Key = $"{item.Key}",
                     ContentBody = item.Content,
                     ContentType = item.ContentType
                 };
@@ -182,27 +228,35 @@ namespace RacerData.Data.Aws.Internal
                 }
 
                 PutObjectResponse objResponse = await _client.PutObjectAsync(request);
+
+                awsResponse.HttpStatusCode = objResponse.HttpStatusCode;
+                awsResponse.VersionId = objResponse.VersionId;
+                awsResponse.ETag = objResponse.ETag;
+                awsResponse.LastModified = DateTime.Now;
+
+                awsResponse.RequestId = objResponse.ResponseMetadata.RequestId;
+                foreach (string metadataKey in objResponse.ResponseMetadata.Metadata.Keys)
                 {
-                    awsResponse.RequestId = objResponse.ResponseMetadata.RequestId;
-                    awsResponse.HttpStatusCode = objResponse.HttpStatusCode;
-                    awsResponse.VersionId = objResponse.VersionId;
-                    awsResponse.ETag = objResponse.ETag;
-                    awsResponse.LastModified = DateTime.Now;
+                    awsResponse.Item.Metadata.Add(metadataKey, objResponse.ResponseMetadata.Metadata[metadataKey]);
                 }
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
+                _log?.Error("AmazonS3Exception in AWSBucket PutAsync", amazonS3Exception);
+
                 awsResponse.Exception = amazonS3Exception;
             }
             catch (Exception e)
             {
+                _log?.Error("Exception in AWSBucket PutAsync", e);
+
                 awsResponse.Exception = e;
             }
 
             return awsResponse;
         }
 
-        public async Task<AwsResponse> DeleteAsync(IAwsItem item)
+        public async Task<AwsResponse> DeleteAsync(string key)
         {
             AwsResponse awsResponse = new AwsResponse();
 
@@ -210,18 +264,35 @@ namespace RacerData.Data.Aws.Internal
             {
                 var deleteObjectRequest = new DeleteObjectRequest
                 {
-                    BucketName = BucketPath,
-                    Key = item.Key
+                    BucketName = BucketName,
+                    Key = $"{key}"
                 };
 
-                await _client.DeleteObjectAsync(deleteObjectRequest);
+                DeleteObjectResponse deleteObjectResponse = await _client.DeleteObjectAsync(deleteObjectRequest);
+
+                awsResponse.HttpStatusCode = deleteObjectResponse.HttpStatusCode;
+
+                awsResponse.RequestId = deleteObjectResponse.ResponseMetadata.RequestId;
+                foreach (string metadataKey in deleteObjectResponse.ResponseMetadata.Metadata.Keys)
+                {
+                    awsResponse.Metadata.Add(metadataKey, deleteObjectResponse.ResponseMetadata.Metadata[metadataKey]);
+                }
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
+                if (amazonS3Exception.ErrorCode == "NoSuchKey")
+                {
+                    awsResponse.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+                }
+
+                _log?.Error("AmazonS3Exception in AWSBucket DeleteAsync", amazonS3Exception);
+
                 awsResponse.Exception = amazonS3Exception;
             }
             catch (Exception e)
             {
+                _log?.Error("Exception in AWSBucket DeleteAsync", e);
+
                 awsResponse.Exception = e;
             }
 

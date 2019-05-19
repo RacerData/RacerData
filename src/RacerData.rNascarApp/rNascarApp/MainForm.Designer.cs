@@ -554,6 +554,8 @@
             this.GridTable.AllowDrop = true;
             this.GridTable.AutoSize = true;
             this.GridTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.GridTable.BackgroundImage = global::RacerData.rNascarApp.Properties.Resources.black_checkers;
+            this.GridTable.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.GridTable.ColumnCount = 4;
             this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.GridTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -623,6 +625,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1077, 409);
             this.Controls.Add(this.dragFrame);
             this.Controls.Add(this.pnlGrid);

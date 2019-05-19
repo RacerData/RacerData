@@ -28,6 +28,8 @@ namespace RacerData.rNascarApp
         #region consts
 
         private const string ApplicationTitle = "r/NACAR Timing and Scoring";
+        private const int MaxGridRows = 100;
+        private const int MaxGridColumns = 100;
 
         #endregion
 
@@ -449,7 +451,7 @@ namespace RacerData.rNascarApp
             for (i = heights.Length - 1; i >= 0 && point.Y < h; i--)
                 h -= heights[i];
 
-            int row = i;// + 1;
+            int row = i + (_isFullScreen ? 1 : 0);
 
             return new Point(col, row);
         }
@@ -702,7 +704,7 @@ namespace RacerData.rNascarApp
             {
                 this.SuspendLayout();
 
-                SetGridCellSizes(workspace.GridRowCount, workspace.GridColumnCount);
+                UpdateGridRowColumnCounts(workspace.GridRowCount, workspace.GridColumnCount);
 
                 string version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
@@ -1742,7 +1744,7 @@ namespace RacerData.rNascarApp
         }
         private void GridTable_Resize(object sender, EventArgs e)
         {
-            SetGridCellSizes(GridTable.RowCount, GridTable.ColumnCount);
+            UpdateGridRowColumnCounts(GridTable.RowCount, GridTable.ColumnCount);
         }
 
         protected virtual void DisplayGridResizeDialog()
@@ -1779,7 +1781,7 @@ namespace RacerData.rNascarApp
             }
             else if (sender == GridTable)
             {
-                SetGridCellSizes(e.X, e.Y);
+                UpdateGridRowColumnCounts(e.X, e.Y);
             }
         }
         protected virtual void UpdateGridCapacity()
@@ -1797,9 +1799,9 @@ namespace RacerData.rNascarApp
                 columnCapacity = ((columnSpan + cell.Column) > columnCapacity) ? columnSpan + cell.Column : columnCapacity;
             }
 
-            SetGridCellSizes(rowCapacity, columnCapacity);
+            UpdateGridRowColumnCounts(rowCapacity, columnCapacity);
         }
-        protected virtual void SetGridCellSizes(int rowCount, int columnCount)
+        protected virtual void UpdateGridRowColumnCounts(int rowCount, int columnCount)
         {
             try
             {
@@ -1823,6 +1825,34 @@ namespace RacerData.rNascarApp
             catch (Exception ex)
             {
                 ExceptionHandler("Error auto-setting grid size", ex);
+            }
+        }
+        protected virtual void IncreaseGridRowCount()
+        {
+            if (GridTable.RowCount < MaxGridRows - 1)
+            {
+                UpdateGridRowColumnCounts(GridTable.RowCount + 1, GridTable.ColumnCount);
+            }
+        }
+        protected virtual void DecreaseGridRowCount()
+        {
+            if (GridTable.RowCount > 3)
+            {
+                UpdateGridRowColumnCounts(GridTable.RowCount - 1, GridTable.ColumnCount);
+            }
+        }
+        protected virtual void IncreaseGridColumnCount()
+        {
+            if (GridTable.ColumnCount < MaxGridColumns - 1)
+            {
+                UpdateGridRowColumnCounts(GridTable.RowCount, GridTable.ColumnCount + 1);
+            }
+        }
+        protected virtual void DecreaseGridColumnCount()
+        {
+            if (GridTable.ColumnCount > 3)
+            {
+                UpdateGridRowColumnCounts(GridTable.RowCount, GridTable.ColumnCount - 1);
             }
         }
         #endregion
@@ -1857,6 +1887,22 @@ namespace RacerData.rNascarApp
         {
             if (e.KeyCode == Keys.F11)
                 ToggleFullscreen();
+            else if (e.KeyCode == Keys.Up && e.Modifiers == Keys.Control)
+            {
+                IncreaseGridRowCount();
+            }
+            else if (e.KeyCode == Keys.Down && e.Modifiers == Keys.Control)
+            {
+                DecreaseGridRowCount();
+            }
+            else if (e.KeyCode == Keys.Right && e.Modifiers == Keys.Control)
+            {
+                IncreaseGridColumnCount();
+            }
+            else if (e.KeyCode == Keys.Left && e.Modifiers == Keys.Control)
+            {
+                DecreaseGridColumnCount();
+            }
         }
 
         protected virtual void ToggleFullscreen()

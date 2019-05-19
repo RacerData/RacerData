@@ -728,6 +728,8 @@
     <None Include="Resources\rNascarApp-logo-600x150.png" />
     <None Include="Resources\rNascarLogo.png" />
     <None Include="Resources\BuildDate.txt" />
+    <None Include="Resources\checkers.jpg" />
+    <None Include="Resources\black-checkers.png" />
     <Content Include="rNascarApp.ico" />
   </ItemGroup>
   <ItemGroup>

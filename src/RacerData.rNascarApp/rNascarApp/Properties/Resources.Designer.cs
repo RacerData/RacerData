@@ -91,7 +91,17 @@ namespace RacerData.rNascarApp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sat 05/18/2019 10:57:14.59 
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap black_checkers {
+            get {
+                object obj = ResourceManager.GetObject("black-checkers", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sat 05/18/2019 19:49:57.14 
         ///.
         /// </summary>
         internal static string BuildDate {
@@ -106,6 +116,16 @@ namespace RacerData.rNascarApp.Properties {
         internal static System.Drawing.Bitmap check {
             get {
                 object obj = ResourceManager.GetObject("check", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkers {
+            get {
+                object obj = ResourceManager.GetObject("checkers", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

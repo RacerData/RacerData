@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using RacerData.Common.Results;
 
 namespace RacerData.Commmon.Results
@@ -9,11 +10,9 @@ namespace RacerData.Commmon.Results
     public interface IResultFactory
     {
         IResult Create();
-       
-        IResult Create(Exception ex);       
-  
-        IResult<TValue> Create<TValue>(TValue value);
-      
-        IResult<TValue> Create<TValue>(Exception ex);
+
+        IResult Create(HttpStatusCode httpStatusCode);
+
+        IResult Create(Exception ex);
     }
 }

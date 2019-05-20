@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
+using RacerData.Common.Ports;
 
-namespace RacerData.rNascarApp.Services
+namespace RacerData.Common.Adapters
 {
     class Serializer : ISerializer
     {

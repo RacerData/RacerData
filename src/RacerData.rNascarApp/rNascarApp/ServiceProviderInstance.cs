@@ -1,15 +1,19 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using AutoMapper;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RacerData.Commmon;
+using RacerData.Common.Models;
 using RacerData.Data.Aws;
 using RacerData.NascarApi.Service;
 using RacerData.rNascarApp.Dialogs;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Services;
 using RacerData.UpdaterService;
+using Microsoft.Extensions.Options;
 
 namespace RacerData.rNascarApp
 {
@@ -39,14 +43,18 @@ namespace RacerData.rNascarApp
 
             log.Info("rNascarApp Started");
 
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile("app.settings.json", optional: true)
-                .Build();
+            var configuration = new ConfigurationBuilder()
+              .AddJsonFile("app.settings.json", false)
+              .Build();
 
+            services.AddOptions();
+            services.Configure<DirectoryConfiguration>(configuration.GetSection("directories"));
+
+            services.AddSingleton(configuration);
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
 
-            services.AddSingleton<IFileService>(new FileService());
+            services.AddTransient<ILocalUpdaterService, LocalUpdaterService>();
             services.AddSingleton<IViewDataSourceFactory>(new ViewDataSourceFactory());
             services.AddTransient<IDisplayFormatMapService, DisplayFormatMapService>();
             services.AddTransient<IViewDisplayFormatFactory, ViewDisplayFormatFactory>();
@@ -56,16 +64,17 @@ namespace RacerData.rNascarApp
 
             services.AddScoped<IWorkspaceService, WorkspaceService>();
             services.AddScoped<IStateService, StateService>();
-            services.AddScoped<IRevertableService, RevertableService>();
+            //services.AddScoped<IRevertableService, RevertableService>();
 
-            services.AddTransient<IDirectoryService, DirectoryService>();
-            services.AddTransient<ISerializer, Serializer>();
+            //services.AddTransient<IDirectoryService, DirectoryService>();
+            //services.AddTransient<ISerializer, Serializer>();
 
             services.AddTransient<WorkspaceManagementDialog, WorkspaceManagementDialog>();
             services.AddTransient<ViewManagementDialog, ViewManagementDialog>();
             services.AddTransient<DisplayFormatMapDialog, DisplayFormatMapDialog>();
             services.AddTransient<CreateViewWizard, CreateViewWizard>();
 
+            services.AddCommon();
             services.AddNascarApiService();
             services.AddAwsData();
             services.AddUpdateService();

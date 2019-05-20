@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Threading;
+using RacerData.Common.Ports;
 
-namespace RacerData.rNascarApp.Services
+namespace RacerData.Common.Adapters
 {
     public class FileService : IFileService
     {

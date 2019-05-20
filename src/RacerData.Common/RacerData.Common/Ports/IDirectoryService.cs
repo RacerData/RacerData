@@ -1,6 +1,6 @@
-﻿using RacerData.rNascarApp.Models;
+﻿using RacerData.Common.Models;
 
-namespace RacerData.rNascarApp.Services
+namespace RacerData.Common.Ports
 {
     public interface IDirectoryService
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RacerData.Common.Ports;
 
-namespace RacerData.rNascarApp.Services
+namespace RacerData.Common.Adapters
 {
     class RevertableService : IRevertableService
     {

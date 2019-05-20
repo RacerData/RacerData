@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using log4net;
+using RacerData.Common.Models;
+using RacerData.Common.Ports;
 using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Settings;
 

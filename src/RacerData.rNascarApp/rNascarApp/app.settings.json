@@ -1,4 +1,4 @@
-﻿{
+﻿{  
   "harvester": {
     "rootDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Harvested Data",
     "lapAverageDirectory": "C:\\Users\\Rob\\Documents\\RacerData\\Lap Averages",
@@ -20,6 +20,7 @@
     "livePointsSourceDirectory": ""
   },
   "aws": {
+    "appUpdateName": "rNascar",
     "lapAverages": "Data/LapAverages",
     "lapTimes": "Data/LapTimes",
     "setup": "Setup/rNascar",
@@ -28,5 +29,38 @@
     "sharedThemes": "Shared/Themes",
     "sharedWorkspaces": "Shared/Workspaces",
     "sharedViews": "Shared/Views"
+  },
+  "directories": {
+    "myDocumentsFolder": "rNascar",
+    "map": [
+      {
+        "Directory": "ErrorLog",
+        "RootDirectory": "Application"
+      },
+      {
+        "Directory": "Settings",
+        "RootDirectory": "Documents"
+      },
+      {
+        "Directory": "Themes",
+        "RootDirectory": "Documents"
+      },
+      {
+        "Directory": "Workspaces",
+        "RootDirectory": "Documents"
+      },
+      {
+        "Directory": "Setup",
+        "RootDirectory": "Temp"
+      },
+      {
+        "Directory": "Patch",
+        "RootDirectory": "Temp"
+      },
+      {
+        "Directory": "Updater",
+        "RootDirectory": "Application"
+      }
+    ]
   }
 }

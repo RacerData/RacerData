@@ -1,4 +1,4 @@
-﻿namespace RacerData.rNascarApp.Services
+﻿namespace RacerData.Common.Ports
 {
     public interface ISerializer
     {

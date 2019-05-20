@@ -1,65 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RacerData.rNascarApp.Models;
+using Microsoft.Extensions.Options;
+using RacerData.Common.Models;
+using RacerData.Common.Ports;
 
-namespace RacerData.rNascarApp.Services
+namespace RacerData.Common.Adapters
 {
     class DirectoryService : IDirectoryService
     {
-        #region consts
-
-        private const string DocumentsAppDirectoryName = "rNascar";
-
-        #endregion
-
         #region private
 
-        private readonly IList<DirectoryMapItem> _directoryMaps;
-
-        #endregion
-
-        #region enums
-
-        protected enum DirectoryRootType
-        {
-            Application,
-            Documents,
-            Temp
-        }
+        private readonly DirectoryConfiguration _directoriesConfiguration = new DirectoryConfiguration();
 
         #endregion
 
         #region ctor
 
-        public DirectoryService()
+        public DirectoryService(IOptions<DirectoryConfiguration> options)
         {
-            _directoryMaps = new List<DirectoryMapItem>();
-
-            _directoryMaps.Add(new DirectoryMapItem()
-            {
-                Root = DirectoryRootType.Documents,
-                DirectoryType = DirectoryType.Settings
-            });
-
-            _directoryMaps.Add(new DirectoryMapItem()
-            {
-                Root = DirectoryRootType.Documents,
-                DirectoryType = DirectoryType.Themes
-            });
-
-            _directoryMaps.Add(new DirectoryMapItem()
-            {
-                Root = DirectoryRootType.Documents,
-                DirectoryType = DirectoryType.Workspaces
-            });
-
-            _directoryMaps.Add(new DirectoryMapItem()
-            {
-                Root = DirectoryRootType.Application,
-                DirectoryType = DirectoryType.ErrorLog
-            });
+            _directoriesConfiguration = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
         #endregion
@@ -83,9 +43,9 @@ namespace RacerData.rNascarApp.Services
         }
         public string GetDirectoryPath(DirectoryType directory, bool createIfNotExists)
         {
-            var map = _directoryMaps.FirstOrDefault(m => m.DirectoryType == directory);
+            var map = _directoriesConfiguration.map.FirstOrDefault(m => m.Directory == directory);
 
-            var root = GetRootPath(map.Root);
+            var root = GetRootPath(map.RootDirectory);
 
             var directoryPath = Path.Combine(root, directory.ToString());
 
@@ -101,9 +61,9 @@ namespace RacerData.rNascarApp.Services
         {
             try
             {
-                foreach (DirectoryMapItem item in _directoryMaps)
+                foreach (DirectoryMapItem item in _directoriesConfiguration.map)
                 {
-                    GetDirectoryPath(item.DirectoryType, true);
+                    GetDirectoryPath(item.Directory, true);
                 }
 
                 return true;
@@ -131,7 +91,7 @@ namespace RacerData.rNascarApp.Services
                     }
                 case DirectoryRootType.Documents:
                     {
-                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), DocumentsAppDirectoryName);
+                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _directoriesConfiguration.myDocumentsFolder);
                     }
                 case DirectoryRootType.Temp:
                     {
@@ -142,16 +102,6 @@ namespace RacerData.rNascarApp.Services
                 default:
                     return @".\";
             }
-        }
-
-        #endregion
-
-        #region classes
-
-        private class DirectoryMapItem
-        {
-            public DirectoryRootType Root { get; set; }
-            public DirectoryType DirectoryType { get; set; }
         }
 
         #endregion

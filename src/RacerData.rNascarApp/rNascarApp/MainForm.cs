@@ -72,6 +72,7 @@ namespace RacerData.rNascarApp
         private Point _dragPoint = Point.Empty;
         private IMonitorService _feedService = null;
         private IWorkspaceService _workspaceService = null;
+        private ILocalUpdaterService _localUpdaterService;
         private Color _gridTableBackColor = Color.FromArgb(0, 28, 28, 28);
         private bool _isMonitorEnabled = false;
         private bool _isFullScreen = false;
@@ -158,6 +159,7 @@ namespace RacerData.rNascarApp
 
                 SplashForm.SplashMessage("Loading application state services...");
                 _stateService = ServiceProvider.Instance.GetRequiredService<IStateService>();
+
                 tlsMain.DataBindings.Add(new Binding("Visible", _stateService.State, "ShowToolBar", false, DataSourceUpdateMode.OnPropertyChanged));
                 MainStatusStrip.DataBindings.Add(new Binding("Visible", _stateService.State, "ShowStatusBar", false, DataSourceUpdateMode.OnPropertyChanged));
 
@@ -244,11 +246,11 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                var service = new LocalUpdaterService();
+                _localUpdaterService = ServiceProvider.Instance.GetRequiredService<ILocalUpdaterService>();
 
                 var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
-                var result = await service.CheckForUpdatesAsync(currentVersion);
+                var result = await _localUpdaterService.CheckForUpdatesAsync(currentVersion);
 
                 if (result.HasUpdatesAvailable)
                 {
@@ -284,7 +286,7 @@ namespace RacerData.rNascarApp
 
         protected virtual void InstallUpdates()
         {
-            LocalUpdaterService.DisplayUpdater();
+            _localUpdaterService.DisplayUpdater();
             Close();
         }
 

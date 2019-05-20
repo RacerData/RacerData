@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>RacerData</Authors>
-    <Company>RacerData Software</Company>
     <Description>Common results objects and factories</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>2.1.4</Version>
   </PropertyGroup>
+  
+  <Import Project="..\..\ProjectInfo.proj" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />

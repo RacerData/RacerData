@@ -9,10 +9,6 @@ namespace RacerData.Commmon.Results
     /// </summary>
     public interface IResultFactory<TSource> : IResultFactory
     {
-        IResult<TValue> Create<TValue>(TValue value);
-
-        IResult<TValue> Create<TValue>(TValue value, HttpStatusCode httpStatusCode);
-
-        IResult<TValue> Create<TValue>(Exception ex);
+    
     }
 }

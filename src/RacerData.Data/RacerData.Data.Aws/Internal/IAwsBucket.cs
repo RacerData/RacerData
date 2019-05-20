@@ -7,7 +7,7 @@ namespace RacerData.Data.Aws.Internal
     {
         Task<AwsItemResponse> GetAsync(string key);
         Task<AwsListResponse> GetListAsync(int take, string startKey = "");
-        Task<AwsItemResponse> PutAsync(IAwsItem item);
+        Task<AwsItemResponse> PutAsync(AwsItem item);
         Task<AwsResponse> DeleteAsync(string key);
     }
 }

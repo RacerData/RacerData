@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>RacerData</Authors>
+    <Company>RacerData Software</Company>
+    <Version>2.0.1</Version>
+    <RepositoryUrl>https://github.com/RacerData/RacerData</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/RacerData/RacerData/projects/1</PackageProjectUrl>
+    <PackageLicenseUrl>www.racerdatasoftware.com/racerdatalicense.rtf</PackageLicenseUrl>
+    <PackageIconUrl>www.racerdatasoftware.com/racerdata.ico</PackageIconUrl>
+    <Copyright>Copyright (C) 2019 - RacerData Software</Copyright>
+  </PropertyGroup>
+  
+ <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">
+   <Exec Command="nuget add &quot;$(ProjectDir)\bin\Debug\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
+  </Target>
+  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+   <Exec Command="nuget add &quot;$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg&quot; -source ..\..\..\packages" />
+  </Target>
+  
+</Project>

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using RacerData.Data.Ports;
 
 namespace RacerData.Data.Aws.Models
 {
-    public interface IAwsItem
+    public interface IAwsItem : IKeyedItem<string>
     {
         /// <summary>
         /// Unique key for the item
         /// </summary>
-        string Key { get; set; }
+        new string Key { get; set; }
 
         /// <summary>
         /// Json serialized item

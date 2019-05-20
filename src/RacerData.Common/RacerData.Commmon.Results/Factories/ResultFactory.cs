@@ -29,6 +29,10 @@ namespace RacerData.Commmon.Results.Factories
         {
             return new Result<TValue>(value, httpStatusCode);
         }
+        public IResult<TValue> Create<TValue>(HttpStatusCode httpStatusCode)
+        {
+            return new Result<TValue>(httpStatusCode);
+        }
 
         public IResult<TValue> Create<TValue>(Exception ex)
         {

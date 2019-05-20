@@ -27,10 +27,20 @@ namespace RacerData.Commmon.Results.Models
             Value = value;
         }
 
+        public Result(HttpStatusCode httpStatusCode)
+          : base(httpStatusCode)
+        {
+        }
+
         public Result(Exception ex)
             : base(ex)
         {
         }
+        public Result(IResult result)
+            : base(result)
+        {
+        }
+
 
         #endregion
     }

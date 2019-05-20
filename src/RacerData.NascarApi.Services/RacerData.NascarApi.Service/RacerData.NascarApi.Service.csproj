@@ -6,7 +6,7 @@
     <Company>RacerData Software</Company>
     <Product>RacerData</Product>
     <Description>Service for NASCAR API</Description>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>RacerData</Authors>
   </PropertyGroup>
 

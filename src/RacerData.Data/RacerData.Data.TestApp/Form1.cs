@@ -169,7 +169,7 @@ namespace RacerData.Data.TestApp
 
             var repository = GetRepository(repositoryType);
 
-            IAwsItem item = new AwsItem()
+            AwsItem item = new AwsItem()
             {
                 Key = key,
                 Content = content,

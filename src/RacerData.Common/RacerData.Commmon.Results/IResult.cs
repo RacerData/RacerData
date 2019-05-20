@@ -14,5 +14,10 @@ namespace RacerData.Common.Results
         /// Exception (if any) from the result
         /// </summary>
         Exception Exception { get; }
+
+        /// <summary>
+        /// The inner result that triggered this result, if any.
+        /// </summary>
+        IResult InnerResult { get; }
     }
 }

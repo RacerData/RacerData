@@ -7,7 +7,7 @@ namespace RacerData.Data.Aws.Internal
     {
         #region properties
 
-        public IAwsItem Item { get; set; }
+        public AwsItem Item { get; set; }
         public string VersionId { get; set; }
         public string ETag { get; set; }
         public DateTime LastModified { get; set; }

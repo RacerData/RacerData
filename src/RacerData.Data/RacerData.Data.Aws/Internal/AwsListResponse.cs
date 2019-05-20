@@ -8,7 +8,7 @@ namespace RacerData.Data.Aws.Internal
     {
         #region properties
 
-        public IList<IAwsItem> Items { get; set; }
+        public IList<AwsItem> Items { get; set; }
 
         #endregion
 
@@ -16,7 +16,7 @@ namespace RacerData.Data.Aws.Internal
 
         public AwsListResponse()
         {
-            Items = new List<IAwsItem>();
+            Items = new List<AwsItem>();
         }
 
         #endregion

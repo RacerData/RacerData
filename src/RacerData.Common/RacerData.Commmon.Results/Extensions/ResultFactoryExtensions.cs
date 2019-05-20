@@ -13,7 +13,7 @@ namespace RacerData.Commmon.Results
             return factory.Create(HttpStatusCode.OK);
         }
 
-        public static IResult<TValue> Success<TValue>(this IResultFactory<TValue> factory, TValue value)
+        public static IResult<TValue> Success<TValue>(this IResultFactory factory, TValue value)
         {
             return factory.Create(value, HttpStatusCode.OK);
         }
@@ -27,7 +27,7 @@ namespace RacerData.Commmon.Results
             return factory.Create(HttpStatusCode.Created);
         }
 
-        public static IResult<TValue> Created<TValue>(this IResultFactory<TValue> factory, TValue value)
+        public static IResult<TValue> Created<TValue>(this IResultFactory factory, TValue value)
         {
             return factory.Create(value, HttpStatusCode.Created);
         }
@@ -41,9 +41,9 @@ namespace RacerData.Commmon.Results
             return factory.Create(HttpStatusCode.NoContent);
         }
 
-        public static IResult<TValue> NoContent<TValue>(this IResultFactory<TValue> factory, TValue value)
+        public static IResult<TValue> NoContent<TValue>(this IResultFactory factory)
         {
-            return factory.Create(value, HttpStatusCode.NoContent);
+            return factory.Create<TValue>(HttpStatusCode.NoContent);
         }
 
         #endregion
@@ -55,9 +55,9 @@ namespace RacerData.Commmon.Results
             return factory.Create(HttpStatusCode.NotFound);
         }
 
-        public static IResult<TValue> NotFound<TValue>(this IResultFactory<TValue> factory, TValue value)
+        public static IResult<TValue> NotFound<TValue>(this IResultFactory factory)
         {
-            return factory.Create(value, HttpStatusCode.NotFound);
+            return factory.Create<TValue>(HttpStatusCode.NotFound);
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace RacerData.Commmon.Results
             return factory.Create(ex);
         }
 
-        public static IResult<TValue> Exception<TValue>(this IResultFactory<TValue> factory, Exception ex)
+        public static IResult<TValue> Exception<TValue>(this IResultFactory factory, Exception ex)
         {
             return factory.Create<TValue>(ex);
         }

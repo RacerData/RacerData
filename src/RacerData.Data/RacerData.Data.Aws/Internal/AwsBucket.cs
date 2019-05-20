@@ -208,7 +208,7 @@ namespace RacerData.Data.Aws.Internal
             return awsResponse;
         }
         
-        public async Task<AwsItemResponse> PutAsync(IAwsItem item)
+        public async Task<AwsItemResponse> PutAsync(AwsItem item)
         {
             AwsItemResponse awsResponse = new AwsItemResponse() { Item = item };
 

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using RacerData.Commmon.Results;
 using RacerData.Common.Results;
 using RacerData.Data.Aws.Internal;
 using RacerData.Data.Aws.Models;
 using RacerData.Data.Aws.Ports;
+using RacerData.Data.Ports;
 
 namespace RacerData.Data.Aws.Adapters
 {
@@ -39,7 +41,7 @@ namespace RacerData.Data.Aws.Adapters
 
         #region public
 
-        public virtual async Task<IResult<IAwsItem>> SelectAsync(string key)
+        public virtual async Task<IResult<AwsItem>> SelectAsync(string key)
         {
             try
             {
@@ -54,16 +56,20 @@ namespace RacerData.Data.Aws.Adapters
             }
             catch (Exception ex)
             {
-                return _resultFactory.Exception<IAwsItem>(ex);
+                return _resultFactory.Exception<AwsItem>(ex);
             }
         }
-
-        public virtual async Task<IResult<IList<IAwsItem>>> SelectListAsync()
+        
+        public virtual async Task<IResult<IList<AwsItem>>> SelectListAsync()
         {
             return await SelectListAsync(DefaultTake);
         }
+        public virtual async Task<IResult<IEnumerable<AwsItem>>> SelectListAsync(int take, int skip)
+        {
+            return await Task.FromResult(_resultFactory.Create<IList<AwsItem>>(HttpStatusCode.NotImplemented));
+        }
 
-        public virtual async Task<IResult<IList<IAwsItem>>> SelectListAsync(int take, string startKey = "")
+        public virtual async Task<IResult<IList<AwsItem>>> SelectListAsync(int take, string startKey = "")
         {
             try
             {
@@ -78,11 +84,11 @@ namespace RacerData.Data.Aws.Adapters
             }
             catch (Exception ex)
             {
-                return _resultFactory.Exception<IList<IAwsItem>>(ex);
+                return _resultFactory.Exception<IList<AwsItem>>(ex);
             }
         }
 
-        public virtual async Task<IResult<IAwsItem>> PutAsync(IAwsItem item)
+        public virtual async Task<IResult<AwsItem>> PutAsync(AwsItem item)
         {
             try
             {
@@ -97,10 +103,10 @@ namespace RacerData.Data.Aws.Adapters
             }
             catch (Exception ex)
             {
-                return _resultFactory.Exception<IAwsItem>(ex);
+                return _resultFactory.Exception<AwsItem>(ex);
             }
         }
-        // TODO: Return IResult
+       
         public virtual async Task<IResult> DeleteAsync(string key)
         {
             try
@@ -120,6 +126,31 @@ namespace RacerData.Data.Aws.Adapters
             }
 
         }
+
+        //Task<IResult<AwsItem>> IRepository<AwsItem, string>.SelectAsync(string key)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //Task<IResult<IList<AwsItem>>> IRepository<AwsItem, string>.SelectListAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //Task<IResult<IList<AwsItem>>> IRepository<AwsItem, string>.SelectListAsync(int take, string startKey)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IResult<IEnumerable<AwsItem>>> SelectListAsync(int take, int skip)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IResult<AwsItem>> PutAsync(AwsItem item)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
     }

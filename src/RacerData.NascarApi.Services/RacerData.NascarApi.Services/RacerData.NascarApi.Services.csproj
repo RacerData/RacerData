@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/RacerData/RacerData</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageReleaseNotes>Consolidation of NascarApi services</PackageReleaseNotes>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

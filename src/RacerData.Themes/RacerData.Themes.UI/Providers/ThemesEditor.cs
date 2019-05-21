@@ -15,7 +15,7 @@ namespace RacerData.Themes.UI.Providers
         {
             this.listBox = new ListBox();
             this.listBox.BorderStyle = BorderStyle.None;
-            this.listBox.SelectionMode = SelectionMode.MultiExtended;
+            this.listBox.SelectionMode = SelectionMode.One;
         }
 
         private void listBox_Click(object sender, EventArgs e)

@@ -16,8 +16,6 @@ using RacerData.NascarApi.Client.Models.LivePit;
 using RacerData.NascarApi.Client.Models.LivePoints;
 using RacerData.NascarApi.Client.Models.LiveQualifying;
 using RacerData.NascarApi.Client.Ports;
-using RacerData.NascarApi.Factories;
-using RacerData.NascarApi.Ports;
 using RacerData.NascarApi.Service.Ports;
 using Timer = System.Timers.Timer;
 
@@ -474,26 +472,29 @@ namespace RacerData.NascarApi.Service.Adapters
 
                 var newFeedData = newFeedDataResult.Value;
 
-                var lastLapBuffer = newFeedData.Max(f => f.LapNumber);
-
-                if (_lastFlagDataLap == lastLapBuffer)
+                if (newFeedData.Count() > 0)
                 {
-                    if (_verbose)
-                        OnServiceActivity($"LiveFlagData - No change in updated lap: {lastLapBuffer}");
+                    var lastLapBuffer = newFeedData.Max(f => f.LapNumber);
 
-                    return;
-                }
-                else
-                {
-                    _lastFlagDataLap = lastLapBuffer;
-
-                    if (cancellationToken.IsCancellationRequested)
+                    if (_lastFlagDataLap == lastLapBuffer)
                     {
-                        State = ServiceState.Canceled;
+                        if (_verbose)
+                            OnServiceActivity($"LiveFlagData - No change in updated lap: {lastLapBuffer}");
+
                         return;
                     }
+                    else
+                    {
+                        _lastFlagDataLap = lastLapBuffer;
 
-                    OnLiveFlagDataUpdated(newFeedData);
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            State = ServiceState.Canceled;
+                            return;
+                        }
+
+                        OnLiveFlagDataUpdated(newFeedData);
+                    }
                 }
             }
             catch (Exception ex)
@@ -530,26 +531,29 @@ namespace RacerData.NascarApi.Service.Adapters
 
                 var newFeedData = newFeedDataResult.Value;
 
-                var lastUpdateBuffer = newFeedData.Max(l => l.PitOutRaceTime);
-
-                if (_lastPitOutElapsed == lastUpdateBuffer)
+                if (newFeedData.Count() > 0)
                 {
-                    if (_verbose)
-                        OnServiceActivity($"Live Pit Data - No change in last update elapsed: {_lastPitOutElapsed}");
+                    var lastUpdateBuffer = newFeedData.Max(l => l.PitOutRaceTime);
 
-                    return;
-                }
-                else
-                {
-                    _lastPitOutElapsed = lastUpdateBuffer;
-
-                    if (cancellationToken.IsCancellationRequested)
+                    if (_lastPitOutElapsed == lastUpdateBuffer)
                     {
-                        State = ServiceState.Canceled;
+                        if (_verbose)
+                            OnServiceActivity($"Live Pit Data - No change in last update elapsed: {_lastPitOutElapsed}");
+
                         return;
                     }
+                    else
+                    {
+                        _lastPitOutElapsed = lastUpdateBuffer;
 
-                    OnLivePitDataUpdated(newFeedData);
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            State = ServiceState.Canceled;
+                            return;
+                        }
+
+                        OnLivePitDataUpdated(newFeedData);
+                    }
                 }
             }
             catch (Exception ex)
@@ -592,8 +596,8 @@ namespace RacerData.NascarApi.Service.Adapters
                     return;
                 }
 
-                OnLivePointsDataUpdated(newFeedData);
-
+                if (newFeedData.Count() > 0)
+                    OnLivePointsDataUpdated(newFeedData);
             }
             catch (Exception ex)
             {
@@ -640,8 +644,8 @@ namespace RacerData.NascarApi.Service.Adapters
                     return;
                 }
 
-                OnLiveQualifyingDataUpdated(newFeedData);
-
+                if (newFeedData.Count() > 0)
+                    OnLiveQualifyingDataUpdated(newFeedData);
             }
             catch (Exception ex)
             {

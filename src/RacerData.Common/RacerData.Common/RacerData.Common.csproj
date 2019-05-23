@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.8</Version>
+    <Version>0.1.0</Version>
     <Authors>RacerData Software</Authors>
     <Description>Common utilities for RacerData domain</Description>
     <Copyright>Copyright (C) 2019 - RacerData Software</Copyright>
@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Adapters\" />
+    <Folder Include="Results\" />
     <Folder Include="Ports\" />
   </ItemGroup>
   

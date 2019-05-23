@@ -15,7 +15,7 @@ using RacerData.Data.Ports;
 
 namespace RacerData.Data.Json.Adapters
 {
-    abstract class JsonRepository<TItem, TKey> : INotifyPropertyChanged, IJsonRepository<TItem, TKey>
+    public abstract class JsonRepository<TItem, TKey> : INotifyPropertyChanged, IJsonRepository<TItem, TKey>
         where TItem : class, IKeyedItem<TKey>, new()
         where TKey : struct, IComparable
     {
@@ -98,25 +98,9 @@ namespace RacerData.Data.Json.Adapters
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _revertableService = revertableService ?? throw new ArgumentNullException(nameof(revertableService));
             _resultFactory = resultFactory ?? throw new ArgumentNullException(nameof(resultFactory));
-
-            Items = new List<TItem>();
         }
 
         #endregion
-
-        #region public
-
-        //public abstract Task<IResult<TItem>> SelectAsync(TKey key);
-
-        //public abstract Task<IResult<IList<TItem>>> SelectListAsync();
-
-        //public abstract Task<IResult<IList<TItem>>> SelectListAsync(int take, TKey startKey);
-
-        //public abstract Task<IResult<IEnumerable<TItem>>> SelectListAsync(int take, int skip);
-
-        //public abstract Task<IResult<TItem>> PutAsync(TItem item);
-
-        //public abstract Task<IResult> DeleteAsync(TKey key);
 
         #region public
 
@@ -124,7 +108,7 @@ namespace RacerData.Data.Json.Adapters
         {
             try
             {
-                TItem item = Items.FirstOrDefault(i => i.Key.ToString() == key.ToString());
+                TItem item = GetItemFromList(key);
 
                 if (item == null)
                 {
@@ -176,11 +160,11 @@ namespace RacerData.Data.Json.Adapters
         {
             try
             {
-                TItem existing = Items.FirstOrDefault(i => i.Key.ToString() == item.Key.ToString());
+                TItem existing = GetItemFromList(item.Key);
 
                 if (existing != null)
                 {
-                    return await Task.FromResult(_resultFactory.Create<TItem>(HttpStatusCode.Conflict));
+                    Items.Remove(existing);
                 }
 
                 Items.Add(item);
@@ -213,8 +197,6 @@ namespace RacerData.Data.Json.Adapters
                 return await Task.FromResult(_resultFactory.Exception<IList<TItem>>(ex));
             }
         }
-
-        #endregion
 
         public virtual void SaveChanges()
         {
@@ -249,6 +231,11 @@ namespace RacerData.Data.Json.Adapters
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
             Log?.Error(message, ex);
+        }
+
+        protected virtual TItem GetItemFromList(TKey key)
+        {
+            return Items.FirstOrDefault(i => i.Key.ToString() == key.ToString());
         }
 
         protected virtual List<TItem> LoadFromFile()

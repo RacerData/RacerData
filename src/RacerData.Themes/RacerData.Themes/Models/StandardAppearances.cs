@@ -2,7 +2,7 @@
 
 namespace RacerData.Themes.Models
 {
-    public static class StandardAppearances
+    public class StandardAppearances
     {
         #region properties
 
@@ -18,25 +18,25 @@ namespace RacerData.Themes.Models
         {
             SystemAppearance = new Appearance()
             {
-                ForeColor = CustomSystemColors.DefaultSystemColors.ControlText,
-                BackColor = CustomSystemColors.DefaultSystemColors.Control,
+                ForeColor = SystemColors.DefaultSystemColors.ControlText,
+                BackColor = SystemColors.DefaultSystemColors.Control,
 
-                ForeColor2 = CustomSystemColors.DefaultSystemColors.WindowText,
-                BackColor2 = CustomSystemColors.DefaultSystemColors.Window,
+                ForeColor2 = SystemColors.DefaultSystemColors.WindowText,
+                BackColor2 = SystemColors.DefaultSystemColors.Window,
 
-                MouseOverForeColor = CustomSystemColors.DefaultSystemColors.HighlightText,
-                MouseOverBackColor = CustomSystemColors.DefaultSystemColors.Highlight,
+                MouseOverForeColor = SystemColors.DefaultSystemColors.HighlightText,
+                MouseOverBackColor = SystemColors.DefaultSystemColors.Highlight,
 
-                SelectedForeColor = CustomSystemColors.DefaultSystemColors.ActiveCaptionText,
-                SelectedBackColor = CustomSystemColors.DefaultSystemColors.ActiveCaption,
+                SelectedForeColor = SystemColors.DefaultSystemColors.ActiveCaptionText,
+                SelectedBackColor = SystemColors.DefaultSystemColors.ActiveCaption,
 
-                BorderColor = CustomSystemColors.DefaultSystemColors.ButtonHighlight,
+                BorderColor = SystemColors.DefaultSystemColors.ButtonHighlight,
                 BorderThickness = 0
             };
             BlackAppearance = new Appearance()
             {
                 ForeColor = Color.GhostWhite,
-                BackColor = Color.DarkGray,
+                BackColor = Color.Black,
 
                 ForeColor2 = Color.White,
                 BackColor2 = Color.DimGray,

@@ -5,7 +5,7 @@ using RacerData.Themes.Ports;
 
 namespace RacerData.Themes.Models
 {
-    public class ThemeDefinition : IKeyedItem<Guid>, INotifyPropertyChanged, ITheme
+    public class ThemeDefinition : IKeyedItem<Guid>, INotifyPropertyChanged, IThemeDefinition
     {
         #region events
 
@@ -52,7 +52,7 @@ namespace RacerData.Themes.Models
             }
         }
 
-        private Appearance _appearance = StandardAppearances.SystemAppearance;
+        private Appearance _appearance = null;
         public Appearance Appearance
         {
             get
@@ -66,13 +66,15 @@ namespace RacerData.Themes.Models
             }
         }
 
+        public bool IsReadOnly { get; internal set; } = false;
+
         #endregion
 
         #region ctor
 
         public ThemeDefinition()
         {
-
+            Appearance = new Appearance();
         }
 
         #endregion

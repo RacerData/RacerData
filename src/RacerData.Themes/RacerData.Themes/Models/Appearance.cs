@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
-using System.Text;
+using RacerData.Themes.Ports;
 
 namespace RacerData.Themes.Models
 {
-    public class Appearance : INotifyPropertyChanged
+    public class Appearance : INotifyPropertyChanged, IAppearance
     {
         #region events
 
@@ -20,6 +18,48 @@ namespace RacerData.Themes.Models
         #endregion
 
         #region properties
+
+        private FontInfo _heading1FontInfo;
+        public FontInfo Heading1FontInfo
+        {
+            get
+            {
+                return _heading1FontInfo;
+            }
+            set
+            {
+                _heading1FontInfo = value;
+                OnPropertyChanged(nameof(Heading1FontInfo));
+            }
+        }
+
+        private FontInfo _captionFontInfo;
+        public FontInfo CaptionFontInfo
+        {
+            get
+            {
+                return _captionFontInfo;
+            }
+            set
+            {
+                _captionFontInfo = value;
+                OnPropertyChanged(nameof(CaptionFontInfo));
+            }
+        }
+
+        private FontInfo _rowItemFontInfo;
+        public FontInfo RowItemFontInfo
+        {
+            get
+            {
+                return _rowItemFontInfo;
+            }
+            set
+            {
+                _rowItemFontInfo = value;
+                OnPropertyChanged(nameof(RowItemFontInfo));
+            }
+        }
 
         private Color _foreColor;
         public virtual Color ForeColor
@@ -178,11 +218,6 @@ namespace RacerData.Themes.Models
         #endregion
 
         #region ctor
-
-        static Appearance()
-        {
-
-        }
 
         public Appearance()
         {

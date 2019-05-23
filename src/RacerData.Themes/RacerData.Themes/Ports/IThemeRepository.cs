@@ -6,5 +6,6 @@ namespace RacerData.Themes.Ports
 {
     public interface IThemeRepository : IRepository<Theme, Guid>
     {
+        void SaveChanges();
     }
 }

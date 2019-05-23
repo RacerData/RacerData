@@ -3,7 +3,7 @@ using RacerData.Themes.Ports;
 
 namespace RacerData.Themes.Models
 {
-    public static class StandardThemes
+    public class StandardThemes
     {
         #region consts
 
@@ -23,9 +23,9 @@ namespace RacerData.Themes.Models
 
         #region properties
 
-        public static ITheme SystemTheme { get; private set; }
-        public static ITheme BlackTheme { get; private set; }
-        public static ITheme BlueTheme { get; private set; }
+        public static IThemeDefinition SystemTheme { get; private set; }
+        public static IThemeDefinition BlackTheme { get; private set; }
+        public static IThemeDefinition BlueTheme { get; private set; }
 
         #endregion
 
@@ -37,19 +37,22 @@ namespace RacerData.Themes.Models
             {
                 Key = _systemThemeKey,
                 Name = SystemThemeName,
-                Appearance = StandardAppearances.SystemAppearance
+                Appearance = StandardAppearances.SystemAppearance,
+                IsReadOnly = true
             };
             BlackTheme = new ThemeDefinition()
             {
                 Key = _blackThemeKey,
                 Name = BlackThemeName,
-                Appearance = StandardAppearances.BlackAppearance
+                Appearance = StandardAppearances.BlackAppearance,
+                IsReadOnly = true
             };
             BlueTheme = new ThemeDefinition()
             {
                 Key = _blueThemeKey,
                 Name = BlueThemeName,
-                Appearance = StandardAppearances.BlueAppearance
+                Appearance = StandardAppearances.BlueAppearance,
+                IsReadOnly = true
             };
         }
 

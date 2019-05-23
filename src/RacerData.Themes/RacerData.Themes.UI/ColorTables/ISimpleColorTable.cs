@@ -1,76 +1,87 @@
-﻿using System.ComponentModel;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace RacerData.Themes.UI.ColorTables
 {
     public interface ISimpleColorTable
     {
-        /*** General ***/
+        /// <summary>
+        /// Primary Text Color
+        /// </summary>
+        Color ForeColor { get; set; }
 
-        [DisplayName("ForeColor")]
-        [Description("Primary Text Color")]
-        [Category("General")]
-         Color ForeColor { get; set; }
+        /// <summary>
+        /// MouseOver Text Color
+        /// </summary>
+        Color MouseOverForeColor { get; set; }
 
-        [DisplayName("MouseOver ForeColor")]
-        [Description("MouseOver Text Color")]
-        [Category("General")]
-         Color MouseOverForeColor { get; set; }
+        /// <summary>
+        /// Primary Background Color
+        /// </summary>
+        Color BackColor { get; set; }
 
-        [DisplayName("Primary Background")]
-        [Description("Primary Background Color")]
-        [Category("General")]
-         Color BackColor { get; set; }
+        /// <summary>
+        /// MouseOver Background Color
+        /// </summary>
+        Color MouseOverBackColor { get; set; }
 
-        [DisplayName("MouseOver BackColor")]
-        [Description("MouseOver Background Color")]
-        [Category("General")]
-         Color MouseOverBackColor { get; set; }
+        /// <summary>
+        /// Primary border color for menustrips, toolstrips, and statusbars
+        /// </summary>
+        Color MenuBorderColor { get; set; }
 
-        /*** MenuStrip ***/
+        /// <summary>
+        /// MouseOver Border Color
+        /// </summary>
+        Color ToolStripMouseOverBorderColor { get; set; }
 
-        [DisplayName("Menu Border")]
-        [Description("Menu Border Color")]
-        [Category("MenuStrip")]
-         Color MenuBorderColor { get; set; }
+        /// <summary>
+        /// Checked ToolStrip Button Border Color
+        /// </summary>
+        Color CheckedBorderColor { get; set; }
 
-        [DisplayName("Open Menu BackColor")]
-        [Description("Open Menu Background Color")]
-        [Category("MenuStrip")]
-         Color OpenMenuBackColor { get; set; }
+        /// <summary>
+        /// Menu Item Border Color
+        /// </summary>
+        Color MenuStripMouseOverBorderColor { get; set; }
 
-        [DisplayName("Checked CheckBox BackColor")]
-        [Description("Checked MenuItem CheckBox Background Color")]
-        [Category("MenuStrip")]
-         Color CheckedCheckBoxBackColor { get; set; }
+        /// <summary>
+        /// Open Menu Background Color
+        /// </summary>
+        Color OpenMenuBackColor { get; set; }
 
-        /*** ToolStrip ***/
+        /// <summary>
+        ///  CheckBox Background Color
+        /// </summary>
+        Color CheckBoxBackColor { get; set; }
 
-        [DisplayName("Checked Button BackColor")]
-        [Description("Checked ToolStrip Button Background Color")]
-        [Category("ToolStrip")]
-         Color CheckedButtonBackColor { get; set; }
+        /// <summary>
+        /// Checked ToolStrip Button Background Color
+        /// </summary>
+        Color CheckedButtonBackColor { get; set; }
+        
+        /// <summary>
+        /// Checked ToolStrip Button MouseOver Background Color
+        /// </summary>
+        Color CheckedButtonMouseOverBackColor { get; set; }
 
-        [DisplayName("Checked Button Border")]
-        [Description("Checked ToolStrip Button Border Color")]
-        [Category("ToolStrip")]
-         Color CheckedButtonBorderColor { get; set; }
+        /// <summary>
+        /// Background color for toolstrip button when it is clicked
+        /// </summary>
+        Color ButtonClickBackColor { get; set; }
 
-        [DisplayName("Checked Button MouseOver BackColor")]
-        [Description("Checked ToolStrip Button MouseOver Background Color")]
-        [Category("ToolStrip")]
-         Color CheckedButtonMouseOverBackColor { get; set; }
+        /// <summary>
+        /// Border color for 'Checked' buttons on toolstrips
+        /// </summary>
+        Color CheckedButtonBorderColor { get; set; }
 
-        /*** Separator ***/
+        /// <summary>
+        /// Separator Primary Color
+        /// </summary>
+        Color SeparatorDarkColor { get; set; }
 
-        [DisplayName("Separator Primary")]
-        [Description("Separator Primary Color")]
-        [Category("Separator")]
-         Color SeparatorDarkColor { get; set; }
-
-        [DisplayName("Separator Secondary")]
-        [Description("Separator Secondary Color")]
-        [Category("Separator")]
-         Color SeparatorLightColor { get; set; }
+        /// <summary>
+        /// Separator Secondary Color
+        /// </summary>
+        Color SeparatorLightColor { get; set; }
     }
 }

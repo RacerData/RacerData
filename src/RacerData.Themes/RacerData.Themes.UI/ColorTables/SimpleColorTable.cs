@@ -4,79 +4,119 @@ using System.Windows.Forms;
 
 namespace RacerData.Themes.UI.ColorTables
 {
-    public class SimpleCustomColorTable : ProfessionalColorTable, IColorTableText, ISimpleColorTable
+    public class SimpleColorTable : ProfessionalColorTable, ISimpleColorTable
     {
         #region properties
 
-        /*** General ***/
-
+        #region /*** general ***/
+        /// <inheritdoc/>
         [DisplayName("ForeColor")]
-        [Description("Primary Text Color")]
+        [Description("Primary text color for menus, toolstrip items, and status labels")]
         [Category("General")]
         public Color ForeColor { get; set; }
 
-        [DisplayName("MouseOver ForeColor")]
-        [Description("MouseOver Text Color")]
-        [Category("General")]
-        public Color MouseOverForeColor { get; set; }
-
-        [DisplayName("Primary Background")]
-        [Description("Primary Background Color")]
+        /// <inheritdoc/>
+        [DisplayName("BackColor")]
+        [Description("Primary background color for menus, toolstrip items, and status labels")]
         [Category("General")]
         public Color BackColor { get; set; }
 
-        [DisplayName("MouseOver BackColor")]
-        [Description("MouseOver Background Color")]
+        /// <inheritdoc/>
+        [DisplayName("Border Color")]
+        [Description("Primary border color for menustrips, toolstrips, and statusbars")]
         [Category("General")]
-        public Color MouseOverBackColor { get; set; }
-
-        /*** MenuStrip ***/
-
-        [DisplayName("Menu Border")]
-        [Description("Menu Border Color")]
-        [Category("MenuStrip")]
         public Color MenuBorderColor { get; set; }
 
+
+        /// <inheritdoc/>
+        [DisplayName("MouseOver ForeColor")]
+        [Description("Text color for menus and toolstrip items when the mouse moves over them")]
+        [Category("General")]
+        public Color MouseOverForeColor { get; set; }
+
+        /// <inheritdoc/>
+        [DisplayName("MouseOver BackColor")]
+        [Description("Background color for menus and toolstrip items when the mouse moves over them")]
+        [Category("General")]
+        public Color MouseOverBackColor { get; set; }
+        #endregion
+
+        #region /*** menustrip ***/
+        /// <inheritdoc/>
+        [DisplayName("MenuStrip MouseOver Border")]
+        [Description("Border color for menustrip items when the mouse moves over them")]
+        [Category("MenuStrip")]
+        public Color MenuStripMouseOverBorderColor { get; set; }
+
+        /// <inheritdoc/>
         [DisplayName("Open Menu BackColor")]
-        [Description("Open Menu Background Color")]
+        [Description("Background color for open menu items")]
         [Category("MenuStrip")]
         public Color OpenMenuBackColor { get; set; }
 
-        [DisplayName("Checked CheckBox BackColor")]
-        [Description("Checked MenuItem CheckBox Background Color")]
+        /// <inheritdoc/>
+        [DisplayName("CheckBox BackColor")]
+        [Description("Background color for the checkbox for checkable menu items")]
         [Category("MenuStrip")]
-        public Color CheckedCheckBoxBackColor { get; set; }
-        
-        /*** ToolStrip ***/
+        public Color CheckBoxBackColor { get; set; }
 
+        /// <inheritdoc/>
+        [DisplayName("CheckBox Border")]
+        [Description("Border color for the checkbox on checkable menu items")]
+        [Category("MenuStrip")]
+        public Color CheckedBorderColor { get; set; }
+        #endregion
+
+        #region /*** toolstrip ***/
+
+        /// <inheritdoc/>
+        [DisplayName("Click Button BackColor")]
+        [Description("Background color for toolstrip button when it is clicked")]
+        [Category("ToolStrip")]
+        public Color ButtonClickBackColor { get; set; }
+
+        /// <inheritdoc/>
         [DisplayName("Checked Button BackColor")]
-        [Description("Checked ToolStrip Button Background Color")]
+        [Description("Background color for 'Checked' buttons on toolstrips")]
         [Category("ToolStrip")]
         public Color CheckedButtonBackColor { get; set; }
 
-        [DisplayName("Checked Button Border")]
-        [Description("Checked ToolStrip Button Border Color")]
-        [Category("ToolStrip")]
-        public Color CheckedButtonBorderColor { get; set; }
-
+        /// <inheritdoc/>
         [DisplayName("Checked Button MouseOver BackColor")]
-        [Description("Checked ToolStrip Button MouseOver Background Color")]
+        [Description("Background color for 'Checked' buttons on toolstrips when the mouse moves over them")]
         [Category("ToolStrip")]
         public Color CheckedButtonMouseOverBackColor { get; set; }
 
-        /*** Separator ***/
+        /// <inheritdoc/>
+        [DisplayName("ToolStrip MouseOver Border")]
+        [Description("Border color for toolstrip items when the mouse moves over them")]
+        [Category("ToolStrip")]
+        public Color ToolStripMouseOverBorderColor { get; set; }
 
+        /// <inheritdoc/>
+        [DisplayName("Checked Button Border")]
+        [Description("Border color for 'Checked' buttons on toolstrips")]
+        [Category("ToolStrip")]
+        public Color CheckedButtonBorderColor { get; set; }
+        #endregion
+
+        #region /*** separator ***/
+        /// <inheritdoc/>
         [DisplayName("Separator Primary")]
-        [Description("Separator Primary Color")]
+        [Description("Primary color used for toolstrip and menu item separators")]
         [Category("Separator")]
         public Color SeparatorDarkColor { get; set; }
 
+        /// <inheritdoc/>
         [DisplayName("Separator Secondary")]
-        [Description("Separator Secondary Color")]
+        [Description("Secondary color used for toolstrip and menu item separators")]
         [Category("Separator")]
         public Color SeparatorLightColor { get; set; }
 
-        #region overrides
+        #endregion
+
+        #region /*** overrides ***/
+
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color SeparatorDark => SeparatorDarkColor;
@@ -159,10 +199,10 @@ namespace RacerData.Themes.UI.ColorTables
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color CheckBackground => CheckedCheckBoxBackColor;
+        public override Color CheckBackground => CheckBoxBackColor;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color CheckSelectedBackground => CheckedCheckBoxBackColor;
+        public override Color CheckSelectedBackground => CheckBoxBackColor;
         [Browsable(false)]
         // Check background while mouse button is pressed
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -180,13 +220,13 @@ namespace RacerData.Themes.UI.ColorTables
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color ButtonSelectedBorder => CheckedButtonBorderColor;
+        public override Color ButtonSelectedBorder => ToolStripMouseOverBorderColor;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ButtonSelectedHighlight => MouseOverBackColor;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color ButtonSelectedHighlightBorder => CheckedButtonBorderColor;
+        public override Color ButtonSelectedHighlightBorder => base.ButtonSelectedHighlightBorder;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -203,7 +243,7 @@ namespace RacerData.Themes.UI.ColorTables
         public override Color ButtonCheckedHighlight => MouseOverBackColor;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
-        public override Color ButtonCheckedHighlightBorder => CheckedButtonBorderColor;
+        public override Color ButtonCheckedHighlightBorder => base.ButtonCheckedHighlightBorder;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -223,7 +263,7 @@ namespace RacerData.Themes.UI.ColorTables
         public override Color ButtonPressedHighlight => MouseOverBackColor;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color ButtonPressedHighlightBorder => CheckedButtonBorderColor;
+        public override Color ButtonPressedHighlightBorder => base.ButtonPressedHighlightBorder;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -248,7 +288,7 @@ namespace RacerData.Themes.UI.ColorTables
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color ToolStripBorder => MenuBorderColor;
-
+                
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color RaftingContainerGradientBegin => BackColor;
@@ -261,7 +301,7 @@ namespace RacerData.Themes.UI.ColorTables
         public override Color MenuItemSelected => MouseOverBackColor;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color MenuItemBorder => MenuBorderColor;
+        public override Color MenuItemBorder => MenuStripMouseOverBorderColor;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -269,25 +309,28 @@ namespace RacerData.Themes.UI.ColorTables
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override Color GripLight => BackColor;
+
         #endregion
 
         #endregion
 
         #region ctor
-        public SimpleCustomColorTable()
+
+        public SimpleColorTable()
             : base()
         {
-            MenuBorderColor = base.MenuBorder;
+            MenuStripMouseOverBorderColor = base.MenuBorder;
             BackColor = base.ToolStripGradientBegin;
             MouseOverBackColor = base.MenuItemSelectedGradientBegin;
             OpenMenuBackColor = base.ButtonPressedGradientBegin;
             CheckedButtonBackColor = base.ButtonCheckedGradientBegin;
-            CheckedCheckBoxBackColor = base.CheckBackground;
-            CheckedButtonBorderColor = base.ButtonPressedHighlightBorder;
+            CheckBoxBackColor = base.CheckBackground;
+            CheckedBorderColor = base.ButtonPressedBorder;
             CheckedButtonMouseOverBackColor = base.ButtonPressedGradientBegin;
             SeparatorDarkColor = base.SeparatorDark;
             SeparatorLightColor = base.SeparatorLight;
         }
+
         #endregion
     }
 }

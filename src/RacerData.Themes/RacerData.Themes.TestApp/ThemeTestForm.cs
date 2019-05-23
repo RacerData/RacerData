@@ -86,18 +86,18 @@ namespace RacerData.Themes.TestApp
             await _service.ApplyThemeAsync((Control)propertyGrid1.SelectedObject, theme, true);
         }
 
-        private void btnApplyToForm_Click(object sender, EventArgs e)
+        private async void btnApplyToForm_Click(object sender, EventArgs e)
         {
-            //////if (cboThemes.SelectedItem == null || _loading)
-            //////    return;
+            if (cboThemes.SelectedItem == null || _loading)
+                return;
 
-            //////var themeName = ((ThemeDefinition)cboThemes.SelectedItem).Name;
+            var themeName = ((ThemeDefinition)cboThemes.SelectedItem).Name;
 
-            //////var result = await _repo.SelectThemeAsync(themeName);
+            var result = await _repo.SelectThemeAsync(themeName);
 
-            //////IThemeDefinition theme = result.Value;
+            IThemeDefinition theme = result.Value;
 
-            //////await _service.ApplyThemeAsync(this, theme, true);
+            await _service.ApplyThemeAsync(this, theme, true);
 
             //this.toolStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
             //this.menuStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
@@ -107,9 +107,9 @@ namespace RacerData.Themes.TestApp
             //this.menuStrip1.Renderer = new CustomProToolStripSystemRenderer(new CustomColorTable());
             //this.statusStrip1.Renderer = new CustomProToolStripSystemRenderer(new CustomColorTable());
 
-            this.toolStrip1.Renderer = new CustomProToolStripSystemRenderer2(new CustomColorTable());
-            this.menuStrip1.Renderer = new CustomProToolStripSystemRenderer2(new CustomColorTable());
-            this.statusStrip1.Renderer = new CustomProToolStripSystemRenderer2(new CustomColorTable());
+            this.toolStrip1.Renderer = new ToolStripCustomRenderer(new SimpleColorTable());
+            this.menuStrip1.Renderer = new ToolStripCustomRenderer(new SimpleColorTable());
+            this.statusStrip1.Renderer = new ToolStripCustomRenderer(new SimpleColorTable());
 
         }
 
@@ -142,7 +142,7 @@ namespace RacerData.Themes.TestApp
         {
             try
             {
-                var dialog = ServiceProvider.Instance.GetRequiredService<Form1>();
+                var dialog = ServiceProvider.Instance.GetRequiredService<ColorTableEditorView>();
 
                 dialog.ShowDialog(this);
             }

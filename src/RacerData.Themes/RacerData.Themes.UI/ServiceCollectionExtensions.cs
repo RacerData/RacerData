@@ -16,7 +16,7 @@ namespace RacerData.Themes.UI
 
             services.AddScoped<IThemeDefinitionRepository, ThemeDefinitionRepository>();
             services.AddTransient<IThemeUiService, ThemeUiService>();
-            services.AddTransient<Form1, Form1>();
+            services.AddTransient<ColorTableEditorView, ColorTableEditorView>();
 
             Mapper.Initialize(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
 

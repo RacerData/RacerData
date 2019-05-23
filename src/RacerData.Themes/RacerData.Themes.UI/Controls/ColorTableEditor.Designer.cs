@@ -50,10 +50,10 @@
             this.tsbCheckButton2 = new System.Windows.Forms.ToolStripButton();
             this.pblSampleWorkspace = new System.Windows.Forms.Panel();
             this.pnlSampleControls = new System.Windows.Forms.Panel();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.sampleStatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.sampleMenuStrip.SuspendLayout();
             this.sampleToolStrip.SuspendLayout();
             this.pnlSampleControls.SuspendLayout();
@@ -65,9 +65,9 @@
             this.sampleMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
             this.checkedMenuToolStripMenuItem});
-            this.sampleMenuStrip.Location = new System.Drawing.Point(4, 4);
+            this.sampleMenuStrip.Location = new System.Drawing.Point(8, 8);
             this.sampleMenuStrip.Name = "sampleMenuStrip";
-            this.sampleMenuStrip.Size = new System.Drawing.Size(432, 24);
+            this.sampleMenuStrip.Size = new System.Drawing.Size(420, 24);
             this.sampleMenuStrip.TabIndex = 0;
             this.sampleMenuStrip.Text = "menuStrip1";
             // 
@@ -85,19 +85,19 @@
             // item1ToolStripMenuItem
             // 
             this.item1ToolStripMenuItem.Name = "item1ToolStripMenuItem";
-            this.item1ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.item1ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.item1ToolStripMenuItem.Text = "Item 1";
             // 
             // item2ToolStripMenuItem
             // 
             this.item2ToolStripMenuItem.Name = "item2ToolStripMenuItem";
-            this.item2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.item2ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.item2ToolStripMenuItem.Text = "Item 2";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(104, 6);
             // 
             // item3ToolStripMenuItem
             // 
@@ -105,7 +105,7 @@
             this.subItem1ToolStripMenuItem,
             this.subItem2ToolStripMenuItem});
             this.item3ToolStripMenuItem.Name = "item3ToolStripMenuItem";
-            this.item3ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.item3ToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.item3ToolStripMenuItem.Text = "Item 3";
             // 
             // subItem1ToolStripMenuItem
@@ -157,9 +157,9 @@
             this.tsbCheckButton1,
             this.toolStripSeparator4,
             this.tsbCheckButton2});
-            this.sampleToolStrip.Location = new System.Drawing.Point(4, 28);
+            this.sampleToolStrip.Location = new System.Drawing.Point(8, 32);
             this.sampleToolStrip.Name = "sampleToolStrip";
-            this.sampleToolStrip.Size = new System.Drawing.Size(432, 25);
+            this.sampleToolStrip.Size = new System.Drawing.Size(420, 25);
             this.sampleToolStrip.TabIndex = 1;
             this.sampleToolStrip.Text = "toolStrip1";
             // 
@@ -218,13 +218,15 @@
             // 
             this.pblSampleWorkspace.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.pblSampleWorkspace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pblSampleWorkspace.Location = new System.Drawing.Point(4, 53);
+            this.pblSampleWorkspace.Location = new System.Drawing.Point(8, 57);
             this.pblSampleWorkspace.Name = "pblSampleWorkspace";
-            this.pblSampleWorkspace.Size = new System.Drawing.Size(432, 621);
+            this.pblSampleWorkspace.Size = new System.Drawing.Size(420, 609);
             this.pblSampleWorkspace.TabIndex = 3;
             // 
             // pnlSampleControls
             // 
+            this.pnlSampleControls.BackColor = System.Drawing.Color.Black;
+            this.pnlSampleControls.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlSampleControls.Controls.Add(this.pblSampleWorkspace);
             this.pnlSampleControls.Controls.Add(this.sampleStatusStrip);
             this.pnlSampleControls.Controls.Add(this.sampleToolStrip);
@@ -232,9 +234,26 @@
             this.pnlSampleControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlSampleControls.Location = new System.Drawing.Point(422, 0);
             this.pnlSampleControls.Name = "pnlSampleControls";
-            this.pnlSampleControls.Padding = new System.Windows.Forms.Padding(4);
+            this.pnlSampleControls.Padding = new System.Windows.Forms.Padding(8);
             this.pnlSampleControls.Size = new System.Drawing.Size(440, 700);
             this.pnlSampleControls.TabIndex = 10;
+            // 
+            // sampleStatusStrip
+            // 
+            this.sampleStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel3});
+            this.sampleStatusStrip.Location = new System.Drawing.Point(8, 666);
+            this.sampleStatusStrip.Name = "sampleStatusStrip";
+            this.sampleStatusStrip.Size = new System.Drawing.Size(420, 22);
+            this.sampleStatusStrip.TabIndex = 4;
+            this.sampleStatusStrip.Text = "statusStrip2";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(374, 17);
+            this.toolStripStatusLabel3.Spring = true;
+            this.toolStripStatusLabel3.Text = "Status Label";
             // 
             // propertyGrid1
             // 
@@ -253,23 +272,6 @@
             this.splitter1.Size = new System.Drawing.Size(3, 700);
             this.splitter1.TabIndex = 9;
             this.splitter1.TabStop = false;
-            // 
-            // sampleStatusStrip
-            // 
-            this.sampleStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel3});
-            this.sampleStatusStrip.Location = new System.Drawing.Point(4, 674);
-            this.sampleStatusStrip.Name = "sampleStatusStrip";
-            this.sampleStatusStrip.Size = new System.Drawing.Size(432, 22);
-            this.sampleStatusStrip.TabIndex = 4;
-            this.sampleStatusStrip.Text = "statusStrip2";
-            // 
-            // toolStripStatusLabel3
-            // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(417, 17);
-            this.toolStripStatusLabel3.Spring = true;
-            this.toolStripStatusLabel3.Text = "Status Label";
             // 
             // ColorTableEditor
             // 

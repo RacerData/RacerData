@@ -42,9 +42,9 @@
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBottom = new System.Windows.Forms.Panel();
-            this.lblStatus = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.lblFeedInfo = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblActivity = new System.Windows.Forms.Label();
@@ -52,6 +52,9 @@
             this.mnuSleep1Hour = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSleep1Day = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSleep3Days = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnIndicator = new System.Windows.Forms.Button();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.verboseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTop.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.ctxOut.SuspendLayout();
@@ -63,6 +66,7 @@
             // 
             this.pnlTop.BackColor = System.Drawing.Color.Black;
             this.pnlTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTop.Controls.Add(this.btnIndicator);
             this.pnlTop.Controls.Add(this.lblEventDetails);
             this.pnlTop.Controls.Add(this.btnLog);
             this.pnlTop.Controls.Add(this.btnSleep);
@@ -85,7 +89,7 @@
             this.lblEventDetails.ForeColor = System.Drawing.Color.DarkGray;
             this.lblEventDetails.Location = new System.Drawing.Point(363, 5);
             this.lblEventDetails.Name = "lblEventDetails";
-            this.lblEventDetails.Size = new System.Drawing.Size(620, 37);
+            this.lblEventDetails.Size = new System.Drawing.Size(586, 37);
             this.lblEventDetails.TabIndex = 5;
             this.lblEventDetails.Text = "No events";
             // 
@@ -181,21 +185,23 @@
             // 
             this.ctxOut.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem,
-            this.copyAllToolStripMenuItem});
+            this.copyAllToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.verboseToolStripMenuItem});
             this.ctxOut.Name = "ctxOut";
-            this.ctxOut.Size = new System.Drawing.Size(120, 48);
+            this.ctxOut.Size = new System.Drawing.Size(181, 98);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // copyAllToolStripMenuItem
             // 
             this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyAllToolStripMenuItem.Text = "Copy All";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.copyAllToolStripMenuItem_Click);
             // 
@@ -217,17 +223,18 @@
             this.pnlBottom.Size = new System.Drawing.Size(996, 32);
             this.pnlBottom.TabIndex = 3;
             // 
-            // lblStatus
+            // lblFeedInfo
             // 
-            this.lblStatus.BackColor = System.Drawing.Color.Black;
-            this.lblStatus.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblStatus.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblStatus.Location = new System.Drawing.Point(48, 2);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(190, 26);
-            this.lblStatus.TabIndex = 1;
-            this.lblStatus.Text = "-";
-            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblFeedInfo.AutoEllipsis = true;
+            this.lblFeedInfo.BackColor = System.Drawing.Color.Black;
+            this.lblFeedInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFeedInfo.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblFeedInfo.Location = new System.Drawing.Point(290, 2);
+            this.lblFeedInfo.Name = "lblFeedInfo";
+            this.lblFeedInfo.Size = new System.Drawing.Size(450, 26);
+            this.lblFeedInfo.TabIndex = 5;
+            this.lblFeedInfo.Text = "No live event";
+            this.lblFeedInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -241,18 +248,17 @@
             this.label2.Text = "Event:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblFeedInfo
+            // lblStatus
             // 
-            this.lblFeedInfo.AutoEllipsis = true;
-            this.lblFeedInfo.BackColor = System.Drawing.Color.Black;
-            this.lblFeedInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblFeedInfo.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblFeedInfo.Location = new System.Drawing.Point(290, 2);
-            this.lblFeedInfo.Name = "lblFeedInfo";
-            this.lblFeedInfo.Size = new System.Drawing.Size(450, 26);
-            this.lblFeedInfo.TabIndex = 5;
-            this.lblFeedInfo.Text = "No live event";
-            this.lblFeedInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblStatus.BackColor = System.Drawing.Color.Black;
+            this.lblStatus.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lblStatus.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblStatus.Location = new System.Drawing.Point(48, 2);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(190, 26);
+            this.lblStatus.TabIndex = 1;
+            this.lblStatus.Text = "-";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
@@ -280,6 +286,7 @@
             // 
             // lblActivity
             // 
+            this.lblActivity.AutoEllipsis = true;
             this.lblActivity.BackColor = System.Drawing.Color.Black;
             this.lblActivity.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblActivity.ForeColor = System.Drawing.Color.DarkGray;
@@ -320,6 +327,34 @@
             this.mnuSleep3Days.Size = new System.Drawing.Size(141, 22);
             this.mnuSleep3Days.Text = "Sleep 3 Days";
             this.mnuSleep3Days.Click += new System.EventHandler(this.mnuSleep3Days_Click);
+            // 
+            // btnIndicator
+            // 
+            this.btnIndicator.BackColor = System.Drawing.Color.Silver;
+            this.btnIndicator.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnIndicator.FlatAppearance.BorderColor = System.Drawing.Color.DimGray;
+            this.btnIndicator.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGray;
+            this.btnIndicator.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.btnIndicator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIndicator.ForeColor = System.Drawing.SystemColors.Info;
+            this.btnIndicator.Location = new System.Drawing.Point(954, 5);
+            this.btnIndicator.Name = "btnIndicator";
+            this.btnIndicator.Size = new System.Drawing.Size(35, 35);
+            this.btnIndicator.TabIndex = 6;
+            this.btnIndicator.UseVisualStyleBackColor = false;
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // verboseToolStripMenuItem
+            // 
+            this.verboseToolStripMenuItem.CheckOnClick = true;
+            this.verboseToolStripMenuItem.Name = "verboseToolStripMenuItem";
+            this.verboseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verboseToolStripMenuItem.Text = "Verbose";
+            this.verboseToolStripMenuItem.CheckedChanged += new System.EventHandler(this.verboseToolStripMenuItem_CheckedChanged);
             // 
             // MainConsole
             // 
@@ -368,6 +403,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblFeedInfo;
         private System.Windows.Forms.Label lblEventDetails;
+        private System.Windows.Forms.Button btnIndicator;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem verboseToolStripMenuItem;
     }
 }
 

@@ -23,12 +23,14 @@ namespace RacerData.LiveFeedMonitor
         private delegate void SafeStringCallDelegate(string text);
         private delegate void SafeStringAndColorCallDelegate(string text, Color color);
         private delegate void SafeBooleanCallDelegate(bool value);
+        private delegate void SafeServiceStateCallDelegate(ServiceState stat);
 
         private static Color HeaderTextColor = Color.Gray;
         private static Color InfoTextColor = Color.LightGray;
         private static Color ActivityTextColor = Color.Cyan;
         private static Color ErrorTextColor = Color.Red;
 
+        private bool _isLoading = true;
         private bool _verbose = false;
         private bool _autoStartService = false;
         private bool _isRunning = false;
@@ -56,6 +58,8 @@ namespace RacerData.LiveFeedMonitor
 
                 _autoStartService = configuration["monitor:autoStartService"] == "true";
                 _verbose = configuration["monitor:verbose"] == "true";
+                verboseToolStripMenuItem.Checked = _verbose;
+
                 var harvestLapTimes = configuration["monitor:harvestLapTimes"] == "true";
                 var harvestLapAverages = configuration["monitor:harvestLapAverages"] == "true";
                 var harvestFeedData = configuration["monitor:harvestFeedData"] == "true";
@@ -109,6 +113,10 @@ namespace RacerData.LiveFeedMonitor
             catch (Exception ex)
             {
                 ExceptionHandler("Error starting monitor", ex);
+            }
+            finally
+            {
+                _isLoading = false;
             }
         }
 
@@ -303,7 +311,36 @@ namespace RacerData.LiveFeedMonitor
                 _isRunning = true;
             }
 
+            UpdateIndicatorState(state);
             UpdateButtonStates(_isRunning);
+        }
+
+        protected virtual void UpdateIndicatorState(ServiceState state)
+        {
+            if (btnIndicator.InvokeRequired)
+            {
+                var d = new SafeServiceStateCallDelegate(UpdateIndicatorState);
+                Invoke(d, new object[] { state });
+            }
+            else
+            {
+                if (state == ServiceState.Paused)
+                {
+                    btnIndicator.BackColor = Color.Yellow;
+                }
+                else if (state == ServiceState.Running)
+                {
+                    btnIndicator.BackColor = Color.LimeGreen;
+                }
+                else if (state == ServiceState.Error)
+                {
+                    btnIndicator.BackColor = Color.Red;
+                }
+                else if (state == ServiceState.Sleep)
+                {
+                    btnIndicator.BackColor = Color.Blue;
+                }
+            }
         }
 
         protected virtual void UpdateButtonStates(bool isRunning)
@@ -574,6 +611,14 @@ namespace RacerData.LiveFeedMonitor
         public void Monitor_LiveQualifyingDataUpdated(object sender, LiveQualifyingDataUpdatedEventArgs e)
         {
 
+        }
+
+        private void verboseToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_isLoading)
+                return;
+
+            _verbose = verboseToolStripMenuItem.Checked;
         }
         #endregion
     }

@@ -60,14 +60,9 @@ namespace RacerData.rNascarApp
             services.AddTransient<IViewDisplayFormatFactory, ViewDisplayFormatFactory>();
             services.AddTransient<IColumnBuilderService, ColumnBuilderService>();
             services.AddTransient<IColumnBuilderService, ColumnBuilderService2>();
-
-
+            
             services.AddScoped<IWorkspaceService, WorkspaceService>();
             services.AddScoped<IStateService, StateService>();
-            //services.AddScoped<IRevertableService, RevertableService>();
-
-            //services.AddTransient<IDirectoryService, DirectoryService>();
-            //services.AddTransient<ISerializer, Serializer>();
 
             services.AddTransient<WorkspaceManagementDialog, WorkspaceManagementDialog>();
             services.AddTransient<ViewManagementDialog, ViewManagementDialog>();

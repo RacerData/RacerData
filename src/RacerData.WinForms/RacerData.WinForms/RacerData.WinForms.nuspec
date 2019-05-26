@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RacerData.WinForms</id>
+    <version>$version$</version>
+    <authors>RacerData Software</authors>
+    <owners>RacerData Software</owners>
+    <projectUrl>http://www.racerdatasoftware.com</projectUrl>
+    <iconUrl>http://www.racerdatasoftware.com/racerData.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RacerData WinForms support</description>
+    <copyright>Copyright (C) 2019 - RacerData Software</copyright>
+  </metadata>
+  <files>   
+    <file src="bin\Debug\*.dll" target="lib\net472" />
+    <file src="bin\Debug\*.pdb" target="lib\net472" />
+  </files>
+</package>

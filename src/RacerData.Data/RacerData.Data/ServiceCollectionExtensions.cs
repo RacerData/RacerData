@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RacerData.Commmon.Results;
+using RacerData.Commmon;
 
 namespace RacerData.Data
 {
@@ -7,7 +7,7 @@ namespace RacerData.Data
     {
         public static IServiceCollection AddData(this IServiceCollection services)
         {
-            services.AddResults();
+            services.AddCommon();
 
             return services;
         }

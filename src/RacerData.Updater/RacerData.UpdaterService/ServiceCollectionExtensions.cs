@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RacerData.Commmon.Results;
+using RacerData.Commmon;
 using RacerData.Data.Aws;
 using RacerData.UpdaterService.Adapters;
 using RacerData.UpdaterService.Ports;
@@ -14,7 +14,7 @@ namespace RacerData.UpdaterService
 
             services.AddTransient<IUpdateService, UpdateService>();
 
-            services.AddResults();
+            services.AddCommon();
             services.AddAwsData();
 
             return services;

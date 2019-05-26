@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RacerData.Commmon.Results;
+using RacerData.Commmon;
 using RacerData.Data.Aws;
 using RacerData.NascarApi.Client.Adapters;
 using RacerData.NascarApi.Client.Factories;
@@ -19,7 +19,7 @@ namespace RacerData.NascarApi.Client
             services.AddTransient<IAwsLapAverageReader, AwsLapAverageReader>();
             services.AddTransient<IAwsLapTimeReader, AwsLapTimeReader>();
 
-            services.AddResults();
+            services.AddCommon();
             services.AddNascarApi();
 
             return services;

@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/RacerData/RacerData</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageReleaseNotes>Consolidation of NascarApi services</PackageReleaseNotes>
-    <Version>1.1.3</Version>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,5 +23,9 @@
     <ProjectReference Include="..\RacerData.NascarApi.LapTimes.Service\RacerData.NascarApi.LapTimes.Service.csproj" />
     <ProjectReference Include="..\RacerData.NascarApi.Service\RacerData.NascarApi.Service.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="powershell.exe $(SolutionDir)..\..\tools\CreateNuGetPackage.ps1 -name $(TargetName) -assembly &quot;$(TargetPath)&quot; -projectDir $(ProjectDir)" />
+  </Target>
 
 </Project>

@@ -7,7 +7,7 @@ namespace RacerData.Data.Ports
 {
     public interface IRepository<TItem, TKey>
         where TItem : class, IKeyedItem<TKey>, new()
-        where TKey : struct, IComparable
+        where TKey : IComparable
     {
         Task<IResult<TItem>> SelectAsync(TKey key);
         Task<IResult<IList<TItem>>> SelectListAsync();

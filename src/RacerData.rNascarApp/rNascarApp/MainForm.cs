@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using log4net.Core;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.NascarApi.Client.Models.LiveFeed;
 using RacerData.NascarApi.Service;
 using RacerData.NascarApi.Service.Ports;
 using RacerData.rNascarApp.Controls;
 using RacerData.rNascarApp.Dialogs;
-using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Logging;
 using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Themes;
 using RacerData.UpdaterService.Models;
+using RacerData.WinForms.Ports;
 
 namespace RacerData.rNascarApp
 {
@@ -73,6 +71,8 @@ namespace RacerData.rNascarApp
         private IMonitorService _feedService = null;
         private IWorkspaceService _workspaceService = null;
         private ILocalUpdaterService _localUpdaterService;
+        private IDialogService _dialogService;
+        private IExceptionHandlerService _exceptionHandlerService;
         private Color _gridTableBackColor = Color.FromArgb(0, 28, 28, 28);
         private bool _isMonitorEnabled = false;
         private bool _isFullScreen = false;
@@ -148,6 +148,10 @@ namespace RacerData.rNascarApp
                 SplashForm.SplashMessage("Initializing logging...");
                 _log = LogManager.GetLogger("MainForm");
 
+                SplashForm.SplashMessage("Loading framework services...");
+                _dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+                _exceptionHandlerService = ServiceProvider.Instance.GetRequiredService<IExceptionHandlerService>();
+
                 SplashForm.SplashMessage("Applying window state...");
                 ApplyWindowState();
 
@@ -190,15 +194,10 @@ namespace RacerData.rNascarApp
         #region logging
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
-            _log?.Error(message, ex);
+            _exceptionHandlerService.HandleException(this, message, ex);
+            //_log?.Error(message, ex);
 
-            MessageBox.Show(this, ex.Message, message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        protected virtual DialogResult ExceptionHandler(string message, Exception ex, MessageBoxButtons buttons)
-        {
-            _log?.Error(message, ex);
-
-            return MessageBox.Show(this, ex.Message, message, buttons, MessageBoxIcon.Warning);
+            //_dialogService.DisplayException(this, message, ex);
         }
         protected virtual void SetLogLevel(Level logLevel)
         {
@@ -236,9 +235,16 @@ namespace RacerData.rNascarApp
 
         protected virtual void DisplayAboutDialog()
         {
-            using (var dialog = new AboutDialog())
+            try
             {
-                dialog.ShowDialog(this);
+                using (var dialog = new AboutDialog())
+                {
+                    dialog.ShowDialog(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error displaying About.. dialog", ex);
             }
         }
 
@@ -258,11 +264,12 @@ namespace RacerData.rNascarApp
 
                     var message = $"{updateType} available: {result.LatestUpdate.Version.ToString()}.";
 
-                    var installUpdatePromptResult = MessageBox.Show(this,
-                        $"{message}\r\nWould you like to update now?\r\n(The application will have to close to be updated)",
+                    var installUpdatePromptResult = _dialogService.DisplayMessageBox(
+                        this,
                         $"Updates Available for {currentVersion}",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information);
+                        $"{message}\r\nWould you like to update now?\r\n(The application will have to close to be updated)",
+                        WinForms.Models.ButtonTypes.YesNo);
+
 
                     if (installUpdatePromptResult == DialogResult.Yes)
                     {
@@ -271,11 +278,12 @@ namespace RacerData.rNascarApp
                 }
                 else
                 {
-                    MessageBox.Show(this,
-                        $"You are up to date!",
+
+                    _dialogService.DisplayMessageBox(
+                        this,
+                        "You are up to date!",
                         $"No updates available for {currentVersion}",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                        WinForms.Models.ButtonTypes.Ok);
                 }
             }
             catch (Exception ex)
@@ -422,7 +430,7 @@ namespace RacerData.rNascarApp
             }
             catch (ArgumentException)
             {
-                MessageBox.Show(this, "Can't move view here", "Outside Grid Bounds", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _dialogService.DisplayMessageBox(this, "Outside Grid Bounds", "Can't move view here", WinForms.Models.ButtonTypes.Ok);
             }
             catch (Exception ex)
             {
@@ -773,21 +781,23 @@ namespace RacerData.rNascarApp
                         {
                             if (dialog.Value == Workspace.DefaultWorkspaceName)
                             {
-                                var result = MessageBox.Show(this,
-                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                var result = _dialogService.DisplayMessageBox(
+                                    this,
                                     "Error copying workspace",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Error);
+                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                    WinForms.Models.ButtonTypes.YesNo,
+                                    WinForms.Models.MsgIcon.Error);
 
                                 isDone = (result != DialogResult.Yes);
                             }
                             else if (dialog.Value == String.Empty)
                             {
-                                var result = MessageBox.Show(this,
-                                    $"The name cannot be blank.\r\n\r\nDo you want to try again?",
-                                    "Error copying workspace",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Error);
+                                var result = _dialogService.DisplayMessageBox(
+                                   this,
+                                   "Error copying workspace",
+                                   $"The name cannot be blank.\r\n\r\nDo you want to try again?",
+                                   WinForms.Models.ButtonTypes.YesNo,
+                                   WinForms.Models.MsgIcon.Error);
 
                                 isDone = (result != DialogResult.Yes);
                             }
@@ -803,20 +813,23 @@ namespace RacerData.rNascarApp
 
                                     _workspaceService.SetActiveWorkspace(newWorkspace.Name);
 
-                                    MessageBox.Show(this, $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                    _dialogService.DisplayMessageBox(
+                                        this,
                                         "Workspace copied",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
+                                        $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                        WinForms.Models.ButtonTypes.Ok,
+                                        WinForms.Models.MsgIcon.Information);
 
                                     isDone = true;
                                 }
                                 catch (InvalidOperationException ex)
                                 {
-                                    var result = MessageBox.Show(this,
-                                        $"There was an error copying the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
+                                    var result = _dialogService.DisplayMessageBox(
+                                        this,
                                         "Error copying workspace",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Error);
+                                        $"There was an error copying the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
+                                        WinForms.Models.ButtonTypes.YesNo,
+                                        WinForms.Models.MsgIcon.Error);
 
                                     isDone = (result != DialogResult.Yes);
                                 }
@@ -851,21 +864,23 @@ namespace RacerData.rNascarApp
                         {
                             if (dialog.Value == Workspace.DefaultWorkspaceName)
                             {
-                                var result = MessageBox.Show(this,
-                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                var result = _dialogService.DisplayMessageBox(
+                                    this,
                                     "Error creating workspace",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Error);
+                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                    WinForms.Models.ButtonTypes.YesNo,
+                                    WinForms.Models.MsgIcon.Error);
 
                                 isDone = (result != DialogResult.Yes);
                             }
                             else if (dialog.Value == String.Empty)
                             {
-                                var result = MessageBox.Show(this,
-                                    $"The name cannot be blank.\r\n\r\nDo you want to try again?",
-                                    "Error creating workspace",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Error);
+                                var result = _dialogService.DisplayMessageBox(
+                                      this,
+                                      "Error creating workspace",
+                                      $"The name cannot be blank.\r\n\r\nDo you want to try again?",
+                                      WinForms.Models.ButtonTypes.YesNo,
+                                      WinForms.Models.MsgIcon.Error);
 
                                 isDone = (result != DialogResult.Yes);
                             }
@@ -884,20 +899,23 @@ namespace RacerData.rNascarApp
 
                                     _workspaceService.SetActiveWorkspace(newWorkspace.Name);
 
-                                    MessageBox.Show(this, $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                    _dialogService.DisplayMessageBox(
+                                        this,
                                         "Workspace created",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information);
+                                        $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                        WinForms.Models.ButtonTypes.Ok,
+                                        WinForms.Models.MsgIcon.Information);
 
                                     isDone = true;
                                 }
                                 catch (InvalidOperationException ex)
                                 {
-                                    var result = MessageBox.Show(this,
-                                        $"There was an error creating the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
+                                    var result = _dialogService.DisplayMessageBox(
+                                        this,
                                         "Error creating workspace",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Error);
+                                        $"There was an error creating the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
+                                        WinForms.Models.ButtonTypes.YesNo,
+                                        WinForms.Models.MsgIcon.Error);
 
                                     isDone = (result != DialogResult.Yes);
                                 }
@@ -922,21 +940,24 @@ namespace RacerData.rNascarApp
                 if (workspace.Name == Workspace.DefaultWorkspaceName)
                     throw new InvalidOperationException("Cannot delete default workspace");
 
-                var result = MessageBox.Show(this,
-                                       $"You are about to permanently delete workspace '{workspace.Name}'.\r\n\r\nContinue?",
-                                       "Comfirm delete workspace",
-                                       MessageBoxButtons.YesNo,
-                                       MessageBoxIcon.Error);
+                var result = _dialogService.DisplayMessageBox(
+                    this,
+                    "Comfirm delete",
+                    $"You are about to permanently delete workspace '{workspace.Name}'.\r\n\r\nContinue?",
+                    WinForms.Models.ButtonTypes.YesNo,
+                    WinForms.Models.MsgIcon.Warning);
 
                 if (result != DialogResult.Yes)
                     return;
 
                 _workspaceService.RemoveWorkspace(workspace);
 
-                MessageBox.Show(this, $"Workspace '{workspace.Name}' has been deleted",
-                                       "Workspace removed",
-                                       MessageBoxButtons.OK,
-                                       MessageBoxIcon.Information);
+                _dialogService.DisplayMessageBox(
+                    this,
+                    "Workspace removed",
+                    $"Workspace '{workspace.Name}' has been deleted",
+                    WinForms.Models.ButtonTypes.Ok,
+                    WinForms.Models.MsgIcon.Information);
 
                 workspace = null;
             }
@@ -1303,11 +1324,12 @@ namespace RacerData.rNascarApp
 
             if (workspaceHasChanges || stateHasChanges)
             {
-                var promptResult = MessageBox.Show(this,
-                    "Save changes before exiting?",
+                var promptResult = _dialogService.DisplayMessageBox(
+                    this,
                     "Unsaved Changes",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question);
+                    "Save changes before exiting?",
+                    WinForms.Models.ButtonTypes.YesNoCancel,
+                    WinForms.Models.MsgIcon.Question);
 
                 if (promptResult == DialogResult.Yes)
                 {

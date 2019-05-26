@@ -1,0 +1,4 @@
+﻿#edit nuget spec version
+
+nuget pack .\RacerData.WinForms\RacerData.WinForms.nuspec
+nuget add RacerData.WinForms.1.0.1.nupkg -Source C:\Users\Rob\source\repos\RacerData\packages\

@@ -3,6 +3,7 @@ using AutoMapper;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RacerData.Commmon;
 using RacerData.NascarApi.Harvester.Service;
 using RacerData.NascarApi.LapAverage.Service;
 using RacerData.NascarApi.LapTimes.Service;
@@ -46,6 +47,7 @@ namespace RacerData.LiveFeedMonitor
             services.AddHarvesterService();
             services.AddLapAverageService();
             services.AddLapTimeService();
+            services.AddCommon();
 
             Mapper.Initialize(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
 

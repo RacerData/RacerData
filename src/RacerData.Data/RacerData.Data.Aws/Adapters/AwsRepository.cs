@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using RacerData.Commmon.Results;
@@ -8,7 +7,6 @@ using RacerData.Common.Results;
 using RacerData.Data.Aws.Internal;
 using RacerData.Data.Aws.Models;
 using RacerData.Data.Aws.Ports;
-using RacerData.Data.Ports;
 
 namespace RacerData.Data.Aws.Adapters
 {

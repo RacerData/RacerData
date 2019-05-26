@@ -3,20 +3,21 @@
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>RacerData AWS data store</Description>
+    <Version>2.2.0</Version>
   </PropertyGroup>
   
   <Import Project="..\..\ProjectInfo.proj" />
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.3.101.11" />
-    <PackageReference Include="AWSSDK.S3" Version="3.3.102.1" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.101.15" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.102.5" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="RacerData.Commmon.Results" Version="2.1.4" />
-    <PackageReference Include="RacerData.Data" Version="2.0.2" />
+    <PackageReference Include="RacerData.Common" Version="1.0.0" />
+    <PackageReference Include="RacerData.Data" Version="2.1.2" />
   </ItemGroup>
   
  <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">

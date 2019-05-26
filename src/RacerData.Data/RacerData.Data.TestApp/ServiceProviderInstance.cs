@@ -2,7 +2,7 @@
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RacerData.Commmon.Results;
+using RacerData.Commmon;
 using RacerData.Data.Aws;
 
 namespace RacerData.Data.TestApp
@@ -40,7 +40,7 @@ namespace RacerData.Data.TestApp
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
 
-            services.AddResults();
+            services.AddCommon();
             services.AddAwsData();
 
             return services.BuildServiceProvider();

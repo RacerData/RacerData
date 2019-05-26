@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RacerData.Commmon.Results;
+using RacerData.Commmon;
 using RacerData.Data.Aws;
 using RacerData.NascarApi.LapAverage.Service.Adapters;
 using RacerData.NascarApi.LapAverage.Service.Internal;
@@ -11,7 +11,7 @@ namespace RacerData.NascarApi.LapAverage.Service
     {
         public static IServiceCollection AddLapAverageService(this IServiceCollection services)
         {
-            services.AddResults();
+            services.AddCommon();
             services.AddAwsData();
 
             services.AddTransient<IAwsDataPump, AwsDataPump>();

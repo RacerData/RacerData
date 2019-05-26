@@ -74,7 +74,7 @@ namespace RacerData.LiveFeedMonitor
                 {
                     var lapTimeDataPump = ServiceProvider.Instance.GetRequiredService<ILapTimeService>();
 
-                    _monitorService.Register(lapTimeDataPump);
+                    _monitorService.Register(lapTimeDataPump, ApiFeedType.LiveFeedData);
 
                     UpdateStatus("Lap time harvester registered");
                 }
@@ -83,7 +83,7 @@ namespace RacerData.LiveFeedMonitor
                 {
                     var lapAverageDataPump = ServiceProvider.Instance.GetRequiredService<ILapAverageHandler>();
 
-                    _monitorService.Register(lapAverageDataPump);
+                    _monitorService.Register(lapAverageDataPump, ApiFeedType.LiveFeedData);
 
                     UpdateStatus("Lap average harvester registered");
                 }
@@ -92,7 +92,7 @@ namespace RacerData.LiveFeedMonitor
                 {
                     var liveFeedharvester = ServiceProvider.Instance.GetRequiredService<INascarApiHarvester>();
 
-                    _monitorService.Register(liveFeedharvester);
+                    _monitorService.Register(liveFeedharvester, ApiFeedType.LiveFeedData);
 
                     UpdateStatus("Live feed harvester registered");
                 }

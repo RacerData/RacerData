@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>2.2.0</Version>
   </PropertyGroup>
   
   <Import Project="..\..\ProjectInfo.proj" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
-    <PackageReference Include="RacerData.Commmon.Results" Version="1.0.1" />
+    <PackageReference Include="RacerData.Common" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

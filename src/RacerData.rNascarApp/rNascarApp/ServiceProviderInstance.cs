@@ -13,6 +13,7 @@ using RacerData.rNascarApp.Dialogs;
 using RacerData.rNascarApp.Factories;
 using RacerData.rNascarApp.Services;
 using RacerData.UpdaterService;
+using RacerData.WinForms;
 using Microsoft.Extensions.Options;
 
 namespace RacerData.rNascarApp
@@ -54,13 +55,16 @@ namespace RacerData.rNascarApp
             services.AddSingleton<IConfiguration>(configuration);
             services.AddSingleton(log);
 
+            services.AddDialogService();
+            services.AddExceptionHandlerService();
+
             services.AddTransient<ILocalUpdaterService, LocalUpdaterService>();
             services.AddSingleton<IViewDataSourceFactory>(new ViewDataSourceFactory());
             services.AddTransient<IDisplayFormatMapService, DisplayFormatMapService>();
             services.AddTransient<IViewDisplayFormatFactory, ViewDisplayFormatFactory>();
             services.AddTransient<IColumnBuilderService, ColumnBuilderService>();
             services.AddTransient<IColumnBuilderService, ColumnBuilderService2>();
-            
+
             services.AddScoped<IWorkspaceService, WorkspaceService>();
             services.AddScoped<IStateService, StateService>();
 

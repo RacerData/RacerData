@@ -19,11 +19,12 @@ namespace RacerData.LiveFeedMonitor.Logging
 
             RollingFileAppender roller = new RollingFileAppender();
             roller.AppendToFile = true;
-            roller.File = GetLogFilePath();
+            roller.File = GetLogFilePath();            
             roller.Layout = patternLayout;
             roller.MaxSizeRollBackups = 5;
-            roller.MaximumFileSize = "1GB";
+            roller.MaximumFileSize = "1024KB";
             roller.RollingStyle = RollingFileAppender.RollingMode.Size;
+            //roller.DatePattern = "yyyyMMdd";
             roller.StaticLogFileName = true;
             roller.ActivateOptions();
             roller.ImmediateFlush = true;

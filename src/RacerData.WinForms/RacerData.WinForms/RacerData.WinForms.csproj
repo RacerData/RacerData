@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3BAFE1AA-A0CA-4A0C-B4DC-2F4433F621FF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RacerData.WinForms</RootNamespace>
+    <AssemblyName>RacerData.WinForms</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adapters\DialogService.cs" />
+    <Compile Include="Adapters\ExceptionHandlerService.cs" />
+    <Compile Include="ControlDefaults.cs" />
+    <Compile Include="Dialogs\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditorBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\EditorBase.Designer.cs">
+      <DependentUpon>EditorBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ExceptionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ExceptionDialog.Designer.cs">
+      <DependentUpon>ExceptionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FileViewerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FileViewerDialog.Designer.cs">
+      <DependentUpon>FileViewerDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\InputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\InputDialog.Designer.cs">
+      <DependentUpon>InputDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\MsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\MsgBox.Designer.cs">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SelectionDialog.Designer.cs">
+      <DependentUpon>SelectionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ButtonAlign.cs" />
+    <Compile Include="Models\ButtonInfo.cs" />
+    <Compile Include="Models\ButtonTypes.cs" />
+    <Compile Include="Models\ButtonSet.cs" />
+    <Compile Include="Models\FormStates.cs" />
+    <Compile Include="Factories\ButtonSetFactory.cs" />
+    <Compile Include="Factories\ButtonFactory.cs" />
+    <Compile Include="Controls\DialogButtons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DialogButtons.Designer.cs">
+      <DependentUpon>DialogButtons.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DraggableContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DraggableContainer.Designer.cs">
+      <DependentUpon>DraggableContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView.Designer.cs">
+      <DependentUpon>ListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewBase.Designer.cs">
+      <DependentUpon>ListViewBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewCell.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewCell.Designer.cs">
+      <DependentUpon>ListViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewRow.Designer.cs">
+      <DependentUpon>ListViewRow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DialogBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DialogBase.Designer.cs">
+      <DependentUpon>DialogBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\DialogResultEvent.cs" />
+    <Compile Include="Events\FormStateChangedEventArgs.cs" />
+    <Compile Include="Events\FormStateChangingEventArgs.cs" />
+    <Compile Include="Models\ControlMovedEventArgs.cs" />
+    <Compile Include="Models\ControlResizedEventArgs.cs" />
+    <Compile Include="Models\InputDialogResult.cs" />
+    <Compile Include="Models\SelectionDialogResult.cs" />
+    <Compile Include="Ports\IExceptionHandlerService.cs" />
+    <Compile Include="Ports\IRacerDataDialog.cs" />
+    <Compile Include="Ports\IRacerDataInputDialog.cs" />
+    <Compile Include="Models\ListViewColumnInfo.cs" />
+    <Compile Include="Models\MsgIcon.cs" />
+    <Compile Include="Models\RowResizedEventArgs.cs" />
+    <Compile Include="Ports\IDialogService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceCollectionExtensions.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\DialogButtons.resx">
+      <DependentUpon>DialogButtons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DraggableContainer.resx">
+      <DependentUpon>DraggableContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListView.resx">
+      <DependentUpon>ListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListViewBase.resx">
+      <DependentUpon>ListViewBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListViewCell.resx">
+      <DependentUpon>ListViewCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListViewRow.resx">
+      <DependentUpon>ListViewRow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DialogBase.resx">
+      <DependentUpon>DialogBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\EditorBase.resx">
+      <DependentUpon>EditorBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ExceptionDialog.resx">
+      <DependentUpon>ExceptionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FileViewerDialog.resx">
+      <DependentUpon>FileViewerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\InputDialog.resx">
+      <DependentUpon>InputDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\MsgBox.resx">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SelectionDialog.resx">
+      <DependentUpon>SelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="RacerData.WinForms.nuspec" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>powershell.exe $(SolutionDir)..\..\tools\CreateNuGetPackage.ps1 -name $(TargetName) -assembly "$(TargetPath)" -projectDir $(ProjectDir)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

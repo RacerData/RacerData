@@ -5,7 +5,7 @@
     <Authors>RacerData Software</Authors>
     <Company>RacerData Software</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.3</Version>
+    <Version>1.4.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
-    <PackageReference Include="RacerData.Commmon.Results" Version="2.1.4" />
-    <PackageReference Include="RacerData.Data.Aws" Version="2.0.2" />
+    <PackageReference Include="RacerData.Data.Aws" Version="2.2.0" />
   </ItemGroup>
   
   <Target Name="PostPackNugetDeployDebug" AfterTargets="Pack" Condition="'$(Configuration)' == 'Debug'">

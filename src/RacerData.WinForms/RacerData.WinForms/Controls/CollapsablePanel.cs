@@ -21,18 +21,11 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
-        #region fields
-
-        private bool _isResizing = false;
-
-        #endregion
-
         #region protected properties
 
         protected int ExpandedHeight { get; set; } = 0;
         protected int CollapsedHeight { get; set; } = 0;
 
-        private bool _isCollapsed = false;
         protected bool IsCollapsed
         {
             get
@@ -199,8 +192,6 @@ namespace RacerData.WinForms.Controls
         {
             try
             {
-                _isResizing = true;
-
                 this.SuspendLayout();
 
                 this.Size = new Size(this.Width, newHeight);
@@ -211,8 +202,6 @@ namespace RacerData.WinForms.Controls
             }
             finally
             {
-                _isResizing = false;
-
                 this.ResumeLayout();
             }
         }

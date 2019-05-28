@@ -120,12 +120,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppearanceEditorDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AppearanceEditorDialog.Designer.cs">
-      <DependentUpon>AppearanceEditorDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ColorTableEditorDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,15 +142,6 @@
     <Compile Include="StartMenu.Designer.cs">
       <DependentUpon>StartMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Theme.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Theme.Designer.cs">
-      <DependentUpon>Theme.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="AppearanceEditorDialog.resx">
-      <DependentUpon>AppearanceEditorDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ColorTableEditorDialog.resx">
       <DependentUpon>ColorTableEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,9 +160,6 @@
     </Compile>
     <EmbeddedResource Include="StartMenu.resx">
       <DependentUpon>StartMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Theme.resx">
-      <DependentUpon>Theme.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

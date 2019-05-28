@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class ListAppearanceEditor
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.baseAppearanceEditor1 = new RacerData.WinForms.Themes.Controls.AppearanceEditor();
+            this.baseAppearanceEditor1 = new RacerData.WinForms.Themes.Editors.AppearanceEditor();
             this.pnlEditor = new System.Windows.Forms.Panel();
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();

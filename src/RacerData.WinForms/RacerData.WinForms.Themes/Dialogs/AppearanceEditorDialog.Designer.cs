@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms
+﻿namespace RacerData.WinForms.Dialogs
 {
     partial class AppearanceEditorDialog
     {
@@ -38,7 +38,7 @@
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnEditSave = new System.Windows.Forms.Button();
-            this.appAppearanceEditor1 = new RacerData.WinForms.Themes.Controls.AppAppearanceEditor();
+            this.appAppearanceEditor1 = new RacerData.WinForms.Themes.Editors.AppAppearanceEditor();
             this.pnlSelection.SuspendLayout();
             this.pnlDialogButtons.SuspendLayout();
             this.SuspendLayout();
@@ -202,6 +202,6 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.Button btnEditSave;
-        private Themes.Controls.AppAppearanceEditor appAppearanceEditor1;
+        private Themes.Editors.AppAppearanceEditor appAppearanceEditor1;
     }
 }

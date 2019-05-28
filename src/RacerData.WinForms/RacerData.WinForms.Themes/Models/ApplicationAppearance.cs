@@ -6,7 +6,7 @@ using RacerData.WinForms.Themes.Renderers;
 
 namespace RacerData.WinForms.Themes.Models
 {
-    public class ApplicationAppearance : Appearance, IKeyedItem<Guid>
+    public class ApplicationAppearance : Appearance, IKeyedItem<Guid>, IApplicationAppearance
     {
         public Guid Key { get; set; }
         public virtual string Name { get; set; }
@@ -29,6 +29,11 @@ namespace RacerData.WinForms.Themes.Models
             ButtonAppearance = new ButtonAppearance();
             MenuColorTable = new SimpleColorTable();
             MenuRenderer = new ToolStripCustomRenderer(MenuColorTable);
+        }
+
+        public ToolStripCustomRenderer GetRenderer()
+        {
+            return new ToolStripCustomRenderer(MenuColorTable);
         }
     }
 }

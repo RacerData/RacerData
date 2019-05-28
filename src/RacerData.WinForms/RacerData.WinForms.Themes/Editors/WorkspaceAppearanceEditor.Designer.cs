@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class WorkspaceAppearanceEditor
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.workspaceColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
+            this.workspaceColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
             this.pnlEditor = new System.Windows.Forms.Panel();
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();

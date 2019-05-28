@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace RacerData.WinForms.Themes.Controls
+namespace RacerData.WinForms.Themes.Editors
 {
     public partial class WorkspaceAppearanceEditor : UserControl
     {
@@ -14,12 +14,6 @@ namespace RacerData.WinForms.Themes.Controls
             var handler = ColorRequest;
             handler?.Invoke(ref color);
         }
-
-        #endregion
-
-        #region fields
-
-        private bool _expanded = true;
 
         #endregion
 

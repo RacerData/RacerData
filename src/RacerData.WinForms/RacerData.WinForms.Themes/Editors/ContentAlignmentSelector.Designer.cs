@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class ContentAlignmentSelector
     {

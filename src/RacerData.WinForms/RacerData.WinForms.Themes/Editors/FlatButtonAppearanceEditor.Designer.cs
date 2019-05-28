@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class FlatButtonAppearanceEditor
     {
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.pnlEditor = new System.Windows.Forms.Panel();
-            this.mouseOverColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.mouseDownColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.borderColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
+            this.mouseOverColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.mouseDownColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.borderColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
             this.numBorderSize = new System.Windows.Forms.NumericUpDown();
             this.lblBorderSize = new System.Windows.Forms.Label();
             this.pnlEditor.SuspendLayout();

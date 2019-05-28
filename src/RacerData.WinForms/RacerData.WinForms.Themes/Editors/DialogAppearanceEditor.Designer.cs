@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class DialogAppearanceEditor
     {
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dialogListAppearanceEditor = new RacerData.WinForms.Themes.Controls.AppearanceEditor();
+            this.dialogListAppearanceEditor = new RacerData.WinForms.Themes.Editors.AppearanceEditor();
             this.pnlEditor = new System.Windows.Forms.Panel();
-            this.dialogButtonAppearanceEditor = new RacerData.WinForms.Themes.Controls.ButtonAppearanceEditor();
+            this.dialogButtonAppearanceEditor = new RacerData.WinForms.Themes.Editors.ButtonAppearanceEditor();
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();
             this.pnlEditor.SuspendLayout();

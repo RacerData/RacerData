@@ -112,77 +112,83 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\AppAppearanceRepository.cs" />
-    <Compile Include="Controls\AppAppearanceEditor.cs">
+    <Compile Include="Dialogs\AppearanceEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AppearanceEditorDialog.Designer.cs">
+      <DependentUpon>AppearanceEditorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\AppAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\AppAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\AppAppearanceEditor.Designer.cs">
       <DependentUpon>AppAppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AppearanceEditor.cs">
+    <Compile Include="Editors\AppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\AppearanceEditor.Designer.cs">
+    <Compile Include="Editors\AppearanceEditor.Designer.cs">
       <DependentUpon>AppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ButtonAppearanceEditor.cs">
+    <Compile Include="Editors\ButtonAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ButtonAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\ButtonAppearanceEditor.Designer.cs">
       <DependentUpon>ButtonAppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ColorEditor.cs">
+    <Compile Include="Editors\ColorEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ColorEditor.Designer.cs">
+    <Compile Include="Editors\ColorEditor.Designer.cs">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ColorTableAppearanceEditor.cs">
+    <Compile Include="Editors\ColorTableAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ColorTableAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\ColorTableAppearanceEditor.Designer.cs">
       <DependentUpon>ColorTableAppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ColorTableEditor.cs">
+    <Compile Include="Editors\ColorTableEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ColorTableEditor.Designer.cs">
+    <Compile Include="Editors\ColorTableEditor.Designer.cs">
       <DependentUpon>ColorTableEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ContentAlignmentSelector.cs">
+    <Compile Include="Editors\ContentAlignmentSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ContentAlignmentSelector.Designer.cs">
+    <Compile Include="Editors\ContentAlignmentSelector.Designer.cs">
       <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Delegates.cs" />
-    <Compile Include="Controls\DialogAppearanceEditor.cs">
+    <Compile Include="Editors\Delegates.cs" />
+    <Compile Include="Editors\DialogAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DialogAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\DialogAppearanceEditor.Designer.cs">
       <DependentUpon>DialogAppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FlatButtonAppearanceEditor.cs">
+    <Compile Include="Editors\FlatButtonAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\FlatButtonAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\FlatButtonAppearanceEditor.Designer.cs">
       <DependentUpon>FlatButtonAppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FontEditor.cs">
+    <Compile Include="Editors\FontEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\FontEditor.Designer.cs">
+    <Compile Include="Editors\FontEditor.Designer.cs">
       <DependentUpon>FontEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ListAppearanceEditor.cs">
+    <Compile Include="Editors\ListAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ListAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\ListAppearanceEditor.Designer.cs">
       <DependentUpon>ListAppearanceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WorkspaceAppearanceEditor.cs">
+    <Compile Include="Editors\WorkspaceAppearanceEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\WorkspaceAppearanceEditor.Designer.cs">
+    <Compile Include="Editors\WorkspaceAppearanceEditor.Designer.cs">
       <DependentUpon>WorkspaceAppearanceEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApplicationAppearance.cs" />
@@ -190,6 +196,7 @@
     <Compile Include="Models\ButtonAppearance.cs" />
     <Compile Include="Models\DialogAppearance.cs" />
     <Compile Include="Models\FlatButtonAppearance.cs" />
+    <Compile Include="Models\IApplicationAppearance.cs" />
     <Compile Include="Models\ListAppearance.cs" />
     <Compile Include="Models\SimpleColorTable.cs" />
     <Compile Include="Models\ISimpleColorTable.cs" />
@@ -204,40 +211,43 @@
     <Compile Include="ServiceCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\AppAppearanceEditor.resx">
+    <EmbeddedResource Include="Dialogs\AppearanceEditorDialog.resx">
+      <DependentUpon>AppearanceEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\AppAppearanceEditor.resx">
       <DependentUpon>AppAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\AppearanceEditor.resx">
       <DependentUpon>AppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ButtonAppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\ButtonAppearanceEditor.resx">
       <DependentUpon>ButtonAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ColorEditor.resx">
+    <EmbeddedResource Include="Editors\ColorEditor.resx">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ColorTableAppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\ColorTableAppearanceEditor.resx">
       <DependentUpon>ColorTableAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ColorTableEditor.resx">
+    <EmbeddedResource Include="Editors\ColorTableEditor.resx">
       <DependentUpon>ColorTableEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ContentAlignmentSelector.resx">
+    <EmbeddedResource Include="Editors\ContentAlignmentSelector.resx">
       <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DialogAppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\DialogAppearanceEditor.resx">
       <DependentUpon>DialogAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FlatButtonAppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\FlatButtonAppearanceEditor.resx">
       <DependentUpon>FlatButtonAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FontEditor.resx">
+    <EmbeddedResource Include="Editors\FontEditor.resx">
       <DependentUpon>FontEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListAppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\ListAppearanceEditor.resx">
       <DependentUpon>ListAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WorkspaceAppearanceEditor.resx">
+    <EmbeddedResource Include="Editors\WorkspaceAppearanceEditor.resx">
       <DependentUpon>WorkspaceAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -248,24 +258,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Collapsed.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Expanded.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Collapse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Expand.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\112_Minus_Green_16x16_72.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\112_Plus_Green_16x16_72.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\112_Minus_Grey_16x16_72.png" />
@@ -279,8 +271,6 @@
       <Name>RacerData.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

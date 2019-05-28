@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class AppAppearanceEditor
     {
@@ -33,13 +33,13 @@
             this.lblName = new System.Windows.Forms.Label();
             this.pnlSubEditors = new System.Windows.Forms.Panel();
             this.pnlDetails = new System.Windows.Forms.Panel();
-            this.colorTableAppearanceEditor = new RacerData.WinForms.Themes.Controls.ColorTableAppearanceEditor();
-            this.listAppearanceEditor = new RacerData.WinForms.Themes.Controls.ListAppearanceEditor();
-            this.dialogAppearanceEditor = new RacerData.WinForms.Themes.Controls.DialogAppearanceEditor();
-            this.buttonAppearanceEditor = new RacerData.WinForms.Themes.Controls.ButtonAppearanceEditor();
-            this.darkAccentAppearanceEditor = new RacerData.WinForms.Themes.Controls.AppearanceEditor();
-            this.lightAccentAppearanceEditor = new RacerData.WinForms.Themes.Controls.AppearanceEditor();
-            this.workspaceAppearanceEditor = new RacerData.WinForms.Themes.Controls.WorkspaceAppearanceEditor();
+            this.colorTableAppearanceEditor = new RacerData.WinForms.Themes.Editors.ColorTableAppearanceEditor();
+            this.listAppearanceEditor = new RacerData.WinForms.Themes.Editors.ListAppearanceEditor();
+            this.dialogAppearanceEditor = new RacerData.WinForms.Themes.Editors.DialogAppearanceEditor();
+            this.buttonAppearanceEditor = new RacerData.WinForms.Themes.Editors.ButtonAppearanceEditor();
+            this.darkAccentAppearanceEditor = new RacerData.WinForms.Themes.Editors.AppearanceEditor();
+            this.lightAccentAppearanceEditor = new RacerData.WinForms.Themes.Editors.AppearanceEditor();
+            this.workspaceAppearanceEditor = new RacerData.WinForms.Themes.Editors.WorkspaceAppearanceEditor();
             this.pnlSubEditors.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.SuspendLayout();

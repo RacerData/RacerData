@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class AppearanceEditor
     {
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.pnlEditor = new System.Windows.Forms.Panel();
-            this.foreColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.backColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.fontEditor = new RacerData.WinForms.Themes.Controls.FontEditor();
+            this.foreColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.backColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.fontEditor = new RacerData.WinForms.Themes.Editors.FontEditor();
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();
             this.pnlEditor.SuspendLayout();

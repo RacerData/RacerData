@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Themes.Controls
+﻿namespace RacerData.WinForms.Themes.Editors
 {
     partial class ButtonAppearanceEditor
     {
@@ -31,16 +31,16 @@
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();
             this.pnlEditor = new System.Windows.Forms.Panel();
-            this.mouseOverColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.mouseDownColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.borderColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
+            this.mouseOverColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.mouseDownColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.borderColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
             this.numBorderSize = new System.Windows.Forms.NumericUpDown();
             this.lblBorderSize = new System.Windows.Forms.Label();
-            this.foreColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.backColorEditor = new RacerData.WinForms.Themes.Controls.ColorEditor();
-            this.fontEditor = new RacerData.WinForms.Themes.Controls.FontEditor();
+            this.foreColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.backColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
+            this.fontEditor = new RacerData.WinForms.Themes.Editors.FontEditor();
             this.label1 = new System.Windows.Forms.Label();
-            this.textAlignEditor = new RacerData.WinForms.Themes.Controls.ContentAlignmentSelector();
+            this.textAlignEditor = new RacerData.WinForms.Themes.Editors.ContentAlignmentSelector();
             this.cboButtonStyle = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlCaption.SuspendLayout();

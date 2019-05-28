@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RacerData.Commmon.Results;
-using RacerData.WinForms.Dialogs;
-using RacerData.WinForms.Events;
 using RacerData.WinForms.Themes.Models;
 using RacerData.WinForms.Themes.Ports;
 
-namespace RacerData.WinForms
+namespace RacerData.WinForms.Dialogs
 {
     public partial class AppearanceEditorDialog : Form
     {
-
         #region fields
 
         private readonly IAppAppearanceRepository _repository;

@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using RacerData.Data.Ports;
 using RacerData.WinForms.Themes.Renderers;
 
 namespace RacerData.WinForms.Themes.Models
 {
-    public interface IApplicationAppearance : IKeyedItem<Guid>
+    public interface IApplicationAppearance
     {
+        ButtonAppearance ButtonAppearance { get; set; }
+        Appearance DarkAccentAppearance { get; set; }
+        DialogAppearance DialogAppearance { get; set; }
         Guid Key { get; set; }
-
-        Color WorkspaceColor { get; set; }
-
-        IBaseAppearance DarkAccentAppearance { get; set; }
-        IBaseAppearance LightAccentAppearance { get; set; }
-
-        IButtonAppearance ButtonAppearance { get; set; }
-        IDialogAppearance DialogAppearance { get; set; }
-
-        IListAppearance ListAppearance { get; set; }
-
+        Appearance LightAccentAppearance { get; set; }
+        ListAppearance ListAppearance { get; set; }
         ProfessionalColorTable MenuColorTable { get; set; }
         ToolStripCustomRenderer MenuRenderer { get; set; }
+        string Name { get; set; }
+        Color WorkspaceColor { get; set; }
+
+        ToolStripCustomRenderer GetRenderer();
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.Commmon;
 using RacerData.Common.Models;
+using RacerData.WinForms.Dialogs;
 using RacerData.WinForms.Themes;
 
 namespace RacerData.WinForms

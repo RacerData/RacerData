@@ -9,7 +9,7 @@ using RacerData.WinForms.Logging;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 using RacerData.WinForms.Themes.Adapters;
-using RacerData.WinForms.Themes.Controls;
+using RacerData.WinForms.Themes.Editors;
 using RacerData.WinForms.Themes.Ports;
 
 namespace RacerData.WinForms
@@ -41,9 +41,7 @@ namespace RacerData.WinForms
 
         private void btnTheme_Click(object sender, EventArgs e)
         {
-            var dialog = new Theme();
-
-            dialog.ShowDialog(this);
+         
         }
 
         private void btnForm1_Click(object sender, EventArgs e)

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Themes.Models;
 
-namespace RacerData.WinForms.Themes.Controls
+namespace RacerData.WinForms.Themes.Editors
 {
     public partial class ButtonAppearanceEditor : UserControl
     {

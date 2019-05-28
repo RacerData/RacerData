@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace RacerData.WinForms.Themes.Controls
+namespace RacerData.WinForms.Themes.Editors
 {
     public partial class ColorEditor : UserControl
     {

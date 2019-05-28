@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using RacerData.WinForms.Themes.Models;
 
-namespace RacerData.WinForms.Themes.Controls
+namespace RacerData.WinForms.Themes.Editors
 {
-    public partial class ListAppearanceEditor : UserControl
+    public partial class DialogAppearanceEditor : UserControl
     {
         #region events
 
@@ -33,17 +27,17 @@ namespace RacerData.WinForms.Themes.Controls
 
         #region properties
 
-        private ListAppearance _listAppearance;
-        public ListAppearance ListAppearance
+        DialogAppearance _dialogAppearance;
+        public DialogAppearance DialogAppearance
         {
             get
             {
-                return _listAppearance;
+                return _dialogAppearance;
             }
             set
             {
-                _listAppearance = value;
-                DisplayAppearance(_listAppearance);
+                _dialogAppearance = value;
+                DisplayDialogAppearance(_dialogAppearance);
             }
         }
 
@@ -51,12 +45,12 @@ namespace RacerData.WinForms.Themes.Controls
         {
             get
             {
-                return baseAppearanceEditor1?.Caption;
+                return dialogButtonAppearanceEditor?.Caption;
             }
             set
             {
-                if (baseAppearanceEditor1 != null)
-                    baseAppearanceEditor1.Caption = value;
+                if (dialogButtonAppearanceEditor != null)
+                    dialogButtonAppearanceEditor.Caption = value;
             }
         }
 
@@ -90,12 +84,15 @@ namespace RacerData.WinForms.Themes.Controls
 
         #region ctor
 
-        public ListAppearanceEditor()
+        public DialogAppearanceEditor()
         {
             InitializeComponent();
 
-            baseAppearanceEditor1.ColorRequest += OnColorRequest;
-            baseAppearanceEditor1.FontRequest += OnFontRequest;
+            dialogButtonAppearanceEditor.ColorRequest += OnColorRequest;
+            dialogButtonAppearanceEditor.FontRequest += OnFontRequest;
+
+            dialogListAppearanceEditor.ColorRequest += OnColorRequest;
+            dialogListAppearanceEditor.FontRequest += OnFontRequest;
         }
 
         #endregion
@@ -104,9 +101,10 @@ namespace RacerData.WinForms.Themes.Controls
 
         public void ApplyChanges()
         {
-            baseAppearanceEditor1.ApplyChanges();
+            dialogButtonAppearanceEditor.ApplyChanges();
+            dialogListAppearanceEditor.ApplyChanges();
 
-            ListAppearance = UpdateAppearance(ListAppearance);
+            DialogAppearance = UpdateAppearance(DialogAppearance);
         }
 
         public void Clear()
@@ -120,25 +118,28 @@ namespace RacerData.WinForms.Themes.Controls
 
         protected virtual void ClearAppearance()
         {
-            baseAppearanceEditor1.Clear();
+            dialogButtonAppearanceEditor.Clear();
+            dialogListAppearanceEditor.Clear();
         }
 
-        protected virtual void DisplayAppearance(ListAppearance appearance)
+        protected virtual void DisplayDialogAppearance(DialogAppearance appearance)
         {
             ClearAppearance();
 
             if (appearance == null)
                 return;
 
-            baseAppearanceEditor1.BaseAppearance = (Models.Appearance)appearance.ListItemAppearance;
+            dialogButtonAppearanceEditor.ButtonAppearance = appearance.ButtonAppearance;
+            dialogListAppearanceEditor.BaseAppearance = appearance.ListAppearance.ListItemAppearance;
         }
 
-        protected virtual ListAppearance UpdateAppearance(ListAppearance appearance)
+        protected virtual DialogAppearance UpdateAppearance(DialogAppearance appearance)
         {
             if (appearance == null)
-                appearance= new ListAppearance();
+                appearance= new DialogAppearance();
 
-            appearance.ListItemAppearance = baseAppearanceEditor1.BaseAppearance;
+            appearance.ButtonAppearance = dialogButtonAppearanceEditor.ButtonAppearance;
+            appearance.ListAppearance.ListItemAppearance = dialogListAppearanceEditor.BaseAppearance;
 
             return appearance;
         }
@@ -147,8 +148,8 @@ namespace RacerData.WinForms.Themes.Controls
 
         #region private
 
-        private void ListAppearanceEditor_Load(object sender, EventArgs e)
-        {           
+        private void DialogAppearanceEditor_Load(object sender, EventArgs e)
+        {
         }
 
         #endregion

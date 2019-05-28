@@ -1,11 +1,15 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using RacerData.Data.Ports;
 using RacerData.WinForms.Themes.Renderers;
 
 namespace RacerData.WinForms.Themes.Models
 {
-    public interface IApplicationAppearance
+    public interface IApplicationAppearance : IKeyedItem<Guid>
     {
+        Guid Key { get; set; }
+
         Color WorkspaceColor { get; set; }
 
         IBaseAppearance DarkAccentAppearance { get; set; }

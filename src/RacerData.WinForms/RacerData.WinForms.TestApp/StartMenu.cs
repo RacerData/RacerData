@@ -5,8 +5,12 @@ using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.WinForms.Adapters;
 using RacerData.WinForms.Dialogs;
+using RacerData.WinForms.Logging;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
+using RacerData.WinForms.Themes.Adapters;
+using RacerData.WinForms.Themes.Controls;
+using RacerData.WinForms.Themes.Ports;
 
 namespace RacerData.WinForms
 {
@@ -19,6 +23,8 @@ namespace RacerData.WinForms
             InitializeComponent();
 
             _service = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+
+            Logger.Setup();
         }
 
         protected virtual void ExceptionHandler(Exception ex)
@@ -152,6 +158,20 @@ namespace RacerData.WinForms
             {
                 ExceptionHandler(ex);
             }
+        }
+
+        private void btnAppAppearance_Click(object sender, EventArgs e)
+        {
+            //var repo = ServiceProvider.Instance.GetRequiredService<IAppAppearanceRepository>();
+
+            //var appAppearance = repo.GetAppearance();
+
+            var dialog = ServiceProvider.Instance.GetRequiredService<AppearanceEditorDialog>(); //new AppearanceEditorDialog();
+            //{
+            //    AppAppearance = appAppearance
+            //};
+
+            dialog.ShowDialog(this);
         }
     }
     public class MyItem

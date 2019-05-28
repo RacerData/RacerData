@@ -41,7 +41,7 @@ namespace RacerData.rNascarApp
             var services = new ServiceCollection();
 
             ILog log = LogManager.GetLogger("rNascarApp");
-
+            services.AddSingleton(log);
             log.Info("rNascarApp Started");
 
             var configuration = new ConfigurationBuilder()
@@ -53,7 +53,7 @@ namespace RacerData.rNascarApp
 
             services.AddSingleton(configuration);
             services.AddSingleton<IConfiguration>(configuration);
-            services.AddSingleton(log);
+            
 
             services.AddDialogService();
             services.AddExceptionHandlerService();

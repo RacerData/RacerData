@@ -54,6 +54,12 @@
     <Compile Include="Adapters\DialogService.cs" />
     <Compile Include="Adapters\ExceptionHandlerService.cs" />
     <Compile Include="ControlDefaults.cs" />
+    <Compile Include="Controls\CollapsablePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CollapsablePanel.Designer.cs">
+      <DependentUpon>CollapsablePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,8 @@
     <Compile Include="Models\ButtonInfo.cs" />
     <Compile Include="Models\ButtonTypes.cs" />
     <Compile Include="Models\ButtonSet.cs" />
+    <Compile Include="Models\CollapsablePanelChangedEventArgs.cs" />
+    <Compile Include="Models\CollapsablePanelState.cs" />
     <Compile Include="Models\FormStates.cs" />
     <Compile Include="Factories\ButtonSetFactory.cs" />
     <Compile Include="Factories\ButtonFactory.cs" />
@@ -164,6 +172,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\CollapsablePanel.resx">
+      <DependentUpon>CollapsablePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DialogButtons.resx">
       <DependentUpon>DialogButtons.cs</DependentUpon>
     </EmbeddedResource>

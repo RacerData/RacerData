@@ -67,7 +67,7 @@
             this.checkedMenuToolStripMenuItem});
             this.sampleMenuStrip.Location = new System.Drawing.Point(8, 8);
             this.sampleMenuStrip.Name = "sampleMenuStrip";
-            this.sampleMenuStrip.Size = new System.Drawing.Size(420, 24);
+            this.sampleMenuStrip.Size = new System.Drawing.Size(267, 24);
             this.sampleMenuStrip.TabIndex = 0;
             this.sampleMenuStrip.Text = "menuStrip1";
             // 
@@ -159,7 +159,7 @@
             this.tsbCheckButton2});
             this.sampleToolStrip.Location = new System.Drawing.Point(8, 32);
             this.sampleToolStrip.Name = "sampleToolStrip";
-            this.sampleToolStrip.Size = new System.Drawing.Size(420, 25);
+            this.sampleToolStrip.Size = new System.Drawing.Size(267, 25);
             this.sampleToolStrip.TabIndex = 1;
             this.sampleToolStrip.Text = "toolStrip1";
             // 
@@ -220,7 +220,7 @@
             this.pblSampleWorkspace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pblSampleWorkspace.Location = new System.Drawing.Point(8, 57);
             this.pblSampleWorkspace.Name = "pblSampleWorkspace";
-            this.pblSampleWorkspace.Size = new System.Drawing.Size(420, 609);
+            this.pblSampleWorkspace.Size = new System.Drawing.Size(267, 361);
             this.pblSampleWorkspace.TabIndex = 3;
             // 
             // pnlSampleControls
@@ -232,26 +232,26 @@
             this.pnlSampleControls.Controls.Add(this.sampleToolStrip);
             this.pnlSampleControls.Controls.Add(this.sampleMenuStrip);
             this.pnlSampleControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlSampleControls.Location = new System.Drawing.Point(422, 0);
+            this.pnlSampleControls.Location = new System.Drawing.Point(327, 0);
             this.pnlSampleControls.Name = "pnlSampleControls";
             this.pnlSampleControls.Padding = new System.Windows.Forms.Padding(8);
-            this.pnlSampleControls.Size = new System.Drawing.Size(440, 700);
+            this.pnlSampleControls.Size = new System.Drawing.Size(287, 452);
             this.pnlSampleControls.TabIndex = 10;
             // 
             // sampleStatusStrip
             // 
             this.sampleStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel3});
-            this.sampleStatusStrip.Location = new System.Drawing.Point(8, 666);
+            this.sampleStatusStrip.Location = new System.Drawing.Point(8, 418);
             this.sampleStatusStrip.Name = "sampleStatusStrip";
-            this.sampleStatusStrip.Size = new System.Drawing.Size(420, 22);
+            this.sampleStatusStrip.Size = new System.Drawing.Size(267, 22);
             this.sampleStatusStrip.TabIndex = 4;
             this.sampleStatusStrip.Text = "statusStrip2";
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(374, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(252, 17);
             this.toolStripStatusLabel3.Spring = true;
             this.toolStripStatusLabel3.Text = "Status Label";
             // 
@@ -260,16 +260,16 @@
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Left;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(419, 700);
+            this.propertyGrid1.Size = new System.Drawing.Size(324, 452);
             this.propertyGrid1.TabIndex = 8;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             this.propertyGrid1.SelectedObjectsChanged += new System.EventHandler(this.propertyGrid1_SelectedObjectsChanged);
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(419, 0);
+            this.splitter1.Location = new System.Drawing.Point(324, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 700);
+            this.splitter1.Size = new System.Drawing.Size(3, 452);
             this.splitter1.TabIndex = 9;
             this.splitter1.TabStop = false;
             // 
@@ -281,7 +281,7 @@
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.propertyGrid1);
             this.Name = "ColorTableEditor";
-            this.Size = new System.Drawing.Size(862, 700);
+            this.Size = new System.Drawing.Size(614, 452);
             this.Load += new System.EventHandler(this.ColorTableEditor_Load);
             this.sampleMenuStrip.ResumeLayout(false);
             this.sampleMenuStrip.PerformLayout();

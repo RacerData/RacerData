@@ -44,7 +44,7 @@ namespace RacerData.Data.Json.Adapters
 
         // public
 
-        private List<TItem> _items = null;
+        private List<TItem> _items = new List<TItem>();
         protected List<TItem> Items
         {
             get

@@ -1,15 +1,41 @@
 ﻿using System;
 using System.Windows.Forms;
-using RacerData.WinForms.Themes.Internal.Menus;
+using RacerData.WinForms.Themes.Models;
 using RacerData.WinForms.Themes.Renderers;
 
 namespace RacerData.Themes.UI.Controls
 {
     public partial class ColorTableEditor : UserControl
     {
+        #region fields
+
+        private SimpleColorTable _originalState;
+        private SimpleColorTable _editItem;
+
+        #endregion
+
         #region properties
 
-        SimpleColorTable ColorTable { get; set; } = new SimpleColorTable();
+        private SimpleColorTable _colorTable = new SimpleColorTable();
+        public SimpleColorTable ColorTable
+        {
+            get
+            {
+                return _colorTable;
+            }
+            set
+            {
+                _colorTable = value;
+
+                _originalState = _colorTable.Copy();
+
+                _editItem = _colorTable.Copy();
+
+                propertyGrid1.SelectedObject = _editItem;
+
+                UpdateDisplay();
+            }
+        }
 
         #endregion
 
@@ -22,16 +48,19 @@ namespace RacerData.Themes.UI.Controls
 
         private void ColorTableEditor_Load(object sender, EventArgs e)
         {
-            propertyGrid1.SelectedObject = ColorTable;
-
-            ApplyChanges();
+            UpdateDisplay();
         }
 
         #endregion
 
         #region public
 
-        public void Reset()
+        public void ApplyChanges()
+        {
+            ColorTable = (SimpleColorTable)propertyGrid1.SelectedObject;
+        }
+
+        public void Clear()
         {
             RevertChanges();
         }
@@ -40,20 +69,22 @@ namespace RacerData.Themes.UI.Controls
 
         #region protected
 
-        protected virtual void ApplyChanges()
+        protected virtual void UpdateDisplay()
         {
-            sampleToolStrip.Renderer = new ToolStripCustomRenderer(ColorTable);
-            sampleMenuStrip.Renderer = new ToolStripCustomRenderer(ColorTable);
-            sampleStatusStrip.Renderer = new ToolStripCustomRenderer(ColorTable);
+            sampleToolStrip.Renderer = new ToolStripCustomRenderer((SimpleColorTable)propertyGrid1.SelectedObject);
+            sampleMenuStrip.Renderer = new ToolStripCustomRenderer((SimpleColorTable)propertyGrid1.SelectedObject);
+            sampleStatusStrip.Renderer = new ToolStripCustomRenderer((SimpleColorTable)propertyGrid1.SelectedObject);
         }
 
         protected virtual void RevertChanges()
         {
-            ColorTable = new SimpleColorTable();
+            ColorTable = _originalState;
 
-            propertyGrid1.SelectedObject = ColorTable;
+            _editItem = _originalState.Copy();
 
-            ApplyChanges();
+            propertyGrid1.SelectedObject = _editItem;
+
+            UpdateDisplay();
         }
 
         #endregion
@@ -76,15 +107,12 @@ namespace RacerData.Themes.UI.Controls
 
         private void propertyGrid1_SelectedObjectsChanged(object sender, EventArgs e)
         {
-            ColorTable = (SimpleColorTable)propertyGrid1.SelectedObject;
-
-            if (ColorTable != null)
-                ApplyChanges();
+            UpdateDisplay();
         }
 
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            ApplyChanges();
+            UpdateDisplay();
         }
 
         #endregion

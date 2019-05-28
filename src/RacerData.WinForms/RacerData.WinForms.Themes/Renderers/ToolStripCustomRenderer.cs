@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using RacerData.WinForms.Themes.Models.Menus;
+using RacerData.WinForms.Themes.Models;
 
 namespace RacerData.WinForms.Themes.Renderers
 {

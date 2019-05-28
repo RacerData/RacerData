@@ -84,6 +84,11 @@ namespace RacerData.WinForms.Dialogs
             dialogButtons1.FormState = Models.FormStates.Ready;
         }
 
+        protected virtual void ItemSelected()
+        {
+            dialogButtons1.FormState = FormStates.Viewing;
+        }
+
         #endregion
     }
 }

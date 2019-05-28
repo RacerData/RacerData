@@ -246,7 +246,7 @@ namespace RacerData.WinForms.Controls
                             break;
                         case ButtonTypes.Save:
                             {
-                                FormState = FormStates.Closing;
+                                FormState = FormStates.SavingAndClosing;
                                 break;
                             }
                         case ButtonTypes.Open:
@@ -261,7 +261,7 @@ namespace RacerData.WinForms.Controls
                                 else
                                 {
                                     // save button clicked
-                                    FormState = FormStates.Viewing;
+                                    FormState = FormStates.Saving;
                                 }
                                 break;
                             }
@@ -292,7 +292,7 @@ namespace RacerData.WinForms.Controls
                                 else
                                 {
                                     // cancel button clicked
-                                    FormState = FormStates.Viewing;
+                                    FormState = FormStates.Cancelling;
                                 }
                                 break;
                             }
@@ -431,6 +431,30 @@ namespace RacerData.WinForms.Controls
                         saveAndCloseButton.Button.Visible = false;
 
                         FormState = FormStates.Ready;
+                        break;
+                    }
+                case FormStates.Cancelling:
+                    {
+                        editSaveButton.Button.Text = editSaveButton.ButtonText[0];
+                        editSaveButton.Button.Enabled = false;
+                        closeCancelButton.Button.Text = closeCancelButton.ButtonText[0];
+                        closeCancelButton.Button.Enabled = false;
+                        newButton.Button.Enabled = false;
+                        copyButton.Button.Enabled = false;
+                        deleteButton.Button.Enabled = false;
+                        saveAndCloseButton.Button.Visible = false;
+                        break;
+                    }
+                case FormStates.SavingAndClosing:
+                    {
+                        editSaveButton.Button.Text = editSaveButton.ButtonText[0];
+                        editSaveButton.Button.Enabled = false;
+                        closeCancelButton.Button.Text = closeCancelButton.ButtonText[0];
+                        closeCancelButton.Button.Enabled = false;
+                        newButton.Button.Enabled = false;
+                        copyButton.Button.Enabled = false;
+                        deleteButton.Button.Enabled = false;
+                        saveAndCloseButton.Button.Visible = false;
                         break;
                     }
                 case FormStates.Closing:

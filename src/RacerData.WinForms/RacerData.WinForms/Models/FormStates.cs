@@ -10,6 +10,8 @@
         Copying,
         Deleting,
         Saving,
+        Cancelling,
+        SavingAndClosing,
         Closing
     }
 }

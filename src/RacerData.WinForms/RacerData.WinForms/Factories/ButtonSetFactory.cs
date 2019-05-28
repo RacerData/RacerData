@@ -126,7 +126,7 @@ namespace RacerData.WinForms.Factories
             var button = _buttonFactory.BuildButton(
                 index,
                 ButtonAlign.Right,
-                result,
+                DialogResult.None,
                 text[0]);
 
             buttonSet.AddRightButton(button, buttonType, text, result);

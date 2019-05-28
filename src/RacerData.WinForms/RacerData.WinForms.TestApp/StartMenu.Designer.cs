@@ -41,6 +41,7 @@
             this.btnAboutDialog = new System.Windows.Forms.Button();
             this.btnFileViewer = new System.Windows.Forms.Button();
             this.btnSelectionDialog = new System.Windows.Forms.Button();
+            this.btnAppAppearance = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnDialogBase
@@ -173,11 +174,22 @@
             this.btnSelectionDialog.UseVisualStyleBackColor = true;
             this.btnSelectionDialog.Click += new System.EventHandler(this.btnSelectionDialog_Click);
             // 
+            // btnAppAppearance
+            // 
+            this.btnAppAppearance.Location = new System.Drawing.Point(557, 140);
+            this.btnAppAppearance.Name = "btnAppAppearance";
+            this.btnAppAppearance.Size = new System.Drawing.Size(123, 38);
+            this.btnAppAppearance.TabIndex = 13;
+            this.btnAppAppearance.Text = "App Appearance";
+            this.btnAppAppearance.UseVisualStyleBackColor = true;
+            this.btnAppAppearance.Click += new System.EventHandler(this.btnAppAppearance_Click);
+            // 
             // StartMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 232);
+            this.Controls.Add(this.btnAppAppearance);
             this.Controls.Add(this.btnSelectionDialog);
             this.Controls.Add(this.btnFileViewer);
             this.Controls.Add(this.btnAboutDialog);
@@ -192,6 +204,7 @@
             this.Controls.Add(this.btnTheme);
             this.Controls.Add(this.btnDialogBase);
             this.Name = "StartMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StartMenu";
             this.ResumeLayout(false);
 
@@ -212,5 +225,6 @@
         private System.Windows.Forms.Button btnAboutDialog;
         private System.Windows.Forms.Button btnFileViewer;
         private System.Windows.Forms.Button btnSelectionDialog;
+        private System.Windows.Forms.Button btnAppAppearance;
     }
 }

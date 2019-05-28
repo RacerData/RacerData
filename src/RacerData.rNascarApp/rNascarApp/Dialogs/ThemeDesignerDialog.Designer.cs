@@ -786,6 +786,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ThemeDesignerDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Theme Designer";
             this.Load += new System.EventHandler(this.ThemeDesignerDialog_Load);
             this.pnlDialogButtons.ResumeLayout(false);

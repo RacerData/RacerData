@@ -406,6 +406,7 @@ namespace RacerData.rNascarApp
                 if (controlBase != null)
                 {
                     var hitPoint = this.GridTable.PointToClient(new Point(e.X, e.Y));
+
                     var newCell = GetRowColIndex(GridTable, hitPoint);
 
                     if (newCell != null)
@@ -447,20 +448,22 @@ namespace RacerData.rNascarApp
             if (point.X > tlp.Width || point.Y > tlp.Height)
                 return null;
 
-            int w = tlp.Width;
-            int h = tlp.Height;
+            int w = 0, h = 0;
             int[] widths = tlp.GetColumnWidths();
+            int[] heights = tlp.GetRowHeights();
 
             int i;
-            for (i = widths.Length - 1; i >= 0 && point.X < w; i--)
-                w -= widths[i];
-            int col = i + 1;
+            for (i = 0; i < widths.Length && point.X > w; i++)
+            {
+                w += widths[i];
+            }
+            int col = i - 1;
 
-            int[] heights = tlp.GetRowHeights();
-            for (i = heights.Length - 1; i >= 0 && point.Y < h; i--)
-                h -= heights[i];
-
-            int row = i + (_isFullScreen ? 1 : 0);
+            for (i = 0; i < heights.Length && point.Y + tlp.VerticalScroll.Value > h; i++)
+            {
+                h += heights[i];
+            }
+            int row = i - 1;
 
             return new Point(col, row);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RacerData.rNascarApp.Controls.Wizard
+namespace RacerData.WinForms.Controls.Wizard
 {
     public class AfterStepChangedEventArgs<TContext> : EventArgs
     {

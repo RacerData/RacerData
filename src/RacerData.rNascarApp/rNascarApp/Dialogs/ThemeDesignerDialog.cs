@@ -8,6 +8,7 @@ using RacerData.rNascarApp.Models;
 using RacerData.rNascarApp.Services;
 using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Themes;
+using RacerData.WinForms.Ports;
 
 namespace RacerData.rNascarApp.Dialogs
 {
@@ -71,8 +72,7 @@ namespace RacerData.rNascarApp.Dialogs
         }
 
         public IStateService StateService { get; set; }
-        //public UserSettings UserSettings { get; set; }
-
+        public IDialogService DialogService { get; set; }
 
         #endregion
 
@@ -308,23 +308,23 @@ namespace RacerData.rNascarApp.Dialogs
         {
             try
             {
-                using (var dialog = new InputDialog(
-                    "New Theme",
+                var inputDialogResult = DialogService.DisplayInputDialog(
+                      this,
+                     "New Theme",
                     "Enter a name for the new theme",
-                    "<New Theme>"))
+                    "<New Theme>");
+
+                if (inputDialogResult.DialogResult == DialogResult.OK)
                 {
-                    if (dialog.ShowDialog(this) != DialogResult.Cancel)
-                    {
-                        var theme = new Theme() { Id = Guid.NewGuid() };
+                    var theme = new Theme() { Id = Guid.NewGuid() };
 
-                        theme.Name = dialog.Value;
+                    theme.Name = inputDialogResult.Response;
 
-                        Themes.Add(theme);
+                    Themes.Add(theme);
 
-                        PopulateThemeList();
+                    PopulateThemeList();
 
-                        lstThemes.SelectedItem = theme;
-                    }
+                    lstThemes.SelectedItem = theme;
                 }
             }
             catch (Exception ex)
@@ -343,19 +343,19 @@ namespace RacerData.rNascarApp.Dialogs
                     return;
                 }
 
-                using (var dialog = new InputDialog(
+                var inputDialogResult = DialogService.DisplayInputDialog(
+                    this,
                     "Rename Theme",
                     "Enter a new name for the theme",
-                    _selectedTheme.Name))
+                    _selectedTheme.Name);
+
+                if (inputDialogResult.DialogResult == DialogResult.OK)
                 {
-                    if (dialog.ShowDialog(this) != DialogResult.Cancel)
-                    {
-                        _selectedTheme.Name = dialog.Value;
+                    _selectedTheme.Name = inputDialogResult.Response;
 
-                        PopulateThemeList();
+                    PopulateThemeList();
 
-                        lstThemes.SelectedItem = _selectedTheme;
-                    }
+                    lstThemes.SelectedItem = _selectedTheme;
                 }
             }
             catch (Exception ex)
@@ -368,27 +368,27 @@ namespace RacerData.rNascarApp.Dialogs
         {
             try
             {
-                using (var dialog = new InputDialog(
+                var inputDialogResult = DialogService.DisplayInputDialog(
+                   this,
                    "Copy Theme",
                    "Enter a name for the new theme",
-                   $"Copy of {_selectedTheme.Name}"))
+                   $"Copy of {_selectedTheme.Name}");
+
+                if (inputDialogResult.DialogResult == DialogResult.OK)
                 {
-                    if (dialog.ShowDialog(this) != DialogResult.Cancel)
+                    var theme = new Theme()
                     {
-                        var theme = new Theme()
-                        {
-                            Name = dialog.Value,
-                            Id = Guid.NewGuid()
-                        };
+                        Name = inputDialogResult.Response,
+                        Id = Guid.NewGuid()
+                    };
 
-                        _currentSampleView.UpdateTheme(theme);
+                    _currentSampleView.UpdateTheme(theme);
 
-                        Themes.Add(theme);
+                    Themes.Add(theme);
 
-                        PopulateThemeList();
+                    PopulateThemeList();
 
-                        lstThemes.SelectedItem = theme;
-                    }
+                    lstThemes.SelectedItem = theme;
                 }
             }
             catch (Exception ex)

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace RacerData.rNascarApp.Controls.Wizard
+namespace RacerData.WinForms.Controls.Wizard
 {
     public partial class WizardStepControl<T> : UserControl
     {

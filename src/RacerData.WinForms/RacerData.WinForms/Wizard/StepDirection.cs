@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RacerData.rNascarApp.Controls.Wizard
+namespace RacerData.WinForms.Controls.Wizard
 {
     public enum StepDirection
     {

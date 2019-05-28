@@ -169,6 +169,38 @@
     <Compile Include="Ports\IDialogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceCollectionExtensions.cs" />
+    <Compile Include="Wizard\AfterStepChangedEventArgs.cs" />
+    <Compile Include="Wizard\BeforeStepChangesEventArgs.cs" />
+    <Compile Include="Wizard\IWizardStep.cs" />
+    <Compile Include="Wizard\IWizardStepInfo.cs" />
+    <Compile Include="Wizard\StepDirection.cs" />
+    <Compile Include="Wizard\TestContext.cs" />
+    <Compile Include="Wizard\WizardController.cs" />
+    <Compile Include="Wizard\WizardStepBase.cs" />
+    <Compile Include="Wizard\WizardStepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\WizardStepControl.Designer.cs">
+      <DependentUpon>WizardStepControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\WizardStepControlInstance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\WizardStepControlInstance.Designer.cs">
+      <DependentUpon>WizardStepControlInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\WizardStepControlInstance2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\WizardStepControlInstance2.Designer.cs">
+      <DependentUpon>WizardStepControlInstance2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\WizardTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\WizardTest.Designer.cs">
+      <DependentUpon>WizardTest.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +248,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\SelectionDialog.resx">
       <DependentUpon>SelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WizardStepControl.resx">
+      <DependentUpon>WizardStepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WizardStepControlInstance.resx">
+      <DependentUpon>WizardStepControlInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WizardStepControlInstance2.resx">
+      <DependentUpon>WizardStepControlInstance2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\WizardTest.resx">
+      <DependentUpon>WizardTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

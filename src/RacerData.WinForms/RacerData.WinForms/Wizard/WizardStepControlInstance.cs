@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RacerData.rNascarApp.Controls.Wizard
+namespace RacerData.WinForms.Controls.Wizard
 {
     public partial class WizardStepControlInstance : WizardStepControl<TestContext>
     {

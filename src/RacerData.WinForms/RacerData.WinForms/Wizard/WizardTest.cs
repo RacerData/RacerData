@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace RacerData.rNascarApp.Controls.Wizard
+namespace RacerData.WinForms.Controls.Wizard
 {
     public partial class WizardTest : Form
     {

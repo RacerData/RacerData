@@ -86,7 +86,7 @@
       <HintPath>..\packages\AWSSDK.S3.3.3.102.5\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.9\lib\net472\log4net.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -104,10 +104,10 @@
       <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.9\lib\net472\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.9\lib\net472\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
@@ -163,8 +163,8 @@
     <Reference Include="RacerData.UpdaterService, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.UpdaterService.1.4.0\lib\netstandard2.0\RacerData.UpdaterService.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.WinForms, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.9\lib\net472\RacerData.WinForms.dll</HintPath>
+    <Reference Include="RacerData.WinForms, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\RacerData.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -263,44 +263,6 @@
     <Compile Include="Controls\WizardStep.Designer.cs">
       <DependentUpon>WizardStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Wizard\AfterStepChangedEventArgs.cs" />
-    <Compile Include="Controls\Wizard\BeforeStepChangesEventArgs.cs" />
-    <Compile Include="Controls\Wizard\IWizardStep.cs" />
-    <Compile Include="Controls\Wizard\IWizardStepInfo.cs" />
-    <Compile Include="Controls\Wizard\StepDirection.cs" />
-    <Compile Include="Controls\Wizard\TestContext.cs" />
-    <Compile Include="Controls\Wizard\WizardController.cs" />
-    <Compile Include="Controls\Wizard\WizardStepBase.cs" />
-    <Compile Include="Controls\Wizard\WizardStepControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardStepControl.Designer.cs">
-      <DependentUpon>WizardStepControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardStepControlInstance.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardStepControlInstance.Designer.cs">
-      <DependentUpon>WizardStepControlInstance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardStepControlInstance2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardStepControlInstance2.Designer.cs">
-      <DependentUpon>WizardStepControlInstance2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\Wizard\WizardTest.Designer.cs">
-      <DependentUpon>WizardTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\AboutDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\AboutDialog.Designer.cs">
-      <DependentUpon>AboutDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -312,18 +274,6 @@
     </Compile>
     <Compile Include="Dialogs\DisplayFormatMapDialog.Designer.cs">
       <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\FileViewerDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\FileViewerDialog.Designer.cs">
-      <DependentUpon>FileViewerDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\InputDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\InputDialog.Designer.cs">
-      <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ColumnEditorView.cs">
       <SubType>Form</SubType>
@@ -486,32 +436,11 @@
     <EmbeddedResource Include="Controls\UserControlBase.resx">
       <DependentUpon>UserControlBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Wizard\WizardStepControl.resx">
-      <DependentUpon>WizardStepControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Wizard\WizardStepControlInstance.resx">
-      <DependentUpon>WizardStepControlInstance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Wizard\WizardStepControlInstance2.resx">
-      <DependentUpon>WizardStepControlInstance2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Wizard\WizardTest.resx">
-      <DependentUpon>WizardTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\AboutDialog.resx">
-      <DependentUpon>AboutDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\SplashForm.resx">
       <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\DisplayFormatMapDialog.resx">
       <DependentUpon>DisplayFormatMapDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\FileViewerDialog.resx">
-      <DependentUpon>FileViewerDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\InputDialog.resx">
-      <DependentUpon>InputDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ColumnEditorView.resx">
       <DependentUpon>ColumnEditorView.cs</DependentUpon>

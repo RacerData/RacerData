@@ -4,10 +4,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using RacerData.rNascarApp.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
 using RacerData.rNascarApp.Models;
-using RacerData.rNascarApp.Settings;
 using RacerData.rNascarApp.Themes;
+using RacerData.WinForms.Ports;
 
 namespace RacerData.rNascarApp.Controls.CreateViewWizard
 {
@@ -367,18 +367,6 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
                     panel.Controls.Add(fieldLabel);
                 }
             }
-
-            //foreach (ViewListColumn viewListColumn in _viewListColumns)
-            //{
-            //    var captionLabel = GetCaptionLabel(viewListColumn);
-            //    pnlCaptions.Controls.Add(captionLabel);
-
-            //    var fieldLabel = GetLabel(viewListColumn);
-            //    pnlFields.Controls.Add(fieldLabel);
-
-            //    var fieldLabel1 = GetLabel(viewListColumn);
-            //    pnlFields1.Controls.Add(fieldLabel1);
-            //}
         }
 
         protected virtual void DisplayView()
@@ -446,17 +434,20 @@ namespace RacerData.rNascarApp.Controls.CreateViewWizard
             try
             {
                 var currentName = lblViewTitle.Text == NewViewNamePrompt ? "<New View>" : lblViewTitle.Text;
-                using (var dialog = new InputDialog(
+
+                var dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+
+                var inputDialogResut = dialogService.DisplayInputDialog(
+                    this,
                     "New View",
                     "Enter a name for the new view",
-                    currentName))
-                {
-                    if (dialog.ShowDialog(this) != DialogResult.Cancel)
-                    {
-                        lblViewTitle.Text = dialog.Value;
+                    currentName);
 
-                        UpdateValidation();
-                    }
+                if (inputDialogResut.DialogResult == DialogResult.OK)
+                {
+                    lblViewTitle.Text = inputDialogResut.Response;
+
+                    UpdateValidation();
                 }
             }
             catch (Exception ex)

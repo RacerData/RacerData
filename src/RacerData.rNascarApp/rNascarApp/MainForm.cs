@@ -237,10 +237,10 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                using (var dialog = new AboutDialog())
-                {
-                    dialog.ShowDialog(this);
-                }
+                _dialogService.DisplayAboutDialog(this,
+                    "rNascar App",
+                    "RacerData Software",
+                    Properties.Resources.BuildDate);
             }
             catch (Exception ex)
             {
@@ -775,71 +775,71 @@ namespace RacerData.rNascarApp
 
                 while (!isDone)
                 {
-                    using (var dialog = new InputDialog(
-                       "Copy Workspace",
-                       "Enter a name for the new workspace",
-                       $"Copy of {workspace.Name}"))
+                    var inputDialogResult = _dialogService.DisplayInputDialog(
+                        this,
+                        "Copy  Workspace",
+                        "Enter a name for the new workspace",
+                        $"Copy of {workspace.Name}");
+
+                    if (inputDialogResult.DialogResult == DialogResult.OK)
                     {
-                        if (dialog.ShowDialog(this) != DialogResult.Cancel)
+                        if (inputDialogResult.Response == Workspace.DefaultWorkspaceName)
                         {
-                            if (dialog.Value == Workspace.DefaultWorkspaceName)
+                            var result = _dialogService.DisplayMessageBox(
+                                this,
+                                "Error copying workspace",
+                                $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                WinForms.Models.ButtonTypes.YesNo,
+                                WinForms.Models.MsgIcon.Error);
+
+                            isDone = (result != DialogResult.Yes);
+                        }
+                        else if (inputDialogResult.Response == String.Empty)
+                        {
+                            var result = _dialogService.DisplayMessageBox(
+                               this,
+                               "Error copying workspace",
+                               $"The name cannot be blank.\r\n\r\nDo you want to try again?",
+                               WinForms.Models.ButtonTypes.YesNo,
+                               WinForms.Models.MsgIcon.Error);
+
+                            isDone = (result != DialogResult.Yes);
+                        }
+                        else
+                        {
+                            var newWorkspace = workspace.Copy(inputDialogResult.Response);
+
+                            try
+                            {
+                                _workspaceService.AddWorkspace(newWorkspace);
+
+                                _workspaceService.Save();
+
+                                _workspaceService.SetActiveWorkspace(newWorkspace.Name);
+
+                                _dialogService.DisplayMessageBox(
+                                    this,
+                                    "Workspace copied",
+                                    $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                    WinForms.Models.ButtonTypes.Ok,
+                                    WinForms.Models.MsgIcon.Information);
+
+                                isDone = true;
+                            }
+                            catch (InvalidOperationException ex)
                             {
                                 var result = _dialogService.DisplayMessageBox(
                                     this,
                                     "Error copying workspace",
-                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                    $"There was an error copying the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
                                     WinForms.Models.ButtonTypes.YesNo,
                                     WinForms.Models.MsgIcon.Error);
 
                                 isDone = (result != DialogResult.Yes);
                             }
-                            else if (dialog.Value == String.Empty)
+                            catch (Exception)
                             {
-                                var result = _dialogService.DisplayMessageBox(
-                                   this,
-                                   "Error copying workspace",
-                                   $"The name cannot be blank.\r\n\r\nDo you want to try again?",
-                                   WinForms.Models.ButtonTypes.YesNo,
-                                   WinForms.Models.MsgIcon.Error);
-
-                                isDone = (result != DialogResult.Yes);
-                            }
-                            else
-                            {
-                                var newWorkspace = workspace.Copy(dialog.Value);
-
-                                try
-                                {
-                                    _workspaceService.AddWorkspace(newWorkspace);
-
-                                    _workspaceService.Save();
-
-                                    _workspaceService.SetActiveWorkspace(newWorkspace.Name);
-
-                                    _dialogService.DisplayMessageBox(
-                                        this,
-                                        "Workspace copied",
-                                        $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
-                                        WinForms.Models.ButtonTypes.Ok,
-                                        WinForms.Models.MsgIcon.Information);
-
-                                    isDone = true;
-                                }
-                                catch (InvalidOperationException ex)
-                                {
-                                    var result = _dialogService.DisplayMessageBox(
-                                        this,
-                                        "Error copying workspace",
-                                        $"There was an error copying the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
-                                        WinForms.Models.ButtonTypes.YesNo,
-                                        WinForms.Models.MsgIcon.Error);
-
-                                    isDone = (result != DialogResult.Yes);
-                                }
-                                catch (Exception)
-                                {
-                                    throw;
-                                }
+                                throw;
                             }
                         }
                     }
@@ -858,74 +858,74 @@ namespace RacerData.rNascarApp
 
                 while (!isDone)
                 {
-                    using (var dialog = new InputDialog(
-                       "New Workspace",
+                    var inputDialogResult = _dialogService.DisplayInputDialog(
+                       this,
+                       "New  Workspace",
                        "Enter a name for the new workspace",
-                       $"<Workspace Name>"))
+                       "<Workspace Name>");
+
+                    if (inputDialogResult.DialogResult == DialogResult.OK)
                     {
-                        if (dialog.ShowDialog(this) != DialogResult.Cancel)
+                        if (inputDialogResult.Response == Workspace.DefaultWorkspaceName)
                         {
-                            if (dialog.Value == Workspace.DefaultWorkspaceName)
+                            var result = _dialogService.DisplayMessageBox(
+                                this,
+                                "Error creating workspace",
+                                $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                WinForms.Models.ButtonTypes.YesNo,
+                                WinForms.Models.MsgIcon.Error);
+
+                            isDone = (result != DialogResult.Yes);
+                        }
+                        else if (inputDialogResult.Response == String.Empty)
+                        {
+                            var result = _dialogService.DisplayMessageBox(
+                                  this,
+                                  "Error creating workspace",
+                                  $"The name cannot be blank.\r\n\r\nDo you want to try again?",
+                                  WinForms.Models.ButtonTypes.YesNo,
+                                  WinForms.Models.MsgIcon.Error);
+
+                            isDone = (result != DialogResult.Yes);
+                        }
+                        else
+                        {
+                            var newWorkspace = new Workspace()
+                            {
+                                Name = inputDialogResult.Response,
+                                GridColumnCount = GridTable.ColumnCount,
+                                GridRowCount = GridTable.RowCount
+                            };
+
+                            try
+                            {
+                                _workspaceService.AddWorkspace(newWorkspace);
+
+                                _workspaceService.SetActiveWorkspace(newWorkspace.Name);
+
+                                _dialogService.DisplayMessageBox(
+                                    this,
+                                    "Workspace created",
+                                    $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
+                                    WinForms.Models.ButtonTypes.Ok,
+                                    WinForms.Models.MsgIcon.Information);
+
+                                isDone = true;
+                            }
+                            catch (InvalidOperationException ex)
                             {
                                 var result = _dialogService.DisplayMessageBox(
                                     this,
                                     "Error creating workspace",
-                                    $"The name '{Workspace.DefaultWorkspaceName}' is reserved.\r\n\r\nDo you want to try again?",
+                                    $"There was an error creating the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
                                     WinForms.Models.ButtonTypes.YesNo,
                                     WinForms.Models.MsgIcon.Error);
 
                                 isDone = (result != DialogResult.Yes);
                             }
-                            else if (dialog.Value == String.Empty)
+                            catch (Exception)
                             {
-                                var result = _dialogService.DisplayMessageBox(
-                                      this,
-                                      "Error creating workspace",
-                                      $"The name cannot be blank.\r\n\r\nDo you want to try again?",
-                                      WinForms.Models.ButtonTypes.YesNo,
-                                      WinForms.Models.MsgIcon.Error);
-
-                                isDone = (result != DialogResult.Yes);
-                            }
-                            else
-                            {
-                                var newWorkspace = new Workspace()
-                                {
-                                    Name = dialog.Value,
-                                    GridColumnCount = GridTable.ColumnCount,
-                                    GridRowCount = GridTable.RowCount
-                                };
-
-                                try
-                                {
-                                    _workspaceService.AddWorkspace(newWorkspace);
-
-                                    _workspaceService.SetActiveWorkspace(newWorkspace.Name);
-
-                                    _dialogService.DisplayMessageBox(
-                                        this,
-                                        "Workspace created",
-                                        $"Workspace '{newWorkspace.Name}' has been set as the active workspace",
-                                        WinForms.Models.ButtonTypes.Ok,
-                                        WinForms.Models.MsgIcon.Information);
-
-                                    isDone = true;
-                                }
-                                catch (InvalidOperationException ex)
-                                {
-                                    var result = _dialogService.DisplayMessageBox(
-                                        this,
-                                        "Error creating workspace",
-                                        $"There was an error creating the workspace:\r\n{ex.Message}\r\n\r\nDo you want to try again?",
-                                        WinForms.Models.ButtonTypes.YesNo,
-                                        WinForms.Models.MsgIcon.Error);
-
-                                    isDone = (result != DialogResult.Yes);
-                                }
-                                catch (Exception)
-                                {
-                                    throw;
-                                }
+                                throw;
                             }
                         }
                     }
@@ -1437,10 +1437,7 @@ namespace RacerData.rNascarApp
         {
             try
             {
-                using (var dialog = new FileViewerDialog() { Title = "Log File", FilePath = Logger.GetLogFilePath() })
-                {
-                    dialog.ShowDialog(this);
-                }
+                _dialogService.DisplayFileViewer(this, "Log File", Logger.GetLogFilePath());
             }
             catch (Exception ex)
             {
@@ -1729,10 +1726,10 @@ namespace RacerData.rNascarApp
 
                 using (var dialog = new ThemeDesignerDialog()
                 {
-                    // TODO: Load from service provider
                     Themes = themes,
                     ViewStates = _stateService.State.ViewStates,
                     StateService = _stateService,
+                    DialogService = _dialogService,
                     ThemeId = themeId
                 })
                 {

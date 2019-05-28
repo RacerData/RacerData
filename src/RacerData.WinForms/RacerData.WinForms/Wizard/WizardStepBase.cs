@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace RacerData.rNascarApp.Controls.Wizard
+namespace RacerData.WinForms.Controls.Wizard
 {
     class WizardStepBase<TContext> : IWizardStep<TContext>, INotifyPropertyChanged
     {

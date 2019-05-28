@@ -1,4 +1,4 @@
-﻿namespace RacerData.rNascarApp.Controls.Wizard
+﻿namespace RacerData.WinForms.Controls.Wizard
 {
     partial class WizardStepControlInstance2
     {

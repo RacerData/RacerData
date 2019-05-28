@@ -1,4 +1,6 @@
-﻿namespace RacerData.rNascarApp.Controls.CreateViewWizard
+﻿using RacerData.WinForms.Controls;
+
+namespace RacerData.rNascarApp.Controls.CreateViewWizard
 {
     partial class CreateViewWizard3
     {
@@ -36,7 +38,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.chkStretch = new System.Windows.Forms.CheckBox();
             this.chkBorder = new System.Windows.Forms.CheckBox();
-            this.calAlignment = new RacerData.rNascarApp.Controls.ContentAlignmentSelector();
+            this.calAlignment = new RacerData.WinForms.Controls.ContentAlignmentSelector();
             this.cboConvertedType = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtColType = new System.Windows.Forms.TextBox();

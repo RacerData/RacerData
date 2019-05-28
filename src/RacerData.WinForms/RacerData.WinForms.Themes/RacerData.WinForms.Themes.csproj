@@ -154,12 +154,6 @@
     <Compile Include="Editors\ColorTableEditor.Designer.cs">
       <DependentUpon>ColorTableEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\ContentAlignmentSelector.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Editors\ContentAlignmentSelector.Designer.cs">
-      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
-    </Compile>
     <Compile Include="Editors\Delegates.cs" />
     <Compile Include="Editors\DialogAppearanceEditor.cs">
       <SubType>UserControl</SubType>
@@ -231,9 +225,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\ColorTableEditor.resx">
       <DependentUpon>ColorTableEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Editors\ContentAlignmentSelector.resx">
-      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\DialogAppearanceEditor.resx">
       <DependentUpon>DialogAppearanceEditor.cs</DependentUpon>

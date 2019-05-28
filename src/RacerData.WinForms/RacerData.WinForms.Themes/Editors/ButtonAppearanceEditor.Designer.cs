@@ -1,4 +1,6 @@
-﻿namespace RacerData.WinForms.Themes.Editors
+﻿using RacerData.WinForms.Controls;
+
+namespace RacerData.WinForms.Themes.Editors
 {
     partial class ButtonAppearanceEditor
     {
@@ -40,7 +42,7 @@
             this.backColorEditor = new RacerData.WinForms.Themes.Editors.ColorEditor();
             this.fontEditor = new RacerData.WinForms.Themes.Editors.FontEditor();
             this.label1 = new System.Windows.Forms.Label();
-            this.textAlignEditor = new RacerData.WinForms.Themes.Editors.ContentAlignmentSelector();
+            this.textAlignEditor = new RacerData.WinForms.Controls.ContentAlignmentSelector();
             this.cboButtonStyle = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlCaption.SuspendLayout();

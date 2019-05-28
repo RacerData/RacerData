@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace RacerData.WinForms.Themes.Editors
+namespace RacerData.WinForms.Controls
 {
 
     [DefaultProperty("Alignment")]

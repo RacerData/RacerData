@@ -1,4 +1,6 @@
-﻿namespace RacerData.rNascarApp.Controls.ListColumnEditor
+﻿using RacerData.WinForms.Controls;
+
+namespace RacerData.rNascarApp.Controls.ListColumnEditor
 {
     partial class ListColumnEditor
     {
@@ -48,7 +50,7 @@
             this.grpEditField = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.calAlignment = new RacerData.rNascarApp.Controls.ContentAlignmentSelector();
+            this.calAlignment = new RacerData.WinForms.Controls.ContentAlignmentSelector();
             this.dragTimer = new System.Windows.Forms.Timer(this.components);
             this.pnlCaptions = new System.Windows.Forms.Panel();
             this.pnlTop = new System.Windows.Forms.Panel();

@@ -60,6 +60,12 @@
     <Compile Include="Controls\CollapsablePanel.Designer.cs">
       <DependentUpon>CollapsablePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ContentAlignmentSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ContentAlignmentSelector.Designer.cs">
+      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\CollapsablePanel.resx">
       <DependentUpon>CollapsablePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ContentAlignmentSelector.resx">
+      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DialogButtons.resx">
       <DependentUpon>DialogButtons.cs</DependentUpon>

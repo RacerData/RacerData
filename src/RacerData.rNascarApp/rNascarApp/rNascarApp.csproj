@@ -86,7 +86,7 @@
       <HintPath>..\packages\AWSSDK.S3.3.3.102.5\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\log4net.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.2.2\lib\net472\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -104,10 +104,10 @@
       <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.2.2\lib\net472\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.2.2\lib\net472\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
@@ -163,8 +163,8 @@
     <Reference Include="RacerData.UpdaterService, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.UpdaterService.1.4.0\lib\netstandard2.0\RacerData.UpdaterService.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.WinForms, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.2.1\lib\net472\RacerData.WinForms.dll</HintPath>
+    <Reference Include="RacerData.WinForms, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.WinForms.1.2.2\lib\net472\RacerData.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -200,12 +200,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ContentAlignmentSelector.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ContentAlignmentSelector.Designer.cs">
-      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CreateViewWizard\CreateViewContext.cs" />
     <Compile Include="Controls\CreateViewWizard\CreateViewWizard1.cs">
       <SubType>UserControl</SubType>
@@ -409,9 +403,6 @@
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeSection.cs" />
     <Compile Include="Themes\UserThemeRepository.cs" />
-    <EmbeddedResource Include="Controls\ContentAlignmentSelector.resx">
-      <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CreateViewWizard\CreateViewWizard1.resx">
       <DependentUpon>CreateViewWizard1.cs</DependentUpon>
     </EmbeddedResource>

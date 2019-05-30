@@ -282,14 +282,10 @@ namespace rNascarApp.UI.Controllers
         #region exception handlers
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
-            Console.WriteLine(ex.ToString());
-
             throw new ViewGridControllerException($"Error in ViewGridController:\r\n{message}:\r\n{ex.Message}", ex);
         }
         protected virtual void ExceptionHandler(string message, Exception ex, View view)
         {
-            Console.WriteLine(ex.ToString());
-
             throw new ViewGridControllerException($"View error in ViewGridController:\r\n{message}:\r\n{ex.Message}", ex, view);
         }
         #endregion
@@ -481,8 +477,6 @@ namespace rNascarApp.UI.Controllers
                 if (viewMaxColumn > gridMaxColumn)
                     gridMaxColumn = viewMaxColumn;
             }
-
-            Console.WriteLine($"GridMaxRow: {gridMaxRow} GridMaxColumn: {gridMaxColumn}");
 
             if (gridMaxRow < _gridTable.RowCount - 1)
             {
@@ -799,16 +793,23 @@ namespace rNascarApp.UI.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                ExceptionHandler("Error starting view resize", ex);
             }
         }
 
         private void View_ViewResizeRequest(object sender, ViewResizeRequestEventArgs e)
         {
-            var resizeDeltaX = e.Location.X - _resizePoint.X;
-            var resizeDeltaY = e.Location.Y - _resizePoint.Y;
+            try
+            {
+                var resizeDeltaX = e.Location.X - _resizePoint.X;
+                var resizeDeltaY = e.Location.Y - _resizePoint.Y;
 
-            _resizeFrame.Size = new Size(_resizeOriginalSize.Width + resizeDeltaX, _resizeOriginalSize.Height + resizeDeltaY);
+                _resizeFrame.Size = new Size(_resizeOriginalSize.Width + resizeDeltaX, _resizeOriginalSize.Height + resizeDeltaY);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error during view resize", ex);
+            }           
         }
 
         private void View_EndViewResizeRequest(object sender, EndViewResizeRequestEventArgs e)

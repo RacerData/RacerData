@@ -60,7 +60,7 @@ namespace rNascarApp.UI.Views
 
         public int Index { get; set; }
         public string Header { get { return lblHeader.Text; } set { lblHeader.Text = value; } }
-
+       
         #endregion
 
         #region ctor
@@ -68,6 +68,19 @@ namespace rNascarApp.UI.Views
         public View()
         {
             InitializeComponent();
+        }
+        #endregion
+
+        #region protected
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
         }
 
         #endregion

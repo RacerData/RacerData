@@ -1,11 +1,10 @@
 ﻿using System.Windows.Forms;
-using rNascarApp.UI.Controllers;
 
 namespace rNascarApp.UI.Ports
 {
     public interface IViewControllerFactory
     {
-        IViewController GetViewController(IViewFactory viewFactory, TableLayoutPanel gridTable);
-        IViewController GetViewController(TableLayoutPanel gridTable);
+        IViewController GetViewController(IViewFactory viewFactory, Form parentForm, TableLayoutPanel gridTable);
+        IViewController GetViewController(Form parentForm, TableLayoutPanel gridTable);
     }
 }

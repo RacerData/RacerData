@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.viewGrid1 = new rNascarApp.UI.Controls.ViewGrid();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.viewGrid1 = new rNascarApp.UI.Controls.ViewGrid();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +53,7 @@
             this.toolStripButton5});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(743, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(765, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -66,6 +66,21 @@
             this.toolStripButton1.Size = new System.Drawing.Size(99, 22);
             this.toolStripButton1.Text = "AddRowColumn";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton4.Text = "RemoveRowColumn";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton2
             // 
@@ -87,31 +102,6 @@
             this.toolStripButton3.Text = "DecreaseCellSize (Zoom Out)";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
-            // viewGrid1
-            // 
-            this.viewGrid1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.viewGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewGrid1.Location = new System.Drawing.Point(0, 25);
-            this.viewGrid1.Name = "viewGrid1";
-            this.viewGrid1.Padding = new System.Windows.Forms.Padding(8);
-            this.viewGrid1.Size = new System.Drawing.Size(743, 298);
-            this.viewGrid1.TabIndex = 0;
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(120, 22);
-            this.toolStripButton4.Text = "RemoveRowColumn";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -127,16 +117,26 @@
             this.toolStripButton5.Text = "Add Views";
             this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
+            // viewGrid1
+            // 
+            this.viewGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.viewGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewGrid1.Location = new System.Drawing.Point(0, 25);
+            this.viewGrid1.Name = "viewGrid1";
+            this.viewGrid1.Padding = new System.Windows.Forms.Padding(1);
+            this.viewGrid1.Size = new System.Drawing.Size(765, 465);
+            this.viewGrid1.TabIndex = 2;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(743, 323);
+            this.ClientSize = new System.Drawing.Size(765, 490);
             this.Controls.Add(this.viewGrid1);
             this.Controls.Add(this.toolStrip1);
+            this.KeyPreview = true;
             this.Name = "Form2";
             this.Text = "Form2";
-            this.ResizeEnd += new System.EventHandler(this.Form2_ResizeEnd);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -145,8 +145,6 @@
         }
 
         #endregion
-
-        private Controls.ViewGrid viewGrid1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
@@ -155,5 +153,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private Controls.ViewGrid viewGrid1;
     }
 }

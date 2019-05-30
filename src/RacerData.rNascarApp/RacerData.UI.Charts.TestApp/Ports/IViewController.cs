@@ -27,7 +27,5 @@ namespace rNascarApp.UI.Ports
         void AddViews(IList<ViewInfo> viewInfos);
 
         void RemoveViewAt(int index);
-
-        void ParentResized();
     }
 }

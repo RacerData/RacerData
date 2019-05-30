@@ -24,7 +24,7 @@ namespace rNascarApp.UI
             IViewFactory viewFactory = new ViewFactory();
             IViewControllerFactory viewControllerFactory = new ViewControllerFactory(viewFactory);
 
-            _viewController = viewControllerFactory.GetViewController(viewFactory, viewGrid1.Grid);
+            _viewController = viewControllerFactory.GetViewController(viewFactory, this, viewGrid1.Grid);
 
             _viewController.ViewAdded += _viewController_ViewAdded;
             _viewController.ViewRemoved += _viewController_ViewRemoved;
@@ -229,11 +229,6 @@ namespace rNascarApp.UI
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
             AddViews();
-        }
-
-        private void Form2_ResizeEnd(object sender, EventArgs e)
-        {
-            _viewController.ParentResized();
         }
     }
 }

@@ -55,7 +55,6 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 3F));
@@ -78,8 +77,9 @@
             this.picCorner.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.picCorner.BackColor = System.Drawing.Color.Transparent;
             this.picCorner.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.picCorner.Location = new System.Drawing.Point(636, 352);
+            this.picCorner.Location = new System.Drawing.Point(637, 353);
             this.picCorner.Margin = new System.Windows.Forms.Padding(0);
             this.picCorner.Name = "picCorner";
             this.picCorner.Size = new System.Drawing.Size(3, 3);
@@ -95,11 +95,12 @@
             this.picRight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.picRight.BackColor = System.Drawing.Color.Transparent;
             this.picRight.Cursor = System.Windows.Forms.Cursors.SizeWE;
-            this.picRight.Location = new System.Drawing.Point(636, 1);
+            this.picRight.Location = new System.Drawing.Point(637, 0);
             this.picRight.Margin = new System.Windows.Forms.Padding(0);
             this.picRight.Name = "picRight";
-            this.picRight.Size = new System.Drawing.Size(3, 350);
+            this.picRight.Size = new System.Drawing.Size(3, 353);
             this.picRight.TabIndex = 2;
             this.picRight.TabStop = false;
             this.picRight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ResizeHorizontal_MouseDown);
@@ -112,11 +113,12 @@
             this.picBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.picBottom.BackColor = System.Drawing.Color.Transparent;
             this.picBottom.Cursor = System.Windows.Forms.Cursors.SizeNS;
-            this.picBottom.Location = new System.Drawing.Point(1, 352);
+            this.picBottom.Location = new System.Drawing.Point(0, 353);
             this.picBottom.Margin = new System.Windows.Forms.Padding(0);
             this.picBottom.Name = "picBottom";
-            this.picBottom.Size = new System.Drawing.Size(634, 3);
+            this.picBottom.Size = new System.Drawing.Size(637, 3);
             this.picBottom.TabIndex = 0;
             this.picBottom.TabStop = false;
             this.picBottom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ResizeVertical_MouseDown);

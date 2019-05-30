@@ -38,8 +38,9 @@ namespace rNascarApp.UI.Controllers
 
         private Point _dragPoint = Point.Empty;
         private Panel _dragFrame = new Panel() { Visible = false, BorderStyle = BorderStyle.FixedSingle };
+        private Panel _dragCoverFrame = new Panel() { Visible = false, BorderStyle = BorderStyle.FixedSingle, BackColor = Color.Black };
         private Timer _dragTimer = new Timer() { Interval = 20 };
-        private Color _gridTableDraggingBackColor = Color.Gainsboro;
+        private Color _gridTableDraggingBackColor = Color.Gray;
         private Color _gridTableBackColor;
         private TableLayoutPanelCellBorderStyle _gridTableCellBorderStyle;
 
@@ -65,6 +66,7 @@ namespace rNascarApp.UI.Controllers
 
         internal ViewController(
             IViewFactory viewFactory,
+            Form parentForm,
             TableLayoutPanel gridTable)
         {
             _viewFactory = viewFactory ?? throw new ArgumentNullException(nameof(viewFactory));
@@ -89,6 +91,13 @@ namespace rNascarApp.UI.Controllers
             _gridTable.Parent.AllowDrop = true;
             _gridTable.Parent.DragOver += GridTable_DragOver;
             _gridTable.Parent.DragDrop += GridTable_DragDrop;
+
+            _gridTable.Parent.Controls.Add(_dragFrame);
+            _gridTable.Parent.Controls.Add(_dragCoverFrame);
+
+            _gridTable.MouseWheel += GridTable_MouseWheel;
+
+            parentForm.ResizeEnd += ParentForm_ResizeEnd;
         }
 
         #endregion
@@ -304,7 +313,7 @@ namespace rNascarApp.UI.Controllers
                         view = _viewFactory.GetView(viewInfo);
 
                         // Margin determines the spacing within the grid cells
-                        view.Margin = new Padding(4);
+                        view.Margin = new Padding(0);
 
                         // Anchor determines the docking within the grid cells
                         view.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
@@ -575,9 +584,9 @@ namespace rNascarApp.UI.Controllers
 
         #region drag/drop
 
-        protected virtual void ConfigureDragging(View ctl)
+        protected virtual void ConfigureDragging(View view)
         {
-            ctl.MouseDown += (s, e) =>
+            view.MouseDown += (s, e) =>
             {
                 if (e.Button == MouseButtons.Left)
                 {
@@ -586,43 +595,63 @@ namespace rNascarApp.UI.Controllers
 
                     _gridTable.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 
+                    // Location relative to the view control
                     _dragPoint = e.Location;
+
+                    var cellPosition = _gridTable.GetCellPosition(view);
+                    var columnWidth = _gridTable.ColumnStyles[cellPosition.Column].Width;
+                    int viewWidth = (int)columnWidth * _gridTable.GetColumnSpan(view);
+                    var rowHeight = _gridTable.RowStyles[cellPosition.Row].Height;
+                    int viewHeight = (int)rowHeight * _gridTable.GetRowSpan(view);
+
+                    _dragFrame.Size = new Size(viewWidth, viewHeight);
+                    _dragCoverFrame.Size = new Size(viewWidth + 12, viewHeight + 12);
 
                     _dragTimer.Start();
 
-                    _dragFrame.Size = ctl.Size;
-
+                    // Location relative to the parent form
                     Point pt = _gridTable.PointToClient(Cursor.Position);
 
-                    _dragFrame.Location = new Point(pt.X - _dragPoint.X,
-                                                   pt.Y + 3);
+                    _dragFrame.Location = new Point(
+                        view.Location.X,
+                        view.Location.Y);
+
+                    _dragCoverFrame.Location = new Point(
+                        view.Location.X - 1,
+                        view.Location.Y - 1);
 
                     if (_dragFrame.BackgroundImage != null)
                         _dragFrame.BackgroundImage.Dispose();
+
+                    if (_dragCoverFrame.BackgroundImage != null)
+                        _dragCoverFrame.BackgroundImage.Dispose();
+
                     Bitmap bmp = new Bitmap(_dragFrame.ClientSize.Width,
                                             _dragFrame.ClientSize.Height);
-                    ctl.DrawToBitmap(bmp, _dragFrame.ClientRectangle);
+
+                    view.DrawToBitmap(bmp, _dragFrame.ClientRectangle);
+
                     _dragFrame.BackgroundImage = bmp;
+
+                    Bitmap coverBmp = new Bitmap(_dragFrame.ClientSize.Width,
+                                           _dragFrame.ClientSize.Height);
+
+                    using (Graphics gfx = Graphics.FromImage(coverBmp))
+                    using (SolidBrush brush = new SolidBrush(Color.FromArgb(200, 100, 100, 100)))
+                    {
+                        gfx.FillRectangle(brush, 0, 0, coverBmp.Width, coverBmp.Height);
+                    }
+
+                    _dragCoverFrame.BackgroundImage = coverBmp;
+
+                    _dragCoverFrame.BringToFront();
+                    _dragCoverFrame.Show();
 
                     _dragFrame.BringToFront();
                     _dragFrame.Show();
-                    ctl.DoDragDrop(ctl, DragDropEffects.Copy | DragDropEffects.Move);
-                }
-            };
 
-            ctl.MouseUp += (s, e) =>
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    _dragFrame.Hide();
-                    _dragTimer.Stop();
+                    view.DoDragDrop(view, DragDropEffects.Copy | DragDropEffects.Move);
                 }
-            };
-
-            ctl.Leave += (s, e) =>
-            {
-                _dragFrame.Hide();
-                _dragTimer.Stop();
             };
         }
 
@@ -631,6 +660,7 @@ namespace rNascarApp.UI.Controllers
             if ((Control.MouseButtons & MouseButtons.Left) == MouseButtons.None)
             {
                 _dragFrame.Hide();
+                _dragCoverFrame.Hide();
                 _dragTimer.Stop();
             }
 
@@ -651,13 +681,16 @@ namespace rNascarApp.UI.Controllers
 
         protected virtual void GridTable_DragDrop(object sender, DragEventArgs e)
         {
+            View view = null;
             try
             {
                 _dragFrame.Hide();
+                _dragCoverFrame.Hide();
                 _dragTimer.Stop();
 
-                View controlBase = e.Data.GetData(e.Data.GetFormats()[0]) as View;
-                if (controlBase != null)
+                view = e.Data.GetData(e.Data.GetFormats()[0]) as View;
+
+                if (view != null)
                 {
                     var hitPoint = _gridTable.PointToClient(new Point(e.X, e.Y));
 
@@ -665,15 +698,15 @@ namespace rNascarApp.UI.Controllers
 
                     if (newCell == null)
                     {
-                        if ((hitPoint.X + controlBase.Width) > _gridTable.Width)
+                        if ((hitPoint.X + view.Width) > _gridTable.Width)
                         {
-                            var columnCountToAdd = (int)(((hitPoint.X + controlBase.Width) - _gridTable.Width) / _columnWidth) + 1;
+                            var columnCountToAdd = (int)(((hitPoint.X + view.Width) - _gridTable.Width) / _columnWidth) + 1;
                             AddColumnsToGrid(columnCountToAdd);
                         }
 
-                        if ((hitPoint.Y + controlBase.Height) > _gridTable.Height)
+                        if ((hitPoint.Y + view.Height) > _gridTable.Height)
                         {
-                            var rowCountToAdd = (int)(((hitPoint.Y + controlBase.Height) - _gridTable.Height) / _rowHeight) + 1;
+                            var rowCountToAdd = (int)(((hitPoint.Y + view.Height) - _gridTable.Height) / _rowHeight) + 1;
                             AddRowsToGrid(rowCountToAdd);
                         }
 
@@ -682,8 +715,8 @@ namespace rNascarApp.UI.Controllers
 
                     if (newCell != null)
                     {
-                        var rowSpan = _gridTable.GetRowSpan(controlBase);
-                        var columnSpan = _gridTable.GetColumnSpan(controlBase);
+                        var rowSpan = _gridTable.GetRowSpan(view);
+                        var columnSpan = _gridTable.GetColumnSpan(view);
 
                         if ((newCell.Value.X + columnSpan) > _gridTable.ColumnCount)
                         {
@@ -697,8 +730,8 @@ namespace rNascarApp.UI.Controllers
                             AddRowsToGrid(rowCountToAdd);
                         }
 
-                        _gridTable.Controls.Remove(controlBase);
-                        _gridTable.Controls.Add(controlBase, newCell.Value.X, newCell.Value.Y);
+                        _gridTable.Controls.Remove(view);
+                        _gridTable.Controls.Add(view, newCell.Value.X, newCell.Value.Y);
 
                         SetGridRowColumnCount();
                     }
@@ -748,14 +781,20 @@ namespace rNascarApp.UI.Controllers
 
         private void View_RemoveViewRequest(object sender, RemoveViewRequestEventArgs e)
         {
-            RemoveViewAt(e.Index);
+            try
+            {
+                RemoveViewAt(e.Index);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler($"Error removing view at {e.Index}", ex);
+            }
         }
 
         private void View_BeginViewResizeRequest(object sender, ViewResizeRequestEventArgs e)
         {
             try
             {
-
                 View view = (View)sender;
                 _resizePoint = e.Location;
                 _gridTable.Parent.Controls.Add(_resizeFrame);
@@ -809,7 +848,7 @@ namespace rNascarApp.UI.Controllers
             catch (Exception ex)
             {
                 ExceptionHandler("Error during view resize", ex);
-            }           
+            }
         }
 
         private void View_EndViewResizeRequest(object sender, EndViewResizeRequestEventArgs e)
@@ -867,6 +906,40 @@ namespace rNascarApp.UI.Controllers
                 view.Visible = true;
 
                 SetGridRowColumnCount();
+            }
+        }
+
+        private void GridTable_MouseWheel(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    if (e.Delta > 0)
+                    {
+                        IncreaseCellSize();
+                    }
+                    else
+                    {
+                        DecreaseCellSize();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error resizing from mouse wheel", ex);
+            }
+        }
+
+        private void ParentForm_ResizeEnd(object sender, EventArgs e)
+        {
+            try
+            {
+                AfterParentResized();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error resizing from parent form", ex);
             }
         }
 

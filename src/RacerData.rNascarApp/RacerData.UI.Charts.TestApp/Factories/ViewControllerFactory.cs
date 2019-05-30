@@ -24,17 +24,24 @@ namespace rNascarApp.UI.Factories
 
         #region public
 
-        public IViewController GetViewController(IViewFactory viewFactory, TableLayoutPanel gridTable)
+        public IViewController GetViewController(
+            IViewFactory viewFactory,
+            Form parentForm,
+            TableLayoutPanel gridTable)
         {
             return new ViewController(
                 viewFactory,
+                parentForm,
                 gridTable);
         }
 
-        public IViewController GetViewController(TableLayoutPanel gridTable)
+        public IViewController GetViewController(
+            Form parentForm,
+            TableLayoutPanel gridTable)
         {
             return new ViewController(
                 _viewFactory,
+                parentForm,
                 gridTable);
         }
 

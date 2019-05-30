@@ -16,11 +16,11 @@ namespace rNascarApp.UI.Controls
         {
             get
             {
-                return this.GridTable;
+                return this.tblGrid;
             }
             set
             {
-                this.GridTable = value;
+                this.tblGrid = value;
             }
         }
 

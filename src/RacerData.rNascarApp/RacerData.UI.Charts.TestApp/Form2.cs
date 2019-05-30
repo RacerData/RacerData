@@ -74,10 +74,10 @@ namespace rNascarApp.UI
                 DataMember = "Position",
                 CellPosition = new ViewPosition()
                 {
-                    Column = 0,
-                    Row = 2,
-                    ColumnSpan = 4,
-                    RowSpan = 8
+                    Column = 1,
+                    Row = 1,
+                    ColumnSpan = 2,
+                    RowSpan = 3
                 },
                 ListDefinition = new ListDefinition()
                 {

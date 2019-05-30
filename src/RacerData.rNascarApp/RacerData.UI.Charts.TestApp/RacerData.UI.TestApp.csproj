@@ -59,6 +59,8 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResizeDirection.cs" />
+    <Compile Include="Models\ViewResizeRequestEventArgs.cs" />
     <Compile Include="Ports\IViewController.cs" />
     <Compile Include="Ports\IViewControllerFactory.cs" />
     <Compile Include="Ports\IViewFactory.cs" />

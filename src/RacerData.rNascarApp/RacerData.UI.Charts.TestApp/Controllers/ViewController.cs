@@ -18,7 +18,6 @@ namespace rNascarApp.UI.Controllers
         {
             var handler = ViewAdded;
             handler?.Invoke(this, new ViewAddedEventArgs(view));
-            PrintReport("OnViewAdded");
         }
 
         public event EventHandler<ViewRemovedEventArgs> ViewRemoved;
@@ -26,7 +25,6 @@ namespace rNascarApp.UI.Controllers
         {
             var handler = ViewRemoved;
             handler?.Invoke(this, new ViewRemovedEventArgs(view));
-            PrintReport("OnViewRemoved");
         }
 
         #endregion
@@ -44,6 +42,10 @@ namespace rNascarApp.UI.Controllers
         private Color _gridTableDraggingBackColor = Color.Gainsboro;
         private Color _gridTableBackColor;
         private TableLayoutPanelCellBorderStyle _gridTableCellBorderStyle;
+
+        private Size _resizeOriginalSize;
+        private Point _resizePoint = Point.Empty;
+        private Panel _resizeFrame = new Panel() { Visible = false, BorderStyle = BorderStyle.FixedSingle };
 
         #endregion
 
@@ -320,6 +322,9 @@ namespace rNascarApp.UI.Controllers
                         _gridTable.SetRowSpan(view, viewInfo.CellPosition.RowSpan);
 
                         view.RemoveViewRequest += View_RemoveViewRequest;
+                        view.BeginViewResizeRequest += View_BeginViewResizeRequest;
+                        view.ViewResizeRequest += View_ViewResizeRequest;
+                        view.EndViewResizeRequest += View_EndViewResizeRequest;
 
                         ConfigureDragging(view);
 
@@ -345,6 +350,7 @@ namespace rNascarApp.UI.Controllers
                 UpdateViewIndexes();
             }
         }
+
         protected virtual void RemoveViewAtIndex(int index)
         {
             try
@@ -412,7 +418,6 @@ namespace rNascarApp.UI.Controllers
                 _gridTable.RowCount += 1;
                 _gridTable.RowStyles.Add(new RowStyle(SizeType.Absolute, _rowHeight));
             }
-            PrintReport("AddRowToGrid");
         }
         protected virtual void AddRowsToGrid(int count)
         {
@@ -424,7 +429,6 @@ namespace rNascarApp.UI.Controllers
                     _gridTable.RowStyles.Add(new RowStyle(SizeType.Absolute, _rowHeight));
                 }
             }
-            PrintReport("AddRowsToGrid");
         }
 
         protected virtual void RemoveRowFromGrid()
@@ -434,7 +438,6 @@ namespace rNascarApp.UI.Controllers
                 _gridTable.RowCount -= 1;
                 _gridTable.RowStyles.RemoveAt(_gridTable.RowStyles.Count - 1);
             }
-            PrintReport("RemoveRowFromGrid");
         }
         protected virtual void AddColumnToGrid()
         {
@@ -443,7 +446,6 @@ namespace rNascarApp.UI.Controllers
                 _gridTable.ColumnCount += 1;
                 _gridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, _columnWidth));
             }
-            PrintReport("AddColumnToGrid");
         }
         protected virtual void AddColumnsToGrid(int count)
         {
@@ -455,7 +457,6 @@ namespace rNascarApp.UI.Controllers
                     _gridTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, _columnWidth));
                 }
             }
-            PrintReport("AddColumnsToGrid");
         }
         protected virtual void RemoveColumnFromGrid()
         {
@@ -464,7 +465,6 @@ namespace rNascarApp.UI.Controllers
                 _gridTable.ColumnCount -= 1;
                 _gridTable.ColumnStyles.RemoveAt(_gridTable.ColumnStyles.Count - 1);
             }
-            PrintReport("RemoveColumnFromGrid");
         }
 
         protected virtual void SetGridRowColumnCount()
@@ -511,6 +511,8 @@ namespace rNascarApp.UI.Controllers
                 int columnsToAdd = gridMaxColumn - (_gridTable.ColumnCount - 1);
                 AddColumnsToGrid(columnsToAdd);
             }
+
+            _gridTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
         #endregion
@@ -569,8 +571,6 @@ namespace rNascarApp.UI.Controllers
             finally
             {
                 _gridTable.ResumeLayout();
-
-                PrintReport("UpdateGridRowCellSizeAbsolute");
             }
         }
         protected virtual void AfterParentResized()
@@ -706,7 +706,6 @@ namespace rNascarApp.UI.Controllers
                         _gridTable.Controls.Remove(controlBase);
                         _gridTable.Controls.Add(controlBase, newCell.Value.X, newCell.Value.Y);
 
-                        // TODO: Trim unused rows/columns?
                         SetGridRowColumnCount();
                     }
                 }
@@ -756,6 +755,118 @@ namespace rNascarApp.UI.Controllers
         private void View_RemoveViewRequest(object sender, RemoveViewRequestEventArgs e)
         {
             RemoveViewAt(e.Index);
+        }
+
+        private void View_BeginViewResizeRequest(object sender, ViewResizeRequestEventArgs e)
+        {
+            try
+            {
+
+                View view = (View)sender;
+                _resizePoint = e.Location;
+                _gridTable.Parent.Controls.Add(_resizeFrame);
+
+                var cellPosition = _gridTable.GetCellPosition(view);
+                var columnWidth = _gridTable.ColumnStyles[cellPosition.Column].Width;
+                int viewWidth = (int)columnWidth * _gridTable.GetColumnSpan(view);
+                var rowHeight = _gridTable.RowStyles[cellPosition.Row].Height;
+                int viewHeight = (int)rowHeight * _gridTable.GetRowSpan(view);
+
+                _resizeFrame.Size = new Size(viewWidth, viewHeight);
+
+                _resizeOriginalSize = _resizeFrame.Size;
+
+                Point pt = _gridTable.PointToClient(Cursor.Position);
+
+                _resizeFrame.Location = new Point(view.Location.X + 12, view.Location.Y + 11);
+
+                if (_resizeFrame.BackgroundImage != null)
+                    _resizeFrame.BackgroundImage.Dispose();
+
+                Bitmap bmp = new Bitmap(_resizeFrame.ClientSize.Width,
+                                        _resizeFrame.ClientSize.Height);
+
+                view.DrawToBitmap(bmp, _resizeFrame.ClientRectangle);
+
+                _resizeFrame.BackgroundImage = bmp;
+                _resizeFrame.BackgroundImageLayout = ImageLayout.Stretch;
+
+                _resizeFrame.BringToFront();
+                _resizeFrame.Show();
+
+                view.Visible = false;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private void View_ViewResizeRequest(object sender, ViewResizeRequestEventArgs e)
+        {
+            var resizeDeltaX = e.Location.X - _resizePoint.X;
+            var resizeDeltaY = e.Location.Y - _resizePoint.Y;
+
+            _resizeFrame.Size = new Size(_resizeOriginalSize.Width + resizeDeltaX, _resizeOriginalSize.Height + resizeDeltaY);
+        }
+
+        private void View_EndViewResizeRequest(object sender, EndViewResizeRequestEventArgs e)
+        {
+            View view = (View)sender;
+
+            try
+            {
+                _resizeFrame.Hide();
+                _gridTable.Parent.Controls.Remove(_resizeFrame);
+
+                var cellPosition = _gridTable.GetCellPosition(view);
+                var colSpan = _gridTable.GetColumnSpan(view);
+                var rowSpan = _gridTable.GetRowSpan(view);
+
+                Point hitPoint = _gridTable.PointToClient(Cursor.Position);
+                var newCellBuffer = GetRowColIndex(_gridTable, hitPoint);
+
+                if (newCellBuffer == null)
+                {
+                    if ((hitPoint.X + view.Width) > _gridTable.Width)
+                    {
+                        var columnCountToAdd = (int)(((hitPoint.X + view.Width) - _gridTable.Width) / _columnWidth) + 1;
+                        AddColumnsToGrid(columnCountToAdd);
+                    }
+
+                    if ((hitPoint.Y + view.Height) > _gridTable.Height)
+                    {
+                        var rowCountToAdd = (int)(((hitPoint.Y + view.Height) - _gridTable.Height) / _rowHeight) + 1;
+                        AddRowsToGrid(rowCountToAdd);
+                    }
+
+                    newCellBuffer = GetRowColIndex(_gridTable, hitPoint);
+                }
+
+                var newCell = newCellBuffer.Value;
+
+                if (e.ResizeDirection.HasFlag(ResizeDirection.Horizontal))
+                {
+                    if (newCell.X > cellPosition.Column)
+                        _gridTable.SetColumnSpan(view, newCell.X - cellPosition.Column + 1);
+                }
+                if (e.ResizeDirection.HasFlag(ResizeDirection.Vertical))
+                {
+                    if (newCell.Y > cellPosition.Row)
+                        _gridTable.SetRowSpan(view, newCell.Y - cellPosition.Row + 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error resizing view", ex);
+            }
+            finally
+            {
+                view.Visible = true;
+
+                SetGridRowColumnCount();
+            }
         }
 
         #endregion

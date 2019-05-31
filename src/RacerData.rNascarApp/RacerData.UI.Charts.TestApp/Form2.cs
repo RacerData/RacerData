@@ -66,7 +66,23 @@ namespace rNascarApp.UI
         {
             var viewInfos = new List<ViewInfo>();
 
-            var list1 = new ListViewInfo()
+            //var list1 = GetListViewInfo();
+            //viewInfos.Add(list1);
+
+            //var graph1 = GetGraphViewInfo();
+            //viewInfos.Add(graph1);
+
+            //var video1 = GetVideoViewInfo();
+            //viewInfos.Add(video1);
+
+            //var audio1 = GetAudioViewInfo();
+            //viewInfos.Add(audio1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+        protected virtual ListViewInfo GetListViewInfo()
+        {
+            return new ListViewInfo()
             {
                 Key = Guid.NewGuid(),
                 Name = "List 1",
@@ -86,27 +102,28 @@ namespace rNascarApp.UI
                     Header = "List 1",
                     MaxRows = 10,
                     Columns = new List<ListColumn>()
-                                  {
-                                      new ListColumn()
                                       {
-                                           Caption ="Position",
-                                            DataMember ="Position",
-                                             DataSource ="LiveFeed",
-                                              DataPath ="LiveFeed\\Drivers\\"
-                                      },
-                                       new ListColumn()
-                                      {
-                                           Caption ="Driver",
-                                            DataMember ="Name",
-                                             DataSource ="LiveFeed",
-                                              DataPath ="LiveFeed\\Drivers\\"
+                                          new ListColumn()
+                                          {
+                                               Caption ="Position",
+                                                DataMember ="Position",
+                                                 DataSource ="LiveFeed",
+                                                  DataPath ="LiveFeed\\Drivers\\"
+                                          },
+                                           new ListColumn()
+                                          {
+                                               Caption ="Driver",
+                                                DataMember ="Name",
+                                                 DataSource ="LiveFeed",
+                                                  DataPath ="LiveFeed\\Drivers\\"
+                                          }
                                       }
-                                  }
                 }
             };
-            viewInfos.Add(list1);
-
-            var graph1 = new GraphViewInfo()
+        }
+        protected virtual GraphViewInfo GetGraphViewInfo()
+        {
+            return new GraphViewInfo()
             {
                 Key = Guid.NewGuid(),
                 Name = "Graph 1",
@@ -154,56 +171,41 @@ namespace rNascarApp.UI
                     }
                 }
             };
-            viewInfos.Add(graph1);
-
-            var static1 = new StaticViewInfo()
+        }
+        protected virtual VideoViewInfo GetVideoViewInfo()
+        {
+            return new VideoViewInfo()
             {
                 Key = Guid.NewGuid(),
-                Name = "Static 1",
+                Name = "Video Feed",
                 CellPosition = new ViewPosition()
                 {
                     Row = 0,
                     Column = 0,
-                    RowSpan = 2,
+                    RowSpan = 4,
                     ColumnSpan = 4
                 },
                 DataMember = "LiveFeed",
-                DataSource = "EventInfo",
-                StaticFields = new List<StaticField>()
-                    {
-                        new StaticField()
-                        {
-                            Index=0,
-                            Name = "Track",
-                            CaptionAlignment = CaptionAlignment.Above ,
-                            DataMember = "TrackName",
-                            ShowCaption =true,
-                            Type = "System.String",
-                            X=50,
-                            Y=10,
-                            Width = 200,
-                            Height =24
-                        },
-                         new StaticField()
-                        {
-                            Index=1,
-                            Name = "Run",
-                            CaptionAlignment = CaptionAlignment.Above ,
-                            DataMember = "RunName",
-                            ShowCaption =true,
-                            Type = "System.String",
-                            X=230,
-                            Y=10,
-                            Width = 200,
-                            Height =24
-                        }
-                    }
+                DataSource = "EventInfo"
             };
-            viewInfos.Add(static1);
-
-            _viewGridController.AddViews(viewInfos);
         }
-
+        protected virtual AudioViewInfo GetAudioViewInfo()
+        {
+            return new AudioViewInfo()
+            {
+                Key = Guid.NewGuid(),
+                Name = "Audio Feed",
+                CellPosition = new ViewPosition()
+                {
+                    Row = 4,
+                    Column = 0,
+                    RowSpan = 4,
+                    ColumnSpan = 4
+                },
+                DataMember = "LiveFeed",
+                DataSource = "EventInfo"
+            };
+        }
         #endregion
 
         private void toolStripButton1_Click(object sender, EventArgs e)

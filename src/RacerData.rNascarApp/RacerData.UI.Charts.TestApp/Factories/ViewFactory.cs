@@ -48,6 +48,16 @@ namespace rNascarApp.UI.Factories
                 view = BuildStaticView((StaticViewInfo)viewInfo);
             }
 
+            if (viewInfo is VideoViewInfo)
+            {
+                view = BuildVideoView((VideoViewInfo)viewInfo);
+            }
+
+            if (viewInfo is AudioViewInfo)
+            {
+                view = BuildAudioView((AudioViewInfo)viewInfo);
+            }
+
             return view;
         }
 
@@ -72,6 +82,22 @@ namespace rNascarApp.UI.Factories
         }
 
         protected virtual ViewBase BuildStaticView(StaticViewInfo viewInfo)
+        {
+            return new ViewBase()
+            {
+                Header = $"List View  {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
+            };
+        }
+
+        protected virtual ViewBase BuildVideoView(VideoViewInfo viewInfo)
+        {
+            return new ViewBase()
+            {
+                Header = $"List View  {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
+            };
+        }
+
+        protected virtual ViewBase BuildAudioView(AudioViewInfo viewInfo)
         {
             return new ViewBase()
             {

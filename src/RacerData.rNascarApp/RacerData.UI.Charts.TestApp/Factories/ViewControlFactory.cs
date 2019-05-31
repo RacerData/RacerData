@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using rNascarApp.UI.Controls;
 using rNascarApp.UI.Models;
 using rNascarApp.UI.Ports;
@@ -16,12 +17,15 @@ namespace rNascarApp.UI.Factories
                 case ViewType.List:
                     return new ListView();
                 case ViewType.Static:
-                    return new StaticView();
+                    return new VideoView();
+                case ViewType.Audio:
+                    return new AudioView();
+                case ViewType.Video:
+                    return new VideoView();
                 default:
-                    return new Panel();
+                    throw new ArgumentException($"Unrecognized view type: {viewType.ToString()}", nameof(viewType));
             }
-            
+
         }
     }
-   
 }

@@ -4,6 +4,8 @@
     {
         Static,
         List,
-        Graph
+        Graph,
+        Video,
+        Audio
     }
 }

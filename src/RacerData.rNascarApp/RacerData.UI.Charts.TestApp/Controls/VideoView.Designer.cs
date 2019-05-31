@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Controls
 {
-    partial class StaticView
+    partial class VideoView
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,31 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.webViewCompatible1 = new Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // webViewCompatible1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(349, 112);
-            this.webBrowser1.TabIndex = 1;
+            this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webViewCompatible1.Location = new System.Drawing.Point(0, 0);
+            this.webViewCompatible1.Name = "webViewCompatible1";
+            this.webViewCompatible1.Size = new System.Drawing.Size(477, 334);
+            this.webViewCompatible1.TabIndex = 0;
+            this.webViewCompatible1.Text = "webViewCompatible1";
             // 
             // StaticView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.webBrowser1);
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Controls.Add(this.webViewCompatible1);
             this.Name = "StaticView";
-            this.Size = new System.Drawing.Size(349, 112);
+            this.Size = new System.Drawing.Size(477, 334);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible webViewCompatible1;
     }
 }

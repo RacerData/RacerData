@@ -7,6 +7,12 @@ namespace rNascarApp.UI.Views
 {
     public partial class View : UserControl
     {
+        #region consts
+
+        private const string HeaderTextLeftPadding = "  ";
+
+        #endregion
+
         #region events
 
         public event EventHandler<RemoveViewRequestEventArgs> RemoveViewRequest;
@@ -59,7 +65,7 @@ namespace rNascarApp.UI.Views
         #region properties
 
         public int Index { get; set; }
-        public string Header { get { return lblHeader.Text; } set { lblHeader.Text = value; } }
+        public string Header { get { return lblHeader.Text; } set { lblHeader.Text = $"{HeaderTextLeftPadding}{value}"; } }
 
         #endregion
 

@@ -64,7 +64,7 @@ namespace rNascarApp.UI
 
         protected virtual void AddViews()
         {
-            var views = new List<ViewInfo>();
+            var viewInfos = new List<ViewInfo>();
 
             var list1 = new ListViewInfo()
             {
@@ -104,7 +104,7 @@ namespace rNascarApp.UI
                                   }
                 }
             };
-            views.Add(list1);
+            viewInfos.Add(list1);
 
             var graph1 = new GraphViewInfo()
             {
@@ -154,7 +154,7 @@ namespace rNascarApp.UI
                     }
                 }
             };
-            views.Add(graph1);
+            viewInfos.Add(graph1);
 
             var static1 = new StaticViewInfo()
             {
@@ -199,9 +199,9 @@ namespace rNascarApp.UI
                         }
                     }
             };
-            views.Add(static1);
+            viewInfos.Add(static1);
 
-            _viewController.AddViews(views);
+            _viewController.AddViews(viewInfos);
         }
 
         #endregion

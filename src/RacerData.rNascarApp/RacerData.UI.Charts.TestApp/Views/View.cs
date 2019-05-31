@@ -60,7 +60,7 @@ namespace rNascarApp.UI.Views
 
         public int Index { get; set; }
         public string Header { get { return lblHeader.Text; } set { lblHeader.Text = value; } }
-       
+
         #endregion
 
         #region ctor
@@ -129,9 +129,40 @@ namespace rNascarApp.UI.Views
 
         #endregion
 
-        private void tableLayoutPanel1_DoubleClick(object sender, EventArgs e)
+        #region paint
+
+        private bool _useHeaderHighlight = true;
+        internal bool UseHeaderHighlight
         {
-            Header = this.Size.ToString();
+            get
+            {
+                return _useHeaderHighlight;
+            }
+            set
+            {
+                _useHeaderHighlight = value;
+                lblHeader.Image = _useHeaderHighlight ? Properties.Resources.headerHighlight : null;
+            }
         }
+
+        private Color _borderColor = Color.FromArgb(0, 122, 204);
+        private int? _borderSize = 1;
+
+        private void Border_Paint(object sender, PaintEventArgs e)
+        {
+            if (_borderSize.HasValue && _borderSize.Value > 0)
+            {
+                Control control = (Control)sender;
+                int borderSize = _borderSize.Value;
+
+                ControlPaint.DrawBorder(e.Graphics, control.DisplayRectangle,
+                   _borderColor, borderSize, ButtonBorderStyle.Solid,
+                   _borderColor, borderSize, ButtonBorderStyle.Solid,
+                   _borderColor, borderSize, ButtonBorderStyle.Solid,
+                   _borderColor, borderSize, ButtonBorderStyle.Solid);
+            }
+        }
+
+        #endregion
     }
 }

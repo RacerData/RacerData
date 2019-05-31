@@ -7,7 +7,7 @@ namespace rNascarApp.UI.Models
     {
         #region properties
 
-        public View View { get; set; }
+        public ViewBase View { get; set; }
 
         #endregion
 
@@ -18,7 +18,7 @@ namespace rNascarApp.UI.Models
 
         }
 
-        public ViewEventArgs(View view)
+        public ViewEventArgs(ViewBase view)
         {
             View = view ?? throw new ArgumentNullException(nameof(view));
         }

@@ -1,15 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using rNascarApp.UI.Models;
 
 namespace rNascarApp.UI.Views
 {
-    public partial class View : UserControl
+    [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
+    public partial class ViewBase : UserControl
     {
         #region consts
 
-        private const string HeaderTextLeftPadding = "  ";
+        private const int HeaderTextLeftPadding = 2;
 
         #endregion
 
@@ -65,16 +68,38 @@ namespace rNascarApp.UI.Views
         #region properties
 
         public int Index { get; set; }
-        public string Header { get { return lblHeader.Text; } set { lblHeader.Text = $"{HeaderTextLeftPadding}{value}"; } }
+        public string Header
+        {
+            get
+            {
+                return lblHeader.Text.Substring(HeaderTextLeftPadding);
+            }
+            set
+            {
+                lblHeader.Text = $"{new string(' ', HeaderTextLeftPadding)}{value}";
+            }
+        }
+        public Panel ControlPanel
+        {
+            get
+            {
+                return pnlControl;
+            }
+            set
+            {
+                pnlControl = value;
+            }
+        }
 
         #endregion
 
         #region ctor
 
-        public View()
+        public ViewBase()
         {
             InitializeComponent();
         }
+
         #endregion
 
         #region protected

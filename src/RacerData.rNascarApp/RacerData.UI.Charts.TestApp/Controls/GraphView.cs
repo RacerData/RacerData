@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascarApp.UI.Views
+namespace rNascarApp.UI.Controls
 {
-    public partial class GraphView : View
+    public partial class GraphView : UserControl
     {
         public GraphView()
         {

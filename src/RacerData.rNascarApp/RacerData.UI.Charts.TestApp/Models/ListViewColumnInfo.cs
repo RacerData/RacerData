@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rNascarApp.UI.Ports
+namespace RacerData.WinForms.Models
 {
-    public interface IViewController
+    public class ListViewColumnInfo
     {
+        public string Caption { get; set; }
     }
 }

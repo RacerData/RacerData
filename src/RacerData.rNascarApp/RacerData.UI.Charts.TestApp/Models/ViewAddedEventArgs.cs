@@ -12,7 +12,7 @@ namespace rNascarApp.UI.Models
 
         }
 
-        public ViewAddedEventArgs(View view)
+        public ViewAddedEventArgs(ViewBase view)
             : base(view)
         {
         }

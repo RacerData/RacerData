@@ -7,7 +7,7 @@ namespace rNascarApp.UI.Models
     {
         #region properties
 
-        public View View { get; set; }
+        public ViewBase View { get; set; }
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace rNascarApp.UI.Models
         {
 
         }
-        public ViewGridControllerException(string message, Exception innerException, View view)
+        public ViewGridControllerException(string message, Exception innerException, ViewBase view)
             : base(message, innerException)
         {
             View = view ?? throw new ArgumentNullException(nameof(view));

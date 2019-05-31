@@ -13,7 +13,7 @@ namespace rNascarApp.UI
     {
         #region fields
 
-        private IViewController _viewController;
+        private IViewGridController _viewGridController;
 
         #endregion
 
@@ -22,20 +22,20 @@ namespace rNascarApp.UI
             InitializeComponent();
 
             IViewFactory viewFactory = new ViewFactory();
-            IViewControllerFactory viewControllerFactory = new ViewControllerFactory(viewFactory);
+            IViewGridControllerFactory viewGridControllerFactory = new ViewGridControllerFactory(viewFactory);
 
-            _viewController = viewControllerFactory.GetViewController(viewFactory, this, viewGrid1.Grid);
+            _viewGridController = viewGridControllerFactory.GetViewGridController(viewFactory, this, viewGrid1.Grid);
 
-            _viewController.ViewAdded += _viewController_ViewAdded;
-            _viewController.ViewRemoved += _viewController_ViewRemoved;
+            _viewGridController.ViewAdded += _viewGridController_ViewAdded;
+            _viewGridController.ViewRemoved += _viewGridController_ViewRemoved;
         }
 
-        private void _viewController_ViewRemoved(object sender, ViewRemovedEventArgs e)
+        private void _viewGridController_ViewRemoved(object sender, ViewRemovedEventArgs e)
         {
             Console.WriteLine($"View {e.View.Name} removed");
         }
 
-        private void _viewController_ViewAdded(object sender, ViewAddedEventArgs e)
+        private void _viewGridController_ViewAdded(object sender, ViewAddedEventArgs e)
         {
             Console.WriteLine($"View {e.View.Name} added");
         }
@@ -201,29 +201,29 @@ namespace rNascarApp.UI
             };
             viewInfos.Add(static1);
 
-            _viewController.AddViews(viewInfos);
+            _viewGridController.AddViews(viewInfos);
         }
 
         #endregion
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            _viewController.AddRowColumn();
+            _viewGridController.AddRowColumn();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            _viewController.IncreaseCellSize();
+            _viewGridController.IncreaseCellSize();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            _viewController.DecreaseCellSize();
+            _viewGridController.DecreaseCellSize();
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            _viewController.RemoveRowColumn();
+            _viewGridController.RemoveRowColumn();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)

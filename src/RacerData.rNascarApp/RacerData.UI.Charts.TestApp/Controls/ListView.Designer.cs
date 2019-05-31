@@ -1,4 +1,4 @@
-﻿namespace rNascarApp.UI.Views
+﻿namespace RacerData.WinForms.Controls
 {
     partial class ListView
     {
@@ -34,9 +34,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Name = "ListView";
-            this.Size = new System.Drawing.Size(345, 146);
+            this.Padding = new System.Windows.Forms.Padding(8);
+            this.Size = new System.Drawing.Size(645, 360);
+            this.Load += new System.EventHandler(this.ListView_Load);
             this.ResumeLayout(false);
 
         }

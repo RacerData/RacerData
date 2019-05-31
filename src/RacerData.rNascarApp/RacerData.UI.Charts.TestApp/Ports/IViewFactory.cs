@@ -5,6 +5,6 @@ namespace rNascarApp.UI.Ports
 {
     public interface IViewFactory
     {
-        View GetView(ViewInfo viewInfo);
+        ViewBase GetView(ViewInfo viewInfo);
     }
 }

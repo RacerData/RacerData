@@ -47,38 +47,78 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ViewController.cs" />
+    <Compile Include="Controllers\ViewGridController.cs" />
+    <Compile Include="Controls\DraggableContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DraggableContainer.Designer.cs">
+      <DependentUpon>DraggableContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GraphView.Designer.cs">
+      <DependentUpon>GraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView.Designer.cs">
+      <DependentUpon>ListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewBase.Designer.cs">
+      <DependentUpon>ListViewBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewCell.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewCell.Designer.cs">
+      <DependentUpon>ListViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListViewRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListViewRow.Designer.cs">
+      <DependentUpon>ListViewRow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StaticView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StaticView.Designer.cs">
+      <DependentUpon>StaticView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ViewGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ViewGrid.Designer.cs">
       <DependentUpon>ViewGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factories\ViewControlFactory.cs" />
+    <Compile Include="Factories\ViewControllerFactory.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ControlMovedEventArgs.cs" />
+    <Compile Include="Models\ControlResizedEventArgs.cs" />
+    <Compile Include="Models\ListViewColumnInfo.cs" />
     <Compile Include="Models\ResizeDirection.cs" />
+    <Compile Include="Models\RowResizedEventArgs.cs" />
     <Compile Include="Models\ViewResizeRequestEventArgs.cs" />
+    <Compile Include="Ports\IViewControlFactory.cs" />
     <Compile Include="Ports\IViewController.cs" />
     <Compile Include="Ports\IViewControllerFactory.cs" />
+    <Compile Include="Ports\IViewGridController.cs" />
+    <Compile Include="Ports\IViewGridControllerFactory.cs" />
     <Compile Include="Ports\IViewFactory.cs" />
-    <Compile Include="Factories\ViewControllerFactory.cs" />
+    <Compile Include="Factories\ViewGridControllerFactory.cs" />
     <Compile Include="Factories\ViewFactory.cs" />
-    <Compile Include="Views\GraphView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\GraphView.Designer.cs">
-      <DependentUpon>GraphView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\GridScaleMode.cs" />
-    <Compile Include="Views\ListView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ListView.Designer.cs">
-      <DependentUpon>ListView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\RemoveViewRequestEventArgs.cs" />
     <Compile Include="Models\ViewAddedEventArgs.cs" />
     <Compile Include="Models\ViewEventArgs.cs" />
@@ -86,29 +126,38 @@
     <Compile Include="Models\ViewRemovedEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\StaticView.cs">
+    <Compile Include="Views\ViewBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\StaticView.Designer.cs">
+    <Compile Include="Views\ViewBase.Designer.cs">
+      <DependentUpon>ViewBase.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controls\DraggableContainer.resx">
+      <DependentUpon>DraggableContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GraphView.resx">
+      <DependentUpon>GraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListView.resx">
+      <DependentUpon>ListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListViewBase.resx">
+      <DependentUpon>ListViewBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListViewCell.resx">
+      <DependentUpon>ListViewCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListViewRow.resx">
+      <DependentUpon>ListViewRow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StaticView.resx">
       <DependentUpon>StaticView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\View.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\View.Designer.cs">
-      <DependentUpon>View.cs</DependentUpon>
-    </Compile>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ViewGrid.resx">
       <DependentUpon>ViewGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\GraphView.resx">
-      <DependentUpon>GraphView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ListView.resx">
-      <DependentUpon>ListView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -120,11 +169,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\StaticView.resx">
-      <DependentUpon>StaticView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\View.resx">
-      <DependentUpon>View.cs</DependentUpon>
+    <EmbeddedResource Include="Views\ViewBase.resx">
+      <DependentUpon>ViewBase.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,6 +1,6 @@
-﻿namespace rNascarApp.UI.Views
+﻿namespace RacerData.WinForms.Controls
 {
-    partial class StaticView
+    partial class DraggableContainer
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,18 @@
         {
             this.SuspendLayout();
             // 
-            // StaticView
+            // DraggableContainer
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.Name = "StaticView";
+            this.DoubleBuffered = true;
+            this.MinimumSize = new System.Drawing.Size(600, 60);
+            this.Name = "DraggableContainer";
+            this.Size = new System.Drawing.Size(600, 60);
+            this.Load += new System.EventHandler(this.DraggableContainer_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DraggableContainer_DragDrop);
+            this.DragOver += new System.Windows.Forms.DragEventHandler(this.DraggableContainer_DragOver);
             this.ResumeLayout(false);
 
         }

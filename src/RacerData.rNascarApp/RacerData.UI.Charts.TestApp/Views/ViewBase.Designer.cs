@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Views
 {
-    partial class View
+    partial class ViewBase
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,48 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBase));
             this.picCorner = new System.Windows.Forms.PictureBox();
             this.picRight = new System.Windows.Forms.PictureBox();
             this.picBottom = new System.Windows.Forms.PictureBox();
             this.lblHeader = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.pnlBottom = new System.Windows.Forms.Panel();
+            this.pnlControl = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.picCorner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBottom)).BeginInit();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 3F));
-            this.tableLayoutPanel1.Controls.Add(this.picCorner, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.picRight, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.picBottom, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 30);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 3F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(642, 347);
-            this.tableLayoutPanel1.TabIndex = 2;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Border_Paint);
             // 
             // picCorner
             // 
-            this.picCorner.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.picCorner.BackColor = System.Drawing.Color.Transparent;
             this.picCorner.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.picCorner.Location = new System.Drawing.Point(639, 344);
+            this.picCorner.Dock = System.Windows.Forms.DockStyle.Right;
+            this.picCorner.Location = new System.Drawing.Point(637, 0);
             this.picCorner.Margin = new System.Windows.Forms.Padding(0);
             this.picCorner.Name = "picCorner";
-            this.picCorner.Size = new System.Drawing.Size(3, 3);
+            this.picCorner.Size = new System.Drawing.Size(5, 3);
             this.picCorner.TabIndex = 3;
             this.picCorner.TabStop = false;
             this.picCorner.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ResizeBoth_MouseDown);
@@ -79,12 +59,10 @@
             // 
             // picRight
             // 
-            this.picRight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.picRight.BackColor = System.Drawing.Color.Transparent;
             this.picRight.Cursor = System.Windows.Forms.Cursors.SizeWE;
-            this.picRight.Location = new System.Drawing.Point(639, 0);
+            this.picRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.picRight.Location = new System.Drawing.Point(639, 30);
             this.picRight.Margin = new System.Windows.Forms.Padding(0);
             this.picRight.Name = "picRight";
             this.picRight.Size = new System.Drawing.Size(3, 344);
@@ -97,15 +75,13 @@
             // 
             // picBottom
             // 
-            this.picBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.picBottom.BackColor = System.Drawing.Color.Transparent;
             this.picBottom.Cursor = System.Windows.Forms.Cursors.SizeNS;
-            this.picBottom.Location = new System.Drawing.Point(0, 344);
+            this.picBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picBottom.Location = new System.Drawing.Point(0, 0);
             this.picBottom.Margin = new System.Windows.Forms.Padding(0);
             this.picBottom.Name = "picBottom";
-            this.picBottom.Size = new System.Drawing.Size(639, 3);
+            this.picBottom.Size = new System.Drawing.Size(637, 3);
             this.picBottom.TabIndex = 0;
             this.picBottom.TabStop = false;
             this.picBottom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ResizeVertical_MouseDown);
@@ -120,7 +96,7 @@
             this.lblHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeader.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblHeader.Image = global::rNascarApp.UI.Properties.Resources.headerHighlight;
+            this.lblHeader.Image = ((System.Drawing.Image)(resources.GetObject("lblHeader.Image")));
             this.lblHeader.Location = new System.Drawing.Point(0, 0);
             this.lblHeader.Name = "lblHeader";
             this.lblHeader.Size = new System.Drawing.Size(642, 30);
@@ -131,20 +107,40 @@
             this.lblHeader.DoubleClick += new System.EventHandler(this.Header_DoubleClick);
             this.lblHeader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Header_MouseDown);
             // 
-            // View
+            // pnlBottom
+            // 
+            this.pnlBottom.Controls.Add(this.picBottom);
+            this.pnlBottom.Controls.Add(this.picCorner);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottom.Location = new System.Drawing.Point(0, 374);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Size = new System.Drawing.Size(642, 3);
+            this.pnlBottom.TabIndex = 4;
+            // 
+            // pnlControl
+            // 
+            this.pnlControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlControl.Location = new System.Drawing.Point(0, 30);
+            this.pnlControl.Name = "pnlControl";
+            this.pnlControl.Size = new System.Drawing.Size(642, 347);
+            this.pnlControl.TabIndex = 5;
+            // 
+            // ViewBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.picRight);
+            this.Controls.Add(this.pnlBottom);
+            this.Controls.Add(this.pnlControl);
             this.Controls.Add(this.lblHeader);
             this.DoubleBuffered = true;
-            this.Name = "View";
+            this.Name = "ViewBase";
             this.Size = new System.Drawing.Size(642, 377);
-            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picCorner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBottom)).EndInit();
+            this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -152,9 +148,10 @@
         #endregion
 
         private System.Windows.Forms.Label lblHeader;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PictureBox picBottom;
         private System.Windows.Forms.PictureBox picCorner;
         private System.Windows.Forms.PictureBox picRight;
+        private System.Windows.Forms.Panel pnlBottom;
+        private System.Windows.Forms.Panel pnlControl;
     }
 }

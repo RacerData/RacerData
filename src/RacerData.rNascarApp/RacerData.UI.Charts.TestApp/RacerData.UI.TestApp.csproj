@@ -93,7 +93,7 @@
     <Compile Include="Controls\GraphView.Designer.cs">
       <DependentUpon>GraphView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\IViewControl~1.cs" />
+    <Compile Include="Controls\IViewControl.cs" />
     <Compile Include="Controls\ListView.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Controls
 {
-    partial class AudioView<TModel>
+    partial class AudioView
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,8 +30,6 @@
         {
             this.webViewCompatible1 = new Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible();
             this.pnlSelection = new System.Windows.Forms.Panel();
-            this.btnPlayFeed = new System.Windows.Forms.Button();
-            this.txtFeed = new System.Windows.Forms.TextBox();
             this.cboChannel = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlSelection.SuspendLayout();
@@ -48,8 +46,6 @@
             // 
             // pnlSelection
             // 
-            this.pnlSelection.Controls.Add(this.btnPlayFeed);
-            this.pnlSelection.Controls.Add(this.txtFeed);
             this.pnlSelection.Controls.Add(this.cboChannel);
             this.pnlSelection.Controls.Add(this.label1);
             this.pnlSelection.Dock = System.Windows.Forms.DockStyle.Top;
@@ -58,33 +54,12 @@
             this.pnlSelection.Size = new System.Drawing.Size(421, 52);
             this.pnlSelection.TabIndex = 1;
             // 
-            // btnPlayFeed
-            // 
-            this.btnPlayFeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPlayFeed.Location = new System.Drawing.Point(379, 25);
-            this.btnPlayFeed.Name = "btnPlayFeed";
-            this.btnPlayFeed.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnPlayFeed.Size = new System.Drawing.Size(39, 20);
-            this.btnPlayFeed.TabIndex = 3;
-            this.btnPlayFeed.Text = ">";
-            this.btnPlayFeed.UseVisualStyleBackColor = true;
-            this.btnPlayFeed.Click += new System.EventHandler(this.btnPlayFeed_Click);
-            // 
-            // txtFeed
-            // 
-            this.txtFeed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFeed.Location = new System.Drawing.Point(158, 25);
-            this.txtFeed.Name = "txtFeed";
-            this.txtFeed.Size = new System.Drawing.Size(215, 20);
-            this.txtFeed.TabIndex = 2;
-            // 
             // cboChannel
             // 
             this.cboChannel.FormattingEnabled = true;
             this.cboChannel.Location = new System.Drawing.Point(6, 25);
             this.cboChannel.Name = "cboChannel";
-            this.cboChannel.Size = new System.Drawing.Size(146, 21);
+            this.cboChannel.Size = new System.Drawing.Size(191, 21);
             this.cboChannel.TabIndex = 1;
             // 
             // label1
@@ -116,7 +91,5 @@
         private System.Windows.Forms.Panel pnlSelection;
         private System.Windows.Forms.ComboBox cboChannel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnPlayFeed;
-        private System.Windows.Forms.TextBox txtFeed;
     }
 }

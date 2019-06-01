@@ -9,7 +9,7 @@ using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
 {
-    public partial class ListView<TModel> : UserControl, IViewControl<TModel>//, IListView<TModel>
+    public partial class ListView : UserControl, IListView
     {
         #region events
 
@@ -66,8 +66,6 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region properties
-
-        public TModel Model { get; set; }
 
         //TODO: pass down to children
         public bool AllowResize { get; set; } = true;

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using rNascarApp.UI.Controls;
-using rNascarApp.UI.Data;
 using rNascarApp.UI.Models;
 using rNascarApp.UI.Ports;
+using ListView = RacerData.WinForms.Controls.ListView;
 
 namespace rNascarApp.UI.Factories
 {
@@ -13,40 +12,40 @@ namespace rNascarApp.UI.Factories
     {
         #region public
 
-        public IViewControl<TModel> GetViewControl<TView, TModel>(ViewInfo viewInfo) where TView : IViewControl<TModel>
+        public IViewControl GetViewControl(ViewInfo viewInfo)
         {
-            IViewControl<TModel> viewControl = default(TView);
+            IViewControl viewControl = null;
 
             switch (viewInfo.ViewType)
             {
                 case ViewType.Graph:
                     {
-                        viewControl = GetGraphView<TModel>((GraphViewInfo)viewInfo);
+                        viewControl = GetGraphView((GraphViewInfo)viewInfo);
                         break;
                     }
                 case ViewType.List:
                     {
-                        viewControl = GetListView<TModel>((ListViewInfo)viewInfo);
+                        viewControl = GetListView((ListViewInfo)viewInfo);
                         break;
                     }
                 case ViewType.Static:
                     {
-                        viewControl = GetStaticView<TModel>((StaticViewInfo)viewInfo);
+                        viewControl = GetStaticView((StaticViewInfo)viewInfo);
                         break;
                     }
                 case ViewType.Audio:
                     {
-                        viewControl = GetAudioView<TModel>((AudioViewInfo)viewInfo);
+                        viewControl = GetAudioView((AudioViewInfo)viewInfo);
                         break;
                     }
                 case ViewType.Video:
                     {
-                        viewControl = GetVideoView<TModel>((VideoViewInfo)viewInfo);
+                        viewControl = GetVideoView((VideoViewInfo)viewInfo);
                         break;
                     }
                 case ViewType.WeekendSchedule:
                     {
-                        viewControl = GetWeekendScheduleView<TModel>((WeekendScheduleViewInfo)viewInfo);
+                        viewControl = GetWeekendScheduleView((WeekendScheduleViewInfo)viewInfo);
                         break;
                     }
                 default:
@@ -54,39 +53,40 @@ namespace rNascarApp.UI.Factories
             }
 
             return viewControl;
+
         }
 
         #endregion
 
         #region protected
 
-        protected virtual GraphView<TModel> GetGraphView<TModel>(GraphViewInfo viewinfo)
+        protected virtual GraphView GetGraphView(GraphViewInfo viewinfo)
         {
-            return new GraphView<TModel>();
+            return new GraphView();
         }
-        protected virtual VideoView<TModel> GetVideoView<TModel>(VideoViewInfo viewinfo)
+        protected virtual VideoView GetVideoView(VideoViewInfo viewinfo)
         {
-            return new VideoView<TModel>();
+            return new VideoView();
         }
-        protected virtual AudioView<TModel> GetAudioView<TModel>(AudioViewInfo viewinfo)
+        protected virtual AudioView GetAudioView(AudioViewInfo viewinfo)
         {
-            return new AudioView<TModel>();
+            return new AudioView();
         }
-        protected virtual StaticView<TModel> GetStaticView<TModel>(StaticViewInfo viewinfo)
+        protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {
-            return new StaticView<TModel>();
+            return new StaticView();
         }
-        protected virtual ListView<TModel> GetListView<TModel>(ListViewInfo viewinfo)
+        protected virtual ListView GetListView(ListViewInfo viewinfo)
         {
-            return new ListView<TModel>();
+            return new ListView();
         }
-        protected virtual ScheduleView<TModel> GetWeekendScheduleView<TModel>(WeekendScheduleViewInfo viewinfo)
+        protected virtual WeekendScheduleView GetWeekendScheduleView(WeekendScheduleViewInfo viewinfo)
         {
-            var view = new ScheduleView<TModel>();
+            var view = new WeekendScheduleView();
             view.BackColor = Color.White;
             return view;
         }
-        #endregion
 
+        #endregion
     }
 }

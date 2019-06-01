@@ -6,6 +6,6 @@ namespace rNascarApp.UI.Ports
 {
     public interface IViewControlFactory
     {
-        IViewControl<TModel> GetViewControl<TView, TModel>(ViewInfo viewInfo) where TView : IViewControl<TModel>;
+        IViewControl GetViewControl(ViewInfo viewInfo);
     }
 }

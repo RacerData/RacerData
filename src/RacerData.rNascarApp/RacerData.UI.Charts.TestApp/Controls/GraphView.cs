@@ -4,7 +4,7 @@ using RacerData.WinForms.Controls;
 
 namespace rNascarApp.UI.Controls
 {
-    public partial class GraphView<TModel> : UserControl, IGraphView<TModel>
+    public partial class GraphView : UserControl, IGraphView
     {
         #region events
 
@@ -17,11 +17,13 @@ namespace rNascarApp.UI.Controls
 
         #endregion
 
-        public TModel Model { get; set; }
+        #region ctor
 
         public GraphView()
         {
             InitializeComponent();
         }
+
+        #endregion
     }
 }

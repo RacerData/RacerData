@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using rNascarApp.UI.Data;
+using rNascarApp.UI.Internal;
 
 namespace rNascarApp.UI.Controls
 {
-    public partial class ScheduleView<TModel> : UserControl, IWeekendScheduleView<TModel>
+    public partial class WeekendScheduleView : UserControl, IWeekendScheduleView
     {
+        #region events
+
         public event EventHandler<string> SetViewHeaderRequest;
         protected virtual void OnSetViewHeaderRequest(string headerText)
         {
@@ -17,24 +20,35 @@ namespace rNascarApp.UI.Controls
             handler?.Invoke(this, headerText);
         }
 
-        private Timer _timer = new Timer();
-        private ImageList _seriesImages = new ImageList();
+        #endregion
 
-        private TModel _model;
-        public TModel Model
+        #region fields
+
+        private Timer _timer = new Timer();
+
+        #endregion
+
+        #region properties
+
+        private WeekendSchedule _weekendSchedule;
+        public WeekendSchedule WeekendSchedule
         {
             get
             {
-                return _model;
+                return _weekendSchedule;
             }
             set
             {
-                _model = value;
-                PopulateScheduleDisplay(_model as WeekendSchedule);
+                _weekendSchedule = value;
+                PopulateScheduleDisplay(_weekendSchedule);
             }
         }
 
-        public ScheduleView()
+        #endregion
+
+        #region ctor
+
+        public WeekendScheduleView()
         {
             InitializeComponent();
 
@@ -42,13 +56,15 @@ namespace rNascarApp.UI.Controls
             _timer.Tick += _timer_Tick;
         }
 
-        private async void _timer_Tick(object sender, EventArgs e)
-        {
-            await UpdateScheduleAsync();
-        }
+        #endregion
+
+        #region protected
 
         protected virtual void PopulateScheduleDisplay(WeekendSchedule weekendSchedule)
         {
+            if (weekendSchedule == null)
+                return;
+
             if (weekendSchedule is WeekendSchedule)
             {
                 WeekendSchedule schedule = weekendSchedule as WeekendSchedule;
@@ -79,11 +95,6 @@ namespace rNascarApp.UI.Controls
             }
         }
 
-        private async void ScheduleView_Load(object sender, EventArgs e)
-        {
-            await UpdateScheduleAsync();
-        }
-
         protected virtual async Task UpdateScheduleAsync()
         {
             WeekendScheduleReader reader = new WeekendScheduleReader();
@@ -91,5 +102,21 @@ namespace rNascarApp.UI.Controls
 
             PopulateScheduleDisplay(schedule);
         }
+
+        #endregion
+
+        #region private
+
+        private async void ScheduleView_Load(object sender, EventArgs e)
+        {
+            await UpdateScheduleAsync();
+        }
+
+        private async void _timer_Tick(object sender, EventArgs e)
+        {
+            await UpdateScheduleAsync();
+        }
+
+        #endregion
     }
 }

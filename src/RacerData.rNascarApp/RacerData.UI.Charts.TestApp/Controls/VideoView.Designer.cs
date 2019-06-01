@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Controls
 {
-    partial class VideoView<TModel>
+    partial class VideoView
     {
         /// <summary> 
         /// Required designer variable.

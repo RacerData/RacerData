@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Controls
 {
-    partial class ScheduleView<TModel>
+    partial class WeekendScheduleView
     {
         /// <summary> 
         /// Required designer variable.

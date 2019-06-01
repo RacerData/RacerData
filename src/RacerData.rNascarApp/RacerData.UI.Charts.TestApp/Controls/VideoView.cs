@@ -4,7 +4,7 @@ using RacerData.WinForms.Controls;
 
 namespace rNascarApp.UI.Controls
 {
-    public partial class VideoView<TModel> : UserControl, IVideoView<TModel>
+    public partial class VideoView : UserControl, IVideoView
     {
         #region consts
 
@@ -22,8 +22,6 @@ namespace rNascarApp.UI.Controls
         }
 
         #endregion
-
-        public TModel Model { get; set; }
 
         #region ctor
 

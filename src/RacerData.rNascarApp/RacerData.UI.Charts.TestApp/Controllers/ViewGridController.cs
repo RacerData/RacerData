@@ -324,31 +324,9 @@ namespace rNascarApp.UI.Controllers
 
                         IViewControlFactory viewControlFactory = new ViewControlFactory();
 
-                        switch (viewInfo.ViewType)
-                        {
-                            case ViewType.Static:
-                                {
-                                    var viewControl = viewControlFactory.GetViewControl<StaticView<DataModel>, DataModel>(viewInfo);
-                                    view.SetViewControl<StaticView<DataModel>, DataModel>((StaticView<DataModel>)viewControl);
-                                    break;
-                                }
-                            case ViewType.List:
-                                break;
-                            case ViewType.Graph:
-                                break;
-                            case ViewType.Video:
-                                break;
-                            case ViewType.Audio:
-                                break;
-                            case ViewType.WeekendSchedule:
-                                {
-                                    var viewControl = viewControlFactory.GetViewControl<ScheduleView<WeekendSchedule>, WeekendSchedule>(viewInfo);
-                                    view.SetViewControl<ScheduleView<WeekendSchedule>, WeekendSchedule>((ScheduleView<WeekendSchedule>)viewControl);                                                                        
-                                    break;
-                                }
-                            default:
-                                break;
-                        }
+                        IViewControl viewControl = viewControlFactory.GetViewControl(viewInfo);
+
+                        view.SetViewControl(viewControl);
 
                         // Margin determines the spacing within the grid cells
                         view.Margin = new Padding(0);

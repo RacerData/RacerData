@@ -1,6 +1,6 @@
 ﻿namespace RacerData.WinForms.Controls
 {
-    partial class ListView<TModel>
+    partial class ListView
     {
         /// <summary> 
         /// Required designer variable.

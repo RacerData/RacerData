@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using RacerData.WinForms.Controls;
-using rNascarApp.UI.Data;
 
 namespace rNascarApp.UI.Controls
 {
-    class StaticView<TModel> : UserControl, IStaticView<TModel>
+    class StaticView : UserControl, IStaticView
     {
         #region events
 
@@ -18,18 +17,16 @@ namespace rNascarApp.UI.Controls
 
         #endregion
 
-        public TModel Model { get; set; }
+        #region ctor
 
         public StaticView()
         {
-            InitializeComponent();
-
-            var reader = new WeekendScheduleReader();
-
-            var schedule = reader.GetScheduleAsync().Result;
-
-          
+            InitializeComponent();          
         }
+
+        #endregion
+
+        #region private
 
         private void InitializeComponent()
         {
@@ -42,5 +39,7 @@ namespace rNascarApp.UI.Controls
             this.ResumeLayout(false);
 
         }
+
+        #endregion
     }
 }

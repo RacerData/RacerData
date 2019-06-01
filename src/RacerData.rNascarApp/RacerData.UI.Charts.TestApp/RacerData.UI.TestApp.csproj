@@ -67,8 +67,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Controllers\ViewGridController.cs" />
+    <Compile Include="Models\AudioFeedInfo.cs" />
     <Compile Include="Controls\DayScheduleItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -112,11 +112,11 @@
     <Compile Include="Controls\AudioView.Designer.cs">
       <DependentUpon>AudioView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ScheduleView.cs">
+    <Compile Include="Controls\WeekendScheduleView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ScheduleView.Designer.cs">
-      <DependentUpon>ScheduleView.cs</DependentUpon>
+    <Compile Include="Controls\WeekendScheduleView.Designer.cs">
+      <DependentUpon>WeekendScheduleView.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\StaticView.cs">
       <SubType>UserControl</SubType>
@@ -140,9 +140,12 @@
       <DependentUpon>WeekendScheduleItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\DataModel.cs" />
+    <Compile Include="Data\DayScheduleModel.cs" />
+    <Compile Include="Data\EventScheduleModel.cs" />
+    <Compile Include="Data\PageReference.cs" />
     <Compile Include="Data\WeekendScheduleModel.cs" />
+    <Compile Include="Internal\WeekendScheduleReader.cs" />
     <Compile Include="Factories\ViewControlFactory.cs" />
-    <Compile Include="Factories\ViewControllerFactory.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,8 +159,6 @@
     <Compile Include="Models\RowResizedEventArgs.cs" />
     <Compile Include="Models\ViewResizeRequestEventArgs.cs" />
     <Compile Include="Ports\IViewControlFactory.cs" />
-    <Compile Include="Ports\IViewController.cs" />
-    <Compile Include="Ports\IViewControllerFactory.cs" />
     <Compile Include="Ports\IViewGridController.cs" />
     <Compile Include="Ports\IViewGridControllerFactory.cs" />
     <Compile Include="Ports\IViewFactory.cs" />
@@ -198,8 +199,8 @@
     <EmbeddedResource Include="Controls\AudioView.resx">
       <DependentUpon>AudioView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ScheduleView.resx">
-      <DependentUpon>ScheduleView.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\WeekendScheduleView.resx">
+      <DependentUpon>WeekendScheduleView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StaticView.resx">
       <DependentUpon>StaticView.cs</DependentUpon>

@@ -78,8 +78,11 @@ namespace rNascarApp.UI
             //var video1 = GetVideoViewInfo();
             //viewInfos.Add(video1);
 
-            //var audio1 = GetAudioViewInfo();
-            //viewInfos.Add(audio1);
+            var audio1 = GetAudioViewInfo();
+            viewInfos.Add(audio1);
+
+            var audio2 = GetAudioViewInfo();
+            viewInfos.Add(audio2);
 
             var weekendSchedule1 = GetWeekendScheduleViewInfo();
             viewInfos.Add(weekendSchedule1);

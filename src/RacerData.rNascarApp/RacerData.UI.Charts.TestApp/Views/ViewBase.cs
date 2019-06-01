@@ -141,23 +141,17 @@ namespace rNascarApp.UI.Views
 
         #region internal
 
-        internal virtual void SetViewControl<TView, TModel>(TView control) where TView : Control
+        internal virtual void SetViewControl<TView>(TView control) where TView : IViewControl
         {
-            control.Dock = DockStyle.Fill;
-
-            pnlControl.Controls.Add(control);
-
-            control.BringToFront();
-
-            control.Visible = true;
-
-            IViewControl<TModel> viewControl = control as IViewControl<TModel>;
+            pnlControl.Controls.Add(control as Control);
+            
+            IViewControl viewControl = control as IViewControl;
 
             viewControl.SetViewHeaderRequest += ViewControl_SetViewHeaderRequest;
 
-            if (control is IListView<TModel>)
+            if (control is IListView)
             {
-                IListView<TModel> listView = (IListView<TModel>)control;
+                IListView listView = (IListView)control;
 
             }
         }
@@ -231,8 +225,6 @@ namespace rNascarApp.UI.Views
 
         private void Border_Paint(object sender, PaintEventArgs e)
         {
-            Console.WriteLine($"{((Control)sender).Name} - Border_Paint");
-
             if (_borderSize.HasValue && _borderSize.Value > 0)
             {
                 Control control = (Control)sender;

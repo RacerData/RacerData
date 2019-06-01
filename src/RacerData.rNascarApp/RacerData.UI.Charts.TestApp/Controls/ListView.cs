@@ -9,9 +9,16 @@ using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
 {
-    public partial class ListView : UserControl
+    public partial class ListView<TModel> : UserControl, IViewControl<TModel>//, IListView<TModel>
     {
         #region events
+
+        public event EventHandler<string> SetViewHeaderRequest;
+        protected virtual void OnSetViewHeaderRequest(string headerText)
+        {
+            var handler = SetViewHeaderRequest;
+            handler?.Invoke(this, headerText);
+        }
 
         public event EventHandler<ControlMovedEventArgs> RowMoved;
         protected virtual void OnRowMoved(int oldIndex, int newIndex)
@@ -59,6 +66,8 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region properties
+
+        public TModel Model { get; set; }
 
         //TODO: pass down to children
         public bool AllowResize { get; set; } = true;
@@ -446,5 +455,10 @@ namespace RacerData.WinForms.Controls
         }
 
         #endregion
+
+        protected virtual void ListView_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

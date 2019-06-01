@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Controls
 {
-    partial class GraphView
+    partial class GraphView<TModel>
     {
         /// <summary> 
         /// Required designer variable.

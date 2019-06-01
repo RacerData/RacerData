@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using RacerData.WinForms.Controls;
 using rNascarApp.UI.Controllers;
-using rNascarApp.UI.Models;
 using rNascarApp.UI.Ports;
 
 namespace rNascarApp.UI.Factories
 {
-    class ViewControllerFactory : IViewControllerFactory
+    internal class ViewControllerFactory : IViewControllerFactory
     {
-        public ViewControllerFactory()
+        public IViewController GetViewController<IViewControl, TModel>(IViewControl<TModel> viewControl, TModel model)
         {
-
-        }
-
-        public IViewController GetViewController(Form parentForm, Panel controlPanel, ViewType viewType)
-        {
-            return new ViewController(parentForm, controlPanel);
+            return new ViewController<IViewControl<TModel>, TModel>(viewControl, model);
         }
     }
 }

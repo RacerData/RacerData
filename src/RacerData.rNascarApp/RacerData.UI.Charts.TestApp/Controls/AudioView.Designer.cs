@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Controls
 {
-    partial class AudioView
+    partial class AudioView<TModel>
     {
         /// <summary> 
         /// Required designer variable.

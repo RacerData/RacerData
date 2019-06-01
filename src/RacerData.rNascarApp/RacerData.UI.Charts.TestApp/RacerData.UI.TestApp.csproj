@@ -39,12 +39,21 @@
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.12.1.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.12.1\lib\net46\AngleSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView, Version=5.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Toolkit.Forms.UI.Controls.WebView.5.1.1\lib\net462\Microsoft.Toolkit.Forms.UI.Controls.WebView.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.5.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +69,12 @@
   <ItemGroup>
     <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Controllers\ViewGridController.cs" />
+    <Compile Include="Controls\DayScheduleItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DayScheduleItem.Designer.cs">
+      <DependentUpon>DayScheduleItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DraggableContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,17 +87,12 @@
     <Compile Include="Controls\GraphView.Designer.cs">
       <DependentUpon>GraphView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IViewControl~1.cs" />
     <Compile Include="Controls\ListView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ListView.Designer.cs">
       <DependentUpon>ListView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ListViewBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ListViewBase.Designer.cs">
-      <DependentUpon>ListViewBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ListViewCell.cs">
       <SubType>UserControl</SubType>
@@ -102,6 +112,15 @@
     <Compile Include="Controls\AudioView.Designer.cs">
       <DependentUpon>AudioView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ScheduleView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ScheduleView.Designer.cs">
+      <DependentUpon>ScheduleView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StaticView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\VideoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -114,6 +133,14 @@
     <Compile Include="Controls\ViewGrid.Designer.cs">
       <DependentUpon>ViewGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WeekendScheduleItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleItem.Designer.cs">
+      <DependentUpon>WeekendScheduleItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DataModel.cs" />
+    <Compile Include="Data\WeekendScheduleModel.cs" />
     <Compile Include="Factories\ViewControlFactory.cs" />
     <Compile Include="Factories\ViewControllerFactory.cs" />
     <Compile Include="Form2.cs">
@@ -150,6 +177,9 @@
     <Compile Include="Views\ViewBase.Designer.cs">
       <DependentUpon>ViewBase.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\DayScheduleItem.resx">
+      <DependentUpon>DayScheduleItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DraggableContainer.resx">
       <DependentUpon>DraggableContainer.cs</DependentUpon>
     </EmbeddedResource>
@@ -158,9 +188,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListView.resx">
       <DependentUpon>ListView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListViewBase.resx">
-      <DependentUpon>ListViewBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ListViewCell.resx">
       <DependentUpon>ListViewCell.cs</DependentUpon>
@@ -171,11 +198,20 @@
     <EmbeddedResource Include="Controls\AudioView.resx">
       <DependentUpon>AudioView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ScheduleView.resx">
+      <DependentUpon>ScheduleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StaticView.resx">
+      <DependentUpon>StaticView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\VideoView.resx">
       <DependentUpon>VideoView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ViewGrid.resx">
       <DependentUpon>ViewGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WeekendScheduleItem.resx">
+      <DependentUpon>WeekendScheduleItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>

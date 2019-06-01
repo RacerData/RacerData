@@ -6,6 +6,7 @@
         List,
         Graph,
         Video,
-        Audio
+        Audio,
+        WeekendSchedule
     }
 }

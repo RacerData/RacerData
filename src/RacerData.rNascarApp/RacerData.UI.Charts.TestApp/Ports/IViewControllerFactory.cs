@@ -1,10 +1,9 @@
-﻿using System.Windows.Forms;
-using rNascarApp.UI.Models;
+﻿using RacerData.WinForms.Controls;
 
 namespace rNascarApp.UI.Ports
 {
     public interface IViewControllerFactory
     {
-        IViewController GetViewController(Form parentForm, Panel controlPanel, ViewType viewType);
+        IViewController GetViewController<IViewControl, TModel>(IViewControl<TModel> viewControl, TModel model);
     }
 }

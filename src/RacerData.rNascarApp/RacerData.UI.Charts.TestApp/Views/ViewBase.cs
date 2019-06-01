@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls;
 using rNascarApp.UI.Models;
 
 namespace rNascarApp.UI.Views
@@ -17,6 +18,12 @@ namespace rNascarApp.UI.Views
         #endregion
 
         #region events
+        public event EventHandler<string> SetViewHeaderRequest;
+        protected virtual void OnSetViewHeaderRequest(string headerText)
+        {
+            var handler = SetViewHeaderRequest;
+            handler?.Invoke(this, headerText);
+        }
 
         public event EventHandler<RemoveViewRequestEventArgs> RemoveViewRequest;
         protected virtual void OnRemoveViewRequest()
@@ -68,6 +75,7 @@ namespace rNascarApp.UI.Views
         #region properties
 
         public int Index { get; set; }
+
         public string Header
         {
             get
@@ -79,15 +87,44 @@ namespace rNascarApp.UI.Views
                 lblHeader.Text = $"{new string(' ', HeaderTextLeftPadding)}{value}";
             }
         }
-        public Panel ControlPanel
+
+        private bool _useHeaderHighlight = true;
+        public bool UseHeaderHighlight
         {
             get
             {
-                return pnlControl;
+                return _useHeaderHighlight;
             }
             set
             {
-                pnlControl = value;
+                _useHeaderHighlight = value;
+                lblHeader.Image = _useHeaderHighlight ? Properties.Resources.headerHighlight : null;
+            }
+        }
+
+        private Color _borderColor = Color.FromArgb(0, 122, 204);
+        public Color BorderColor
+        {
+            get
+            {
+                return _borderColor;
+            }
+            set
+            {
+                _borderColor = value;
+            }
+        }
+
+        private int? _borderSize = 1;
+        public int? BorderSize
+        {
+            get
+            {
+                return _borderSize;
+            }
+            set
+            {
+                _borderSize = value;
             }
         }
 
@@ -98,6 +135,36 @@ namespace rNascarApp.UI.Views
         public ViewBase()
         {
             InitializeComponent();
+        }
+
+        #endregion
+
+        #region internal
+
+        internal virtual void SetViewControl<TView, TModel>(TView control) where TView : Control
+        {
+            control.Dock = DockStyle.Fill;
+
+            pnlControl.Controls.Add(control);
+
+            control.BringToFront();
+
+            control.Visible = true;
+
+            IViewControl<TModel> viewControl = control as IViewControl<TModel>;
+
+            viewControl.SetViewHeaderRequest += ViewControl_SetViewHeaderRequest;
+
+            if (control is IListView<TModel>)
+            {
+                IListView<TModel> listView = (IListView<TModel>)control;
+
+            }
+        }
+
+        private void ViewControl_SetViewHeaderRequest(object sender, string e)
+        {
+            Header = e;
         }
 
         #endregion
@@ -162,25 +229,10 @@ namespace rNascarApp.UI.Views
 
         #region paint
 
-        private bool _useHeaderHighlight = true;
-        internal bool UseHeaderHighlight
-        {
-            get
-            {
-                return _useHeaderHighlight;
-            }
-            set
-            {
-                _useHeaderHighlight = value;
-                lblHeader.Image = _useHeaderHighlight ? Properties.Resources.headerHighlight : null;
-            }
-        }
-
-        private Color _borderColor = Color.FromArgb(0, 122, 204);
-        private int? _borderSize = 1;
-
         private void Border_Paint(object sender, PaintEventArgs e)
         {
+            Console.WriteLine($"{((Control)sender).Name} - Border_Paint");
+
             if (_borderSize.HasValue && _borderSize.Value > 0)
             {
                 Control control = (Control)sender;

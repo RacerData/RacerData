@@ -1,4 +1,6 @@
-﻿namespace RacerData.WinForms.Controls
+﻿using rNascarApp.UI.Data;
+
+namespace RacerData.WinForms.Controls
 {
     partial class ListViewBase
     {
@@ -85,6 +87,6 @@
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Panel pnlListPanel;
-        private ListView listView1;
+        private ListView<DataModel> listView1;
     }
 }

@@ -38,6 +38,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.viewGrid1 = new rNascarApp.UI.Controls.ViewGrid();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnRemoveView = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +52,9 @@
             this.toolStripButton2,
             this.toolStripButton3,
             this.toolStripSeparator2,
-            this.toolStripButton5});
+            this.toolStripButton5,
+            this.toolStripSeparator3,
+            this.btnRemoveView});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(765, 25);
@@ -127,6 +131,21 @@
             this.viewGrid1.Size = new System.Drawing.Size(765, 465);
             this.viewGrid1.TabIndex = 2;
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnRemoveView
+            // 
+            this.btnRemoveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRemoveView.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveView.Image")));
+            this.btnRemoveView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRemoveView.Name = "btnRemoveView";
+            this.btnRemoveView.Size = new System.Drawing.Size(91, 22);
+            this.btnRemoveView.Text = "Remove View 0";
+            this.btnRemoveView.Click += new System.EventHandler(this.btnRemoveView_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,5 +173,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private Controls.ViewGrid viewGrid1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton btnRemoveView;
     }
 }

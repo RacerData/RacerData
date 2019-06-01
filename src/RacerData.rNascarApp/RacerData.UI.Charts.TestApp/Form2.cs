@@ -69,6 +69,9 @@ namespace rNascarApp.UI
             //var list1 = GetListViewInfo();
             //viewInfos.Add(list1);
 
+            //var static1 = GetStaticViewInfo();
+            //viewInfos.Add(static1);
+
             //var graph1 = GetGraphViewInfo();
             //viewInfos.Add(graph1);
 
@@ -77,6 +80,9 @@ namespace rNascarApp.UI
 
             //var audio1 = GetAudioViewInfo();
             //viewInfos.Add(audio1);
+
+            var weekendSchedule1 = GetWeekendScheduleViewInfo();
+            viewInfos.Add(weekendSchedule1);
 
             _viewGridController.AddViews(viewInfos);
         }
@@ -172,6 +178,38 @@ namespace rNascarApp.UI
                 }
             };
         }
+        protected virtual StaticViewInfo GetStaticViewInfo()
+        {
+            return new StaticViewInfo()
+            {
+                Key = Guid.NewGuid(),
+                Name = "Graph 1",
+                CellPosition = new ViewPosition()
+                {
+                    Row = 0,
+                    Column = 0,
+                    RowSpan = 6,
+                    ColumnSpan = 6
+                },
+                DataMember = "LiveFeed",
+                DataSource = "LapTimes"
+            };
+        }
+        protected virtual WeekendScheduleViewInfo GetWeekendScheduleViewInfo()
+        {
+            return new WeekendScheduleViewInfo()
+            {
+                Key = Guid.NewGuid(),
+                Name = "Weekend Schedule",
+                CellPosition = new ViewPosition()
+                {
+                    Row = 0,
+                    Column = 0,
+                    RowSpan = 6,
+                    ColumnSpan = 6
+                }
+            };
+        }
         protected virtual VideoViewInfo GetVideoViewInfo()
         {
             return new VideoViewInfo()
@@ -230,7 +268,19 @@ namespace rNascarApp.UI
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            AddViews();
+            try
+            {
+                AddViews();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("", ex);
+            }
+        }
+
+        private void btnRemoveView_Click(object sender, EventArgs e)
+        {
+            _viewGridController.RemoveViewAt(0);
         }
     }
 }

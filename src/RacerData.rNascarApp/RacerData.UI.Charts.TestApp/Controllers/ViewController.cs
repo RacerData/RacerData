@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using RacerData.WinForms.Controls;
 using rNascarApp.UI.Ports;
 
 namespace rNascarApp.UI.Controllers
 {
-    class ViewController : IViewController
+    class ViewController<TView, TModel> : IViewController where TView : IViewControl<TModel>
     {
         #region fields
 
-        private readonly Form _parentForm;
-        private readonly Panel _controlPanel;
+        private readonly IViewControl<TModel> _viewControl;
+
+        #endregion
+
+        #region public
+        public TView ViewControl { get; set; }
+        public TModel Model { get; set; }
+
         #endregion
 
         #region ctor
 
         public ViewController(
-            Form parentForm,
-            Panel controlPanel)
+            IViewControl<TModel> viewControl,
+            TModel model)
         {
-            _parentForm = parentForm ?? throw new ArgumentNullException(nameof(parentForm));
-            _controlPanel = controlPanel ?? throw new ArgumentNullException(nameof(controlPanel));
+            _viewControl = viewControl ?? throw new ArgumentNullException(nameof(viewControl));
         }
 
         #endregion
-
     }
 }

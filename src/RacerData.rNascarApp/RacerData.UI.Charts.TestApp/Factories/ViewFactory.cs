@@ -58,12 +58,25 @@ namespace rNascarApp.UI.Factories
                 view = BuildAudioView((AudioViewInfo)viewInfo);
             }
 
+            if (viewInfo is WeekendScheduleViewInfo)
+            {
+                view = BuildWeekendScheduleView((WeekendScheduleViewInfo)viewInfo);
+            }
+
             return view;
         }
 
         #endregion
 
         #region protected
+        protected virtual ViewBase BuildWeekendScheduleView(WeekendScheduleViewInfo viewInfo)
+        {
+            return new ViewBase()
+            {
+                Header = $"List View {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
+            };
+        }
+
 
         protected virtual ViewBase BuildListView(ListViewInfo viewInfo)
         {

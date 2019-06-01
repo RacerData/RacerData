@@ -1,31 +1,92 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls;
 using rNascarApp.UI.Controls;
+using rNascarApp.UI.Data;
 using rNascarApp.UI.Models;
 using rNascarApp.UI.Ports;
 
 namespace rNascarApp.UI.Factories
 {
-    class ViewControlFactory : IViewControlFactory
+    internal class ViewControlFactory : IViewControlFactory
     {
-        public Control GetViewControl(ViewType viewType)
+        #region public
+
+        public IViewControl<TModel> GetViewControl<TView, TModel>(ViewInfo viewInfo) where TView : IViewControl<TModel>
         {
-            switch (viewType)
+            IViewControl<TModel> viewControl = default(TView);
+
+            switch (viewInfo.ViewType)
             {
                 case ViewType.Graph:
-                    return new GraphView();
+                    {
+                        viewControl = GetGraphView<TModel>((GraphViewInfo)viewInfo);
+                        break;
+                    }
                 case ViewType.List:
-                    return new ListView();
+                    {
+                        viewControl = GetListView<TModel>((ListViewInfo)viewInfo);
+                        break;
+                    }
                 case ViewType.Static:
-                    return new VideoView();
+                    {
+                        viewControl = GetStaticView<TModel>((StaticViewInfo)viewInfo);
+                        break;
+                    }
                 case ViewType.Audio:
-                    return new AudioView();
+                    {
+                        viewControl = GetAudioView<TModel>((AudioViewInfo)viewInfo);
+                        break;
+                    }
                 case ViewType.Video:
-                    return new VideoView();
+                    {
+                        viewControl = GetVideoView<TModel>((VideoViewInfo)viewInfo);
+                        break;
+                    }
+                case ViewType.WeekendSchedule:
+                    {
+                        viewControl = GetWeekendScheduleView<TModel>((WeekendScheduleViewInfo)viewInfo);
+                        break;
+                    }
                 default:
-                    throw new ArgumentException($"Unrecognized view type: {viewType.ToString()}", nameof(viewType));
+                    throw new ArgumentException($"Unrecognized view type: {viewInfo.ViewType.ToString()}", nameof(viewInfo));
             }
 
+            return viewControl;
         }
+
+        #endregion
+
+        #region protected
+
+        protected virtual GraphView<TModel> GetGraphView<TModel>(GraphViewInfo viewinfo)
+        {
+            return new GraphView<TModel>();
+        }
+        protected virtual VideoView<TModel> GetVideoView<TModel>(VideoViewInfo viewinfo)
+        {
+            return new VideoView<TModel>();
+        }
+        protected virtual AudioView<TModel> GetAudioView<TModel>(AudioViewInfo viewinfo)
+        {
+            return new AudioView<TModel>();
+        }
+        protected virtual StaticView<TModel> GetStaticView<TModel>(StaticViewInfo viewinfo)
+        {
+            return new StaticView<TModel>();
+        }
+        protected virtual ListView<TModel> GetListView<TModel>(ListViewInfo viewinfo)
+        {
+            return new ListView<TModel>();
+        }
+        protected virtual ScheduleView<TModel> GetWeekendScheduleView<TModel>(WeekendScheduleViewInfo viewinfo)
+        {
+            var view = new ScheduleView<TModel>();
+            view.BackColor = Color.White;
+            return view;
+        }
+        #endregion
+
     }
 }

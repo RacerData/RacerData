@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls;
+using rNascarApp.UI.Controls;
+using rNascarApp.UI.Data;
 using rNascarApp.UI.Factories;
 using rNascarApp.UI.Models;
 using rNascarApp.UI.Ports;
@@ -305,6 +308,10 @@ namespace rNascarApp.UI.Controllers
         {
             try
             {
+                _gridTable.Visible = false;
+
+                _gridTable.SuspendLayout();
+
                 ViewBase view = null;
 
                 foreach (ViewInfo viewInfo in viewInfos)
@@ -313,13 +320,35 @@ namespace rNascarApp.UI.Controllers
                     {
                         view = _viewFactory.GetView(viewInfo);
 
+                        view.SuspendLayout();
+
                         IViewControlFactory viewControlFactory = new ViewControlFactory();
 
-                        var viewControl = viewControlFactory.GetViewControl(viewInfo.ViewType);
-
-                        viewControl.Dock = DockStyle.Fill;
-
-                        view.ControlPanel.Controls.Add(viewControl);
+                        switch (viewInfo.ViewType)
+                        {
+                            case ViewType.Static:
+                                {
+                                    var viewControl = viewControlFactory.GetViewControl<StaticView<DataModel>, DataModel>(viewInfo);
+                                    view.SetViewControl<StaticView<DataModel>, DataModel>((StaticView<DataModel>)viewControl);
+                                    break;
+                                }
+                            case ViewType.List:
+                                break;
+                            case ViewType.Graph:
+                                break;
+                            case ViewType.Video:
+                                break;
+                            case ViewType.Audio:
+                                break;
+                            case ViewType.WeekendSchedule:
+                                {
+                                    var viewControl = viewControlFactory.GetViewControl<ScheduleView<WeekendSchedule>, WeekendSchedule>(viewInfo);
+                                    view.SetViewControl<ScheduleView<WeekendSchedule>, WeekendSchedule>((ScheduleView<WeekendSchedule>)viewControl);                                                                        
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
 
                         // Margin determines the spacing within the grid cells
                         view.Margin = new Padding(0);
@@ -343,6 +372,9 @@ namespace rNascarApp.UI.Controllers
                         ConfigureDragging(view);
 
                         OnViewAdded(view);
+
+                        view.ResumeLayout(true);
+
                     }
                     catch (Exception ex)
                     {
@@ -360,6 +392,10 @@ namespace rNascarApp.UI.Controllers
             }
             finally
             {
+                _gridTable.ResumeLayout(true);
+
+                _gridTable.Visible = true;
+
                 SetGridRowColumnCount();
                 UpdateViewIndexes();
             }
@@ -701,7 +737,11 @@ namespace rNascarApp.UI.Controllers
 
                 if (view != null)
                 {
-                    var hitPoint = _gridTable.PointToClient(new Point(e.X, e.Y));
+                    var effectiveDropPoint = new Point(
+                        e.X - _dragPoint.X,
+                        e.Y - _dragPoint.Y);
+
+                    var hitPoint = _gridTable.PointToClient(new Point(effectiveDropPoint.X, effectiveDropPoint.Y));
 
                     var newCell = GetRowColIndex(_gridTable, hitPoint);
 
@@ -779,6 +819,12 @@ namespace rNascarApp.UI.Controllers
             }
             int row = i - 1;
 
+            if (col < 0)
+                col = 0;
+
+            if (row < 0)
+                row = 0;
+
             return new Point(col, row);
         }
 
@@ -821,17 +867,6 @@ namespace rNascarApp.UI.Controllers
                 Point pt = _gridTable.PointToClient(Cursor.Position);
 
                 _resizeFrame.Location = new Point(view.Location.X + 12, view.Location.Y + 11);
-
-                if (_resizeFrame.BackgroundImage != null)
-                    _resizeFrame.BackgroundImage.Dispose();
-
-                Bitmap bmp = new Bitmap(_resizeFrame.ClientSize.Width,
-                                        _resizeFrame.ClientSize.Height);
-
-                view.DrawToBitmap(bmp, _resizeFrame.ClientRectangle);
-
-                _resizeFrame.BackgroundImage = bmp;
-                _resizeFrame.BackgroundImageLayout = ImageLayout.Stretch;
 
                 _resizeFrame.BringToFront();
                 _resizeFrame.Show();

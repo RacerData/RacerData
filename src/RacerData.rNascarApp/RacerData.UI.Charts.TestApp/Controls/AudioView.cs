@@ -3,12 +3,26 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls;
 
 namespace rNascarApp.UI.Controls
 {
-    public partial class AudioView : UserControl
+    public partial class AudioView<TModel> : UserControl, IAudioView<TModel>
     {
+        #region events
+
+        public event EventHandler<string> SetViewHeaderRequest;
+        protected virtual void OnSetViewHeaderRequest(string headerText)
+        {
+            var handler = SetViewHeaderRequest;
+            handler?.Invoke(this, headerText);
+        }
+
+        #endregion
+
         #region properties
+
+        public TModel Model { get; set; }
 
         public IList<AudioFeed> AudioFeeds { get; set; }
 

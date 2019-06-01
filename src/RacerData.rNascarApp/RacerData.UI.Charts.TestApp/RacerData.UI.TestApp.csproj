@@ -68,6 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ViewGridController.cs" />
+    <Compile Include="Controls\IAudioView.cs" />
+    <Compile Include="Controls\IGraphView.cs" />
+    <Compile Include="Controls\IListView.cs" />
+    <Compile Include="Controls\IStaticView.cs" />
+    <Compile Include="Controls\IVideoView.cs" />
+    <Compile Include="Controls\IWeekendScheduleView.cs" />
     <Compile Include="Models\AudioFeedInfo.cs" />
     <Compile Include="Controls\DayScheduleItem.cs">
       <SubType>UserControl</SubType>

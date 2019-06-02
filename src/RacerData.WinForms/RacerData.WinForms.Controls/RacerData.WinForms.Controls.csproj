@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C69AA4EF-52E4-4E3B-8173-1F754A3279E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RacerData.WinForms.Controls</RootNamespace>
+    <AssemblyName>RacerData.WinForms.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.12.1.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.12.1\lib\net46\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView, Version=5.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Toolkit.Forms.UI.Controls.WebView.5.1.1\lib\net462\Microsoft.Toolkit.Forms.UI.Controls.WebView.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.5.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ViewGridController.cs" />
+    <Compile Include="Controls\AudioView\AudioView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AudioView\AudioView.Designer.cs">
+      <DependentUpon>AudioView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleView\DayScheduleItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleView\DayScheduleItem.Designer.cs">
+      <DependentUpon>DayScheduleItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListView\DraggableContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView\DraggableContainer.Designer.cs">
+      <DependentUpon>DraggableContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GraphView\GraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GraphView\GraphView.Designer.cs">
+      <DependentUpon>GraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AudioView\IAudioView.cs" />
+    <Compile Include="Controls\GraphView\IGraphView.cs" />
+    <Compile Include="Controls\ListView\IListView.cs" />
+    <Compile Include="Controls\StaticView\IStaticView.cs" />
+    <Compile Include="Controls\VideoView\IVideoView.cs" />
+    <Compile Include="Controls\IViewControl.cs" />
+    <Compile Include="Controls\WeekendScheduleView\IWeekendScheduleView.cs" />
+    <Compile Include="Controls\ListView\ListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView\ListView.Designer.cs">
+      <DependentUpon>ListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListView\ListViewCell.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView\ListViewCell.Designer.cs">
+      <DependentUpon>ListViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListView\ListViewRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView\ListViewRow.Designer.cs">
+      <DependentUpon>ListViewRow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StaticView\StaticView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StaticView\StaticViewField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StaticView\StaticViewField.Designer.cs">
+      <DependentUpon>StaticViewField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VideoView\VideoView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\VideoView\VideoView.Designer.cs">
+      <DependentUpon>VideoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ViewGrid\ViewGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ViewGrid\ViewGrid.Designer.cs">
+      <DependentUpon>ViewGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleView\WeekendScheduleItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleView\WeekendScheduleItem.Designer.cs">
+      <DependentUpon>WeekendScheduleItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleView\WeekendScheduleView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WeekendScheduleView\WeekendScheduleView.Designer.cs">
+      <DependentUpon>WeekendScheduleView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DataModel.cs" />
+    <Compile Include="Data\DayScheduleModel.cs" />
+    <Compile Include="Data\EventScheduleModel.cs" />
+    <Compile Include="Data\ListViewData.cs" />
+    <Compile Include="Data\PageReferenceModel.cs" />
+    <Compile Include="Data\WeekendScheduleModel.cs" />
+    <Compile Include="Factories\ViewControlFactory.cs" />
+    <Compile Include="Factories\ViewFactory.cs" />
+    <Compile Include="Factories\ViewGridControllerFactory.cs" />
+    <Compile Include="Internal\WeekendScheduleReader.cs" />
+    <Compile Include="Models\AudioView\AudioFeedInfo.cs" />
+    <Compile Include="Models\AudioView\AudioViewInfo.cs" />
+    <Compile Include="Models\StaticView\CaptionAlignment.cs" />
+    <Compile Include="Models\ListView\ControlMovedEventArgs.cs" />
+    <Compile Include="Models\ListView\ControlResizedEventArgs.cs" />
+    <Compile Include="Models\GraphView\GraphRange.cs" />
+    <Compile Include="Models\GraphView\GraphSeries.cs" />
+    <Compile Include="Models\GraphView\GraphType.cs" />
+    <Compile Include="Models\GraphView\GraphViewInfo.cs" />
+    <Compile Include="Models\GraphView\GridScaleMode.cs" />
+    <Compile Include="Models\ListView\ListColumn.cs" />
+    <Compile Include="Models\ListView\ListDefinition.cs" />
+    <Compile Include="Models\ListView\ListViewInfo.cs" />
+    <Compile Include="Models\RemoveViewRequestEventArgs.cs" />
+    <Compile Include="Models\ResizeDirection.cs" />
+    <Compile Include="Models\RowResizedEventArgs.cs" />
+    <Compile Include="Models\SortType.cs" />
+    <Compile Include="Models\StaticView\StaticField.cs" />
+    <Compile Include="Models\StaticView\StaticViewInfo.cs" />
+    <Compile Include="Models\VideoView\VideoViewInfo.cs" />
+    <Compile Include="Models\ViewAddedEventArgs.cs" />
+    <Compile Include="Models\ViewEventArgs.cs" />
+    <Compile Include="Models\ViewGridControllerException.cs" />
+    <Compile Include="Models\ViewInfo.cs" />
+    <Compile Include="Models\ViewPosition.cs" />
+    <Compile Include="Models\ViewRemovedEventArgs.cs" />
+    <Compile Include="Models\ViewResizeRequestEventArgs.cs" />
+    <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Models\WeekendScheduleView\WeekendScheduleViewInfo.cs" />
+    <Compile Include="Ports\IViewControlFactory.cs" />
+    <Compile Include="Ports\IViewFactory.cs" />
+    <Compile Include="Ports\IViewGridController.cs" />
+    <Compile Include="Ports\IViewGridControllerFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceCollectionExtensions.cs" />
+    <Compile Include="Views\ViewBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ViewBase.Designer.cs">
+      <DependentUpon>ViewBase.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\AudioView\AudioView.resx">
+      <DependentUpon>AudioView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WeekendScheduleView\DayScheduleItem.resx">
+      <DependentUpon>DayScheduleItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListView\DraggableContainer.resx">
+      <DependentUpon>DraggableContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GraphView\GraphView.resx">
+      <DependentUpon>GraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListView\ListView.resx">
+      <DependentUpon>ListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListView\ListViewCell.resx">
+      <DependentUpon>ListViewCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListView\ListViewRow.resx">
+      <DependentUpon>ListViewRow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StaticView\StaticView.resx">
+      <DependentUpon>StaticView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StaticView\StaticViewField.resx">
+      <DependentUpon>StaticViewField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\VideoView\VideoView.resx">
+      <DependentUpon>VideoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ViewGrid\ViewGrid.resx">
+      <DependentUpon>ViewGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WeekendScheduleView\WeekendScheduleItem.resx">
+      <DependentUpon>WeekendScheduleItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WeekendScheduleView\WeekendScheduleView.resx">
+      <DependentUpon>WeekendScheduleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ViewBase.resx">
+      <DependentUpon>ViewBase.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\audioFeedTemplate.html" />
+    <Content Include="Resources\headerHighlight.png" />
+    <Content Include="Resources\videoFeedTemplate.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

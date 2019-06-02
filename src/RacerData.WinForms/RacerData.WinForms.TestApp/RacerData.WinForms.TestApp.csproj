@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.20\lib\net472\log4net.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.3.0\lib\net472\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -52,10 +52,10 @@
       <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.20\lib\net472\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.3.0\lib\net472\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.20\lib\net472\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RacerData.WinForms.1.3.0\lib\net472\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
@@ -87,8 +87,8 @@
     <Reference Include="RacerData.Data.Json, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Data.Json.2.2.0\lib\netstandard2.0\RacerData.Data.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RacerData.WinForms, Version=1.0.20.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RacerData.WinForms.1.0.20\lib\net472\RacerData.WinForms.dll</HintPath>
+    <Reference Include="RacerData.WinForms, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.WinForms.1.3.0\lib\net472\RacerData.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -126,11 +126,18 @@
     <Compile Include="ColorTableEditorDialog.Designer.cs">
       <DependentUpon>ColorTableEditorDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="ListViewTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ListViewTest.Designer.cs">
+      <DependentUpon>ListViewTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyListItem.cs" />
+    <Compile Include="ViewGridTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewGridTest.Designer.cs">
+      <DependentUpon>ViewGridTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Program.cs" />
@@ -145,8 +152,11 @@
     <EmbeddedResource Include="ColorTableEditorDialog.resx">
       <DependentUpon>ColorTableEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="ListViewTest.resx">
+      <DependentUpon>ListViewTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewGridTest.resx">
+      <DependentUpon>ViewGridTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -179,6 +189,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RacerData.WinForms.Controls\RacerData.WinForms.Controls.csproj">
+      <Project>{c69aa4ef-52e4-4e3b-8173-1f754a3279e5}</Project>
+      <Name>RacerData.WinForms.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RacerData.WinForms.Themes\RacerData.WinForms.Themes.csproj">
       <Project>{dfab52d4-4e54-4dd7-b99a-d819cbf9134a}</Project>
       <Name>RacerData.WinForms.Themes</Name>

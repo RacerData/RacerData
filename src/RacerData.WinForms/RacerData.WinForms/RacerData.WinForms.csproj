@@ -54,17 +54,17 @@
     <Compile Include="Adapters\DialogService.cs" />
     <Compile Include="Adapters\ExceptionHandlerService.cs" />
     <Compile Include="ControlDefaults.cs" />
-    <Compile Include="Controls\CollapsablePanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\CollapsablePanel.Designer.cs">
-      <DependentUpon>CollapsablePanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ContentAlignmentSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ContentAlignmentSelector.Designer.cs">
       <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DialogButtons.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DialogButtons.Designer.cs">
+      <DependentUpon>DialogButtons.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AboutDialog.cs">
       <SubType>Form</SubType>
@@ -117,42 +117,6 @@
     <Compile Include="Models\FormStates.cs" />
     <Compile Include="Factories\ButtonSetFactory.cs" />
     <Compile Include="Factories\ButtonFactory.cs" />
-    <Compile Include="Controls\DialogButtons.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\DialogButtons.Designer.cs">
-      <DependentUpon>DialogButtons.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\DraggableContainer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\DraggableContainer.Designer.cs">
-      <DependentUpon>DraggableContainer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ListView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ListView.Designer.cs">
-      <DependentUpon>ListView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ListViewBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ListViewBase.Designer.cs">
-      <DependentUpon>ListViewBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ListViewCell.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ListViewCell.Designer.cs">
-      <DependentUpon>ListViewCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ListViewRow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ListViewRow.Designer.cs">
-      <DependentUpon>ListViewRow.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\DialogBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,16 +126,12 @@
     <Compile Include="Events\DialogResultEvent.cs" />
     <Compile Include="Events\FormStateChangedEventArgs.cs" />
     <Compile Include="Events\FormStateChangingEventArgs.cs" />
-    <Compile Include="Models\ControlMovedEventArgs.cs" />
-    <Compile Include="Models\ControlResizedEventArgs.cs" />
     <Compile Include="Models\InputDialogResult.cs" />
     <Compile Include="Models\SelectionDialogResult.cs" />
     <Compile Include="Ports\IExceptionHandlerService.cs" />
     <Compile Include="Ports\IRacerDataDialog.cs" />
     <Compile Include="Ports\IRacerDataInputDialog.cs" />
-    <Compile Include="Models\ListViewColumnInfo.cs" />
     <Compile Include="Models\MsgIcon.cs" />
-    <Compile Include="Models\RowResizedEventArgs.cs" />
     <Compile Include="Ports\IDialogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceCollectionExtensions.cs" />
@@ -210,29 +170,11 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\CollapsablePanel.resx">
-      <DependentUpon>CollapsablePanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ContentAlignmentSelector.resx">
       <DependentUpon>ContentAlignmentSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DialogButtons.resx">
       <DependentUpon>DialogButtons.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DraggableContainer.resx">
-      <DependentUpon>DraggableContainer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListView.resx">
-      <DependentUpon>ListView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListViewBase.resx">
-      <DependentUpon>ListViewBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListViewCell.resx">
-      <DependentUpon>ListViewCell.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListViewRow.resx">
-      <DependentUpon>ListViewRow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>

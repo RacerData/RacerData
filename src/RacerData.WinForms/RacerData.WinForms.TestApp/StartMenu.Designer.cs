@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             this.btnDialogBase = new System.Windows.Forms.Button();
-            this.btnTheme = new System.Windows.Forms.Button();
-            this.btnForm1 = new System.Windows.Forms.Button();
-            this.btnEditorBase = new System.Windows.Forms.Button();
+            this.btnListViewTest = new System.Windows.Forms.Button();
+            this.btnMaintenanceFormBase = new System.Windows.Forms.Button();
             this.btnMsgBoxEx = new System.Windows.Forms.Button();
             this.btnInputDialog = new System.Windows.Forms.Button();
             this.btnMsgBox = new System.Windows.Forms.Button();
@@ -42,11 +41,12 @@
             this.btnFileViewer = new System.Windows.Forms.Button();
             this.btnSelectionDialog = new System.Windows.Forms.Button();
             this.btnAppAppearance = new System.Windows.Forms.Button();
+            this.btnViewGridTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnDialogBase
             // 
-            this.btnDialogBase.Location = new System.Drawing.Point(41, 52);
+            this.btnDialogBase.Location = new System.Drawing.Point(428, 52);
             this.btnDialogBase.Name = "btnDialogBase";
             this.btnDialogBase.Size = new System.Drawing.Size(123, 38);
             this.btnDialogBase.TabIndex = 0;
@@ -54,39 +54,29 @@
             this.btnDialogBase.UseVisualStyleBackColor = true;
             this.btnDialogBase.Click += new System.EventHandler(this.btnDialogBase_Click);
             // 
-            // btnTheme
+            // btnListViewTest
             // 
-            this.btnTheme.Location = new System.Drawing.Point(41, 96);
-            this.btnTheme.Name = "btnTheme";
-            this.btnTheme.Size = new System.Drawing.Size(123, 38);
-            this.btnTheme.TabIndex = 1;
-            this.btnTheme.Text = "Theme";
-            this.btnTheme.UseVisualStyleBackColor = true;
-            this.btnTheme.Click += new System.EventHandler(this.btnTheme_Click);
+            this.btnListViewTest.Location = new System.Drawing.Point(41, 52);
+            this.btnListViewTest.Name = "btnListViewTest";
+            this.btnListViewTest.Size = new System.Drawing.Size(123, 38);
+            this.btnListViewTest.TabIndex = 2;
+            this.btnListViewTest.Text = "ListView Test";
+            this.btnListViewTest.UseVisualStyleBackColor = true;
+            this.btnListViewTest.Click += new System.EventHandler(this.btnListViewTest_Click);
             // 
-            // btnForm1
+            // btnMaintenanceFormBase
             // 
-            this.btnForm1.Location = new System.Drawing.Point(41, 140);
-            this.btnForm1.Name = "btnForm1";
-            this.btnForm1.Size = new System.Drawing.Size(123, 38);
-            this.btnForm1.TabIndex = 2;
-            this.btnForm1.Text = "Form1";
-            this.btnForm1.UseVisualStyleBackColor = true;
-            this.btnForm1.Click += new System.EventHandler(this.btnForm1_Click);
-            // 
-            // btnEditorBase
-            // 
-            this.btnEditorBase.Location = new System.Drawing.Point(170, 52);
-            this.btnEditorBase.Name = "btnEditorBase";
-            this.btnEditorBase.Size = new System.Drawing.Size(123, 38);
-            this.btnEditorBase.TabIndex = 3;
-            this.btnEditorBase.Text = "Editor Form";
-            this.btnEditorBase.UseVisualStyleBackColor = true;
-            this.btnEditorBase.Click += new System.EventHandler(this.btnEditorBase_Click);
+            this.btnMaintenanceFormBase.Location = new System.Drawing.Point(428, 96);
+            this.btnMaintenanceFormBase.Name = "btnMaintenanceFormBase";
+            this.btnMaintenanceFormBase.Size = new System.Drawing.Size(123, 38);
+            this.btnMaintenanceFormBase.TabIndex = 3;
+            this.btnMaintenanceFormBase.Text = "Maintenance Form Base";
+            this.btnMaintenanceFormBase.UseVisualStyleBackColor = true;
+            this.btnMaintenanceFormBase.Click += new System.EventHandler(this.btnMaintenanceFormBase_Click);
             // 
             // btnMsgBoxEx
             // 
-            this.btnMsgBoxEx.Location = new System.Drawing.Point(170, 140);
+            this.btnMsgBoxEx.Location = new System.Drawing.Point(170, 52);
             this.btnMsgBoxEx.Name = "btnMsgBoxEx";
             this.btnMsgBoxEx.Size = new System.Drawing.Size(123, 38);
             this.btnMsgBoxEx.TabIndex = 4;
@@ -96,7 +86,7 @@
             // 
             // btnInputDialog
             // 
-            this.btnInputDialog.Location = new System.Drawing.Point(170, 96);
+            this.btnInputDialog.Location = new System.Drawing.Point(299, 183);
             this.btnInputDialog.Name = "btnInputDialog";
             this.btnInputDialog.Size = new System.Drawing.Size(123, 38);
             this.btnInputDialog.TabIndex = 5;
@@ -106,7 +96,7 @@
             // 
             // btnMsgBox
             // 
-            this.btnMsgBox.Location = new System.Drawing.Point(299, 53);
+            this.btnMsgBox.Location = new System.Drawing.Point(170, 96);
             this.btnMsgBox.Name = "btnMsgBox";
             this.btnMsgBox.Size = new System.Drawing.Size(123, 38);
             this.btnMsgBox.TabIndex = 6;
@@ -116,7 +106,7 @@
             // 
             // btnMsgBoxQuestion
             // 
-            this.btnMsgBoxQuestion.Location = new System.Drawing.Point(299, 96);
+            this.btnMsgBoxQuestion.Location = new System.Drawing.Point(170, 139);
             this.btnMsgBoxQuestion.Name = "btnMsgBoxQuestion";
             this.btnMsgBoxQuestion.Size = new System.Drawing.Size(123, 38);
             this.btnMsgBoxQuestion.TabIndex = 7;
@@ -126,7 +116,7 @@
             // 
             // btnMsgBoxErr
             // 
-            this.btnMsgBoxErr.Location = new System.Drawing.Point(299, 140);
+            this.btnMsgBoxErr.Location = new System.Drawing.Point(170, 183);
             this.btnMsgBoxErr.Name = "btnMsgBoxErr";
             this.btnMsgBoxErr.Size = new System.Drawing.Size(123, 38);
             this.btnMsgBoxErr.TabIndex = 8;
@@ -136,7 +126,7 @@
             // 
             // btnMsgBoxInfo
             // 
-            this.btnMsgBoxInfo.Location = new System.Drawing.Point(428, 53);
+            this.btnMsgBoxInfo.Location = new System.Drawing.Point(170, 227);
             this.btnMsgBoxInfo.Name = "btnMsgBoxInfo";
             this.btnMsgBoxInfo.Size = new System.Drawing.Size(123, 38);
             this.btnMsgBoxInfo.TabIndex = 9;
@@ -146,7 +136,7 @@
             // 
             // btnAboutDialog
             // 
-            this.btnAboutDialog.Location = new System.Drawing.Point(428, 140);
+            this.btnAboutDialog.Location = new System.Drawing.Point(299, 139);
             this.btnAboutDialog.Name = "btnAboutDialog";
             this.btnAboutDialog.Size = new System.Drawing.Size(123, 38);
             this.btnAboutDialog.TabIndex = 10;
@@ -156,7 +146,7 @@
             // 
             // btnFileViewer
             // 
-            this.btnFileViewer.Location = new System.Drawing.Point(428, 96);
+            this.btnFileViewer.Location = new System.Drawing.Point(299, 96);
             this.btnFileViewer.Name = "btnFileViewer";
             this.btnFileViewer.Size = new System.Drawing.Size(123, 38);
             this.btnFileViewer.TabIndex = 11;
@@ -166,7 +156,7 @@
             // 
             // btnSelectionDialog
             // 
-            this.btnSelectionDialog.Location = new System.Drawing.Point(557, 53);
+            this.btnSelectionDialog.Location = new System.Drawing.Point(299, 52);
             this.btnSelectionDialog.Name = "btnSelectionDialog";
             this.btnSelectionDialog.Size = new System.Drawing.Size(123, 38);
             this.btnSelectionDialog.TabIndex = 12;
@@ -176,19 +166,30 @@
             // 
             // btnAppAppearance
             // 
-            this.btnAppAppearance.Location = new System.Drawing.Point(557, 140);
+            this.btnAppAppearance.Location = new System.Drawing.Point(41, 140);
             this.btnAppAppearance.Name = "btnAppAppearance";
             this.btnAppAppearance.Size = new System.Drawing.Size(123, 38);
             this.btnAppAppearance.TabIndex = 13;
-            this.btnAppAppearance.Text = "App Appearance";
+            this.btnAppAppearance.Text = "App Appearance Editor";
             this.btnAppAppearance.UseVisualStyleBackColor = true;
             this.btnAppAppearance.Click += new System.EventHandler(this.btnAppAppearance_Click);
+            // 
+            // btnViewGridTest
+            // 
+            this.btnViewGridTest.Location = new System.Drawing.Point(41, 96);
+            this.btnViewGridTest.Name = "btnViewGridTest";
+            this.btnViewGridTest.Size = new System.Drawing.Size(123, 38);
+            this.btnViewGridTest.TabIndex = 14;
+            this.btnViewGridTest.Text = "ViewGrid Test";
+            this.btnViewGridTest.UseVisualStyleBackColor = true;
+            this.btnViewGridTest.Click += new System.EventHandler(this.btnViewGridTest_Click);
             // 
             // StartMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 232);
+            this.ClientSize = new System.Drawing.Size(573, 303);
+            this.Controls.Add(this.btnViewGridTest);
             this.Controls.Add(this.btnAppAppearance);
             this.Controls.Add(this.btnSelectionDialog);
             this.Controls.Add(this.btnFileViewer);
@@ -199,9 +200,8 @@
             this.Controls.Add(this.btnMsgBox);
             this.Controls.Add(this.btnInputDialog);
             this.Controls.Add(this.btnMsgBoxEx);
-            this.Controls.Add(this.btnEditorBase);
-            this.Controls.Add(this.btnForm1);
-            this.Controls.Add(this.btnTheme);
+            this.Controls.Add(this.btnMaintenanceFormBase);
+            this.Controls.Add(this.btnListViewTest);
             this.Controls.Add(this.btnDialogBase);
             this.Name = "StartMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -213,9 +213,8 @@
         #endregion
 
         private System.Windows.Forms.Button btnDialogBase;
-        private System.Windows.Forms.Button btnTheme;
-        private System.Windows.Forms.Button btnForm1;
-        private System.Windows.Forms.Button btnEditorBase;
+        private System.Windows.Forms.Button btnListViewTest;
+        private System.Windows.Forms.Button btnMaintenanceFormBase;
         private System.Windows.Forms.Button btnMsgBoxEx;
         private System.Windows.Forms.Button btnInputDialog;
         private System.Windows.Forms.Button btnMsgBox;
@@ -226,5 +225,6 @@
         private System.Windows.Forms.Button btnFileViewer;
         private System.Windows.Forms.Button btnSelectionDialog;
         private System.Windows.Forms.Button btnAppAppearance;
+        private System.Windows.Forms.Button btnViewGridTest;
     }
 }

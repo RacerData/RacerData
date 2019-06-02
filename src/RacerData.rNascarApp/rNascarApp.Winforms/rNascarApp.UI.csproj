@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>rNascarApp.UI</RootNamespace>
+    <PackageId>RacerData.WinForms.Controls</PackageId>
+    <Authors>RacerData Software</Authors>
+    <Product>RacerData</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

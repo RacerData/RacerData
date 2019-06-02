@@ -16,7 +16,13 @@ namespace RacerData.WinForms
 {
     public partial class StartMenu : Form
     {
+        #region fields
+
         IDialogService _service = null;
+
+        #endregion
+
+        #region ctor
 
         public StartMenu()
         {
@@ -27,10 +33,18 @@ namespace RacerData.WinForms
             Logger.Setup();
         }
 
+        #endregion
+
+        #region protected
+
         protected virtual void ExceptionHandler(Exception ex)
         {
             _service.DisplayException(this, ex);
         }
+
+        #endregion
+
+        #region private
 
         private void btnDialogBase_Click(object sender, EventArgs e)
         {
@@ -39,19 +53,14 @@ namespace RacerData.WinForms
             dialog.ShowDialog(this);
         }
 
-        private void btnTheme_Click(object sender, EventArgs e)
+        private void btnListViewTest_Click(object sender, EventArgs e)
         {
-         
-        }
-
-        private void btnForm1_Click(object sender, EventArgs e)
-        {
-            var dialog = new Form1();
+            var dialog = new ListViewTest();
 
             dialog.ShowDialog(this);
         }
 
-        private void btnEditorBase_Click(object sender, EventArgs e)
+        private void btnMaintenanceFormBase_Click(object sender, EventArgs e)
         {
             var dialog = new EditorBase();
 
@@ -133,15 +142,15 @@ namespace RacerData.WinForms
         {
             try
             {
-                var items = new List<MyItem>();
+                var items = new List<MyListItem>();
 
-                items.Add(new MyItem() { Name = "One", Id = 1 });
-                items.Add(new MyItem() { Name = "Two", Id = 2 });
-                items.Add(new MyItem() { Name = "Three", Id = 2 });
+                items.Add(new MyListItem() { Name = "One", Id = 1 });
+                items.Add(new MyListItem() { Name = "Two", Id = 2 });
+                items.Add(new MyListItem() { Name = "Three", Id = 3 });
 
                 var ordered = items.OrderBy(i => i.Name);
 
-                var result = _service.DisplaySelectionDialog<MyItem>(this, "Available MyItems", "Select a MyItem", ordered.ToList(), "Name", "Id");
+                var result = _service.DisplaySelectionDialog(this, "Available MyItems", "Select a MyItem", ordered.ToList(), "Name", "Id");
 
                 if (result.DialogResult == DialogResult.OK)
                 {
@@ -171,10 +180,14 @@ namespace RacerData.WinForms
 
             dialog.ShowDialog(this);
         }
-    }
-    public class MyItem
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
+
+        private void btnViewGridTest_Click(object sender, EventArgs e)
+        {
+            var dialog = new ViewGridTest();
+
+            dialog.ShowDialog(this);
+        }
+
+        #endregion
     }
 }

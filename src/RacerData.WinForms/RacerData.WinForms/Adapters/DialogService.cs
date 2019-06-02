@@ -9,6 +9,8 @@ namespace RacerData.WinForms.Adapters
 {
     public class DialogService : IDialogService
     {
+        #region public
+
         public SelectionDialogResult<TItem> DisplaySelectionDialog<TItem>(
             IWin32Window parent,
             string title,
@@ -120,5 +122,7 @@ namespace RacerData.WinForms.Adapters
                     String.Empty
             };
         }
+
+        #endregion
     }
 }

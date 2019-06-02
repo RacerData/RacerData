@@ -18,6 +18,7 @@ namespace rNascarApp.UI.Views
         #endregion
 
         #region events
+
         public event EventHandler<string> SetViewHeaderRequest;
         protected virtual void OnSetViewHeaderRequest(string headerText)
         {
@@ -26,17 +27,15 @@ namespace rNascarApp.UI.Views
         }
 
         public event EventHandler<RemoveViewRequestEventArgs> RemoveViewRequest;
-        protected virtual void OnRemoveViewRequest()
+        protected virtual void OnRemoveViewRequest(int index)
         {
             var handler = RemoveViewRequest;
-            handler?.Invoke(this, new RemoveViewRequestEventArgs(Index));
+            handler?.Invoke(this, new RemoveViewRequestEventArgs(index));
         }
 
         public event EventHandler<BeginViewResizeRequestEventArgs> BeginViewResizeRequest;
         protected virtual void OnBeginViewResizeRequest(Point point, ResizeDirection resizeDirection)
-        {
-            _isResizing = true;
-            _resizeDirection = resizeDirection;
+        {          
             var handler = BeginViewResizeRequest;
             handler?.Invoke(this, new BeginViewResizeRequestEventArgs(point, resizeDirection));
         }
@@ -51,7 +50,6 @@ namespace rNascarApp.UI.Views
         public event EventHandler<EndViewResizeRequestEventArgs> EndViewResizeRequest;
         protected virtual void OnEndViewResizeRequest(bool cancelled, Point point, ResizeDirection resizeDirection)
         {
-            _isResizing = false;
             var handler = EndViewResizeRequest;
             if (cancelled)
             {
@@ -65,14 +63,11 @@ namespace rNascarApp.UI.Views
 
         #endregion
 
-        #region fields
-
-        private bool _isResizing = false;
-        private ResizeDirection _resizeDirection;
-
-        #endregion
-
         #region properties
+
+        protected virtual bool IsResizing { get; set; }
+
+        protected virtual ResizeDirection ResizeDirection { get; set; }
 
         public int Index { get; set; }
 
@@ -144,7 +139,7 @@ namespace rNascarApp.UI.Views
         internal virtual void SetViewControl<TView>(TView control) where TView : IViewControl
         {
             pnlControl.Controls.Add(control as Control);
-            
+
             IViewControl viewControl = control as IViewControl;
 
             viewControl.SetViewHeaderRequest += ViewControl_SetViewHeaderRequest;
@@ -181,8 +176,9 @@ namespace rNascarApp.UI.Views
 
         private void Header_DoubleClick(object sender, EventArgs e)
         {
-            OnRemoveViewRequest();
+            OnRemoveViewRequest(Index);
         }
+
         private void Header_MouseDown(object sender, MouseEventArgs e)
         {
             this.OnMouseDown(e);
@@ -191,32 +187,55 @@ namespace rNascarApp.UI.Views
         private void ResizeVertical_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                OnBeginViewResizeRequest(e.Location, ResizeDirection.Vertical);
+            {
+                IsResizing = true;
+                ResizeDirection = ResizeDirection.Vertical;
+                OnBeginViewResizeRequest(e.Location, ResizeDirection);
+            }
         }
+
         private void ResizeHorizontal_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                OnBeginViewResizeRequest(e.Location, ResizeDirection.Horizontal);
+            {
+                IsResizing = true;
+                ResizeDirection = ResizeDirection.Horizontal;
+                OnBeginViewResizeRequest(e.Location, ResizeDirection);
+            }
         }
+
         private void ResizeBoth_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                OnBeginViewResizeRequest(e.Location, ResizeDirection.Both);
+            {
+                IsResizing = true;
+                ResizeDirection = ResizeDirection.Both;
+                OnBeginViewResizeRequest(e.Location, ResizeDirection);
+            }
         }
+
         private void Resize_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isResizing && e.Button == MouseButtons.Left)
-                OnViewResizeRequest(e.Location, _resizeDirection);
+            if (IsResizing && e.Button == MouseButtons.Left)
+                OnViewResizeRequest(e.Location, ResizeDirection);
         }
+
         private void Resize_MouseUp(object sender, MouseEventArgs e)
         {
-            if (_isResizing && e.Button == MouseButtons.Left)
-                OnEndViewResizeRequest(false, e.Location, _resizeDirection);
+            if (IsResizing && e.Button == MouseButtons.Left)
+            {
+                IsResizing = false;
+                OnEndViewResizeRequest(false, e.Location, ResizeDirection);
+            }
         }
+
         private void Resize_MouseLeave(object sender, EventArgs e)
         {
-            if (_isResizing)
-                OnEndViewResizeRequest(true, Point.Empty, _resizeDirection);
+            if (IsResizing)
+            {
+                IsResizing = false;
+                OnEndViewResizeRequest(true, Point.Empty, ResizeDirection);
+            }
         }
 
         #endregion

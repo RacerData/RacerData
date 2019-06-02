@@ -39,7 +39,6 @@
             this.Padding = new System.Windows.Forms.Padding(8);
             this.Size = new System.Drawing.Size(645, 360);
             this.Load += new System.EventHandler(this.ListView_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ListView_Paint);
             this.ResumeLayout(false);
 
         }

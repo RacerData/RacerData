@@ -35,9 +35,9 @@ namespace rNascarApp.UI.Internal
             return document;
         }
 
-        protected virtual PageReference GetCurrentScheduleUrl(IDocument document)
+        protected virtual PageReferenceModel GetCurrentScheduleUrl(IDocument document)
         {
-            PageReference result = new PageReference();
+            PageReferenceModel result = new PageReferenceModel();
 
             try
             {

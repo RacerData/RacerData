@@ -1,6 +1,6 @@
 ﻿namespace rNascarApp.UI.Data
 {
-    public class PageReference
+    public class PageReferenceModel
     {
         public string Url { get; set; }
         public string Name { get; set; }

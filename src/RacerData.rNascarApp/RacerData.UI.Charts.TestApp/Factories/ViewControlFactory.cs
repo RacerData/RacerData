@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using rNascarApp.UI.Controls;
 using rNascarApp.UI.Models;
@@ -52,6 +53,8 @@ namespace rNascarApp.UI.Factories
                     throw new ArgumentException($"Unrecognized view type: {viewInfo.ViewType.ToString()}", nameof(viewInfo));
             }
 
+            ((Control)viewControl).Dock = DockStyle.Fill;
+
             return viewControl;
 
         }
@@ -74,7 +77,9 @@ namespace rNascarApp.UI.Factories
         }
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {
-            return new StaticView();
+            var view = new StaticView();
+            view.Fields = viewinfo.Fields;
+            return view;
         }
         protected virtual ListView GetListView(ListViewInfo viewinfo)
         {

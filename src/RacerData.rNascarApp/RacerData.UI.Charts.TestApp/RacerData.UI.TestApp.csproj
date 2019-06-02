@@ -74,6 +74,12 @@
     <Compile Include="Controls\IStaticView.cs" />
     <Compile Include="Controls\IVideoView.cs" />
     <Compile Include="Controls\IWeekendScheduleView.cs" />
+    <Compile Include="Controls\StaticViewField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StaticViewField.Designer.cs">
+      <DependentUpon>StaticViewField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AudioFeedInfo.cs" />
     <Compile Include="Controls\DayScheduleItem.cs">
       <SubType>UserControl</SubType>
@@ -148,7 +154,7 @@
     <Compile Include="Data\DataModel.cs" />
     <Compile Include="Data\DayScheduleModel.cs" />
     <Compile Include="Data\EventScheduleModel.cs" />
-    <Compile Include="Data\PageReference.cs" />
+    <Compile Include="Data\PageReferenceModel.cs" />
     <Compile Include="Data\WeekendScheduleModel.cs" />
     <Compile Include="Internal\WeekendScheduleReader.cs" />
     <Compile Include="Factories\ViewControlFactory.cs" />
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AudioView.resx">
       <DependentUpon>AudioView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StaticViewField.resx">
+      <DependentUpon>StaticViewField.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\WeekendScheduleView.resx">
       <DependentUpon>WeekendScheduleView.cs</DependentUpon>

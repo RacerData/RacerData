@@ -69,8 +69,8 @@ namespace rNascarApp.UI
             //var list1 = GetListViewInfo();
             //viewInfos.Add(list1);
 
-            //var static1 = GetStaticViewInfo();
-            //viewInfos.Add(static1);
+            var static1 = GetStaticViewInfo();
+            viewInfos.Add(static1);
 
             //var graph1 = GetGraphViewInfo();
             //viewInfos.Add(graph1);
@@ -78,14 +78,14 @@ namespace rNascarApp.UI
             //var video1 = GetVideoViewInfo();
             //viewInfos.Add(video1);
 
-            var audio1 = GetAudioViewInfo();
-            viewInfos.Add(audio1);
+            //var audio1 = GetAudioViewInfo();
+            //viewInfos.Add(audio1);
 
-            var audio2 = GetAudioViewInfo();
-            viewInfos.Add(audio2);
+            //var audio2 = GetAudioViewInfo();
+            //viewInfos.Add(audio2);
 
-            var weekendSchedule1 = GetWeekendScheduleViewInfo();
-            viewInfos.Add(weekendSchedule1);
+            //var weekendSchedule1 = GetWeekendScheduleViewInfo();
+            //viewInfos.Add(weekendSchedule1);
 
             _viewGridController.AddViews(viewInfos);
         }
@@ -186,7 +186,7 @@ namespace rNascarApp.UI
             return new StaticViewInfo()
             {
                 Key = Guid.NewGuid(),
-                Name = "Graph 1",
+                Name = "Static View Test",
                 CellPosition = new ViewPosition()
                 {
                     Row = 0,
@@ -194,8 +194,52 @@ namespace rNascarApp.UI
                     RowSpan = 6,
                     ColumnSpan = 6
                 },
-                DataMember = "LiveFeed",
-                DataSource = "LapTimes"
+                Fields = new List<StaticField>()
+                {
+                    new StaticField()
+                    {
+                        X=8,
+                        Y=8,
+                        Width = 100,
+                        Height = 50,
+                        CaptionAlignment = CaptionAlignment.Above,
+                        Name="Test Static Field 1",
+                        ShowCaption=true,
+                        Alignment = Models.ContentAlignment.MiddleLeft
+                    },new StaticField()
+                    {
+                        X=216,
+                        Y=8,
+                        Width = 100,
+                        Height = 50,
+                        CaptionAlignment = CaptionAlignment.Above,
+                        Name="Test Static Field 2",
+                        ShowCaption=true,
+                        Alignment = Models.ContentAlignment.MiddleLeft
+                    },
+                    new StaticField()
+                    {
+                        X=8,
+                        Y=60,
+                        Width = 200,
+                        Height = 28,
+                        CaptionAlignment = CaptionAlignment.Left,
+                        Name="Test Static Field 3",
+                        ShowCaption=true,
+                        Alignment = Models.ContentAlignment.MiddleLeft
+                    },
+                    new StaticField()
+                    {
+                        X=216,
+                        Y=60,
+                        Width = 200,
+                        Height = 28,
+                        CaptionAlignment = CaptionAlignment.Left,
+                        Name="Test Static Field 4",
+                        ShowCaption=true,
+                        Alignment = Models.ContentAlignment.MiddleLeft
+                    }
+                }
             };
         }
         protected virtual WeekendScheduleViewInfo GetWeekendScheduleViewInfo()

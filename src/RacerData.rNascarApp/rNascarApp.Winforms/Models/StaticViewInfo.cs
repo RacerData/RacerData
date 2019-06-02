@@ -9,7 +9,7 @@ namespace rNascarApp.UI.Models
 
         #region properties
 
-        public IList<StaticField> StaticFields { get; set; }
+        public IList<StaticField> Fields { get; set; }
 
         #endregion
 
@@ -18,7 +18,7 @@ namespace rNascarApp.UI.Models
         public StaticViewInfo()
             : base(ViewType.Static)
         {
-            StaticFields = new List<StaticField>();
+            Fields = new List<StaticField>();
         }
 
         #endregion

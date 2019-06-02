@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Controls;
@@ -54,11 +55,66 @@ namespace rNascarApp.UI.Controls
 
         #endregion
 
+        #region properties
+
+        private IList<StaticField> _fields;
+        public IList<StaticField> Fields
+        {
+            get
+            {
+                return _fields;
+            }
+            set
+            {
+                _fields = value;
+                DisplayFields(_fields);
+            }
+        }
+
+        #endregion
+
         #region ctor
 
         public StaticView()
         {
-            InitializeComponent();          
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region protected
+
+        protected virtual void DisplayFields(IList<StaticField> fields)
+        {
+            ClearControls();
+
+            if (fields == null || fields.Count == 0)
+                return;
+
+            this.BorderStyle = BorderStyle.FixedSingle;
+
+            foreach (StaticField field in fields)
+            {
+                var fieldControl = new StaticViewField()
+                {
+                    Field = field
+                };
+
+                fieldControl.BackColor = Color.Gray;
+                fieldControl.BorderStyle = BorderStyle.FixedSingle;
+
+                this.Controls.Add(fieldControl);
+            }
+        }
+
+        protected virtual void ClearControls()
+        {
+            for (int i = this.Controls.Count - 1; i >= 0; i--)
+            {
+                var control = this.Controls[i];
+                this.Controls.RemoveAt(i);
+                control.Dispose();
+            }
         }
 
         #endregion

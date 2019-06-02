@@ -32,12 +32,16 @@ namespace rNascarApp.UI
 
         private void _viewGridController_ViewRemoved(object sender, ViewRemovedEventArgs e)
         {
+#if TRACE
             Console.WriteLine($"View {e.View.Name} removed");
+#endif
         }
 
         private void _viewGridController_ViewAdded(object sender, ViewAddedEventArgs e)
         {
+#if TRACE
             Console.WriteLine($"View {e.View.Name} added");
+#endif
         }
 
         protected override CreateParams CreateParams

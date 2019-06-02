@@ -9,7 +9,13 @@ namespace rNascarApp.UI.Internal
 {
     public partial class WeekendScheduleReader
     {
+        #region consts
+
         private const string MasterScheduleUrl = @"https://www.nascar.com/weekend-schedule/";
+
+        #endregion
+
+        #region public
 
         public async Task<WeekendSchedule> GetScheduleAsync()
         {
@@ -28,6 +34,10 @@ namespace rNascarApp.UI.Internal
             return schedule;
         }
 
+        #endregion
+
+        #region protected
+
         protected virtual async Task<IDocument> GetDocumentAsync(string masterScheduleUrl)
         {
             var config = Configuration.Default.WithDefaultLoader();
@@ -39,24 +49,16 @@ namespace rNascarApp.UI.Internal
         {
             PageReferenceModel result = new PageReferenceModel();
 
-            try
-            {
-                var elements = document.All.Where(m =>
-                   m.HasAttribute("class") &&
-                   m.GetAttribute("class")
-                    .Contains("search-news-item")
-                );
+            var elements = document.All.Where(m =>
+               m.HasAttribute("class") &&
+               m.GetAttribute("class")
+                .Contains("search-news-item")
+            );
 
-                result.Url = elements
-                    .ElementAt(0)
-                    .Children[0]
-                    .GetAttribute("Href");
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            result.Url = elements
+                .ElementAt(0)
+                .Children[0]
+                .GetAttribute("Href");
 
             return result;
         }
@@ -64,7 +66,7 @@ namespace rNascarApp.UI.Internal
         protected virtual WeekendSchedule BuildScheduleModels(IDocument document)
         {
             var schedule = new WeekendSchedule();
-            
+
             try
             {
                 schedule.Name = document.Head.Children[8].InnerHtml;
@@ -176,5 +178,7 @@ namespace rNascarApp.UI.Internal
 
             return "";
         }
+
+        #endregion
     }
 }

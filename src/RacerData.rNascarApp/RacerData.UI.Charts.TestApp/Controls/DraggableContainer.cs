@@ -397,7 +397,7 @@ namespace RacerData.WinForms.Controls
 
         private void IndexReport(string action)
         {
-#if DEBUG
+#if TRACE
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine($"====== {action} ========");

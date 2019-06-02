@@ -1,54 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RacerData.WinForms.Controls
 {
     public partial class ListViewCell : UserControl
     {
+        #region ctor
+
         public ListViewCell()
         {
             InitializeComponent();
         }
 
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            base.OnControlAdded(e);
+        #endregion
 
-            //var pictureBox = e.Control as PictureBox;
-
-            //if (pictureBox == null)
-            //{
-            //    e.Control.MouseDown += ListViewCell_MouseDown;
-            //    e.Control.MouseMove += ListViewCell_MouseMove;
-            //    e.Control.MouseLeave += ListViewCell_MouseLeave;
-            //}
-        }
-
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
-            //var pictureBox = e.Control as PictureBox;
-
-            //if (pictureBox == null)
-            //{
-            //    e.Control.MouseDown -= ListViewCell_MouseDown;
-            //    e.Control.MouseMove -= ListViewCell_MouseMove;
-            //    e.Control.MouseLeave -= ListViewCell_MouseLeave;
-            //}
-
-            base.OnControlRemoved(e);
-        }
+        #region public
 
         public override string ToString()
         {
             return CellLabel.Text;
         }
+
+        #endregion
+
+        #region protected
+
+        protected override void OnControlAdded(ControlEventArgs e)
+        {
+            base.OnControlAdded(e);
+        }
+
+        protected override void OnControlRemoved(ControlEventArgs e)
+        {
+            base.OnControlRemoved(e);
+        }
+
+        #endregion
+
+        #region private
 
         private void ListViewCell_MouseDown(object sender, MouseEventArgs e)
         {
@@ -64,5 +54,7 @@ namespace RacerData.WinForms.Controls
         {
             this.OnMouseLeave(e);
         }
+
+        #endregion
     }
 }

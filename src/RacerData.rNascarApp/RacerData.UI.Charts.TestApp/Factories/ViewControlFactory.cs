@@ -83,7 +83,9 @@ namespace rNascarApp.UI.Factories
         }
         protected virtual ListView GetListView(ListViewInfo viewinfo)
         {
-            return new ListView();
+            var view = new ListView();
+            view.ListDefinition = viewinfo.ListDefinition;
+            return view;
         }
         protected virtual WeekendScheduleView GetWeekendScheduleView(WeekendScheduleViewInfo viewinfo)
         {

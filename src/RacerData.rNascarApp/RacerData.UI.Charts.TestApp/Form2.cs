@@ -66,11 +66,11 @@ namespace rNascarApp.UI
         {
             var viewInfos = new List<ViewInfo>();
 
-            //var list1 = GetListViewInfo();
-            //viewInfos.Add(list1);
+            var list1 = GetListViewInfo();
+            viewInfos.Add(list1);
 
-            var static1 = GetStaticViewInfo();
-            viewInfos.Add(static1);
+            //var static1 = GetStaticViewInfo();
+            //viewInfos.Add(static1);
 
             //var graph1 = GetGraphViewInfo();
             //viewInfos.Add(graph1);
@@ -101,32 +101,51 @@ namespace rNascarApp.UI
                 {
                     Column = 1,
                     Row = 1,
-                    ColumnSpan = 2,
-                    RowSpan = 3
+                    ColumnSpan = 6,
+                    RowSpan = 6
                 },
                 ListDefinition = new ListDefinition()
                 {
                     DataSource = "LiveFeed",
                     DataMember = "Position",
                     Header = "List 1",
-                    MaxRows = 10,
+                    MaxRows = 20,
+                    ShowCaptions=true,
                     Columns = new List<ListColumn>()
-                                      {
-                                          new ListColumn()
-                                          {
-                                               Caption ="Position",
-                                                DataMember ="Position",
-                                                 DataSource ="LiveFeed",
-                                                  DataPath ="LiveFeed\\Drivers\\"
-                                          },
-                                           new ListColumn()
-                                          {
-                                               Caption ="Driver",
-                                                DataMember ="Name",
-                                                 DataSource ="LiveFeed",
-                                                  DataPath ="LiveFeed\\Drivers\\"
-                                          }
-                                      }
+                        {
+                        new ListColumn()
+                        {
+                            Caption ="Position",
+                            DataMember ="Position",
+                            DataSource ="LiveFeed",
+                            DataPath ="LiveFeed\\Drivers\\",
+                            Alignment = Models.ContentAlignment.MiddleLeft 
+                        },
+                        new ListColumn()
+                        {
+                            Caption ="Driver",
+                            DataMember ="Driver",
+                            DataSource ="LiveFeed",
+                            DataPath ="LiveFeed\\Drivers\\",
+                            Alignment = Models.ContentAlignment.MiddleLeft
+                        },
+                        new ListColumn()
+                        {
+                            Caption ="Lap Speed",
+                            DataMember ="LapSpeed",
+                            DataSource ="LiveFeed",
+                            DataPath ="LiveFeed\\Drivers\\",
+                            Alignment = Models.ContentAlignment.MiddleCenter
+                        },
+                        new ListColumn()
+                        {
+                            Caption ="Lap Time",
+                            DataMember ="LapTime",
+                            DataSource ="LiveFeed",
+                            DataPath ="LiveFeed\\Drivers\\",
+                            Alignment = Models.ContentAlignment.MiddleCenter
+                        }
+                        }
                 }
             };
         }

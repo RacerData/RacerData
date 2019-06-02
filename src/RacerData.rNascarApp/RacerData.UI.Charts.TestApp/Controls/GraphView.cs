@@ -54,11 +54,27 @@ namespace rNascarApp.UI.Controls
 
         #endregion
 
+        #region properties
+
+        public GraphType GraphType { get; set; }
+        public GraphSeries GraphSeries { get; set; }
+
+        #endregion
+
         #region ctor
 
         public GraphView()
         {
             InitializeComponent();
+        }
+
+        #endregion
+
+        #region protected
+
+        protected virtual void DisplayGraph()
+        {
+
         }
 
         #endregion

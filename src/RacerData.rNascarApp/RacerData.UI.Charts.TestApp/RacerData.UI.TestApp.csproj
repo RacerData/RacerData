@@ -80,6 +80,7 @@
     <Compile Include="Controls\StaticViewField.Designer.cs">
       <DependentUpon>StaticViewField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\ListViewData.cs" />
     <Compile Include="Models\AudioFeedInfo.cs" />
     <Compile Include="Controls\DayScheduleItem.cs">
       <SubType>UserControl</SubType>
@@ -166,7 +167,6 @@
     </Compile>
     <Compile Include="Models\ControlMovedEventArgs.cs" />
     <Compile Include="Models\ControlResizedEventArgs.cs" />
-    <Compile Include="Models\ListViewColumnInfo.cs" />
     <Compile Include="Models\ResizeDirection.cs" />
     <Compile Include="Models\RowResizedEventArgs.cs" />
     <Compile Include="Models\ViewResizeRequestEventArgs.cs" />

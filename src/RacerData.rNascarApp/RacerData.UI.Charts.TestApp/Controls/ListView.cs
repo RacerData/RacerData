@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
+using rNascarApp.UI.Data;
 using rNascarApp.UI.Models;
 
 namespace RacerData.WinForms.Controls
@@ -103,11 +104,38 @@ namespace RacerData.WinForms.Controls
 
         #region properties
 
-        //TODO: pass down to children
         public bool AllowResize { get; set; } = true;
         public bool AllowDrag { get; set; } = true;
 
-        public IEnumerable<ListViewRow> OrderedControls
+        private ListDefinition _listDefinition;
+        public ListDefinition ListDefinition
+        {
+            get
+            {
+                return _listDefinition;
+            }
+            set
+            {
+                _listDefinition = value;
+                BuildListView(_listDefinition);
+            }
+        }
+
+        private ListViewData _dataValues;
+        public ListViewData DataValues
+        {
+            get
+            {
+                return _dataValues;
+            }
+            set
+            {
+                _dataValues = value;
+                DisplayDataValues(_dataValues);
+            }
+        }
+
+        protected IEnumerable<ListViewRow> OrderedControls
         {
             get
             {
@@ -127,16 +155,82 @@ namespace RacerData.WinForms.Controls
 
             RowResized += ListView_RowsResized;
             RowResizing += ListView_RowResizing;
+
+            this.BackColor = Color.LimeGreen;
+            this.Dock = DockStyle.Fill;
+            this.BorderStyle = BorderStyle.FixedSingle;
         }
 
         private void ListView_Load(object sender, EventArgs e)
         {
+            // TODO: Remove after testing
+            if (_listDefinition.MaxRows.HasValue)
+            {
+                var rowCount = _listDefinition.MaxRows.Value;
+                var columnCount = _listDefinition.Columns.Count;
 
+                ListViewData data = new ListViewData(rowCount, columnCount);
+
+                for (int r = 0; r < rowCount; r++)
+                {
+                    for (int c = 0; c < columnCount; c++)
+                    {
+                        data.DataValues[r, c] = $"{r}:{c}";
+                    }
+                }
+
+                this.DataValues = data;
+            }
         }
 
         #endregion
 
         #region public
+
+        public void BuildListView(ListDefinition listDefinition)
+        {
+            var rowCount = 0;
+
+            if (listDefinition.ShowCaptions)
+            {
+                var captionRow = new ListViewRow()
+                {
+                    IsColumnCaptions = true,
+                    DisplayIndex = 0
+                };
+
+                AddRow(captionRow);
+
+                rowCount++;
+            }
+
+            if (listDefinition.MaxRows.HasValue)
+            {
+                var dataRowCount = listDefinition.MaxRows.Value;
+
+                for (int i = 0; i < dataRowCount; i++)
+                {
+                    var dataRow = new ListViewRow()
+                    {
+                        IsColumnCaptions = false,
+                        DisplayIndex = i + rowCount
+                    };
+
+                    AddRow(dataRow);
+                }
+            }
+            else
+            {
+                var dataRow0 = new ListViewRow()
+                {
+                    IsColumnCaptions = false,
+                    DisplayIndex = rowCount
+                };
+                AddRow(dataRow0);
+            }
+
+            AddColumns(listDefinition.Columns);
+        }
 
         #region rows
         public virtual void ClearRows()
@@ -172,6 +266,8 @@ namespace RacerData.WinForms.Controls
             if (index > 0 && index < _rows.Count)
                 throw new IndexOutOfRangeException(nameof(index));
 
+            row.Height = GetDefaultHeight(row);
+
             _rows.Insert(index, row);
 
             ConfigureResizableRow(row);
@@ -179,7 +275,11 @@ namespace RacerData.WinForms.Controls
             row.ControlMoved += DraggableContainer1_ControlMoved;
             row.ControlsResized += DraggableContainer1_ControlsResized;
 
+            row.Dock = DockStyle.Top;
+
             this.Controls.Add(row);
+
+            row.BringToFront();
 
             row.Show();
         }
@@ -242,56 +342,45 @@ namespace RacerData.WinForms.Controls
         {
             foreach (ListViewRow row in _rows)
             {
-                if (!row.IsListTitle)
-                    row.ClearDraggableControls();
+                row.ClearDraggableControls();
             }
         }
 
-        public virtual void AddColumns(IEnumerable<ListViewColumnInfo> columns)
+        public virtual void AddColumns(IEnumerable<ListColumn> columns)
         {
-            foreach (ListViewColumnInfo columnInfo in columns)
+            foreach (ListColumn columnInfo in columns)
             {
                 AddColumn(columnInfo);
             }
         }
 
-        public virtual void AddColumn(ListViewColumnInfo columnInfo)
+        public virtual void AddColumn(ListColumn columnInfo)
         {
             if (columnInfo == null)
                 throw new ArgumentNullException(nameof(columnInfo));
 
-            foreach (ListViewRow row in _rows)
-            {
-                if (!row.IsListTitle)
-                {
-                    var text = row.IsColumnCaptions ?
-                       columnInfo.Caption :
-                       $"[{columnInfo.Caption}]";
+            var columnIndex = _rows[0].OrderedControls.Count();
 
-                    var column = BuildListViewCellFromInfo(columnInfo, row.Height, text);
-
-                    row.AddDraggableControl(column);
-                }
-            }
+            InsertColumnAt(columnIndex, columnInfo);
         }
 
-        public virtual void InsertColumnAt(int index, ListViewColumnInfo columnInfo)
+        public virtual void InsertColumnAt(int index, ListColumn columnInfo)
         {
             if (columnInfo == null)
                 throw new ArgumentNullException(nameof(columnInfo));
 
             foreach (ListViewRow row in _rows)
             {
-                if (!row.IsListTitle)
-                {
-                    var text = row.IsColumnCaptions ?
-                        $"[{index}] {columnInfo.Caption}" :
-                        $"[{columnInfo.Caption}]";
+                var text = row.IsColumnCaptions ?
+                    $"[{index}] {columnInfo.Caption}" :
+                    $"[{columnInfo.Caption}]";
 
-                    var column = BuildListViewCellFromInfo(columnInfo, row.Height, text);
+                var column = BuildListViewCellFromInfo(columnInfo, row.Height, text);
 
-                    row.InsertDraggableControlAt(index, column);
-                }
+                column.BackColor = Color.Yellow;
+                column.BorderStyle = BorderStyle.FixedSingle;
+
+                row.InsertDraggableControlAt(index, column);
             }
         }
 
@@ -299,8 +388,7 @@ namespace RacerData.WinForms.Controls
         {
             foreach (ListViewRow row in _rows)
             {
-                if (!row.IsListTitle)
-                    row.RemoveDraggableControlAt(index);
+                row.RemoveDraggableControlAt(index);
             }
         }
 
@@ -320,7 +408,7 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        protected virtual ListViewCell BuildListViewCellFromInfo(ListViewColumnInfo info, int rowHeight, string text)
+        protected virtual ListViewCell BuildListViewCellFromInfo(ListColumn info, int rowHeight, string text)
         {
             var column = new ListViewCell();
 
@@ -330,6 +418,10 @@ namespace RacerData.WinForms.Controls
             column.BackColor = Color.Magenta;
             column.AllowDrop = true;
             column.CellLabel.Text = text;
+            column.CellLabel.BackColor = Color.Cyan;
+            column.CellLabel.ForeColor = Color.Black;
+            column.CellLabel.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            column.CellLabel.TextAlign = (System.Drawing.ContentAlignment)info.Alignment;
 
             return column;
         }
@@ -425,7 +517,7 @@ namespace RacerData.WinForms.Controls
             var resizedRow = _rows.FirstOrDefault(r => r.DisplayIndex == rowIndex);
 
             // Allow the column caption row and title row to be resized, but not affecty other row sizes.
-            if (!resizedRow.IsColumnCaptions && !resizedRow.IsListTitle)
+            if (!resizedRow.IsColumnCaptions)
             {
                 var ordered = _rows.OrderBy(r => r.DisplayIndex);
 
@@ -435,13 +527,38 @@ namespace RacerData.WinForms.Controls
                     {
                         var row = _rows.FirstOrDefault(r => r.DisplayIndex == i);
 
-                        if (row.AllowResize && !row.IsColumnCaptions && !row.IsListTitle)
+                        if (row.AllowResize && !row.IsColumnCaptions)
                         {
                             row.Size = size;
 
                             row.ResizeDraggableControls(row.Size.Height);
                         }
                     }
+                }
+            }
+        }
+
+        protected virtual int GetDefaultHeight(ListViewRow row)
+        {
+            Image fakeImage = new Bitmap(1, 1);
+            Graphics graphics = Graphics.FromImage(fakeImage);
+            SizeF size = graphics.MeasureString("X", row.Font);
+            return (int)size.Height + 8;
+        }
+
+        protected virtual void DisplayDataValues(ListViewData dataValues)
+        {
+            var dataRows = this.OrderedControls.Where(r => r.IsColumnCaptions == false).ToList();
+
+            for (int r = 0; r < dataValues.DataValues.GetLength(0); r++)
+            {
+                var row = dataRows[r];
+
+                var dataCells = row.OrderedControls.OfType<ListViewCell>().ToList();
+
+                for (int c = 0; c < dataValues.DataValues.GetLength(1); c++)
+                {
+                    dataCells[c].CellLabel.Text = dataValues.DataValues[r, c];
                 }
             }
         }
@@ -454,7 +571,7 @@ namespace RacerData.WinForms.Controls
         {
             foreach (ListViewRow row in _rows)
             {
-                if (sender != row && !row.IsListTitle)
+                if (sender != row)
                     row.ResizeDraggableControls(e.NewPositions);
             }
         }
@@ -463,7 +580,7 @@ namespace RacerData.WinForms.Controls
         {
             foreach (ListViewRow row in _rows)
             {
-                if (sender != row && !row.IsListTitle)
+                if (sender != row)
                     row.MoveDraggableControl(e.OldIndex, e.NewIndex);
             }
         }

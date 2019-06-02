@@ -1,5 +1,6 @@
 ﻿using System;
 using RacerData.WinForms.Models;
+using rNascarApp.UI.Models;
 
 namespace RacerData.WinForms.Controls
 {
@@ -8,5 +9,7 @@ namespace RacerData.WinForms.Controls
         event EventHandler<ControlMovedEventArgs> RowMoved;
         event EventHandler<RowResizedEventArgs> RowResized;
         event EventHandler<RowResizedEventArgs> RowResizing;
+
+        ListDefinition ListDefinition { get; set; }
     }
 }

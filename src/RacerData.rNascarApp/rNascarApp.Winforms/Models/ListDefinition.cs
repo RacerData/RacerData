@@ -14,7 +14,6 @@ namespace rNascarApp.UI.Models
         public int? MaxRows { get; set; }
 
         public bool ShowCaptions { get; set; }
-        public bool ShowHeader { get; set; }
 
         public List<ListColumn> Columns { get; set; }
 
@@ -25,7 +24,6 @@ namespace rNascarApp.UI.Models
         public ListDefinition()
         {
             ShowCaptions = true;
-            ShowHeader = true;
             Columns = new List<ListColumn>();
         }
 

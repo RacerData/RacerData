@@ -106,7 +106,7 @@ namespace RacerData.WinForms.Controls.AudioView
             cboSeries.DataSource = null;
 
             cboSeries.ValueMember = "Id";
-            cboSeries.DisplayMember = "Name";
+            cboSeries.DisplayMember = "Abbreviation";
             cboSeries.DataSource = _model.SeriesList.OrderBy(s => s.Id).ToList();
             cboSeries.SelectedIndex = -1;
 

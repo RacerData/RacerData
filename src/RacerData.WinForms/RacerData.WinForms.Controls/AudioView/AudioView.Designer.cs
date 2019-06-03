@@ -48,6 +48,7 @@
             // 
             // pnlSelection
             // 
+            this.pnlSelection.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.pnlSelection.Controls.Add(this.cboSeries);
             this.pnlSelection.Controls.Add(this.label2);
             this.pnlSelection.Controls.Add(this.cboChannel);
@@ -60,36 +61,40 @@
             // 
             // cboSeries
             // 
+            this.cboSeries.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboSeries.FormattingEnabled = true;
             this.cboSeries.Location = new System.Drawing.Point(6, 25);
             this.cboSeries.Name = "cboSeries";
-            this.cboSeries.Size = new System.Drawing.Size(240, 21);
+            this.cboSeries.Size = new System.Drawing.Size(131, 23);
             this.cboSeries.TabIndex = 3;
             this.cboSeries.SelectedIndexChanged += new System.EventHandler(this.cboSeries_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.Size = new System.Drawing.Size(47, 15);
             this.label2.TabIndex = 2;
             this.label2.Text = "Series:";
             // 
             // cboChannel
             // 
+            this.cboChannel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboChannel.FormattingEnabled = true;
-            this.cboChannel.Location = new System.Drawing.Point(252, 25);
+            this.cboChannel.Location = new System.Drawing.Point(143, 25);
             this.cboChannel.Name = "cboChannel";
-            this.cboChannel.Size = new System.Drawing.Size(162, 21);
+            this.cboChannel.Size = new System.Drawing.Size(162, 23);
             this.cboChannel.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(249, 9);
+            this.label1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(140, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.Size = new System.Drawing.Size(56, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Channel:";
             // 

@@ -81,7 +81,7 @@
             this.cboChannel.FormattingEnabled = true;
             this.cboChannel.Location = new System.Drawing.Point(252, 25);
             this.cboChannel.Name = "cboChannel";
-            this.cboChannel.Size = new System.Drawing.Size(129, 21);
+            this.cboChannel.Size = new System.Drawing.Size(162, 21);
             this.cboChannel.TabIndex = 1;
             // 
             // label1

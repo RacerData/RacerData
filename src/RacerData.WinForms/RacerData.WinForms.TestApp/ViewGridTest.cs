@@ -77,8 +77,8 @@ namespace RacerData.WinForms
             //var audio2 = GetAudioViewInfo();
             //viewInfos.Add(audio2);
 
-            //var weekendSchedule1 = GetWeekendScheduleViewInfo();
-            //viewInfos.Add(weekendSchedule1);
+            var weekendSchedule1 = GetWeekendScheduleViewInfo();
+            viewInfos.Add(weekendSchedule1);
 
             _viewGridController.AddViews(viewInfos);
         }

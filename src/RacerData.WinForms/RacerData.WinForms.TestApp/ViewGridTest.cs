@@ -358,6 +358,66 @@ namespace RacerData.WinForms
 #endif
         }
 
+        private void audioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewInfos = new List<ViewInfo>();
+
+            var audio1 = GetAudioViewInfo();
+            viewInfos.Add(audio1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+
+        private void staticToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewInfos = new List<ViewInfo>();
+
+            var static1 = GetStaticViewInfo();
+            viewInfos.Add(static1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+
+        private void scheduleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewInfos = new List<ViewInfo>();
+
+            var weekendSchedule1 = GetWeekendScheduleViewInfo();
+            viewInfos.Add(weekendSchedule1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+
+        private void listToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewInfos = new List<ViewInfo>();
+
+            var list1 = GetListViewInfo();
+            viewInfos.Add(list1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+
+        private void videoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewInfos = new List<ViewInfo>();
+
+            var video1 = GetVideoViewInfo();
+            viewInfos.Add(video1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+
+        private void graphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewInfos = new List<ViewInfo>();
+
+            var graph1 = GetGraphViewInfo();
+            viewInfos.Add(graph1);
+
+            _viewGridController.AddViews(viewInfos);
+        }
+
         #endregion
     }
 }

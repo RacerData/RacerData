@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Adapters\AudioChannelService.cs" />
     <Compile Include="Adapters\SeriesService.cs" />
+    <Compile Include="Adapters\WeekendScheduleService.cs" />
     <Compile Include="Controllers\ViewGridController.cs" />
     <Compile Include="AudioView\AudioView.cs">
       <SubType>UserControl</SubType>
@@ -123,9 +124,11 @@
       <DependentUpon>AudioView.cs</DependentUpon>
     </Compile>
     <Compile Include="AudioView\AudioViewModel.cs" />
+    <Compile Include="Ports\IWeekendScheduleReader.cs" />
     <Compile Include="Models\SeriesModel.cs" />
     <Compile Include="Ports\IAudioChannelService.cs" />
     <Compile Include="Ports\ISeriesService.cs" />
+    <Compile Include="Ports\IWeekendScheduleService.cs" />
     <Compile Include="WeekendScheduleView\DayScheduleItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -203,15 +206,15 @@
       <DependentUpon>WeekendScheduleView.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\DataModel.cs" />
-    <Compile Include="Data\DayScheduleModel.cs" />
-    <Compile Include="Data\EventScheduleModel.cs" />
+    <Compile Include="Models\WeekendScheduleView\DayScheduleModel.cs" />
+    <Compile Include="Models\WeekendScheduleView\EventScheduleModel.cs" />
     <Compile Include="Data\ListViewData.cs" />
     <Compile Include="Data\PageReferenceModel.cs" />
-    <Compile Include="Data\WeekendScheduleModel.cs" />
+    <Compile Include="Models\WeekendScheduleView\WeekendScheduleModel.cs" />
     <Compile Include="Factories\ViewControlFactory.cs" />
     <Compile Include="Factories\ViewFactory.cs" />
     <Compile Include="Factories\ViewGridControllerFactory.cs" />
-    <Compile Include="Internal\WeekendScheduleReader.cs" />
+    <Compile Include="Adapters\WeekendScheduleReader.cs" />
     <Compile Include="Models\AudioView\AudioChannelInfo.cs" />
     <Compile Include="Models\AudioView\AudioViewInfo.cs" />
     <Compile Include="Models\StaticView\CaptionAlignment.cs" />
@@ -258,6 +261,7 @@
     <Compile Include="Views\ViewBase.Designer.cs">
       <DependentUpon>ViewBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\WeekendScheduleView\WeekendScheduleViewModel.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +321,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internal\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

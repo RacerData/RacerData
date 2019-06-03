@@ -37,9 +37,16 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.viewGrid1 = new RacerData.WinForms.Controls.ViewGrid();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRemoveView = new System.Windows.Forms.ToolStripButton();
+            this.viewGrid1 = new RacerData.WinForms.Controls.ViewGrid();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.staticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scheduleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,10 +61,11 @@
             this.toolStripSeparator2,
             this.toolStripButton5,
             this.toolStripSeparator3,
-            this.btnRemoveView});
+            this.btnRemoveView,
+            this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(765, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(967, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -121,16 +129,6 @@
             this.toolStripButton5.Text = "Add Views";
             this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
-            // viewGrid1
-            // 
-            this.viewGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.viewGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewGrid1.Location = new System.Drawing.Point(0, 25);
-            this.viewGrid1.Name = "viewGrid1";
-            this.viewGrid1.Padding = new System.Windows.Forms.Padding(1);
-            this.viewGrid1.Size = new System.Drawing.Size(765, 465);
-            this.viewGrid1.TabIndex = 2;
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -146,15 +144,83 @@
             this.btnRemoveView.Text = "Remove View 0";
             this.btnRemoveView.Click += new System.EventHandler(this.btnRemoveView_Click);
             // 
-            // Form2
+            // viewGrid1
+            // 
+            this.viewGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.viewGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewGrid1.Location = new System.Drawing.Point(0, 25);
+            this.viewGrid1.Name = "viewGrid1";
+            this.viewGrid1.Padding = new System.Windows.Forms.Padding(1);
+            this.viewGrid1.Size = new System.Drawing.Size(967, 465);
+            this.viewGrid1.TabIndex = 2;
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.audioToolStripMenuItem,
+            this.staticToolStripMenuItem,
+            this.scheduleToolStripMenuItem,
+            this.listToolStripMenuItem,
+            this.videoToolStripMenuItem,
+            this.graphToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(79, 22);
+            this.toolStripDropDownButton1.Text = "Add View...";
+            // 
+            // audioToolStripMenuItem
+            // 
+            this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.audioToolStripMenuItem.Text = "Audio";
+            this.audioToolStripMenuItem.Click += new System.EventHandler(this.audioToolStripMenuItem_Click);
+            // 
+            // staticToolStripMenuItem
+            // 
+            this.staticToolStripMenuItem.Name = "staticToolStripMenuItem";
+            this.staticToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.staticToolStripMenuItem.Text = "Static";
+            this.staticToolStripMenuItem.Click += new System.EventHandler(this.staticToolStripMenuItem_Click);
+            // 
+            // scheduleToolStripMenuItem
+            // 
+            this.scheduleToolStripMenuItem.Name = "scheduleToolStripMenuItem";
+            this.scheduleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scheduleToolStripMenuItem.Text = "Schedule";
+            this.scheduleToolStripMenuItem.Click += new System.EventHandler(this.scheduleToolStripMenuItem_Click);
+            // 
+            // listToolStripMenuItem
+            // 
+            this.listToolStripMenuItem.Name = "listToolStripMenuItem";
+            this.listToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.listToolStripMenuItem.Text = "List";
+            this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
+            // 
+            // videoToolStripMenuItem
+            // 
+            this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
+            this.videoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.videoToolStripMenuItem.Text = "Video";
+            this.videoToolStripMenuItem.Click += new System.EventHandler(this.videoToolStripMenuItem_Click);
+            // 
+            // graphToolStripMenuItem
+            // 
+            this.graphToolStripMenuItem.Name = "graphToolStripMenuItem";
+            this.graphToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.graphToolStripMenuItem.Text = "Graph";
+            this.graphToolStripMenuItem.Click += new System.EventHandler(this.graphToolStripMenuItem_Click);
+            // 
+            // ViewGridTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 490);
+            this.ClientSize = new System.Drawing.Size(967, 490);
             this.Controls.Add(this.viewGrid1);
             this.Controls.Add(this.toolStrip1);
             this.KeyPreview = true;
-            this.Name = "Form2";
+            this.Name = "ViewGridTest";
             this.Text = "Form2";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -175,5 +241,12 @@
         private Controls.ViewGrid viewGrid1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btnRemoveView;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem staticToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scheduleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem graphToolStripMenuItem;
     }
 }

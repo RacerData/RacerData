@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using RacerData.WinForms.Controls.AudioView;
 using RacerData.WinForms.Controls.Models.AudioView;
+using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 using RacerData.WinForms.Controls.Ports;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
@@ -17,6 +18,7 @@ namespace RacerData.WinForms.Factories
 
         private readonly IAudioChannelService _channelService;
         private readonly ISeriesService _seriesService;
+        private readonly IWeekendScheduleService _weekendScheduleService;
 
         #endregion
 
@@ -24,10 +26,12 @@ namespace RacerData.WinForms.Factories
 
         public ViewControlFactory(
             IAudioChannelService channelService,
-            ISeriesService seriesService)
+            ISeriesService seriesService,
+            IWeekendScheduleService weekendScheduleService)
         {
             _channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
             _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
+            _weekendScheduleService = weekendScheduleService ?? throw new ArgumentNullException(nameof(weekendScheduleService));
         }
 
         #endregion
@@ -94,9 +98,8 @@ namespace RacerData.WinForms.Factories
         }
         protected virtual AudioView GetAudioView(AudioViewInfo viewinfo)
         {
-            var model = new AudioViewModel(_channelService, _seriesService);
-
-            return new AudioView(model);
+            var viewModel = new AudioViewModel(_channelService, _seriesService);
+            return new AudioView(viewModel);
         }
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {
@@ -112,9 +115,8 @@ namespace RacerData.WinForms.Factories
         }
         protected virtual WeekendScheduleView GetWeekendScheduleView(WeekendScheduleViewInfo viewinfo)
         {
-            var view = new WeekendScheduleView();
-            view.BackColor = Color.White;
-            return view;
+            var viewModel = new WeekendScheduleViewModel(_weekendScheduleService);
+            return new WeekendScheduleView(viewModel);
         }
 
         #endregion

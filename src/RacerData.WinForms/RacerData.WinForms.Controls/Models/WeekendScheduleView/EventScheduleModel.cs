@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RacerData.WinForms.Data
+namespace RacerData.WinForms.Controls.Models.WeekendScheduleView
 {
     public class EventScheduleModel
     {

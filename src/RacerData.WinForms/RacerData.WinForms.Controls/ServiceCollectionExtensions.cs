@@ -15,8 +15,10 @@ namespace RacerData.WinForms.Controls
             services.TryAddTransient<IViewFactory, ViewFactory>();
             services.TryAddTransient<IViewGridControllerFactory, ViewGridControllerFactory>();
 
-            services.TryAddScoped<IAudioChannelService, AudioChannelService>();
-            services.TryAddScoped<ISeriesService, SeriesService>();
+            services.TryAddTransient<IWeekendScheduleService, WeekendScheduleService>();
+            services.TryAddTransient<IWeekendScheduleReader, WeekendScheduleReader>();
+            services.TryAddTransient<IAudioChannelService, AudioChannelService>();
+            services.TryAddTransient<ISeriesService, SeriesService>();
 
             return services;
         }

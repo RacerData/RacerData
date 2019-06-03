@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Dom;
+using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 using RacerData.WinForms.Data;
+using RacerData.WinForms.Ports;
 
-namespace RacerData.WinForms.Internal
+namespace RacerData.WinForms.Controls.Adapters
 {
-    public partial class WeekendScheduleReader
+    public class WeekendScheduleReader : IWeekendScheduleReader
     {
         #region consts
 

@@ -103,7 +103,7 @@ namespace RacerData.WinForms.Controls.Adapters
             var url = GetChannelListUrl(seriesId);
 
             if (String.IsNullOrEmpty(url))
-                throw new ArgumentException(nameof(seriesId));
+                return _defaultChannels;
 
             using (WebClient wc = new WebClient())
             {

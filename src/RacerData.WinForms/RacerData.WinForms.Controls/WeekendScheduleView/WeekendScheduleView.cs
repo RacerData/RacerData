@@ -2,10 +2,9 @@
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 using RacerData.WinForms.Data;
-using RacerData.WinForms.Internal;
 using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
@@ -60,7 +59,7 @@ namespace RacerData.WinForms.Controls
 
         #region fields
 
-        private Timer _timer = new Timer();
+        private WeekendScheduleViewModel _model;
 
         #endregion
 
@@ -84,12 +83,15 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public WeekendScheduleView()
+        public WeekendScheduleView(WeekendScheduleViewModel model)
+         : this()
+        {
+            _model = model ?? throw new ArgumentNullException(nameof(model));
+        }
+
+        internal WeekendScheduleView()
         {
             InitializeComponent();
-
-            _timer.Interval = 120000;
-            _timer.Tick += _timer_Tick;
         }
 
         #endregion
@@ -98,6 +100,8 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void PopulateScheduleDisplay(WeekendSchedule weekendSchedule)
         {
+            tblSchedule.Controls.Clear();
+
             if (weekendSchedule == null)
                 return;
 
@@ -109,7 +113,6 @@ namespace RacerData.WinForms.Controls
 
                 tblSchedule.AutoSize = true;
 
-                tblSchedule.Controls.Clear();
                 tblSchedule.RowStyles.Clear();
                 tblSchedule.RowCount = 0;
                 tblSchedule.ColumnStyles.Clear();
@@ -131,12 +134,13 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        protected virtual async Task UpdateScheduleAsync()
-        {
-            WeekendScheduleReader reader = new WeekendScheduleReader();
-            var schedule = await reader.GetScheduleAsync();
+        #endregion
 
-            PopulateScheduleDisplay(schedule);
+        #region protected
+
+        protected virtual void SetDataBindings(WeekendScheduleViewModel model)
+        {
+            model.PropertyChanged += Model_PropertyChanged;
         }
 
         #endregion
@@ -145,14 +149,18 @@ namespace RacerData.WinForms.Controls
 
         private async void ScheduleView_Load(object sender, EventArgs e)
         {
-            await UpdateScheduleAsync();
+            SetDataBindings(_model);
+
+            await _model.GetWeekendScheduleCommandAsync();
         }
 
-        private async void _timer_Tick(object sender, EventArgs e)
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            await UpdateScheduleAsync();
+            if (e.PropertyName == nameof(WeekendScheduleViewModel.WeekendSchedule))
+            {
+                PopulateScheduleDisplay(_model.WeekendSchedule);
+            }
         }
-
         #endregion
     }
 }

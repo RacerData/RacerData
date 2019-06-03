@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using RacerData.WinForms.Data;
+using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 
 namespace RacerData.WinForms.Controls
 {

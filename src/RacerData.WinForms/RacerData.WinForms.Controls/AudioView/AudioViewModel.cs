@@ -98,8 +98,6 @@ namespace RacerData.WinForms.Controls.AudioView
             _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
 
             _channels = new BindingList<AudioChannelInfo>();
-            _channels.AddingNew += Channels_AddingNew;
-            _channels.ListChanged += Channels_ListChanged;
 
             _seriesList = new BindingList<SeriesModel>();
         }
@@ -158,20 +156,6 @@ namespace RacerData.WinForms.Controls.AudioView
         public virtual void SelectChannelCommand(AudioChannelInfo channel)
         {
             Channel = channel;
-        }
-
-        #endregion
-
-        #region protected
-
-        protected virtual void Channels_ListChanged(object sender, ListChangedEventArgs e)
-        {
-
-        }
-
-        protected virtual void Channels_AddingNew(object sender, AddingNewEventArgs e)
-        {
-
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace RacerData.WinForms.Controls.Models.AudioView
         #region ctor
 
         public AudioViewInfo()
-            : base(ViewType.Video)
+            : base(ViewType.Audio)
         {
 
         }

@@ -59,8 +59,8 @@ namespace RacerData.WinForms
         {
             var viewInfos = new List<ViewInfo>();
 
-            var list1 = GetListViewInfo();
-            viewInfos.Add(list1);
+            //var list1 = GetListViewInfo();
+            //viewInfos.Add(list1);
 
             //var static1 = GetStaticViewInfo();
             //viewInfos.Add(static1);
@@ -71,8 +71,8 @@ namespace RacerData.WinForms
             //var video1 = GetVideoViewInfo();
             //viewInfos.Add(video1);
 
-            //var audio1 = GetAudioViewInfo();
-            //viewInfos.Add(audio1);
+            var audio1 = GetAudioViewInfo();
+            viewInfos.Add(audio1);
 
             //var audio2 = GetAudioViewInfo();
             //viewInfos.Add(audio2);

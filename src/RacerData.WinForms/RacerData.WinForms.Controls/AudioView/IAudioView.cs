@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Controls
+﻿namespace RacerData.WinForms.Controls.AudioView
 {
     public interface IAudioView : IViewControl
     {

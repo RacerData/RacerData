@@ -90,6 +90,24 @@ namespace RacerData.WinForms.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;No Channel Selected&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body bgcolor=&quot;#000000&quot; text=&quot;#ffffff&quot;&gt;
+        ///    &lt;p&gt;No Channel Selected&lt;/p&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string noChannelSelected {
+            get {
+                return ResourceManager.GetString("noChannelSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;link href=&quot;https://vjs.zencdn.net/7.5.4/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;

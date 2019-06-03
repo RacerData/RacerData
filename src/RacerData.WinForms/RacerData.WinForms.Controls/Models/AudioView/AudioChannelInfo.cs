@@ -1,6 +1,6 @@
-﻿namespace RacerData.WinForms.Controls
+﻿namespace RacerData.WinForms.Controls.AudioView
 {
-    public class AudioFeedInfo
+    public class AudioChannelInfo
     {
         #region properties
 
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        public AudioFeedInfo()
+        public AudioChannelInfo()
         {
             BaseUrl = @"https://driveaudio.akamaized.net/hls/live/";
         }

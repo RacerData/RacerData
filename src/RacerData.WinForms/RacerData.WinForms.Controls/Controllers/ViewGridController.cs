@@ -34,6 +34,7 @@ namespace RacerData.WinForms.Controllers
         #region fields
 
         private readonly IViewFactory _viewFactory;
+        private readonly IViewControlFactory _viewControlFactory;
         private TableLayoutPanel _gridTable;
         private float _columnWidth = 0F;
         private float _rowHeight = 0F;
@@ -68,10 +69,12 @@ namespace RacerData.WinForms.Controllers
 
         internal ViewGridController(
             IViewFactory viewFactory,
+            IViewControlFactory viewControlFactory,
             Form parentForm,
             TableLayoutPanel gridTable)
         {
             _viewFactory = viewFactory ?? throw new ArgumentNullException(nameof(viewFactory));
+            _viewControlFactory = viewControlFactory ?? throw new ArgumentNullException(nameof(viewControlFactory));
             _gridTable = gridTable ?? throw new ArgumentNullException(nameof(gridTable));
 
             MaxRows = 40;
@@ -320,9 +323,7 @@ namespace RacerData.WinForms.Controllers
 
                         view.SuspendLayout();
 
-                        IViewControlFactory viewControlFactory = new ViewControlFactory();
-
-                        IViewControl viewControl = viewControlFactory.GetViewControl(viewInfo);
+                        IViewControl viewControl = _viewControlFactory.GetViewControl(viewInfo);
 
                         view.SetViewControl(viewControl);
 

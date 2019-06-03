@@ -2,7 +2,9 @@
 using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Controls;
+using RacerData.WinForms.Controls.AudioView;
 using RacerData.WinForms.Controls.Models.AudioView;
+using RacerData.WinForms.Controls.Ports;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 using ListView = RacerData.WinForms.Controls.ListView;
@@ -11,6 +13,25 @@ namespace RacerData.WinForms.Factories
 {
     internal class ViewControlFactory : IViewControlFactory
     {
+        #region fields
+
+        private readonly IAudioChannelService _channelService;
+        private readonly ISeriesService _seriesService;
+
+        #endregion
+
+        #region ctor
+
+        public ViewControlFactory(
+            IAudioChannelService channelService,
+            ISeriesService seriesService)
+        {
+            _channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
+            _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
+        }
+
+        #endregion
+
         #region public
 
         public IViewControl GetViewControl(ViewInfo viewInfo)
@@ -73,7 +94,9 @@ namespace RacerData.WinForms.Factories
         }
         protected virtual AudioView GetAudioView(AudioViewInfo viewinfo)
         {
-            return new AudioView();
+            var model = new AudioViewModel(_channelService, _seriesService);
+
+            return new AudioView(model);
         }
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {

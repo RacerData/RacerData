@@ -90,8 +90,13 @@ namespace RacerData.WinForms.Dialogs
                 this,
                 "Exception Copied",
                 "Exception details copied to clipboard",
-                Models.ButtonTypes.Ok,
-                Models.MsgIcon.Information);
+                ButtonTypes.Ok,
+                MsgIcon.Information);
+        }
+
+        private void dialogButtons1_DialogResultClicked(object sender, Events.DialogResultEventArgs e)
+        {
+            this.DialogResult = e.Result;
         }
 
         #endregion

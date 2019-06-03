@@ -96,11 +96,12 @@
             this.dialogButtons1.RaiseFormStateEvents = true;
             this.dialogButtons1.Size = new System.Drawing.Size(722, 42);
             this.dialogButtons1.TabIndex = 0;
+            this.dialogButtons1.DialogResultClicked += new System.EventHandler<RacerData.WinForms.Events.DialogResultEventArgs>(this.dialogButtons1_DialogResultClicked);
             // 
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(635, 283);
+            this.btnCopy.Location = new System.Drawing.Point(636, 283);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(75, 35);
             this.btnCopy.TabIndex = 7;

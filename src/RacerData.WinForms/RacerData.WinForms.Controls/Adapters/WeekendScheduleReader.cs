@@ -113,9 +113,12 @@ namespace RacerData.WinForms.Controls.Adapters
 
                             string[] formats = { "h:mm tt", "hh:mm tt", "h tt" };
 
-                            if (DateTime.TryParseExact(eventTime, formats,
-                                System.Globalization.CultureInfo.InvariantCulture,
-                                System.Globalization.DateTimeStyles.None, out eventDateTime))
+                            if (DateTime.TryParseExact(
+                                eventTime, 
+                                formats,
+                                System.Globalization.CultureInfo.CurrentCulture,
+                                System.Globalization.DateTimeStyles.AssumeLocal, 
+                                out eventDateTime))
                             {
 
                                 model.DateTime = new DateTime(
@@ -126,9 +129,23 @@ namespace RacerData.WinForms.Controls.Adapters
                                     eventDateTime.Minute,
                                     eventDateTime.Second);
                             }
+                            else if (DateTime.TryParse(
+                                eventTime,
+                                System.Globalization.CultureInfo.CurrentCulture,
+                                System.Globalization.DateTimeStyles.AssumeLocal,
+                                out eventDateTime))
+                            {
+                                model.DateTime = new DateTime(
+                                    scheduleDate.Year,
+                                    scheduleDate.Month,
+                                    scheduleDate.Day,
+                                    eventDateTime.Hour,
+                                    eventDateTime.Minute,
+                                    eventDateTime.Second);
+                            }
 
                             var titleText = titleElements[i].InnerHtml;
-                            if (titleText.Contains('('))
+                            if (titleText.Contains("(Also"))
                                 titleText = titleText.Substring(0, titleText.IndexOf('('));
 
                             model.Title = titleText;
@@ -152,33 +169,6 @@ namespace RacerData.WinForms.Controls.Adapters
             }
 
             return schedule;
-        }
-
-        protected virtual string GetSeries(IElement eventElement)
-        {
-            //<table class="weekend-schedule-table">
-            //  <tr class="series-gander-outdoors-truck-series" role="row">
-            //  <td class="series-logo" tabindex="0" role="cell"><img src = 'https://www.nascar.media/wp-content/uploads/sites/7/2018/12/NGOTS-Logo-3.png' alt='Gander Outdoors Truck Series' /></td>
-            //  <td class="event-time" tabindex="0" role="cell">4:05 p.m.ET</td>
-            //  <td class="event-title" tabindex="0" role="cell">First practice</td>
-            //  <td class="event-broadcast" tabindex="0" role="cell">
-            //    <a href = "https://www.nascar.com/results/race_center/2019/gander-outdoors-truck-series/vankor-350/stn/practice1/" title="Results">Results</a>    </td>
-            //</tr>
-            //  <tr class="series-gander-outdoors-truck-series" role="row">
-            //  <td class="series-logo" tabindex="0" role="cell"><img src = 'https://www.nascar.media/wp-content/uploads/sites/7/2018/12/NGOTS-Logo-3.png' alt='Gander Outdoors Truck Series' /></td>
-            //  <td class="event-time" tabindex="0" role="cell">6:05 p.m.ET</td>
-            //  <td class="event-title" tabindex="0" role="cell">Final Practice</td>
-            //  <td class="event-broadcast" tabindex="0" role="cell">
-            //    <a href = "https://www.nascar.com/results/race_center/2019/gander-outdoors-truck-series/vankor-350/stn/practice2/" title="Results">Results</a>    </td>
-            //</tr>
-            //</table>
-
-            // series-nascar-general
-            // series-xfinity-series
-            // series-monster-energy-nascar-cup-series
-            // series-gander-outdoors-truck-series
-
-            return "";
         }
 
         #endregion

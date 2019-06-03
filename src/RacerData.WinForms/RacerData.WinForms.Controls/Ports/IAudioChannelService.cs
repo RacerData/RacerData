@@ -7,7 +7,7 @@ namespace RacerData.WinForms.Controls.Ports
 {
     public interface IAudioChannelService
     {
-        Task<IResult<IList<AudioChannelInfo>>> GetChannelsAsync(int seriesId);
-        Task<IResult<IList<AudioChannelInfo>>> GetDefaultChannelsAsync();
+        Task<IResult<IList<AudioChannelModel>>> GetChannelsAsync(int seriesId);
+        Task<IResult<IList<AudioChannelModel>>> GetDefaultChannelsAsync();
     }
 }

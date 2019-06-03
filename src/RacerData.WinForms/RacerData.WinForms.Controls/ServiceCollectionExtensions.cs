@@ -17,6 +17,7 @@ namespace RacerData.WinForms.Controls
 
             services.TryAddTransient<IWeekendScheduleService, WeekendScheduleService>();
             services.TryAddTransient<IWeekendScheduleReader, WeekendScheduleReader>();
+            services.TryAddTransient<IVideoChannelService, VideoChannelService>();
             services.TryAddTransient<IAudioChannelService, AudioChannelService>();
             services.TryAddTransient<ISeriesService, SeriesService>();
 

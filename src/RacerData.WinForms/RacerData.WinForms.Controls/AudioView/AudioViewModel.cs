@@ -44,8 +44,8 @@ namespace RacerData.WinForms.Controls.AudioView
             }
         }
 
-        private AudioChannelInfo _channel;
-        public AudioChannelInfo Channel
+        private AudioChannelModel _channel;
+        public AudioChannelModel Channel
         {
             get
             {
@@ -58,8 +58,8 @@ namespace RacerData.WinForms.Controls.AudioView
             }
         }
 
-        private BindingList<AudioChannelInfo> _channels;
-        public BindingList<AudioChannelInfo> Channels
+        private BindingList<AudioChannelModel> _channels;
+        public BindingList<AudioChannelModel> Channels
         {
             get
             {
@@ -97,7 +97,7 @@ namespace RacerData.WinForms.Controls.AudioView
             _channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
             _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
 
-            _channels = new BindingList<AudioChannelInfo>();
+            _channels = new BindingList<AudioChannelModel>();
 
             _seriesList = new BindingList<SeriesModel>();
         }
@@ -153,7 +153,7 @@ namespace RacerData.WinForms.Controls.AudioView
             OnPropertyChanged(nameof(Channels));
         }
 
-        public virtual void SelectChannelCommand(AudioChannelInfo channel)
+        public virtual void SelectChannelCommand(AudioChannelModel channel)
         {
             Channel = channel;
         }

@@ -279,8 +279,8 @@ namespace RacerData.WinForms
                 {
                     Row = 0,
                     Column = 0,
-                    RowSpan = 4,
-                    ColumnSpan = 4
+                    RowSpan = 6,
+                    ColumnSpan = 6
                 },
                 DataMember = "LiveFeed",
                 DataSource = "EventInfo"
@@ -303,6 +303,7 @@ namespace RacerData.WinForms
                 DataSource = "EventInfo"
             };
         }
+
         #endregion
 
         #region private

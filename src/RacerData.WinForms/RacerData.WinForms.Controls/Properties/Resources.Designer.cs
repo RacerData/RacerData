@@ -123,5 +123,25 @@ namespace RacerData.WinForms.Controls.Properties {
                 return ResourceManager.GetString("videoFeedTemplate", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;link href=&quot;https://vjs.zencdn.net/7.5.4/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;
+        ///
+        ///    &lt;!-- If you&apos;d like to support IE8 (for Video.js versions prior to v7) --&gt;
+        ///    &lt;script src=&quot;https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js&quot;&gt;&lt;/script&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;# VIDEOELEMENT #&gt;
+        ///    &lt;script src=&apos;https://vjs.zencdn.net/7.5.4/video.js&apos;&gt;&lt;/script&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string videoFeedTemplate2 {
+            get {
+                return ResourceManager.GetString("videoFeedTemplate2", resourceCulture);
+            }
+        }
     }
 }

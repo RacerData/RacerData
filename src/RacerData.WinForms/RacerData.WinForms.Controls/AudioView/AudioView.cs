@@ -58,7 +58,7 @@ namespace RacerData.WinForms.Controls.AudioView
 
         #region fields
 
-        private AudioViewModel _model;
+        private readonly AudioViewModel _viewModel;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace RacerData.WinForms.Controls.AudioView
         public AudioView(AudioViewModel model)
             : this()
         {
-            _model = model ?? throw new ArgumentNullException(nameof(model));
+            _viewModel = model ?? throw new ArgumentNullException(nameof(model));
         }
 
         internal AudioView()
@@ -92,7 +92,7 @@ namespace RacerData.WinForms.Controls.AudioView
 
             cboChannel.ValueMember = "Id";
             cboChannel.DisplayMember = "Name";
-            cboChannel.DataSource = _model.Channels.OrderBy(c => c.StreamNumber).ToList();
+            cboChannel.DataSource = _viewModel.Channels.OrderBy(c => c.StreamNumber).ToList();
             cboChannel.SelectedIndex = -1;
 
             cboChannel.SelectedIndexChanged += this.cboChannel_SelectedIndexChanged;
@@ -106,7 +106,7 @@ namespace RacerData.WinForms.Controls.AudioView
 
             cboSeries.ValueMember = "Id";
             cboSeries.DisplayMember = "Abbreviation";
-            cboSeries.DataSource = _model.SeriesList.OrderBy(s => s.Id).ToList();
+            cboSeries.DataSource = _viewModel.SeriesList.OrderBy(s => s.Id).ToList();
             cboSeries.SelectedIndex = -1;
 
             cboSeries.SelectedIndexChanged += this.cboSeries_SelectedIndexChanged;
@@ -119,7 +119,7 @@ namespace RacerData.WinForms.Controls.AudioView
             OnSetViewHeaderRequest($"Audio: No Channel Selected");
         }
 
-        protected virtual void PlayAudioFeed(AudioChannelInfo audioFeed)
+        protected virtual void PlayAudioFeed(AudioChannelModel audioFeed)
         {
             ClearDisplay();
 
@@ -143,16 +143,16 @@ namespace RacerData.WinForms.Controls.AudioView
 
         private async void AudioView_Load(object sender, EventArgs e)
         {
-            SetDataBindings(_model);
+            SetDataBindings(_viewModel);
 
-            await _model.GetSeriesListCommandAsync();
+            await _viewModel.GetSeriesListCommandAsync();
         }
 
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(AudioViewModel.Channel))
             {
-                PlayAudioFeed(_model.Channel);
+                PlayAudioFeed(_viewModel.Channel);
             }
             else if (e.PropertyName == nameof(AudioViewModel.SeriesList))
             {
@@ -169,9 +169,9 @@ namespace RacerData.WinForms.Controls.AudioView
             if (cboChannel.SelectedItem == null)
                 return;
 
-            AudioChannelInfo selected = (AudioChannelInfo)cboChannel.SelectedItem;
+            AudioChannelModel selected = (AudioChannelModel)cboChannel.SelectedItem;
 
-            _model.SelectChannelCommand(selected);
+            _viewModel.SelectChannelCommand(selected);
         }
 
         private async void cboSeries_SelectedIndexChanged(object sender, EventArgs e)
@@ -181,7 +181,7 @@ namespace RacerData.WinForms.Controls.AudioView
 
             SeriesModel selected = (SeriesModel)cboSeries.SelectedItem;
 
-            await _model.SelectSeriesCommandAsync(selected);
+            await _viewModel.SelectSeriesCommandAsync(selected);
         }
 
         #endregion

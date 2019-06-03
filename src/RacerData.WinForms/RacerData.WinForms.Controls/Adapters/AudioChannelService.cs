@@ -23,7 +23,7 @@ namespace RacerData.WinForms.Controls.Adapters
 
         #region fields
 
-        private IList<AudioChannelInfo> _defaultChannels = new List<AudioChannelInfo>();
+        private IList<AudioChannelModel> _defaultChannels = new List<AudioChannelModel>();
         private readonly IResultFactory<AudioChannelService> _resultFactory;
 
         #endregion
@@ -41,12 +41,12 @@ namespace RacerData.WinForms.Controls.Adapters
 
         #region public
 
-        public virtual async Task<IResult<IList<AudioChannelInfo>>> GetDefaultChannelsAsync()
+        public virtual async Task<IResult<IList<AudioChannelModel>>> GetDefaultChannelsAsync()
         {
             return await Task.FromResult(_resultFactory.Success(_defaultChannels.ToList()));
         }
 
-        public virtual async Task<IResult<IList<AudioChannelInfo>>> GetChannelsAsync(int seriesId)
+        public virtual async Task<IResult<IList<AudioChannelModel>>> GetChannelsAsync(int seriesId)
         {
             var channelList = GetChannelList(seriesId);
 
@@ -59,8 +59,8 @@ namespace RacerData.WinForms.Controls.Adapters
 
         protected virtual void BuildDefaultChannelList()
         {
-            var defaultChannels = new List<AudioChannelInfo>();
-            defaultChannels.Add(new AudioChannelInfo()
+            var defaultChannels = new List<AudioChannelModel>();
+            defaultChannels.Add(new AudioChannelModel()
             {
                 StreamNumber = 1,
                 DriverNumber = "All Scan",
@@ -68,7 +68,7 @@ namespace RacerData.WinForms.Controls.Adapters
                 Stream_RTMP = "nscs_raceview_01@79772",
                 Stream_IOS = @"596367/driveaudio_01/master.m3u8"
             });
-            defaultChannels.Add(new AudioChannelInfo()
+            defaultChannels.Add(new AudioChannelModel()
             {
                 StreamNumber = 32,
                 DriverNumber = "43",
@@ -76,7 +76,7 @@ namespace RacerData.WinForms.Controls.Adapters
                 Stream_RTMP = "nscs_raceview_31@86101",
                 Stream_IOS = @"596466/driveaudio_31/master.m3u8"
             });
-            defaultChannels.Add(new AudioChannelInfo()
+            defaultChannels.Add(new AudioChannelModel()
             {
                 StreamNumber = 47,
                 DriverNumber = "MRN Radio",
@@ -84,7 +84,7 @@ namespace RacerData.WinForms.Controls.Adapters
                 Stream_RTMP = "nscs_raceview_47@86119",
                 Stream_IOS = @"596495/driveaudio_47/master.m3u8"
             });
-            defaultChannels.Add(new AudioChannelInfo()
+            defaultChannels.Add(new AudioChannelModel()
             {
                 StreamNumber = 48,
                 DriverNumber = "Officials",
@@ -96,9 +96,9 @@ namespace RacerData.WinForms.Controls.Adapters
             defaultChannels.ForEach(f => _defaultChannels.Add(f));
         }
 
-        protected virtual IList<AudioChannelInfo> GetChannelList(int seriesId)
+        protected virtual IList<AudioChannelModel> GetChannelList(int seriesId)
         {
-            var channels = new List<AudioChannelInfo>();
+            var channels = new List<AudioChannelModel>();
 
             var url = GetChannelListUrl(seriesId);
 
@@ -113,7 +113,7 @@ namespace RacerData.WinForms.Controls.Adapters
 
                 foreach (AudioConfig feed in root.audio_config)
                 {
-                    channels.Add(new AudioChannelInfo()
+                    channels.Add(new AudioChannelModel()
                     {
                         DriverNumber = feed.driver_number,
                         Name = feed.driver_name,
@@ -127,6 +127,7 @@ namespace RacerData.WinForms.Controls.Adapters
 
             return channels;
         }
+
         protected virtual string GetChannelListUrl(int seriesId)
         {
             if (seriesId == 1)

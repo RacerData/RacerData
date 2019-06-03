@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Controls.Models.WeekendScheduleView;
-using RacerData.WinForms.Data;
 using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
@@ -59,25 +58,7 @@ namespace RacerData.WinForms.Controls
 
         #region fields
 
-        private WeekendScheduleViewModel _model;
-
-        #endregion
-
-        #region properties
-
-        private WeekendSchedule _weekendSchedule;
-        public WeekendSchedule WeekendSchedule
-        {
-            get
-            {
-                return _weekendSchedule;
-            }
-            set
-            {
-                _weekendSchedule = value;
-                PopulateScheduleDisplay(_weekendSchedule);
-            }
-        }
+        private readonly WeekendScheduleViewModel _viewModel;
 
         #endregion
 
@@ -86,7 +67,7 @@ namespace RacerData.WinForms.Controls
         public WeekendScheduleView(WeekendScheduleViewModel model)
          : this()
         {
-            _model = model ?? throw new ArgumentNullException(nameof(model));
+            _viewModel = model ?? throw new ArgumentNullException(nameof(model));
         }
 
         internal WeekendScheduleView()
@@ -134,10 +115,6 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        #endregion
-
-        #region protected
-
         protected virtual void SetDataBindings(WeekendScheduleViewModel model)
         {
             model.PropertyChanged += Model_PropertyChanged;
@@ -149,16 +126,16 @@ namespace RacerData.WinForms.Controls
 
         private async void ScheduleView_Load(object sender, EventArgs e)
         {
-            SetDataBindings(_model);
+            SetDataBindings(_viewModel);
 
-            await _model.GetWeekendScheduleCommandAsync();
+            await _viewModel.GetWeekendScheduleCommandAsync();
         }
 
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(WeekendScheduleViewModel.WeekendSchedule))
             {
-                PopulateScheduleDisplay(_model.WeekendSchedule);
+                PopulateScheduleDisplay(_viewModel.WeekendSchedule);
             }
         }
         #endregion

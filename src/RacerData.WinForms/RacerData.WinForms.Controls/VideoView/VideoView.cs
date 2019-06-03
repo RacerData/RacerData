@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls.Models.VideoView;
 using RacerData.WinForms.Models;
 
-namespace RacerData.WinForms.Controls
+namespace RacerData.WinForms.Controls.VideoView
 {
     public partial class VideoView : UserControl, IVideoView
     {
-        #region consts
-
-        private const string livePracticeVideoFeedUrl = @"https://nascaruncovered.akamaized.net/hls/live/2004110/uncovered_practice/master.m3u8";
-
-        #endregion
-
         #region events
 
         public event EventHandler<string> SetViewHeaderRequest;
@@ -59,28 +55,98 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region fields
+
+        private readonly VideoViewModel _viewModel;
+
+        #endregion
+
         #region ctor
 
-        public VideoView()
+        public VideoView(VideoViewModel model)
+            : this()
+        {
+            _viewModel = model ?? throw new ArgumentNullException(nameof(model));
+        }
+
+        internal VideoView()
         {
             InitializeComponent();
+        }
 
-            PlayVideoFeed(livePracticeVideoFeedUrl);
+        #endregion
+
+        #region protected
+
+        protected virtual void SetDataBindings(VideoViewModel model)
+        {
+            model.PropertyChanged += Model_PropertyChanged;
+        }
+
+        protected virtual void UpdateChannelListBinding()
+        {
+            cboChannel.SelectedIndexChanged -= this.cboChannel_SelectedIndexChanged;
+
+            cboChannel.DataSource = null;
+
+            cboChannel.ValueMember = "Id";
+            cboChannel.DisplayMember = "Name";
+            cboChannel.DataSource = _viewModel.Channels.OrderBy(c => c.Name).ToList();
+            cboChannel.SelectedIndex = -1;
+
+            cboChannel.SelectedIndexChanged += this.cboChannel_SelectedIndexChanged;
+        }
+
+        protected virtual void PlayVideoFeed(VideoViewModel model)
+        {
+            ClearDisplay();
+
+            if (model == null || model.Channel == null)
+                return;
+
+            webViewCompatible1.NavigateToString(model.Channel.Html);
+
+            OnSetViewHeaderRequest($"Video: {model.Channel.Name}");
+        }
+
+        protected virtual void ClearDisplay()
+        {
+            webViewCompatible1.NavigateToString(Properties.Resources.noChannelSelected);
+
+            OnSetViewHeaderRequest($"Video: No Channel Selected");
         }
 
         #endregion
 
         #region private
 
-        private void PlayVideoFeed(string videoFeedUrl)
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var token = @"<#SOURCE#>";
+            if (e.PropertyName == nameof(VideoViewModel.Channel))
+            {
+                PlayVideoFeed(_viewModel);
+            }
+            else if (e.PropertyName == nameof(VideoViewModel.Channels))
+            {
+                UpdateChannelListBinding();
+            }
+        }
 
-            var template = Properties.Resources.videoFeedTemplate;
+        private void cboChannel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboChannel.SelectedItem == null)
+                return;
 
-            var html = template.Replace(token, videoFeedUrl);
+            VideoChannelModel selected = (VideoChannelModel)cboChannel.SelectedItem;
 
-            webViewCompatible1.NavigateToString(html);
+            _viewModel.SelectChannelCommand(selected);
+        }
+
+        private async void VideoView_Load(object sender, EventArgs e)
+        {
+            SetDataBindings(_viewModel);
+
+            await _viewModel.GetChannelsCommandAsync();
         }
 
         #endregion

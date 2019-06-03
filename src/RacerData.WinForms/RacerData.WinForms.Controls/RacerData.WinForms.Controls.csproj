@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Adapters\AudioChannelService.cs" />
     <Compile Include="Adapters\SeriesService.cs" />
+    <Compile Include="Adapters\VideoChannelService.cs" />
     <Compile Include="Adapters\WeekendScheduleService.cs" />
     <Compile Include="Controllers\ViewGridController.cs" />
     <Compile Include="AudioView\AudioView.cs">
@@ -124,11 +125,14 @@
       <DependentUpon>AudioView.cs</DependentUpon>
     </Compile>
     <Compile Include="AudioView\AudioViewModel.cs" />
+    <Compile Include="Models\VideoView\VideoChannelModel.cs" />
+    <Compile Include="Ports\IVideoChannelService.cs" />
     <Compile Include="Ports\IWeekendScheduleReader.cs" />
     <Compile Include="Models\SeriesModel.cs" />
     <Compile Include="Ports\IAudioChannelService.cs" />
     <Compile Include="Ports\ISeriesService.cs" />
     <Compile Include="Ports\IWeekendScheduleService.cs" />
+    <Compile Include="VideoView\VideoViewModel.cs" />
     <Compile Include="WeekendScheduleView\DayScheduleItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -215,7 +219,7 @@
     <Compile Include="Factories\ViewFactory.cs" />
     <Compile Include="Factories\ViewGridControllerFactory.cs" />
     <Compile Include="Adapters\WeekendScheduleReader.cs" />
-    <Compile Include="Models\AudioView\AudioChannelInfo.cs" />
+    <Compile Include="Models\AudioView\AudioChannelModel.cs" />
     <Compile Include="Models\AudioView\AudioViewInfo.cs" />
     <Compile Include="Models\StaticView\CaptionAlignment.cs" />
     <Compile Include="Models\ListView\ControlMovedEventArgs.cs" />
@@ -316,14 +320,13 @@
     <Content Include="Resources\noChannelSelected.html" />
     <Content Include="Resources\audioFeedTemplate.html" />
     <Content Include="Resources\headerHighlight.png" />
+    <Content Include="Resources\videoFeedTemplate2.html" />
     <Content Include="Resources\videoFeedTemplate.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Internal\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

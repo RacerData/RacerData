@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using RacerData.WinForms.Controls.AudioView;
+using RacerData.WinForms.Controls.VideoView;
+using RacerData.WinForms.Controls.Models.VideoView;
 using RacerData.WinForms.Controls.Models.AudioView;
 using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 using RacerData.WinForms.Controls.Ports;
@@ -16,7 +17,8 @@ namespace RacerData.WinForms.Factories
     {
         #region fields
 
-        private readonly IAudioChannelService _channelService;
+        private readonly IVideoChannelService _videoChannelService;
+        private readonly IAudioChannelService _audioChannelService;
         private readonly ISeriesService _seriesService;
         private readonly IWeekendScheduleService _weekendScheduleService;
 
@@ -25,11 +27,13 @@ namespace RacerData.WinForms.Factories
         #region ctor
 
         public ViewControlFactory(
-            IAudioChannelService channelService,
+            IVideoChannelService videoChannelService,
+            IAudioChannelService audioChannelService,
             ISeriesService seriesService,
             IWeekendScheduleService weekendScheduleService)
         {
-            _channelService = channelService ?? throw new ArgumentNullException(nameof(channelService));
+            _videoChannelService = videoChannelService ?? throw new ArgumentNullException(nameof(videoChannelService));
+            _audioChannelService = audioChannelService ?? throw new ArgumentNullException(nameof(audioChannelService));
             _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
             _weekendScheduleService = weekendScheduleService ?? throw new ArgumentNullException(nameof(weekendScheduleService));
         }
@@ -94,11 +98,12 @@ namespace RacerData.WinForms.Factories
         }
         protected virtual VideoView GetVideoView(VideoViewInfo viewinfo)
         {
-            return new VideoView();
+            var viewModel = new VideoViewModel(_videoChannelService);
+            return new VideoView(viewModel);
         }
         protected virtual AudioView GetAudioView(AudioViewInfo viewinfo)
         {
-            var viewModel = new AudioViewModel(_channelService, _seriesService);
+            var viewModel = new AudioViewModel(_audioChannelService, _seriesService);
             return new AudioView(viewModel);
         }
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.WinForms", "Racer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.WinForms.TestApp", "RacerData.WinForms.TestApp\RacerData.WinForms.TestApp.csproj", "{4C8F81B7-1E58-4910-95D8-8EC3B9F90119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.WinForms.Themes", "RacerData.WinForms.Themes\RacerData.WinForms.Themes.csproj", "{DFAB52D4-4E54-4DD7-B99A-D819CBF9134A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{4C8F81B7-1E58-4910-95D8-8EC3B9F90119}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C8F81B7-1E58-4910-95D8-8EC3B9F90119}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C8F81B7-1E58-4910-95D8-8EC3B9F90119}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFAB52D4-4E54-4DD7-B99A-D819CBF9134A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFAB52D4-4E54-4DD7-B99A-D819CBF9134A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFAB52D4-4E54-4DD7-B99A-D819CBF9134A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFAB52D4-4E54-4DD7-B99A-D819CBF9134A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ using RacerData.Common.Results;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 
-namespace RacerData.WinForms.Controls.Adapters
+namespace RacerData.WinForms.Adapters
 {
     public class AudioChannelService : IAudioChannelService
     {

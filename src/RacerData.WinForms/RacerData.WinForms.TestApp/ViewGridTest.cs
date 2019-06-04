@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
+using RacerData.Commmon.Results;
+using RacerData.WinForms.Controllers;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
+using RacerData.WinForms.Renderers;
 
 namespace RacerData.WinForms
 {
@@ -12,7 +17,7 @@ namespace RacerData.WinForms
     {
         #region fields
 
-        private IViewGridController _viewGridController;
+        private IThemedViewGridController _viewGridController;
 
         #endregion
 
@@ -22,9 +27,18 @@ namespace RacerData.WinForms
         {
             InitializeComponent();
 
-            IViewGridControllerFactory viewGridControllerFactory = ServiceProvider.Instance.GetRequiredService<IViewGridControllerFactory>();
+            //IViewGridControllerFactory viewGridControllerFactory = ServiceProvider.Instance.GetRequiredService<IViewGridControllerFactory>();
 
-            _viewGridController = viewGridControllerFactory.GetViewGridController(this, viewGrid1.Grid);
+            //_viewGridController = (IThemedViewGridController)viewGridControllerFactory.GetViewGridController(this, viewGrid1.Grid);
+
+            //IViewFactory viewFactory = ServiceProvider.Instance.GetRequiredService<IViewFactory>();
+            //IViewControlFactory viewControlFactory = ServiceProvider.Instance.GetRequiredService<IViewControlFactory>();
+            //_viewGridController = new ThemedViewGridController(viewFactory, viewControlFactory, this, viewGrid1.Grid);
+
+            IViewGridControllerFactory viewGridControllerFactory = ServiceProvider.Instance.GetRequiredService<IThemedViewGridControllerFactory>();
+            _viewGridController = (IThemedViewGridController)viewGridControllerFactory.GetViewGridController(this, viewGrid1.Grid);
+
+            _repository = ServiceProvider.Instance.GetRequiredService<IAppAppearanceRepository>();
 
             _viewGridController.ViewAdded += _viewGridController_ViewAdded;
             _viewGridController.ViewRemoved += _viewGridController_ViewRemoved;
@@ -427,5 +441,128 @@ namespace RacerData.WinForms
         }
 
         #endregion
+
+        private async void btnApplyTheme_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var appearance = await GetApplicationAppearance();
+
+                _viewGridController.ApplyTheme(appearance);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler("Error applying theme", ex);
+            }
+        }
+        private async Task<ApplicationAppearance> GetApplicationAppearance()
+        {
+            var appearances = await LoadItemsAsync();
+
+            var selected = appearances.FirstOrDefault(a => a.Name == "MH2");
+
+            Console.WriteLine($">> Using appearance {selected.Name}");
+
+            return selected;
+        }
+
+        private IAppAppearanceRepository _repository;
+        protected virtual async Task<IList<ApplicationAppearance>> LoadItemsAsync()
+        {
+            var result = await _repository.SelectListAsync();
+
+            if (!result.IsSuccessful())
+            {
+                ExceptionHandler(result.Exception);
+
+                return null;
+            }
+
+            return result.Value;
+        }
+    }
+
+    public interface IThemedViewGridControllerFactory : IViewGridControllerFactory
+    {
+
+    }
+    public class ThemedViewGridControllerFactory : IThemedViewGridControllerFactory
+    {
+        #region fields
+
+        private readonly IViewFactory _viewFactory;
+        private readonly IViewControlFactory _viewControlFactory;
+        #endregion
+
+        #region ctor
+
+        public ThemedViewGridControllerFactory(
+            IViewFactory viewFactory,
+            IViewControlFactory viewControlFactory)
+        {
+            _viewFactory = viewFactory ?? throw new ArgumentNullException(nameof(viewFactory));
+            _viewControlFactory = viewControlFactory ?? throw new ArgumentNullException(nameof(viewControlFactory));
+        }
+
+        #endregion
+
+        #region public
+
+        public IViewGridController GetViewGridController(IViewFactory viewFactory, IViewControlFactory viewControlFactory, Form parentForm, TableLayoutPanel gridTable)
+        {
+            return new ThemedViewGridController(viewFactory, viewControlFactory, parentForm, gridTable);
+        }
+
+        public IViewGridController GetViewGridController(Form parentForm, TableLayoutPanel gridTable)
+        {
+            return new ThemedViewGridController(_viewFactory, _viewControlFactory, parentForm, gridTable);
+        }
+
+        #endregion
+    }
+
+    public interface IThemedViewGridController : IViewGridController
+    {
+        void ApplyTheme(ApplicationAppearance appearance);
+    }
+
+    public class ThemedViewGridController : ViewGridController, IThemedViewGridController
+    {
+        public ThemedViewGridController(
+            IViewFactory viewFactory,
+            IViewControlFactory viewControlFactory,
+            Form parentForm,
+            TableLayoutPanel gridTable)
+            : base(viewFactory, viewControlFactory, parentForm, gridTable)
+        {
+
+        }
+
+        public void ApplyTheme(ApplicationAppearance appearance)
+        {
+            _gridTable.BackColor = appearance.WorkspaceColor;
+            _gridTable.Parent.BackColor = appearance.WorkspaceColor;
+
+            foreach (var view in this.Views)
+            {
+                Control viewControl = (Control)view;
+                viewControl.BackColor = appearance.BackColor;
+                viewControl.ForeColor = appearance.ForeColor;
+                viewControl.Font = appearance.Font;
+            }
+
+            foreach (ToolStrip toolStrip in _parentForm.Controls.OfType<ToolStrip>())
+            {
+                toolStrip.Renderer = new ToolStripCustomRenderer(appearance.MenuColorTable);
+            }
+            foreach (MenuStrip menuStrip in _parentForm.Controls.OfType<MenuStrip>())
+            {
+                menuStrip.Renderer = new ToolStripCustomRenderer(appearance.MenuColorTable);
+            }
+            foreach (StatusStrip statusStrip in _parentForm.Controls.OfType<StatusStrip>())
+            {
+                statusStrip.Renderer = new ToolStripCustomRenderer(appearance.MenuColorTable);
+            }
+        }
     }
 }

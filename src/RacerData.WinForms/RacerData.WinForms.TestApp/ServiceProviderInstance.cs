@@ -2,11 +2,10 @@
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using RacerData.Commmon;
 using RacerData.Common.Models;
-using RacerData.WinForms.Controls;
 using RacerData.WinForms.Dialogs;
-using RacerData.WinForms.Themes;
 
 namespace RacerData.WinForms
 {
@@ -42,8 +41,9 @@ namespace RacerData.WinForms
             services.Configure<DirectoryConfiguration>(configuration.GetSection("directories"));
 
             services.AddCommon();
+            services.TryAddTransient<IThemedViewGridControllerFactory, ThemedViewGridControllerFactory>();
+
             services.AddWinForms();
-            services.AddThemes();
 
             services.AddTransient<AppearanceEditorDialog, AppearanceEditorDialog>();
 

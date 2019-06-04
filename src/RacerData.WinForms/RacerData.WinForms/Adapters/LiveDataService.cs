@@ -6,7 +6,7 @@ using RacerData.Common.Results;
 using RacerData.WinForms.Controls.Data;
 using RacerData.WinForms.Ports;
 
-namespace RacerData.WinForms.Controls.Adapters
+namespace RacerData.WinForms.Adapters
 {
     class LiveDataService : ILiveDataService
     {

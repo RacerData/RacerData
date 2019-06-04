@@ -61,6 +61,26 @@ namespace RacerData.WinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _112_Minus_Grey_16x16_72 {
+            get {
+                object obj = ResourceManager.GetObject("_112_Minus_Grey_16x16_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _112_Plus_Grey_16x16_72 {
+            get {
+                object obj = ResourceManager.GetObject("_112_Plus_Grey_16x16_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;link href=&quot;https://vjs.zencdn.net/7.5.4/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;

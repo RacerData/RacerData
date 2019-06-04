@@ -47,16 +47,30 @@ namespace RacerData.WinForms.Themes.Editors
             }
         }
 
+        private ListAppearance _alternatingListAppearance;
+        public ListAppearance AlternatingListAppearance
+        {
+            get
+            {
+                return _alternatingListAppearance;
+            }
+            set
+            {
+                _alternatingListAppearance = value;
+                DisplayAppearance(_alternatingListAppearance);
+            }
+        }
+
         public string Caption
         {
             get
             {
-                return baseAppearanceEditor1?.Caption;
+                return lblCaption.Text;
             }
             set
             {
-                if (baseAppearanceEditor1 != null)
-                    baseAppearanceEditor1.Caption = value;
+                if (lblCaption != null)
+                    lblCaption.Text = value;
             }
         }
 
@@ -96,6 +110,9 @@ namespace RacerData.WinForms.Themes.Editors
 
             baseAppearanceEditor1.ColorRequest += OnColorRequest;
             baseAppearanceEditor1.FontRequest += OnFontRequest;
+
+            baseAppearanceEditor2.ColorRequest += OnColorRequest;
+            baseAppearanceEditor2.FontRequest += OnFontRequest;
         }
 
         #endregion
@@ -105,8 +122,10 @@ namespace RacerData.WinForms.Themes.Editors
         public void ApplyChanges()
         {
             baseAppearanceEditor1.ApplyChanges();
+            baseAppearanceEditor2.ApplyChanges();
 
             ListAppearance = UpdateAppearance(ListAppearance);
+            AlternatingListAppearance = UpdateAppearance(AlternatingListAppearance);
         }
 
         public void Clear()
@@ -121,6 +140,7 @@ namespace RacerData.WinForms.Themes.Editors
         protected virtual void ClearAppearance()
         {
             baseAppearanceEditor1.Clear();
+            baseAppearanceEditor2.Clear();
         }
 
         protected virtual void DisplayAppearance(ListAppearance appearance)
@@ -130,15 +150,17 @@ namespace RacerData.WinForms.Themes.Editors
             if (appearance == null)
                 return;
 
-            baseAppearanceEditor1.BaseAppearance = (Models.Appearance)appearance.ListItemAppearance;
+            baseAppearanceEditor1.BaseAppearance = appearance.ListItemAppearance;
+            baseAppearanceEditor2.BaseAppearance = appearance.AlternatingListItemAppearance;
         }
 
         protected virtual ListAppearance UpdateAppearance(ListAppearance appearance)
         {
             if (appearance == null)
-                appearance= new ListAppearance();
+                appearance = new ListAppearance();
 
             appearance.ListItemAppearance = baseAppearanceEditor1.BaseAppearance;
+            appearance.AlternatingListItemAppearance = baseAppearanceEditor2.BaseAppearance;
 
             return appearance;
         }
@@ -148,7 +170,7 @@ namespace RacerData.WinForms.Themes.Editors
         #region private
 
         private void ListAppearanceEditor_Load(object sender, EventArgs e)
-        {           
+        {
         }
 
         #endregion

@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using RacerData.WinForms.Adapters;
-using RacerData.WinForms.Controls.Adapters;
+//using RacerData.WinForms.Adapters;
+using RacerData.WinForms.Dialogs;
 using RacerData.WinForms.Factories;
 using RacerData.WinForms.Ports;
 
@@ -11,6 +12,9 @@ namespace RacerData.WinForms
     {
         public static IServiceCollection AddWinForms(this IServiceCollection services)
         {
+            services.AddTransient<AppearanceEditorDialog, AppearanceEditorDialog>();
+            services.TryAddTransient<IAppAppearanceRepository, AppAppearanceRepository>();
+
             services.TryAddTransient<IDialogService, DialogService>();
             services.TryAddTransient<IExceptionHandlerService, ExceptionHandlerService>();
             services.TryAddTransient<IViewControlFactory, ViewControlFactory>();

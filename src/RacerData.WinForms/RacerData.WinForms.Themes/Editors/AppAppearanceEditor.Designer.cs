@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            RacerData.WinForms.Themes.Models.SimpleColorTable simpleColorTable2 = new RacerData.WinForms.Themes.Models.SimpleColorTable();
+            RacerData.WinForms.Themes.Models.SimpleColorTable simpleColorTable1 = new RacerData.WinForms.Themes.Models.SimpleColorTable();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.pnlSubEditors = new System.Windows.Forms.Panel();
-            this.pnlDetails = new System.Windows.Forms.Panel();
             this.colorTableAppearanceEditor = new RacerData.WinForms.Themes.Editors.ColorTableAppearanceEditor();
             this.listAppearanceEditor = new RacerData.WinForms.Themes.Editors.ListAppearanceEditor();
             this.dialogAppearanceEditor = new RacerData.WinForms.Themes.Editors.DialogAppearanceEditor();
@@ -40,6 +39,7 @@
             this.darkAccentAppearanceEditor = new RacerData.WinForms.Themes.Editors.AppearanceEditor();
             this.lightAccentAppearanceEditor = new RacerData.WinForms.Themes.Editors.AppearanceEditor();
             this.workspaceAppearanceEditor = new RacerData.WinForms.Themes.Editors.WorkspaceAppearanceEditor();
+            this.pnlDetails = new System.Windows.Forms.Panel();
             this.pnlSubEditors.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.SuspendLayout();
@@ -81,49 +81,38 @@
             this.pnlSubEditors.Size = new System.Drawing.Size(835, 986);
             this.pnlSubEditors.TabIndex = 11;
             // 
-            // pnlDetails
-            // 
-            this.pnlDetails.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlDetails.Controls.Add(this.txtName);
-            this.pnlDetails.Controls.Add(this.lblName);
-            this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDetails.Location = new System.Drawing.Point(0, 0);
-            this.pnlDetails.Name = "pnlDetails";
-            this.pnlDetails.Size = new System.Drawing.Size(835, 62);
-            this.pnlDetails.TabIndex = 12;
-            // 
             // colorTableAppearanceEditor
             // 
             this.colorTableAppearanceEditor.Caption = "Menu / Tools Strip / Status Strip Appearances";
             this.colorTableAppearanceEditor.CaptionBackColor = System.Drawing.Color.DimGray;
             this.colorTableAppearanceEditor.CaptionForeColor = System.Drawing.Color.WhiteSmoke;
-            simpleColorTable2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            simpleColorTable2.ButtonClickBackColor = System.Drawing.Color.Empty;
-            simpleColorTable2.CheckBoxBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(215)))), ((int)(((byte)(243)))));
-            simpleColorTable2.CheckedBorderColor = System.Drawing.SystemColors.Highlight;
-            simpleColorTable2.CheckedButtonBackColor = System.Drawing.Color.Empty;
-            simpleColorTable2.CheckedButtonBorderColor = System.Drawing.Color.Empty;
-            simpleColorTable2.CheckedButtonMouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(188)))), ((int)(((byte)(235)))));
-            simpleColorTable2.ForeColor = System.Drawing.Color.Empty;
-            simpleColorTable2.MenuBorderColor = System.Drawing.Color.Empty;
-            simpleColorTable2.MenuStripMouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            simpleColorTable2.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(215)))), ((int)(((byte)(243)))));
-            simpleColorTable2.MouseOverForeColor = System.Drawing.Color.Empty;
-            simpleColorTable2.OpenMenuBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(188)))), ((int)(((byte)(235)))));
-            simpleColorTable2.SeparatorDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(189)))));
-            simpleColorTable2.SeparatorLightColor = System.Drawing.SystemColors.ButtonHighlight;
-            simpleColorTable2.ToolStripMouseOverBorderColor = System.Drawing.Color.Empty;
-            simpleColorTable2.UseSystemColors = false;
-            this.colorTableAppearanceEditor.ColorTable = simpleColorTable2;
+            simpleColorTable1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            simpleColorTable1.ButtonClickBackColor = System.Drawing.Color.Empty;
+            simpleColorTable1.CheckBoxBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(215)))), ((int)(((byte)(243)))));
+            simpleColorTable1.CheckedBorderColor = System.Drawing.SystemColors.Highlight;
+            simpleColorTable1.CheckedButtonBackColor = System.Drawing.Color.Empty;
+            simpleColorTable1.CheckedButtonBorderColor = System.Drawing.Color.Empty;
+            simpleColorTable1.CheckedButtonMouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(188)))), ((int)(((byte)(235)))));
+            simpleColorTable1.ForeColor = System.Drawing.Color.Empty;
+            simpleColorTable1.MenuBorderColor = System.Drawing.Color.Empty;
+            simpleColorTable1.MenuStripMouseOverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            simpleColorTable1.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(215)))), ((int)(((byte)(243)))));
+            simpleColorTable1.MouseOverForeColor = System.Drawing.Color.Empty;
+            simpleColorTable1.OpenMenuBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(188)))), ((int)(((byte)(235)))));
+            simpleColorTable1.SeparatorDarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(189)))));
+            simpleColorTable1.SeparatorLightColor = System.Drawing.SystemColors.ButtonHighlight;
+            simpleColorTable1.ToolStripMouseOverBorderColor = System.Drawing.Color.Empty;
+            simpleColorTable1.UseSystemColors = false;
+            this.colorTableAppearanceEditor.ColorTable = simpleColorTable1;
             this.colorTableAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 898);
+            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 994);
             this.colorTableAppearanceEditor.Name = "colorTableAppearanceEditor";
             this.colorTableAppearanceEditor.Size = new System.Drawing.Size(802, 540);
             this.colorTableAppearanceEditor.TabIndex = 10;
             // 
             // listAppearanceEditor
             // 
+            this.listAppearanceEditor.AlternatingListAppearance = null;
             this.listAppearanceEditor.BackColor = System.Drawing.Color.White;
             this.listAppearanceEditor.Caption = "List Item Appearance";
             this.listAppearanceEditor.CaptionBackColor = System.Drawing.Color.Gainsboro;
@@ -133,7 +122,7 @@
             this.listAppearanceEditor.ListAppearance = null;
             this.listAppearanceEditor.Location = new System.Drawing.Point(8, 770);
             this.listAppearanceEditor.Name = "listAppearanceEditor";
-            this.listAppearanceEditor.Size = new System.Drawing.Size(802, 128);
+            this.listAppearanceEditor.Size = new System.Drawing.Size(802, 224);
             this.listAppearanceEditor.TabIndex = 8;
             this.listAppearanceEditor.Load += new System.EventHandler(this.dialogAppearanceEditor_Load);
             // 
@@ -208,6 +197,18 @@
             this.workspaceAppearanceEditor.SelectedColor = System.Drawing.Color.White;
             this.workspaceAppearanceEditor.Size = new System.Drawing.Size(802, 88);
             this.workspaceAppearanceEditor.TabIndex = 0;
+            // 
+            // pnlDetails
+            // 
+            this.pnlDetails.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlDetails.Controls.Add(this.txtName);
+            this.pnlDetails.Controls.Add(this.lblName);
+            this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlDetails.Location = new System.Drawing.Point(0, 0);
+            this.pnlDetails.Name = "pnlDetails";
+            this.pnlDetails.Size = new System.Drawing.Size(835, 62);
+            this.pnlDetails.TabIndex = 12;
             // 
             // AppAppearanceEditor
             // 

@@ -7,7 +7,7 @@ using RacerData.WinForms.Models;
 using RacerData.WinForms.Data;
 using RacerData.WinForms.Ports;
 
-namespace RacerData.WinForms.Controls.Adapters
+namespace RacerData.WinForms.Adapters
 {
     public class WeekendScheduleReader : IWeekendScheduleReader
     {

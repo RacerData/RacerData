@@ -532,6 +532,9 @@ namespace RacerData.WinForms.Controls
 
             var dataRows = this.OrderedControls.Where(r => r.IsColumnCaptions == false).ToList();
 
+            if (dataRows.Count == 0)
+                return;
+
             for (int r = 0; r < dataValues.DataValues.GetLength(0); r++)
             {
                 var row = dataRows[r];

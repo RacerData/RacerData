@@ -1,4 +1,5 @@
 ﻿using System;
+//using RacerData.WinForms.Themes.Models;
 using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
@@ -10,5 +11,7 @@ namespace RacerData.WinForms.Controls
         event EventHandler<BeginViewResizeRequestEventArgs> BeginViewResizeRequest;
         event EventHandler<ViewResizeRequestEventArgs> ViewResizeRequest;
         event EventHandler<EndViewResizeRequestEventArgs> EndViewResizeRequest;
+
+        //void ApplyTheme(WinForms.Themes.Models.ApplicationAppearance appearance);
     }
 }

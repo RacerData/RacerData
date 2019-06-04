@@ -10,7 +10,7 @@ using View = RacerData.WinForms.Controls.View;
 
 namespace RacerData.WinForms.Controllers
 {
-    internal class ViewGridController : IViewGridController
+    public class ViewGridController : IViewGridController
     {
         #region events
 
@@ -34,7 +34,8 @@ namespace RacerData.WinForms.Controllers
 
         private readonly IViewFactory _viewFactory;
         private readonly IViewControlFactory _viewControlFactory;
-        private TableLayoutPanel _gridTable;
+        protected TableLayoutPanel _gridTable;
+        protected Form _parentForm;
         private float _columnWidth = 0F;
         private float _rowHeight = 0F;
 
@@ -62,11 +63,19 @@ namespace RacerData.WinForms.Controllers
         public int DefaultColumnWidth { get; set; }
         public float CellSizeChangeFactor { get; set; }
 
+        protected IEnumerable<IViewControl> Views
+        {
+            get
+            {
+                return _gridTable.Controls.OfType<IViewControl>();
+            }
+        }
+
         #endregion
 
         #region ctor
 
-        internal ViewGridController(
+        public ViewGridController(
             IViewFactory viewFactory,
             IViewControlFactory viewControlFactory,
             Form parentForm,
@@ -74,6 +83,7 @@ namespace RacerData.WinForms.Controllers
         {
             _viewFactory = viewFactory ?? throw new ArgumentNullException(nameof(viewFactory));
             _viewControlFactory = viewControlFactory ?? throw new ArgumentNullException(nameof(viewControlFactory));
+            _parentForm = parentForm ?? throw new ArgumentNullException(nameof(parentForm));
             _gridTable = gridTable ?? throw new ArgumentNullException(nameof(gridTable));
 
             MaxRows = 40;
@@ -101,7 +111,7 @@ namespace RacerData.WinForms.Controllers
 
             _gridTable.MouseWheel += GridTable_MouseWheel;
 
-            parentForm.ResizeEnd += ParentForm_ResizeEnd;
+            _parentForm.ResizeEnd += ParentForm_ResizeEnd;
         }
 
         #endregion

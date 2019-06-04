@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
-using RacerData.WinForms.Adapters;
 using RacerData.WinForms.Dialogs;
 using RacerData.WinForms.Logging;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
-using RacerData.WinForms.Themes.Adapters;
-using RacerData.WinForms.Themes.Editors;
-using RacerData.WinForms.Themes.Ports;
 
 namespace RacerData.WinForms
 {

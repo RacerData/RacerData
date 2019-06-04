@@ -86,6 +86,12 @@
     <Reference Include="RacerData.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RacerData.Common.1.0.0\lib\netstandard2.0\RacerData.Common.dll</HintPath>
     </Reference>
+    <Reference Include="RacerData.Data, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.2.2.0\lib\netstandard2.0\RacerData.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="RacerData.Data.Json, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RacerData.Data.Json.2.2.0\lib\netstandard2.0\RacerData.Data.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -156,6 +162,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\AppAppearanceRepository.cs" />
     <Compile Include="Adapters\AudioChannelService.cs" />
     <Compile Include="Adapters\DialogService.cs" />
     <Compile Include="Adapters\ExceptionHandlerService.cs" />
@@ -286,6 +293,12 @@
     <Compile Include="Dialogs\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AppearanceEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AppearanceEditorDialog.Designer.cs">
+      <DependentUpon>AppearanceEditorDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\EditorBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -322,12 +335,82 @@
     <Compile Include="Dialogs\SelectionDialog.Designer.cs">
       <DependentUpon>SelectionDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editors\AppAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\AppAppearanceEditor.Designer.cs">
+      <DependentUpon>AppAppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\AppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\AppearanceEditor.Designer.cs">
+      <DependentUpon>AppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ButtonAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\ButtonAppearanceEditor.Designer.cs">
+      <DependentUpon>ButtonAppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ColorEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\ColorEditor.Designer.cs">
+      <DependentUpon>ColorEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ColorTableAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\ColorTableAppearanceEditor.Designer.cs">
+      <DependentUpon>ColorTableAppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ColorTableEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\ColorTableEditor.Designer.cs">
+      <DependentUpon>ColorTableEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\Delegates.cs" />
+    <Compile Include="Editors\DialogAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\DialogAppearanceEditor.Designer.cs">
+      <DependentUpon>DialogAppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\FlatButtonAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\FlatButtonAppearanceEditor.Designer.cs">
+      <DependentUpon>FlatButtonAppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\FontEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\FontEditor.Designer.cs">
+      <DependentUpon>FontEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ListAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\ListAppearanceEditor.Designer.cs">
+      <DependentUpon>ListAppearanceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\WorkspaceAppearanceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\WorkspaceAppearanceEditor.Designer.cs">
+      <DependentUpon>WorkspaceAppearanceEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factories\ViewControlFactory.cs" />
     <Compile Include="Factories\ViewFactory.cs" />
     <Compile Include="Factories\ViewGridControllerFactory.cs" />
+    <Compile Include="Models\Appearance.cs" />
+    <Compile Include="Models\ApplicationAppearance.cs" />
     <Compile Include="Models\AudioChannelModel.cs" />
     <Compile Include="Models\AudioViewInfo.cs" />
     <Compile Include="Models\ButtonAlign.cs" />
+    <Compile Include="Models\ButtonAppearance.cs" />
     <Compile Include="Models\ButtonInfo.cs" />
     <Compile Include="Models\ButtonTypes.cs" />
     <Compile Include="Models\ButtonSet.cs" />
@@ -337,7 +420,9 @@
     <Compile Include="Models\ControlMovedEventArgs.cs" />
     <Compile Include="Models\ControlResizedEventArgs.cs" />
     <Compile Include="Models\DayScheduleModel.cs" />
+    <Compile Include="Models\DialogAppearance.cs" />
     <Compile Include="Models\EventScheduleModel.cs" />
+    <Compile Include="Models\FlatButtonAppearance.cs" />
     <Compile Include="Models\FormStates.cs" />
     <Compile Include="Factories\ButtonSetFactory.cs" />
     <Compile Include="Factories\ButtonFactory.cs" />
@@ -355,15 +440,24 @@
     <Compile Include="Models\GraphType.cs" />
     <Compile Include="Models\GraphViewInfo.cs" />
     <Compile Include="Models\GridScaleMode.cs" />
+    <Compile Include="Models\IAppearance.cs" />
+    <Compile Include="Models\IApplicationAppearance.cs" />
+    <Compile Include="Models\IBaseAppearance.cs" />
+    <Compile Include="Models\IButtonAppearance.cs" />
+    <Compile Include="Models\IDialogAppearance.cs" />
+    <Compile Include="Models\IListAppearance.cs" />
     <Compile Include="Models\InputDialogResult.cs" />
+    <Compile Include="Models\ISimpleColorTable.cs" />
     <Compile Include="Models\LeaderboardViewColumn.cs" />
     <Compile Include="Models\LeaderboardViewDefinition.cs" />
     <Compile Include="Models\LeaderboardViewInfo.cs" />
+    <Compile Include="Models\ListAppearance.cs" />
     <Compile Include="Models\RemoveViewRequestEventArgs.cs" />
     <Compile Include="Models\ResizeDirection.cs" />
     <Compile Include="Models\RowResizedEventArgs.cs" />
     <Compile Include="Models\SelectionDialogResult.cs" />
     <Compile Include="Models\SeriesModel.cs" />
+    <Compile Include="Models\SimpleColorTable.cs" />
     <Compile Include="Models\SortType.cs" />
     <Compile Include="Models\StaticField.cs" />
     <Compile Include="Models\StaticViewInfo.cs" />
@@ -379,6 +473,7 @@
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Models\WeekendScheduleModel.cs" />
     <Compile Include="Models\WeekendScheduleViewInfo.cs" />
+    <Compile Include="Ports\IAppAppearanceRepository.cs" />
     <Compile Include="Ports\IAudioChannelService.cs" />
     <Compile Include="Ports\IExceptionHandlerService.cs" />
     <Compile Include="Ports\IGraphDataService.cs" />
@@ -403,6 +498,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Renderers\ToolStripCustomRenderer.cs" />
     <Compile Include="ServiceCollectionExtensions.cs" />
     <Compile Include="Wizard\AfterStepChangedEventArgs.cs" />
     <Compile Include="Wizard\BeforeStepChangesEventArgs.cs" />
@@ -490,6 +586,9 @@
     <EmbeddedResource Include="Dialogs\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\AppearanceEditorDialog.resx">
+      <DependentUpon>AppearanceEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\DialogBase.resx">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -510,6 +609,39 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\SelectionDialog.resx">
       <DependentUpon>SelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\AppAppearanceEditor.resx">
+      <DependentUpon>AppAppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\AppearanceEditor.resx">
+      <DependentUpon>AppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ButtonAppearanceEditor.resx">
+      <DependentUpon>ButtonAppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ColorEditor.resx">
+      <DependentUpon>ColorEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ColorTableAppearanceEditor.resx">
+      <DependentUpon>ColorTableAppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ColorTableEditor.resx">
+      <DependentUpon>ColorTableEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\DialogAppearanceEditor.resx">
+      <DependentUpon>DialogAppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\FlatButtonAppearanceEditor.resx">
+      <DependentUpon>FlatButtonAppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\FontEditor.resx">
+      <DependentUpon>FontEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ListAppearanceEditor.resx">
+      <DependentUpon>ListAppearanceEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\WorkspaceAppearanceEditor.resx">
+      <DependentUpon>WorkspaceAppearanceEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -547,6 +679,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\headerHighlight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Minus_Grey_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Grey_16x16_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

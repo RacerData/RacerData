@@ -5,7 +5,7 @@ using RacerData.Common.Results;
 using RacerData.WinForms.Ports;
 using RacerData.WinForms.Data;
 
-namespace RacerData.WinForms.Controls.Adapters
+namespace RacerData.WinForms.Adapters
 {
     class ListDataService : IListDataService
     {

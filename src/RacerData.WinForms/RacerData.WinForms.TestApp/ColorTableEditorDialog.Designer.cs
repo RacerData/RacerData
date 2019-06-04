@@ -1,4 +1,6 @@
-﻿namespace RacerData.WinForms
+﻿using RacerData.WinForms.Editors;
+
+namespace RacerData.WinForms
 {
     partial class ColorTableEditorDialog
     {
@@ -31,7 +33,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSaveAndClose = new System.Windows.Forms.Button();
             this.btnCloseCancel = new System.Windows.Forms.Button();
-            this.colorTableEditor1 = new RacerData.Themes.UI.Controls.ColorTableEditor();
+            this.colorTableEditor1 = new ColorTableEditor();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +98,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnSaveAndClose;
         private System.Windows.Forms.Button btnCloseCancel;
-        private RacerData.Themes.UI.Controls.ColorTableEditor colorTableEditor1;
+        private ColorTableEditor colorTableEditor1;
     }
 }

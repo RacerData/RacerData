@@ -72,8 +72,6 @@ namespace RacerData.WinForms.Controls.StaticView
         internal StaticView()
         {
             InitializeComponent();
-
-
         }
 
         #endregion

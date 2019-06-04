@@ -114,6 +114,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\AudioChannelService.cs" />
+    <Compile Include="Adapters\GraphDataService.cs" />
+    <Compile Include="Ports\IGraphDataService.cs" />
+    <Compile Include="Models\GraphView\GraphViewModel.cs" />
+    <Compile Include="Ports\ILiveDataService.cs" />
+    <Compile Include="Adapters\LiveDataService.cs" />
     <Compile Include="Adapters\SeriesService.cs" />
     <Compile Include="Adapters\StaticDataService.cs" />
     <Compile Include="Adapters\VideoChannelService.cs" />
@@ -126,6 +131,8 @@
       <DependentUpon>AudioView.cs</DependentUpon>
     </Compile>
     <Compile Include="AudioView\AudioViewModel.cs" />
+    <Compile Include="Data\LiveData.cs" />
+    <Compile Include="Data\LiveDataSource.cs" />
     <Compile Include="Models\VideoView\VideoChannelModel.cs" />
     <Compile Include="Ports\IStaticDataService.cs" />
     <Compile Include="Ports\IVideoChannelService.cs" />

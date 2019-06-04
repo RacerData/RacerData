@@ -11,6 +11,7 @@ using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 using ListView = RacerData.WinForms.Controls.ListView;
 using RacerData.WinForms.Controls.StaticView;
+using RacerData.WinForms.Controls.Models.GraphView;
 
 namespace RacerData.WinForms.Factories
 {
@@ -23,6 +24,7 @@ namespace RacerData.WinForms.Factories
         private readonly ISeriesService _seriesService;
         private readonly IWeekendScheduleService _weekendScheduleService;
         private readonly IStaticDataService _staticDataService;
+        private readonly IGraphDataService _graphDataService;
 
         #endregion
 
@@ -33,13 +35,15 @@ namespace RacerData.WinForms.Factories
             IAudioChannelService audioChannelService,
             ISeriesService seriesService,
             IWeekendScheduleService weekendScheduleService,
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService,
+            IGraphDataService graphDataService)
         {
             _videoChannelService = videoChannelService ?? throw new ArgumentNullException(nameof(videoChannelService));
             _audioChannelService = audioChannelService ?? throw new ArgumentNullException(nameof(audioChannelService));
             _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
             _weekendScheduleService = weekendScheduleService ?? throw new ArgumentNullException(nameof(weekendScheduleService));
             _staticDataService = staticDataService ?? throw new ArgumentNullException(nameof(staticDataService));
+            _graphDataService = graphDataService ?? throw new ArgumentNullException(nameof(graphDataService));
         }
 
         #endregion
@@ -98,7 +102,8 @@ namespace RacerData.WinForms.Factories
 
         protected virtual GraphView GetGraphView(GraphViewInfo viewinfo)
         {
-            return new GraphView();
+            var viewModel = new GraphViewModel(viewinfo, _graphDataService);
+            return new GraphView(viewModel);
         }
         protected virtual VideoView GetVideoView(VideoViewInfo viewinfo)
         {
@@ -113,8 +118,7 @@ namespace RacerData.WinForms.Factories
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {
             var viewModel = new StaticViewModel(viewinfo, _staticDataService);
-            var view = new StaticView(viewModel);
-            return view;
+           return new StaticView(viewModel);
         }
         protected virtual ListView GetListView(ListViewInfo viewinfo)
         {

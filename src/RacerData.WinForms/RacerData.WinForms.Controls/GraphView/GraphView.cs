@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using RacerData.WinForms.Controls.Models.GraphView;
 using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
@@ -53,6 +54,12 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region fields
+
+        private readonly GraphViewModel _viewModel;
+
+        #endregion
+
         #region properties
 
         public GraphType GraphType { get; set; }
@@ -62,7 +69,13 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public GraphView()
+        public GraphView(GraphViewModel viewModel)
+            : this()
+        {
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+        }
+
+        internal GraphView()
         {
             InitializeComponent();
         }
@@ -71,9 +84,44 @@ namespace RacerData.WinForms.Controls
 
         #region protected
 
+        protected virtual void SetDataBindings(GraphViewModel model)
+        {
+            model.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
         protected virtual void DisplayGraph()
         {
+            label1.Text = _viewModel.GraphSeries.Name;
+        }
 
+        protected virtual void UpdateGraphData()
+        {
+            label1.Text = _viewModel.GraphData;
+        }
+
+        #endregion
+
+        #region private
+
+        private void View_Load(object sender, EventArgs e)
+        {
+            SetDataBindings(_viewModel);
+
+            _viewModel.GetGraphSeries();
+        }
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(GraphViewModel.GraphSeries))
+            {
+                DisplayGraph();
+
+                _viewModel.GetGraphData();
+            }
+            if (e.PropertyName == nameof(GraphViewModel.GraphData))
+            {
+                UpdateGraphData();
+            }
         }
 
         #endregion

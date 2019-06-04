@@ -21,6 +21,8 @@ namespace RacerData.WinForms.Controls
             services.TryAddTransient<IAudioChannelService, AudioChannelService>();
             services.TryAddTransient<ISeriesService, SeriesService>();
             services.TryAddTransient<IStaticDataService, StaticDataService>();
+            services.TryAddTransient<ILiveDataService, LiveDataService>();
+            services.TryAddTransient<IGraphDataService, GraphDataService>();
 
             return services;
         }

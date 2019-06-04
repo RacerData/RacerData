@@ -214,13 +214,13 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void ReIndexControls()
         {
-            var controls = Controls.OfType<ListViewCell>().ToList();
+            var controls = Controls.OfType<LeaderboardViewCell>().ToList();
 
-            foreach (ListViewCell lv in controls)
+            foreach (LeaderboardViewCell lv in controls)
             {
                 var lvIndex = Controls.IndexOf(lv);
 
-                var dc = _draggableControls.OfType<ListViewCell>().FirstOrDefault(d => d.CellLabel.Text == lv.CellLabel.Text);
+                var dc = _draggableControls.OfType<LeaderboardViewCell>().FirstOrDefault(d => d.CellLabel.Text == lv.CellLabel.Text);
 
                 var dcIndex = _draggableControls.IndexOf(dc);
 
@@ -406,10 +406,10 @@ namespace RacerData.WinForms.Controls
 
             sb.AppendLine($"====== {action} ========");
 
-            for (int i = 0; i < Controls.OfType<ListViewCell>().Count(); i++)
+            for (int i = 0; i < Controls.OfType<LeaderboardViewCell>().Count(); i++)
             {
-                var c = Controls.OfType<ListViewCell>().ToList()[i];
-                var d = _draggableControls.OfType<ListViewCell>().ToList()[i];
+                var c = Controls.OfType<LeaderboardViewCell>().ToList()[i];
+                var d = _draggableControls.OfType<LeaderboardViewCell>().ToList()[i];
                 var flag = (c.CellLabel.Text != d.CellLabel.Text) ? "*************************" : "";
                 sb.AppendLine($"Index: {i}  Control {c.CellLabel.Text} : Draggable {d.CellLabel.Text} {flag}");
             }

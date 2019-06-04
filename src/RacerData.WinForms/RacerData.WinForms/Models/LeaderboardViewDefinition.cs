@@ -2,7 +2,7 @@
 
 namespace RacerData.WinForms.Models
 {
-    public class ListDefinition
+    public class LeaderboardViewDefinition
     {
         #region properties
 
@@ -15,16 +15,16 @@ namespace RacerData.WinForms.Models
 
         public bool ShowCaptions { get; set; }
 
-        public List<ListColumn> Columns { get; set; }
+        public List<LeaderboardViewColumn> Columns { get; set; }
 
         #endregion
 
         #region ctor
 
-        public ListDefinition()
+        public LeaderboardViewDefinition()
         {
             ShowCaptions = true;
-            Columns = new List<ListColumn>();
+            Columns = new List<LeaderboardViewColumn>();
         }
 
         #endregion

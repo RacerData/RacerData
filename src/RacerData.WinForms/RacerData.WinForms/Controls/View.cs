@@ -9,7 +9,7 @@ using RacerData.WinForms.Models;
 namespace RacerData.WinForms.Controls
 {
     [Designer("System.Windows.Forms.Design.ParentControlDesigner, System.Design", typeof(IDesigner))]
-    public partial class ViewBase : UserControl
+    public partial class View : UserControl
     {
         #region consts
 
@@ -127,7 +127,7 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public ViewBase()
+        public View()
         {
             InitializeComponent();
         }
@@ -144,9 +144,9 @@ namespace RacerData.WinForms.Controls
 
             viewControl.SetViewHeaderRequest += ViewControl_SetViewHeaderRequest;
 
-            if (control is IListView)
+            if (control is ILeaderboardView)
             {
-                IListView listView = (IListView)control;
+                ILeaderboardView listView = (ILeaderboardView)control;
 
             }
         }

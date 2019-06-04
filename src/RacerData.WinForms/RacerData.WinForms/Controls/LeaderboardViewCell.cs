@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace RacerData.WinForms.Controls
 {
-    public partial class ListViewCell : UserControl
+    public partial class LeaderboardViewCell : UserControl
     {
         #region consts
 
@@ -14,13 +14,13 @@ namespace RacerData.WinForms.Controls
 
         #region fields
 
-        private ListViewRow _parentRow;
-        protected ListViewRow ParentRow
+        private LeaderboardViewRow _parentRow;
+        protected LeaderboardViewRow ParentRow
         {
             get
             {
                 if (_parentRow == null)
-                    _parentRow = (ListViewRow)this.Parent;
+                    _parentRow = (LeaderboardViewRow)this.Parent;
 
                 return _parentRow;
             }
@@ -30,7 +30,7 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public ListViewCell()
+        public LeaderboardViewCell()
         {
             InitializeComponent();
         }

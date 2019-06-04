@@ -12,7 +12,7 @@ namespace RacerData.WinForms.Models
 
         }
 
-        public ViewAddedEventArgs(ViewBase view)
+        public ViewAddedEventArgs(View view)
             : base(view)
         {
         }

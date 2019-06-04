@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
-using ListView = RacerData.WinForms.Controls.ListView;
+using LeaderboardView = RacerData.WinForms.Controls.LeaderboardView;
 
 namespace RacerData.WinForms.Factories
 {
@@ -58,7 +58,7 @@ namespace RacerData.WinForms.Factories
                     }
                 case ViewType.List:
                     {
-                        viewControl = GetListView((ListViewInfo)viewInfo);
+                        viewControl = GetListView((LeaderboardViewInfo)viewInfo);
                         break;
                     }
                 case ViewType.Static:
@@ -115,10 +115,10 @@ namespace RacerData.WinForms.Factories
             var viewModel = new StaticViewModel(viewinfo, _staticDataService);
             return new StaticView(viewModel);
         }
-        protected virtual ListView GetListView(ListViewInfo viewinfo)
+        protected virtual LeaderboardView GetListView(LeaderboardViewInfo viewinfo)
         {
-            var viewModel = new ListViewModel(viewinfo, _listDataService);
-            return new ListView(viewModel);
+            var viewModel = new LeaderboardViewModel(viewinfo, _listDataService);
+            return new LeaderboardView(viewModel);
         }
         protected virtual WeekendScheduleView GetWeekendScheduleView(WeekendScheduleViewInfo viewinfo)
         {

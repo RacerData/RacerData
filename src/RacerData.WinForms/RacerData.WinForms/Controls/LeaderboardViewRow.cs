@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace RacerData.WinForms.Controls
 {
-    public partial class ListViewRow : DraggableContainer
+    public partial class LeaderboardViewRow : DraggableContainer
     {
         #region properties
 
@@ -16,7 +16,7 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public ListViewRow()
+        public LeaderboardViewRow()
         {
             InitializeComponent();
 
@@ -49,7 +49,7 @@ namespace RacerData.WinForms.Controls
                 if (IsResizing)
                 {
                     Height = ResizeHandle.Top + e.Y;
-                    ListView parentListView = (ListView)this.Parent;
+                    LeaderboardView parentListView = (LeaderboardView)this.Parent;
                     parentListView.OnRowResizing(DisplayIndex, Size);
                 }
             };
@@ -57,7 +57,7 @@ namespace RacerData.WinForms.Controls
             ResizeHandle.MouseUp += (s, e) =>
             {
                 Height = ResizeHandle.Top + e.Y;
-                ListView parentListView = (ListView)this.Parent;
+                LeaderboardView parentListView = (LeaderboardView)this.Parent;
                 parentListView.OnRowResized(DisplayIndex, Size);
 
                 IsResizing = false;
@@ -75,7 +75,7 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void ListViewRow_ControlAdded(object sender, ControlEventArgs e)
         {
-            ListViewCell listViewCell = e.Control as ListViewCell;
+            LeaderboardViewCell listViewCell = e.Control as LeaderboardViewCell;
 
             if (listViewCell != null)
             {

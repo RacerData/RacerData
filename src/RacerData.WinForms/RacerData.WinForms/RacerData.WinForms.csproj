@@ -174,29 +174,29 @@
     <Compile Include="Controls\GraphViewModel.cs" />
     <Compile Include="Controls\IAudioView.cs" />
     <Compile Include="Controls\IGraphView.cs" />
-    <Compile Include="Controls\IListView.cs" />
+    <Compile Include="Controls\ILeaderboardView.cs" />
     <Compile Include="Controls\IStaticView.cs" />
     <Compile Include="Controls\IVideoView.cs" />
     <Compile Include="Controls\IViewControl.cs" />
     <Compile Include="Controls\IWeekendScheduleView.cs" />
-    <Compile Include="Controls\ListView.cs">
+    <Compile Include="Controls\LeaderboardView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ListView.Designer.cs">
-      <DependentUpon>ListView.cs</DependentUpon>
+    <Compile Include="Controls\LeaderboardView.Designer.cs">
+      <DependentUpon>LeaderboardView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ListViewCell.cs">
+    <Compile Include="Controls\LeaderboardViewCell.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ListViewCell.Designer.cs">
-      <DependentUpon>ListViewCell.cs</DependentUpon>
+    <Compile Include="Controls\LeaderboardViewCell.Designer.cs">
+      <DependentUpon>LeaderboardViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ListViewModel.cs" />
-    <Compile Include="Controls\ListViewRow.cs">
+    <Compile Include="Controls\LeaderboardViewModel.cs" />
+    <Compile Include="Controls\LeaderboardViewRow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ListViewRow.Designer.cs">
-      <DependentUpon>ListViewRow.cs</DependentUpon>
+    <Compile Include="Controls\LeaderboardViewRow.Designer.cs">
+      <DependentUpon>LeaderboardViewRow.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\StaticView.cs">
       <SubType>UserControl</SubType>
@@ -215,11 +215,11 @@
       <DependentUpon>VideoView.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\VideoViewModel.cs" />
-    <Compile Include="Controls\ViewBase.cs">
+    <Compile Include="Controls\View.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ViewBase.Designer.cs">
-      <DependentUpon>ViewBase.cs</DependentUpon>
+    <Compile Include="Controls\View.Designer.cs">
+      <DependentUpon>View.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ViewGrid.cs">
       <SubType>UserControl</SubType>
@@ -322,9 +322,9 @@
     <Compile Include="Models\GraphViewInfo.cs" />
     <Compile Include="Models\GridScaleMode.cs" />
     <Compile Include="Models\InputDialogResult.cs" />
-    <Compile Include="Models\ListColumn.cs" />
-    <Compile Include="Models\ListDefinition.cs" />
-    <Compile Include="Models\ListViewInfo.cs" />
+    <Compile Include="Models\LeaderboardViewColumn.cs" />
+    <Compile Include="Models\LeaderboardViewDefinition.cs" />
+    <Compile Include="Models\LeaderboardViewInfo.cs" />
     <Compile Include="Models\RemoveViewRequestEventArgs.cs" />
     <Compile Include="Models\ResizeDirection.cs" />
     <Compile Include="Models\RowResizedEventArgs.cs" />
@@ -423,14 +423,14 @@
     <EmbeddedResource Include="Controls\GraphView.resx">
       <DependentUpon>GraphView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListView.resx">
-      <DependentUpon>ListView.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\LeaderboardView.resx">
+      <DependentUpon>LeaderboardView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListViewCell.resx">
-      <DependentUpon>ListViewCell.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\LeaderboardViewCell.resx">
+      <DependentUpon>LeaderboardViewCell.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ListViewRow.resx">
-      <DependentUpon>ListViewRow.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\LeaderboardViewRow.resx">
+      <DependentUpon>LeaderboardViewRow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StaticView.resx">
       <DependentUpon>StaticView.cs</DependentUpon>
@@ -441,8 +441,8 @@
     <EmbeddedResource Include="Controls\VideoView.resx">
       <DependentUpon>VideoView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ViewBase.resx">
-      <DependentUpon>ViewBase.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\View.resx">
+      <DependentUpon>View.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ViewGrid.resx">
       <DependentUpon>ViewGrid.cs</DependentUpon>

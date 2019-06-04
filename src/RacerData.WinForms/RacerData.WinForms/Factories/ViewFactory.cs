@@ -24,13 +24,13 @@ namespace RacerData.WinForms.Factories
 
         #region public
 
-        public ViewBase GetView(ViewInfo viewInfo)
+        public View GetView(ViewInfo viewInfo)
         {
-            ViewBase view = null;
+            View view = null;
 
-            if (viewInfo is ListViewInfo)
+            if (viewInfo is LeaderboardViewInfo)
             {
-                view = BuildListView((ListViewInfo)viewInfo);
+                view = BuildListView((LeaderboardViewInfo)viewInfo);
             }
 
             if (viewInfo is GraphViewInfo)
@@ -64,50 +64,50 @@ namespace RacerData.WinForms.Factories
         #endregion
 
         #region protected
-        protected virtual ViewBase BuildWeekendScheduleView(WeekendScheduleViewInfo viewInfo)
+        protected virtual View BuildWeekendScheduleView(WeekendScheduleViewInfo viewInfo)
         {
-            return new ViewBase()
+            return new View()
             {
                 Header = $"List View {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
             };
         }
 
 
-        protected virtual ViewBase BuildListView(ListViewInfo viewInfo)
+        protected virtual View BuildListView(LeaderboardViewInfo viewInfo)
         {
-            return new ViewBase()
+            return new View()
             {
                 Header = $"List View {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
             };
         }
 
-        protected virtual ViewBase BuildGraphView(GraphViewInfo viewInfo)
+        protected virtual View BuildGraphView(GraphViewInfo viewInfo)
         {
-            return new ViewBase()
+            return new View()
             {
                 Header = $"List View {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
             };
         }
 
-        protected virtual ViewBase BuildStaticView(StaticViewInfo viewInfo)
+        protected virtual View BuildStaticView(StaticViewInfo viewInfo)
         {
-            return new ViewBase()
+            return new View()
             {
                 Header = $"List View  {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
             };
         }
 
-        protected virtual ViewBase BuildVideoView(VideoViewInfo viewInfo)
+        protected virtual View BuildVideoView(VideoViewInfo viewInfo)
         {
-            return new ViewBase()
+            return new View()
             {
                 Header = $"List View  {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
             };
         }
 
-        protected virtual ViewBase BuildAudioView(AudioViewInfo viewInfo)
+        protected virtual View BuildAudioView(AudioViewInfo viewInfo)
         {
-            return new ViewBase()
+            return new View()
             {
                 Header = $"List View  {viewInfo.Name} - [{viewInfo.CellPosition.ToString()}]"
             };

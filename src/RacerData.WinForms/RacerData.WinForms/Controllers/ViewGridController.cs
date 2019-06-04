@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
-using ViewBase = RacerData.WinForms.Controls.ViewBase;
+using View = RacerData.WinForms.Controls.View;
 
 namespace RacerData.WinForms.Controllers
 {
@@ -15,14 +15,14 @@ namespace RacerData.WinForms.Controllers
         #region events
 
         public event EventHandler<ViewAddedEventArgs> ViewAdded;
-        protected virtual void OnViewAdded(ViewBase view)
+        protected virtual void OnViewAdded(View view)
         {
             var handler = ViewAdded;
             handler?.Invoke(this, new ViewAddedEventArgs(view));
         }
 
         public event EventHandler<ViewRemovedEventArgs> ViewRemoved;
-        protected virtual void OnViewRemoved(ViewBase view)
+        protected virtual void OnViewRemoved(View view)
         {
             var handler = ViewRemoved;
             handler?.Invoke(this, new ViewRemovedEventArgs(view));
@@ -297,7 +297,7 @@ namespace RacerData.WinForms.Controllers
         {
             throw new ViewGridControllerException($"Error in ViewGridController:\r\n{message}:\r\n{ex.Message}", ex);
         }
-        protected virtual void ExceptionHandler(string message, Exception ex, ViewBase view)
+        protected virtual void ExceptionHandler(string message, Exception ex, View view)
         {
             throw new ViewGridControllerException($"View error in ViewGridController:\r\n{message}:\r\n{ex.Message}", ex, view);
         }
@@ -312,7 +312,7 @@ namespace RacerData.WinForms.Controllers
 
                 _gridTable.SuspendLayout();
 
-                ViewBase view = null;
+                View view = null;
 
                 foreach (ViewInfo viewInfo in viewInfos)
                 {
@@ -381,7 +381,7 @@ namespace RacerData.WinForms.Controllers
         {
             try
             {
-                ViewBase view = (ViewBase)_gridTable.Controls[index];
+                View view = (View)_gridTable.Controls[index];
 
                 RemoveView(view);
             }
@@ -394,7 +394,7 @@ namespace RacerData.WinForms.Controllers
                 ExceptionHandler($"Error removing view at index {index}", ex);
             }
         }
-        protected virtual void RemoveView(ViewBase view)
+        protected virtual void RemoveView(View view)
         {
             try
             {
@@ -429,7 +429,7 @@ namespace RacerData.WinForms.Controllers
         }
         protected virtual void UpdateViewIndexes()
         {
-            foreach (ViewBase view in _gridTable.Controls.OfType<ViewBase>().ToList())
+            foreach (View view in _gridTable.Controls.OfType<View>().ToList())
             {
                 view.Index = _gridTable.Controls.GetChildIndex(view);
             }
@@ -497,7 +497,7 @@ namespace RacerData.WinForms.Controllers
         {
             var gridMaxRow = 0;
             var gridMaxColumn = 0;
-            foreach (ViewBase view in _gridTable.Controls.OfType<ViewBase>())
+            foreach (View view in _gridTable.Controls.OfType<View>())
             {
                 var viewMaxRow = _gridTable.GetRow(view) + _gridTable.GetRowSpan(view);
                 if (viewMaxRow > gridMaxRow)
@@ -605,7 +605,7 @@ namespace RacerData.WinForms.Controllers
 
         #region drag/drop
 
-        protected virtual void ConfigureDragging(ViewBase view)
+        protected virtual void ConfigureDragging(View view)
         {
             view.MouseDown += (s, e) =>
             {
@@ -702,14 +702,14 @@ namespace RacerData.WinForms.Controllers
 
         protected virtual void GridTable_DragDrop(object sender, DragEventArgs e)
         {
-            ViewBase view = null;
+            View view = null;
             try
             {
                 _dragFrame.Hide();
                 _dragCoverFrame.Hide();
                 _dragTimer.Stop();
 
-                view = e.Data.GetData(e.Data.GetFormats()[0]) as ViewBase;
+                view = e.Data.GetData(e.Data.GetFormats()[0]) as View;
 
                 if (view != null)
                 {
@@ -826,7 +826,7 @@ namespace RacerData.WinForms.Controllers
         {
             try
             {
-                ViewBase view = (ViewBase)sender;
+                View view = (View)sender;
                 _resizePoint = e.Location;
                 _gridTable.Parent.Controls.Add(_resizeFrame);
 
@@ -873,7 +873,7 @@ namespace RacerData.WinForms.Controllers
 
         private void View_EndViewResizeRequest(object sender, EndViewResizeRequestEventArgs e)
         {
-            ViewBase view = (ViewBase)sender;
+            View view = (View)sender;
 
             try
             {

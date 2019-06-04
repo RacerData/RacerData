@@ -5,6 +5,6 @@ namespace RacerData.WinForms.Ports
 {
     public interface IViewFactory
     {
-        ViewBase GetView(ViewInfo viewInfo);
+        View GetView(ViewInfo viewInfo);
     }
 }

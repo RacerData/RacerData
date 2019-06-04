@@ -10,7 +10,7 @@ using RacerData.WinForms.Data;
 
 namespace RacerData.WinForms.Controls
 {
-    public partial class ListView : UserControl, IListView
+    public partial class LeaderboardView : UserControl, ILeaderboardView
     {
         #region events
 
@@ -102,8 +102,8 @@ namespace RacerData.WinForms.Controls
 
         #region fields
 
-        private readonly ListViewModel _viewModel;
-        private ObservableCollection<ListViewRow> _rows { get; set; } = new ObservableCollection<ListViewRow>();
+        private readonly LeaderboardViewModel _viewModel;
+        private ObservableCollection<LeaderboardViewRow> _rows { get; set; } = new ObservableCollection<LeaderboardViewRow>();
 
         #endregion
 
@@ -126,7 +126,7 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        protected IEnumerable<ListViewRow> OrderedControls
+        protected IEnumerable<LeaderboardViewRow> OrderedControls
         {
             get
             {
@@ -140,13 +140,13 @@ namespace RacerData.WinForms.Controls
 
         #region ctor/load
 
-        public ListView(ListViewModel viewModel)
+        public LeaderboardView(LeaderboardViewModel viewModel)
             : this()
         {
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         }
 
-        public ListView()
+        public LeaderboardView()
         {
             InitializeComponent();
 
@@ -161,16 +161,16 @@ namespace RacerData.WinForms.Controls
 
         #region public
 
-        public void BuildListView(ListDefinition listDefinition)
+        public void BuildListView(LeaderboardViewDefinition leaderboardViewDefinition)
         {
-            if (listDefinition == null)
+            if (leaderboardViewDefinition == null)
                 return;
 
             var rowCount = 0;
 
-            if (listDefinition.ShowCaptions)
+            if (leaderboardViewDefinition.ShowCaptions)
             {
-                var captionRow = new ListViewRow()
+                var captionRow = new LeaderboardViewRow()
                 {
                     IsColumnCaptions = true,
                     DisplayIndex = 0
@@ -181,13 +181,13 @@ namespace RacerData.WinForms.Controls
                 rowCount++;
             }
 
-            if (listDefinition.MaxRows.HasValue)
+            if (leaderboardViewDefinition.MaxRows.HasValue)
             {
-                var dataRowCount = listDefinition.MaxRows.Value;
+                var dataRowCount = leaderboardViewDefinition.MaxRows.Value;
 
                 for (int i = 0; i < dataRowCount; i++)
                 {
-                    var dataRow = new ListViewRow()
+                    var dataRow = new LeaderboardViewRow()
                     {
                         IsColumnCaptions = false,
                         DisplayIndex = i + rowCount
@@ -198,7 +198,7 @@ namespace RacerData.WinForms.Controls
             }
             else
             {
-                var dataRow0 = new ListViewRow()
+                var dataRow0 = new LeaderboardViewRow()
                 {
                     IsColumnCaptions = false,
                     DisplayIndex = rowCount
@@ -206,7 +206,7 @@ namespace RacerData.WinForms.Controls
                 AddRow(dataRow0);
             }
 
-            AddColumns(listDefinition.Columns);
+            AddColumns(leaderboardViewDefinition.Columns);
         }
 
         #region rows
@@ -218,14 +218,14 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        public virtual void AddRows(IEnumerable<ListViewRow> rows)
+        public virtual void AddRows(IEnumerable<LeaderboardViewRow> rows)
         {
-            foreach (ListViewRow row in rows)
+            foreach (LeaderboardViewRow row in rows)
             {
                 AddRow(row);
             }
         }
-        public int AddRow(ListViewRow row)
+        public int AddRow(LeaderboardViewRow row)
         {
             if (row == null)
                 throw new ArgumentNullException(nameof(row));
@@ -235,7 +235,7 @@ namespace RacerData.WinForms.Controls
             return _rows.Count - 1;
         }
 
-        public void InsertRowAt(int index, ListViewRow row)
+        public void InsertRowAt(int index, LeaderboardViewRow row)
         {
             if (row == null)
                 throw new ArgumentNullException(nameof(row));
@@ -273,7 +273,7 @@ namespace RacerData.WinForms.Controls
 
             RemoveRow(row);
         }
-        public virtual void RemoveRow(ListViewRow row)
+        public virtual void RemoveRow(LeaderboardViewRow row)
         {
             if (row == null)
                 return;
@@ -317,21 +317,21 @@ namespace RacerData.WinForms.Controls
 
         public virtual void ClearColumns()
         {
-            foreach (ListViewRow row in _rows)
+            foreach (LeaderboardViewRow row in _rows)
             {
                 row.ClearDraggableControls();
             }
         }
 
-        public virtual void AddColumns(IEnumerable<ListColumn> columns)
+        public virtual void AddColumns(IEnumerable<LeaderboardViewColumn> columns)
         {
-            foreach (ListColumn columnInfo in columns)
+            foreach (LeaderboardViewColumn columnInfo in columns)
             {
                 AddColumn(columnInfo);
             }
         }
 
-        public virtual void AddColumn(ListColumn columnInfo)
+        public virtual void AddColumn(LeaderboardViewColumn columnInfo)
         {
             if (columnInfo == null)
                 throw new ArgumentNullException(nameof(columnInfo));
@@ -341,12 +341,12 @@ namespace RacerData.WinForms.Controls
             InsertColumnAt(columnIndex, columnInfo);
         }
 
-        public virtual void InsertColumnAt(int index, ListColumn columnInfo)
+        public virtual void InsertColumnAt(int index, LeaderboardViewColumn columnInfo)
         {
             if (columnInfo == null)
                 throw new ArgumentNullException(nameof(columnInfo));
 
-            foreach (ListViewRow row in _rows)
+            foreach (LeaderboardViewRow row in _rows)
             {
                 var text = row.IsColumnCaptions ?
                     $"[{index}] {columnInfo.Caption}" :
@@ -362,7 +362,7 @@ namespace RacerData.WinForms.Controls
 
         public virtual void RemoveColumnAt(int index)
         {
-            foreach (ListViewRow row in _rows)
+            foreach (LeaderboardViewRow row in _rows)
             {
                 row.RemoveDraggableControlAt(index);
             }
@@ -384,9 +384,9 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        protected virtual ListViewCell BuildListViewCellFromInfo(ListColumn column, int rowHeight, string text)
+        protected virtual LeaderboardViewCell BuildListViewCellFromInfo(LeaderboardViewColumn column, int rowHeight, string text)
         {
-            var listViewCell = new ListViewCell();
+            var listViewCell = new LeaderboardViewCell();
 
             listViewCell.Size = new Size(100, rowHeight);
             listViewCell.Location = new Point(0, 0);
@@ -399,7 +399,7 @@ namespace RacerData.WinForms.Controls
             return listViewCell;
         }
 
-        protected virtual void ConfigureResizableRow(ListViewRow row)
+        protected virtual void ConfigureResizableRow(LeaderboardViewRow row)
         {
             if (!row.AllowResize)
                 return;
@@ -412,7 +412,7 @@ namespace RacerData.WinForms.Controls
 
             row.MouseEnter += (s, e) =>
             {
-                foreach (ListViewRow listViewRow in Controls.OfType<ListViewRow>())
+                foreach (LeaderboardViewRow listViewRow in Controls.OfType<LeaderboardViewRow>())
                 {
                     if (listViewRow != s)
                     {
@@ -452,8 +452,8 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void ResizeChildren(object sender, EventArgs e)
         {
-            ListViewRow row = (ListViewRow)sender;
-            foreach (ListViewCell listViewCell in row.OrderedControls.OfType<ListViewCell>())
+            LeaderboardViewRow row = (LeaderboardViewRow)sender;
+            foreach (LeaderboardViewCell listViewCell in row.OrderedControls.OfType<LeaderboardViewCell>())
             {
                 listViewCell.Height = row.Height;
             }
@@ -488,11 +488,11 @@ namespace RacerData.WinForms.Controls
             }
         }
 
-        protected virtual Size GetDefaultHeight(ListViewRow row)
+        protected virtual Size GetDefaultHeight(LeaderboardViewRow row)
         {
             return GetDefaultHeight(row, "X");
         }
-        protected virtual Size GetDefaultHeight(ListViewRow row, string text)
+        protected virtual Size GetDefaultHeight(LeaderboardViewRow row, string text)
         {
             Image fakeImage = new Bitmap(1, 1);
             Graphics graphics = Graphics.FromImage(fakeImage);
@@ -500,15 +500,15 @@ namespace RacerData.WinForms.Controls
             return new Size((int)size.Width, (int)size.Height + VerticalCellSpacing);
         }
 
-        protected virtual void BuildListDisplay(ListDefinition listDefinition)
+        protected virtual void BuildListDisplay(LeaderboardViewDefinition leaderboardViewDefinition)
         {
-            if (listDefinition != null)
+            if (leaderboardViewDefinition != null)
             {
                 // TODO: Remove after testing
-                if (listDefinition.MaxRows.HasValue)
+                if (leaderboardViewDefinition.MaxRows.HasValue)
                 {
-                    var rowCount = listDefinition.MaxRows.Value;
-                    var columnCount = listDefinition.Columns.Count;
+                    var rowCount = leaderboardViewDefinition.MaxRows.Value;
+                    var columnCount = leaderboardViewDefinition.Columns.Count;
 
                     ListViewData data = new ListViewData(rowCount, columnCount);
 
@@ -536,7 +536,7 @@ namespace RacerData.WinForms.Controls
             {
                 var row = dataRows[r];
 
-                var dataCells = row.OrderedControls.OfType<ListViewCell>().ToList();
+                var dataCells = row.OrderedControls.OfType<LeaderboardViewCell>().ToList();
 
                 for (int c = 0; c < dataValues.DataValues.GetLength(1); c++)
                 {
@@ -559,13 +559,13 @@ namespace RacerData.WinForms.Controls
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ListViewModel.ListDefinition))
+            if (e.PropertyName == nameof(LeaderboardViewModel.LeaderboardViewDefinition))
             {
-                BuildListDisplay(_viewModel.ListDefinition);
+                BuildListDisplay(_viewModel.LeaderboardViewDefinition);
 
                 await _viewModel.GetListDataCommandAsync();
             }
-            if (e.PropertyName == nameof(ListViewModel.ListData))
+            if (e.PropertyName == nameof(LeaderboardViewModel.ListData))
             {
                 DisplayDataValues(_viewModel.ListData);
             }
@@ -574,7 +574,7 @@ namespace RacerData.WinForms.Controls
 
         private void DraggableContainer1_ControlsResized(object sender, ControlResizedEventArgs e)
         {
-            foreach (ListViewRow row in _rows)
+            foreach (LeaderboardViewRow row in _rows)
             {
                 if (sender != row)
                     row.ResizeDraggableControls(e.NewPositions);
@@ -583,7 +583,7 @@ namespace RacerData.WinForms.Controls
 
         private void DraggableContainer1_ControlMoved(object sender, ControlMovedEventArgs e)
         {
-            foreach (ListViewRow row in _rows)
+            foreach (LeaderboardViewRow row in _rows)
             {
                 if (sender != row)
                     row.MoveDraggableControl(e.OldIndex, e.NewIndex);

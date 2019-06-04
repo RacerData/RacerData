@@ -1,6 +1,6 @@
 ﻿namespace RacerData.WinForms.Controls
 {
-    partial class ViewBase
+    partial class View
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBase));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             this.picCorner = new System.Windows.Forms.PictureBox();
             this.picRight = new System.Windows.Forms.PictureBox();
             this.lblHeader = new System.Windows.Forms.Label();

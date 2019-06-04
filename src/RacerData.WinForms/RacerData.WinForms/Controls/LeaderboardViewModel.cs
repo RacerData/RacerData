@@ -8,7 +8,7 @@ using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
 {
-    public class ListViewModel
+    public class LeaderboardViewModel
     {
         #region events
 
@@ -24,23 +24,23 @@ namespace RacerData.WinForms.Controls
         #region fields
 
         private readonly IListDataService _listDataService;
-        private readonly ListViewInfo _viewInfo;
+        private readonly LeaderboardViewInfo _viewInfo;
 
         #endregion
 
         #region properties
 
-        private ListDefinition _listDefinition;
-        public ListDefinition ListDefinition
+        private LeaderboardViewDefinition _leaderboardViewDefinition;
+        public LeaderboardViewDefinition LeaderboardViewDefinition
         {
             get
             {
-                return _listDefinition;
+                return _leaderboardViewDefinition;
             }
             set
             {
-                _listDefinition = value;
-                OnPropertyChanged(nameof(ListDefinition));
+                _leaderboardViewDefinition = value;
+                OnPropertyChanged(nameof(LeaderboardViewDefinition));
             }
         }
 
@@ -62,8 +62,8 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public ListViewModel(
-            ListViewInfo viewinfo,
+        public LeaderboardViewModel(
+            LeaderboardViewInfo viewinfo,
             IListDataService listDataService)
         {
             _viewInfo = viewinfo ?? throw new ArgumentNullException(nameof(viewinfo));
@@ -76,7 +76,7 @@ namespace RacerData.WinForms.Controls
 
         public virtual void GetListDefinitionCommand()
         {
-            ListDefinition = _viewInfo.ListDefinition;
+            LeaderboardViewDefinition = _viewInfo.LeaderboardViewDefinition;
         }
 
         public virtual async Task GetListDataCommandAsync()

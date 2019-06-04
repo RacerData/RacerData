@@ -12,7 +12,7 @@ namespace RacerData.WinForms.Models
 
         }
 
-        public ViewRemovedEventArgs(ViewBase view)
+        public ViewRemovedEventArgs(View view)
             : base(view)
         {
         }

@@ -2,7 +2,7 @@
 
 namespace RacerData.WinForms.Models
 {
-    public class ListColumn
+    public class LeaderboardViewColumn
     {
         #region properties
 
@@ -29,7 +29,7 @@ namespace RacerData.WinForms.Models
 
         #region ctor
 
-        public ListColumn()
+        public LeaderboardViewColumn()
         {
             Alignment = ContentAlignment.MiddleLeft;
         }

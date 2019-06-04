@@ -3,7 +3,7 @@ using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
 {
-    public interface IListView : IViewControl
+    public interface ILeaderboardView : IViewControl
     {
         event EventHandler<ControlMovedEventArgs> RowMoved;
         event EventHandler<RowResizedEventArgs> RowResized;

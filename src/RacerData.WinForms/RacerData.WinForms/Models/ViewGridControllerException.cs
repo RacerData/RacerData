@@ -7,7 +7,7 @@ namespace RacerData.WinForms.Models
     {
         #region properties
 
-        public ViewBase View { get; set; }
+        public View View { get; set; }
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace RacerData.WinForms.Models
         {
 
         }
-        public ViewGridControllerException(string message, Exception innerException, ViewBase view)
+        public ViewGridControllerException(string message, Exception innerException, View view)
             : base(message, innerException)
         {
             View = view ?? throw new ArgumentNullException(nameof(view));

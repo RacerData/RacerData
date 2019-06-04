@@ -1,22 +1,22 @@
 ﻿namespace RacerData.WinForms.Models
 {
-    public class ListViewInfo : ViewInfo
+    public class LeaderboardViewInfo : ViewInfo
     {
         #region fields
         #endregion
 
         #region properties
 
-        public ListDefinition ListDefinition { get; set; }
+        public LeaderboardViewDefinition LeaderboardViewDefinition { get; set; }
 
         #endregion
 
         #region ctor
 
-        public ListViewInfo()
+        public LeaderboardViewInfo()
             : base(ViewType.List)
         {
-            ListDefinition = new ListDefinition();
+            LeaderboardViewDefinition = new LeaderboardViewDefinition();
         }
 
         #endregion

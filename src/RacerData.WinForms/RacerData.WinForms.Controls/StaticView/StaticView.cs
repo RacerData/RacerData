@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
 
-namespace RacerData.WinForms.Controls
+namespace RacerData.WinForms.Controls.StaticView
 {
-    class StaticView : UserControl, IStaticView
+    public partial class StaticView : UserControl, IStaticView
     {
         #region events
 
@@ -54,36 +54,38 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
-        #region properties
+        #region fields
 
-        private IList<StaticField> _fields;
-        public IList<StaticField> Fields
-        {
-            get
-            {
-                return _fields;
-            }
-            set
-            {
-                _fields = value;
-                DisplayFields(_fields);
-            }
-        }
+        private readonly StaticViewModel _viewModel;
+        private IDictionary<int, StaticViewField> _staticViewFields;
 
         #endregion
 
         #region ctor
 
-        public StaticView()
+        public StaticView(StaticViewModel viewModel)
+            : this()
+        {
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+        }
+
+        internal StaticView()
         {
             InitializeComponent();
+
+
         }
 
         #endregion
 
         #region protected
 
-        protected virtual void DisplayFields(IList<StaticField> fields)
+        protected virtual void SetDataBindings(StaticViewModel model)
+        {
+            model.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        protected virtual void LoadFieldControls(IList<StaticField> fields)
         {
             ClearControls();
 
@@ -103,16 +105,28 @@ namespace RacerData.WinForms.Controls
                 fieldControl.BorderStyle = BorderStyle.FixedSingle;
 
                 this.Controls.Add(fieldControl);
+
+                _staticViewFields.Add(field.Index, fieldControl);
             }
         }
 
         protected virtual void ClearControls()
         {
+            _staticViewFields = new Dictionary<int, StaticViewField>();
+
             for (int i = this.Controls.Count - 1; i >= 0; i--)
             {
                 var control = this.Controls[i];
                 this.Controls.RemoveAt(i);
                 control.Dispose();
+            }
+        }
+
+        protected virtual void DisplayStaticData(IDictionary<int, string> staticData)
+        {
+            for (int i = 0; i < _staticViewFields.Count; i++)
+            {
+                _staticViewFields[i].Value = staticData[i];
             }
         }
 
@@ -128,8 +142,30 @@ namespace RacerData.WinForms.Controls
             // 
             this.Name = "StaticView";
             this.Size = new System.Drawing.Size(591, 287);
+            this.Load += new System.EventHandler(this.StaticView_Load);
             this.ResumeLayout(false);
 
+        }
+
+        private async void StaticView_Load(object sender, EventArgs e)
+        {
+            SetDataBindings(_viewModel);
+
+            _viewModel.GetFieldsCommand();
+
+            await _viewModel.GetStaticDataCommandAsync();
+        }
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(StaticViewModel.StaticData))
+            {
+                DisplayStaticData(_viewModel.StaticData);
+            }
+            if (e.PropertyName == nameof(StaticViewModel.Fields))
+            {
+                LoadFieldControls(_viewModel.Fields);
+            }
         }
 
         #endregion

@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Adapters\AudioChannelService.cs" />
     <Compile Include="Adapters\SeriesService.cs" />
+    <Compile Include="Adapters\StaticDataService.cs" />
     <Compile Include="Adapters\VideoChannelService.cs" />
     <Compile Include="Adapters\WeekendScheduleService.cs" />
     <Compile Include="Controllers\ViewGridController.cs" />
@@ -126,12 +127,14 @@
     </Compile>
     <Compile Include="AudioView\AudioViewModel.cs" />
     <Compile Include="Models\VideoView\VideoChannelModel.cs" />
+    <Compile Include="Ports\IStaticDataService.cs" />
     <Compile Include="Ports\IVideoChannelService.cs" />
     <Compile Include="Ports\IWeekendScheduleReader.cs" />
     <Compile Include="Models\SeriesModel.cs" />
     <Compile Include="Ports\IAudioChannelService.cs" />
     <Compile Include="Ports\ISeriesService.cs" />
     <Compile Include="Ports\IWeekendScheduleService.cs" />
+    <Compile Include="StaticView\StaticViewModel.cs" />
     <Compile Include="VideoView\VideoViewModel.cs" />
     <Compile Include="WeekendScheduleView\DayScheduleItem.cs">
       <SubType>UserControl</SubType>

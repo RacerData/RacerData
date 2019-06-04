@@ -195,7 +195,7 @@ namespace RacerData.WinForms
         }
         protected virtual StaticViewInfo GetStaticViewInfo()
         {
-            return new StaticViewInfo()
+            var viewInfo = new StaticViewInfo()
             {
                 Key = Guid.NewGuid(),
                 Name = "Static View Test",
@@ -205,54 +205,62 @@ namespace RacerData.WinForms
                     Column = 0,
                     RowSpan = 6,
                     ColumnSpan = 6
-                },
-                Fields = new List<StaticField>()
-                {
-                    new StaticField()
-                    {
-                        X=8,
-                        Y=8,
-                        Width = 100,
-                        Height = 50,
-                        CaptionAlignment = CaptionAlignment.Above,
-                        Name="Test Static Field 1",
-                        ShowCaption=true,
-                        Alignment = ContentAlignment.MiddleLeft
-                    },new StaticField()
-                    {
-                        X=216,
-                        Y=8,
-                        Width = 100,
-                        Height = 50,
-                        CaptionAlignment = CaptionAlignment.Above,
-                        Name="Test Static Field 2",
-                        ShowCaption=true,
-                        Alignment = ContentAlignment.MiddleLeft
-                    },
-                    new StaticField()
-                    {
-                        X=8,
-                        Y=60,
-                        Width = 200,
-                        Height = 28,
-                        CaptionAlignment = CaptionAlignment.Left,
-                        Name="Test Static Field 3",
-                        ShowCaption=true,
-                        Alignment = ContentAlignment.MiddleLeft
-                    },
-                    new StaticField()
-                    {
-                        X=216,
-                        Y=60,
-                        Width = 200,
-                        Height = 28,
-                        CaptionAlignment = CaptionAlignment.Left,
-                        Name="Test Static Field 4",
-                        ShowCaption=true,
-                        Alignment = ContentAlignment.MiddleLeft
-                    }
                 }
             };
+
+            viewInfo.AddField(
+                   new StaticField()
+                   {
+                       X = 8,
+                       Y = 8,
+                       Width = 100,
+                       Height = 50,
+                       CaptionAlignment = CaptionAlignment.Above,
+                       Name = "Test Static Field 1",
+                       ShowCaption = true,
+                       Alignment = ContentAlignment.MiddleLeft
+                   });
+
+            viewInfo.AddField(
+                   new StaticField()
+                   {
+                       X = 216,
+                       Y = 8,
+                       Width = 100,
+                       Height = 50,
+                       CaptionAlignment = CaptionAlignment.Above,
+                       Name = "Test Static Field 2",
+                       ShowCaption = true,
+                       Alignment = ContentAlignment.MiddleLeft
+                   });
+
+            viewInfo.AddField(
+                   new StaticField()
+                   {
+                       X = 8,
+                       Y = 60,
+                       Width = 200,
+                       Height = 28,
+                       CaptionAlignment = CaptionAlignment.Left,
+                       Name = "Test Static Field 3",
+                       ShowCaption = true,
+                       Alignment = ContentAlignment.MiddleLeft
+                   });
+
+            viewInfo.AddField(
+                   new StaticField()
+                   {
+                       X = 216,
+                       Y = 60,
+                       Width = 200,
+                       Height = 28,
+                       CaptionAlignment = CaptionAlignment.Left,
+                       Name = "Test Static Field 4",
+                       ShowCaption = true,
+                       Alignment = ContentAlignment.MiddleLeft
+                   });
+
+            return viewInfo;
         }
         protected virtual WeekendScheduleViewInfo GetWeekendScheduleViewInfo()
         {

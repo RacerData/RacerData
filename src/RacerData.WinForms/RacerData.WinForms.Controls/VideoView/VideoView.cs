@@ -63,10 +63,10 @@ namespace RacerData.WinForms.Controls.VideoView
 
         #region ctor
 
-        public VideoView(VideoViewModel model)
+        public VideoView(VideoViewModel viewModel)
             : this()
         {
-            _viewModel = model ?? throw new ArgumentNullException(nameof(model));
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         }
 
         internal VideoView()
@@ -80,7 +80,7 @@ namespace RacerData.WinForms.Controls.VideoView
 
         protected virtual void SetDataBindings(VideoViewModel model)
         {
-            model.PropertyChanged += Model_PropertyChanged;
+            model.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         protected virtual void UpdateChannelListBinding()
@@ -120,7 +120,7 @@ namespace RacerData.WinForms.Controls.VideoView
 
         #region private
 
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(VideoViewModel.Channel))
             {

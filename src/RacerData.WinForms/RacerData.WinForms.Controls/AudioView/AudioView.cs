@@ -64,10 +64,10 @@ namespace RacerData.WinForms.Controls.AudioView
 
         #region ctor
 
-        public AudioView(AudioViewModel model)
+        public AudioView(AudioViewModel viewModel)
             : this()
         {
-            _viewModel = model ?? throw new ArgumentNullException(nameof(model));
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         }
 
         internal AudioView()
@@ -81,7 +81,7 @@ namespace RacerData.WinForms.Controls.AudioView
 
         protected virtual void SetDataBindings(AudioViewModel model)
         {
-            model.PropertyChanged += Model_PropertyChanged;
+            model.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         protected virtual void UpdateChannelListBinding()
@@ -148,7 +148,7 @@ namespace RacerData.WinForms.Controls.AudioView
             await _viewModel.GetSeriesListCommandAsync();
         }
 
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(AudioViewModel.Channel))
             {

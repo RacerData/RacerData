@@ -63,12 +63,6 @@ namespace RacerData.WinForms.Views
 
         #endregion
 
-        #region fields
-
-
-
-        #endregion
-
         #region properties
 
         protected virtual bool IsResizing { get; set; }

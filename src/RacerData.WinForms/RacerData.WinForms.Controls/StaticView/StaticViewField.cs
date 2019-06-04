@@ -16,6 +16,12 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region fields
+
+        private Label _valueControl = new Label();
+
+        #endregion
+
         #region properties
 
         private StaticField _field;
@@ -29,6 +35,18 @@ namespace RacerData.WinForms.Controls
             {
                 _field = value;
                 DisplayField(_field);
+            }
+        }
+
+        public string Value
+        {
+            get
+            {
+                return _valueControl.Text;
+            }
+            set
+            {
+                _valueControl.Text = value;
             }
         }
 
@@ -62,31 +80,31 @@ namespace RacerData.WinForms.Controls
                 int runningX = StartingX;
                 int runningY = StartingY;
 
-                Label captionLabel = null;
+                Label captionControl = null;
 
                 if (field.ShowCaption)
                 {
-                    captionLabel = GetCaptionControl(field.Name, runningX, runningY, field.Alignment);
+                    captionControl = GetCaptionControl(field.Name, runningX, runningY, field.Alignment);
 
                     if (field.CaptionAlignment == CaptionAlignment.Above)
                     {
-                        captionLabel.Dock = DockStyle.Top;
-                        runningY += captionLabel.Height + ControlSpacing;
+                        captionControl.Dock = DockStyle.Top;
+                        runningY += captionControl.Height + ControlSpacing;
                     }
                     else if (field.CaptionAlignment == CaptionAlignment.Left)
                     {
-                        captionLabel.Dock = DockStyle.Left;
-                        runningX += captionLabel.Width + ControlSpacing;
+                        captionControl.Dock = DockStyle.Left;
+                        runningX += captionControl.Width + ControlSpacing;
                     }
                 }
 
-                var valueTextBox = GetValueControl(runningX, runningY, field.Alignment);
-                valueTextBox.Dock = field.CaptionAlignment == CaptionAlignment.Above ? DockStyle.Top : DockStyle.Left;
+                _valueControl = GetValueControl(runningX, runningY, field.Alignment);
+                _valueControl.Dock = field.CaptionAlignment == CaptionAlignment.Above ? DockStyle.Top : DockStyle.Left;
 
-                Controls.Add(valueTextBox);
+                Controls.Add(_valueControl);
 
-                if (captionLabel != null)
-                    Controls.Add(captionLabel);
+                if (captionControl != null)
+                    Controls.Add(captionControl);
             }
             finally
             {

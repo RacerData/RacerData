@@ -10,6 +10,7 @@ using RacerData.WinForms.Controls.Ports;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 using ListView = RacerData.WinForms.Controls.ListView;
+using RacerData.WinForms.Controls.StaticView;
 
 namespace RacerData.WinForms.Factories
 {
@@ -21,6 +22,7 @@ namespace RacerData.WinForms.Factories
         private readonly IAudioChannelService _audioChannelService;
         private readonly ISeriesService _seriesService;
         private readonly IWeekendScheduleService _weekendScheduleService;
+        private readonly IStaticDataService _staticDataService;
 
         #endregion
 
@@ -30,12 +32,14 @@ namespace RacerData.WinForms.Factories
             IVideoChannelService videoChannelService,
             IAudioChannelService audioChannelService,
             ISeriesService seriesService,
-            IWeekendScheduleService weekendScheduleService)
+            IWeekendScheduleService weekendScheduleService,
+            IStaticDataService staticDataService)
         {
             _videoChannelService = videoChannelService ?? throw new ArgumentNullException(nameof(videoChannelService));
             _audioChannelService = audioChannelService ?? throw new ArgumentNullException(nameof(audioChannelService));
             _seriesService = seriesService ?? throw new ArgumentNullException(nameof(seriesService));
             _weekendScheduleService = weekendScheduleService ?? throw new ArgumentNullException(nameof(weekendScheduleService));
+            _staticDataService = staticDataService ?? throw new ArgumentNullException(nameof(staticDataService));
         }
 
         #endregion
@@ -108,8 +112,8 @@ namespace RacerData.WinForms.Factories
         }
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {
-            var view = new StaticView();
-            view.Fields = viewinfo.Fields;
+            var viewModel = new StaticViewModel(viewinfo, _staticDataService);
+            var view = new StaticView(viewModel);
             return view;
         }
         protected virtual ListView GetListView(ListViewInfo viewinfo)

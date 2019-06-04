@@ -64,10 +64,10 @@ namespace RacerData.WinForms.Controls
 
         #region ctor
 
-        public WeekendScheduleView(WeekendScheduleViewModel model)
+        public WeekendScheduleView(WeekendScheduleViewModel viewModel)
          : this()
         {
-            _viewModel = model ?? throw new ArgumentNullException(nameof(model));
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         }
 
         internal WeekendScheduleView()
@@ -117,7 +117,7 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void SetDataBindings(WeekendScheduleViewModel model)
         {
-            model.PropertyChanged += Model_PropertyChanged;
+            model.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         #endregion
@@ -131,7 +131,7 @@ namespace RacerData.WinForms.Controls
             await _viewModel.GetWeekendScheduleCommandAsync();
         }
 
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(WeekendScheduleViewModel.WeekendSchedule))
             {

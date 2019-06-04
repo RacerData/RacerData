@@ -9,7 +9,7 @@ namespace RacerData.WinForms.Models
 
         #region properties
 
-        public IList<StaticField> Fields { get; set; }
+        public IList<StaticField> Fields { get; protected set; }
 
         #endregion
 
@@ -24,6 +24,14 @@ namespace RacerData.WinForms.Models
         #endregion
 
         #region public
+
+        public virtual int AddField(StaticField field)
+        {
+            field.Index = Fields.Count;
+            Fields.Add(field);
+            return field.Index;
+        }
+
         #endregion
 
         #region protected

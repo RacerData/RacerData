@@ -60,13 +60,6 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
-        #region properties
-
-        public GraphType GraphType { get; set; }
-        public GraphSeries GraphSeries { get; set; }
-
-        #endregion
-
         #region ctor
 
         public GraphView(GraphViewModel viewModel)

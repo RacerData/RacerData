@@ -63,6 +63,12 @@ namespace RacerData.WinForms.Views
 
         #endregion
 
+        #region fields
+
+
+
+        #endregion
+
         #region properties
 
         protected virtual bool IsResizing { get; set; }
@@ -236,6 +242,11 @@ namespace RacerData.WinForms.Views
                 IsResizing = false;
                 OnEndViewResizeRequest(true, Point.Empty, ResizeDirection);
             }
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OnRemoveViewRequest(Index);
         }
 
         #endregion

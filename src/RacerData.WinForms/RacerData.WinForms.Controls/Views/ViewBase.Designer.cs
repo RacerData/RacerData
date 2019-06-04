@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBase));
             this.picCorner = new System.Windows.Forms.PictureBox();
             this.picRight = new System.Windows.Forms.PictureBox();
@@ -36,11 +37,14 @@
             this.picBottom = new System.Windows.Forms.PictureBox();
             this.pnlControl = new System.Windows.Forms.Panel();
             this.picLeft = new System.Windows.Forms.PictureBox();
+            this.viewBaseContestMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picCorner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRight)).BeginInit();
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBottom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLeft)).BeginInit();
+            this.viewBaseContestMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // picCorner
@@ -142,11 +146,26 @@
             this.picLeft.TabIndex = 6;
             this.picLeft.TabStop = false;
             // 
+            // viewBaseContestMenu
+            // 
+            this.viewBaseContestMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem});
+            this.viewBaseContestMenu.Name = "viewBaseContestMenu";
+            this.viewBaseContestMenu.Size = new System.Drawing.Size(104, 26);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
             // ViewBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.ContextMenuStrip = this.viewBaseContestMenu;
             this.Controls.Add(this.picLeft);
             this.Controls.Add(this.pnlControl);
             this.Controls.Add(this.picRight);
@@ -162,6 +181,7 @@
             this.pnlBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBottom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLeft)).EndInit();
+            this.viewBaseContestMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -175,5 +195,7 @@
         private System.Windows.Forms.Panel pnlControl;
         private System.Windows.Forms.PictureBox picBottom;
         private System.Windows.Forms.PictureBox picLeft;
+        private System.Windows.Forms.ContextMenuStrip viewBaseContestMenu;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }
 }

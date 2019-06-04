@@ -161,7 +161,7 @@ namespace RacerData.WinForms.Controls
 
         #region public
 
-        public void BuildListView(LeaderboardViewDefinition leaderboardViewDefinition)
+        public void BuildLeaderboardView(LeaderboardViewDefinition leaderboardViewDefinition)
         {
             if (leaderboardViewDefinition == null)
                 return;

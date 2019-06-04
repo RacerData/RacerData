@@ -1,6 +1,6 @@
 ﻿namespace RacerData.WinForms
 {
-    partial class ListViewTest
+    partial class LeaderboardViewTest
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListViewTest));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderboardViewTest));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -37,7 +37,7 @@
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.listView1 = new RacerData.WinForms.Controls.ListView();
+            this.LeaderboardView1 = new RacerData.WinForms.Controls.LeaderboardView();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,32 +102,31 @@
             this.toolStripButton3.Text = "Remove Column At";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
-            // listView1
+            // LeaderboardView1
             // 
-            this.listView1.AllowDrag = true;
-            this.listView1.AllowResize = true;
-            this.listView1.AutoScroll = true;
-            this.listView1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listView1.DataValues = null;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.ListDefinition = null;
-            this.listView1.Location = new System.Drawing.Point(0, 25);
-            this.listView1.Name = "listView1";
-            this.listView1.Padding = new System.Windows.Forms.Padding(8);
-            this.listView1.Size = new System.Drawing.Size(1191, 639);
-            this.listView1.TabIndex = 4;
+            this.LeaderboardView1.AllowDrag = true;
+            this.LeaderboardView1.AllowResize = true;
+            this.LeaderboardView1.AutoScroll = true;
+            this.LeaderboardView1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.LeaderboardView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LeaderboardView1.DataValues = null;
+            this.LeaderboardView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LeaderboardView1.Location = new System.Drawing.Point(0, 25);
+            this.LeaderboardView1.Name = "LeaderboardView1";
+            this.LeaderboardView1.Padding = new System.Windows.Forms.Padding(8);
+            this.LeaderboardView1.Size = new System.Drawing.Size(1191, 639);
+            this.LeaderboardView1.TabIndex = 4;
             // 
-            // ListViewTest
+            // LeaderboardViewTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1191, 664);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.LeaderboardView1);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "ListViewTest";
+            this.Name = "LeaderboardViewTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ListView Test";
+            this.Text = "LeaderboardView Test";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -139,7 +138,7 @@
         #endregion
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
-        private Controls.ListView listView1;
+        private Controls.LeaderboardView LeaderboardView1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;

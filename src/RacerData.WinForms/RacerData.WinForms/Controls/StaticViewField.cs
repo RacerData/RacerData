@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
-using ContentAlignment = RacerData.WinForms.Models.ContentAlignment;
 
 namespace RacerData.WinForms.Controls
 {

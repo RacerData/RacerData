@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
-using RacerData.WinForms.Controls.Models.AudioView;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 
@@ -59,7 +58,7 @@ namespace RacerData.WinForms
         {
             var viewInfos = new List<ViewInfo>();
 
-            //var list1 = GetListViewInfo();
+            //var list1 = GetLeaderboardViewInfo();
             //viewInfos.Add(list1);
 
             //var static1 = GetStaticViewInfo();
@@ -82,9 +81,9 @@ namespace RacerData.WinForms
 
             _viewGridController.AddViews(viewInfos);
         }
-        protected virtual ListViewInfo GetListViewInfo()
+        protected virtual LeaderboardViewInfo GetLeaderboardViewInfo()
         {
-            return new ListViewInfo()
+            return new LeaderboardViewInfo()
             {
                 Key = Guid.NewGuid(),
                 Name = "List 1",
@@ -97,16 +96,16 @@ namespace RacerData.WinForms
                     ColumnSpan = 6,
                     RowSpan = 6
                 },
-                ListDefinition = new ListDefinition()
+                LeaderboardViewDefinition = new LeaderboardViewDefinition()
                 {
                     DataSource = "LiveFeed",
                     DataMember = "Position",
                     Header = "List 1",
                     MaxRows = 20,
                     ShowCaptions = true,
-                    Columns = new List<ListColumn>()
+                    Columns = new List<LeaderboardViewColumn>()
                         {
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Position",
                             DataMember ="Position",
@@ -114,7 +113,7 @@ namespace RacerData.WinForms
                             DataPath ="LiveFeed\\Drivers\\",
                             Alignment = ContentAlignment.MiddleLeft
                         },
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Driver",
                             DataMember ="Driver",
@@ -122,7 +121,7 @@ namespace RacerData.WinForms
                             DataPath ="LiveFeed\\Drivers\\",
                             Alignment = ContentAlignment.MiddleLeft
                         },
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Lap Speed",
                             DataMember ="LapSpeed",
@@ -130,7 +129,7 @@ namespace RacerData.WinForms
                             DataPath ="LiveFeed\\Drivers\\",
                             Alignment = ContentAlignment.MiddleCenter
                         },
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Lap Time",
                             DataMember ="LapTime",
@@ -401,7 +400,7 @@ namespace RacerData.WinForms
         {
             var viewInfos = new List<ViewInfo>();
 
-            var list1 = GetListViewInfo();
+            var list1 = GetLeaderboardViewInfo();
             viewInfos.Add(list1);
 
             _viewGridController.AddViews(viewInfos);

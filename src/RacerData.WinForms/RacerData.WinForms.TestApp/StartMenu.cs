@@ -53,9 +53,9 @@ namespace RacerData.WinForms
             dialog.ShowDialog(this);
         }
 
-        private void btnListViewTest_Click(object sender, EventArgs e)
+        private void btnLeaderboardViewTest_Click(object sender, EventArgs e)
         {
-            var dialog = new ListViewTest();
+            var dialog = new LeaderboardViewTest();
 
             dialog.ShowDialog(this);
         }

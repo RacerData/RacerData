@@ -7,11 +7,11 @@ using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms
 {
-    public partial class ListViewTest : Form
+    public partial class LeaderboardViewTest : Form
     {
         IList<DraggableContainer> Rows { get; set; }
 
-        public ListViewTest()
+        public LeaderboardViewTest()
         {
             InitializeComponent();
         }
@@ -21,8 +21,8 @@ namespace RacerData.WinForms
             try
             {
                 //PopulateList();
-                var listViewInfo = GetListViewInfo();
-                listView1.BuildListView(listViewInfo.ListDefinition);
+                var LeaderboardViewInfo = GetLeaderboardViewInfo();
+                LeaderboardView1.BuildLeaderboardView(LeaderboardViewInfo.LeaderboardViewDefinition);
             }
             catch (Exception ex)
             {
@@ -35,15 +35,15 @@ namespace RacerData.WinForms
             int rowCount = 2;
             int columnCount = 4;
 
-            int listWidth = listView1.Width - 2;
+            int listWidth = LeaderboardView1.Width - 2;
             int rowHeight = 80;// 45;
             int columnWidth = 100;
 
-            listView1.ClearRows();
+            LeaderboardView1.ClearRows();
 
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
             {
-                ListViewRow row = new ListViewRow();
+                LeaderboardViewRow row = new LeaderboardViewRow();
                 row.Size = new Size(listWidth, rowHeight);
                 row.Location = new Point(0, rowHeight * rowIndex);
                 row.BorderStyle = BorderStyle.FixedSingle;
@@ -57,14 +57,14 @@ namespace RacerData.WinForms
                 {
                     for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                     {
-                        var column = new ListViewCell();
+                        var column = new LeaderboardViewCell();
 
                         column.Size = new Size(columnWidth, row.Height);
                         column.Location = new Point((columnWidth * columnIndex), 0);
                         column.BorderStyle = BorderStyle.FixedSingle;
                         column.BackColor = Color.RoyalBlue;
                         column.AllowDrop = true;
-                        column.CellLabel.TextAlign = ContentAlignment.MiddleLeft;
+                        column.CellLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
                         column.CellLabel.Text = $"COLUMN {columnIndex}";
 
@@ -75,14 +75,14 @@ namespace RacerData.WinForms
                 {
                     for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                     {
-                        var column = new ListViewCell();
+                        var column = new LeaderboardViewCell();
 
                         column.Size = new Size(columnWidth, row.Height);
                         column.Location = new Point((columnWidth * columnIndex), 0);
                         column.BorderStyle = BorderStyle.FixedSingle;
                         column.BackColor = Color.SkyBlue;
                         column.AllowDrop = true;
-                        column.CellLabel.TextAlign = ContentAlignment.MiddleLeft;
+                        column.CellLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 
                         column.CellLabel.Text = $"Row:{rowIndex} Col:{columnIndex}";
 
@@ -90,13 +90,13 @@ namespace RacerData.WinForms
                     }
                 }
 
-                listView1.AddRow(row);
+                LeaderboardView1.AddRow(row);
             }
         }
 
-        protected virtual ListViewInfo GetListViewInfo()
+        protected virtual LeaderboardViewInfo GetLeaderboardViewInfo()
         {
-            return new ListViewInfo()
+            return new LeaderboardViewInfo()
             {
                 Key = Guid.NewGuid(),
                 Name = "List 1",
@@ -109,24 +109,24 @@ namespace RacerData.WinForms
                     ColumnSpan = 6,
                     RowSpan = 6
                 },
-                ListDefinition = new ListDefinition()
+                LeaderboardViewDefinition = new LeaderboardViewDefinition()
                 {
                     DataSource = "LiveFeed",
                     DataMember = "Position",
                     Header = "List 1",
                     MaxRows = 20,
                     ShowCaptions = true,
-                    Columns = new List<ListColumn>()
+                    Columns = new List<LeaderboardViewColumn>()
                         {
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Position",
                             DataMember ="Position",
                             DataSource ="LiveFeed",
                             DataPath ="LiveFeed\\Drivers\\",
-                            Alignment = ContentAlignment.MiddleLeft
+                            Alignment = System.Drawing.ContentAlignment.MiddleLeft
                         },
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Driver",
                             DataMember ="Driver",
@@ -134,7 +134,7 @@ namespace RacerData.WinForms
                             DataPath ="LiveFeed\\Drivers\\",
                             Alignment = ContentAlignment.MiddleLeft
                         },
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Lap Speed",
                             DataMember ="LapSpeed",
@@ -142,7 +142,7 @@ namespace RacerData.WinForms
                             DataPath ="LiveFeed\\Drivers\\",
                             Alignment = ContentAlignment.MiddleCenter
                         },
-                        new ListColumn()
+                        new LeaderboardViewColumn()
                         {
                             Caption ="Lap Time",
                             DataMember ="LapTime",
@@ -156,32 +156,32 @@ namespace RacerData.WinForms
         }
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            ListColumn info = new ListColumn() { Caption = "Mike Honcho" };
+            LeaderboardViewColumn info = new LeaderboardViewColumn() { Caption = "Mike Honcho" };
 
-            listView1.AddColumn(info);
+            LeaderboardView1.AddColumn(info);
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            ListColumn info = new ListColumn() { Caption = "INSERT THIS" };
+            LeaderboardViewColumn info = new LeaderboardViewColumn() { Caption = "INSERT THIS" };
 
-            listView1.InsertColumnAt(2, info);
+            LeaderboardView1.InsertColumnAt(2, info);
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            listView1.RemoveColumnAt(2);
+            LeaderboardView1.RemoveColumnAt(2);
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            IList<ListColumn> infos = new List<ListColumn>()
+            IList<LeaderboardViewColumn> infos = new List<LeaderboardViewColumn>()
             {
-                new ListColumn() { Caption = "What Now Bitches" },
-                new ListColumn() { Caption = "Mike Honcho 2" }
+                new LeaderboardViewColumn() { Caption = "What Now Bitches" },
+                new LeaderboardViewColumn() { Caption = "Mike Honcho 2" }
             };
 
-            listView1.AddColumns(infos);
+            LeaderboardView1.AddColumns(infos);
         }
     }
 }

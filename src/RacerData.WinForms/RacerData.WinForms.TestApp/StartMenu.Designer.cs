@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.btnDialogBase = new System.Windows.Forms.Button();
-            this.btnListViewTest = new System.Windows.Forms.Button();
+            this.btnLeaderboardViewTest = new System.Windows.Forms.Button();
             this.btnMaintenanceFormBase = new System.Windows.Forms.Button();
             this.btnMsgBoxEx = new System.Windows.Forms.Button();
             this.btnInputDialog = new System.Windows.Forms.Button();
@@ -54,15 +54,15 @@
             this.btnDialogBase.UseVisualStyleBackColor = true;
             this.btnDialogBase.Click += new System.EventHandler(this.btnDialogBase_Click);
             // 
-            // btnListViewTest
+            // btnLeaderboardViewTest
             // 
-            this.btnListViewTest.Location = new System.Drawing.Point(41, 52);
-            this.btnListViewTest.Name = "btnListViewTest";
-            this.btnListViewTest.Size = new System.Drawing.Size(123, 38);
-            this.btnListViewTest.TabIndex = 2;
-            this.btnListViewTest.Text = "ListView Test";
-            this.btnListViewTest.UseVisualStyleBackColor = true;
-            this.btnListViewTest.Click += new System.EventHandler(this.btnListViewTest_Click);
+            this.btnLeaderboardViewTest.Location = new System.Drawing.Point(41, 52);
+            this.btnLeaderboardViewTest.Name = "btnLeaderboardViewTest";
+            this.btnLeaderboardViewTest.Size = new System.Drawing.Size(123, 38);
+            this.btnLeaderboardViewTest.TabIndex = 2;
+            this.btnLeaderboardViewTest.Text = "LeaderboardView Test";
+            this.btnLeaderboardViewTest.UseVisualStyleBackColor = true;
+            this.btnLeaderboardViewTest.Click += new System.EventHandler(this.btnLeaderboardViewTest_Click);
             // 
             // btnMaintenanceFormBase
             // 
@@ -201,7 +201,7 @@
             this.Controls.Add(this.btnInputDialog);
             this.Controls.Add(this.btnMsgBoxEx);
             this.Controls.Add(this.btnMaintenanceFormBase);
-            this.Controls.Add(this.btnListViewTest);
+            this.Controls.Add(this.btnLeaderboardViewTest);
             this.Controls.Add(this.btnDialogBase);
             this.Name = "StartMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -213,7 +213,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnDialogBase;
-        private System.Windows.Forms.Button btnListViewTest;
+        private System.Windows.Forms.Button btnLeaderboardViewTest;
         private System.Windows.Forms.Button btnMaintenanceFormBase;
         private System.Windows.Forms.Button btnMsgBoxEx;
         private System.Windows.Forms.Button btnInputDialog;

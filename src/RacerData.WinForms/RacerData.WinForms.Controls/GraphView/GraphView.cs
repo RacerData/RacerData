@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using RacerData.WinForms.Controls.Models.GraphView;
+using RacerData.WinForms.Controls.GraphView;
 using RacerData.WinForms.Models;
 
-namespace RacerData.WinForms.Controls
+namespace RacerData.WinForms.Controls.GraphView
 {
     public partial class GraphView : UserControl, IGraphView
     {
@@ -77,11 +77,6 @@ namespace RacerData.WinForms.Controls
 
         #region protected
 
-        protected virtual void SetDataBindings(GraphViewModel model)
-        {
-            model.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
         protected virtual void DisplayGraph()
         {
             label1.Text = _viewModel.GraphSeries.Name;
@@ -98,9 +93,9 @@ namespace RacerData.WinForms.Controls
 
         private void View_Load(object sender, EventArgs e)
         {
-            SetDataBindings(_viewModel);
+            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-            _viewModel.GetGraphSeries();
+            _viewModel.GetGraphSeriesCommand();
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -109,7 +104,7 @@ namespace RacerData.WinForms.Controls
             {
                 DisplayGraph();
 
-                _viewModel.GetGraphData();
+                _viewModel.GetGraphDataCommand();
             }
             if (e.PropertyName == nameof(GraphViewModel.GraphData))
             {

@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RacerData.Commmon.Results;
-using RacerData.WinForms.Controls.Ports;
-using RacerData.WinForms.Data;
+using RacerData.WinForms.Models;
+using RacerData.WinForms.Ports;
 
-namespace RacerData.WinForms.Controls.Models.WeekendScheduleView
+namespace RacerData.WinForms.Controls
 {
     public class WeekendScheduleViewModel
     {

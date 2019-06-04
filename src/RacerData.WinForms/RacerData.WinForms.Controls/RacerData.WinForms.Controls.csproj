@@ -115,8 +115,11 @@
   <ItemGroup>
     <Compile Include="Adapters\AudioChannelService.cs" />
     <Compile Include="Adapters\GraphDataService.cs" />
+    <Compile Include="Ports\IListDataService.cs" />
+    <Compile Include="Adapters\ListDataService.cs" />
+    <Compile Include="ListView\ListViewModel.cs" />
     <Compile Include="Ports\IGraphDataService.cs" />
-    <Compile Include="Models\GraphView\GraphViewModel.cs" />
+    <Compile Include="GraphView\GraphViewModel.cs" />
     <Compile Include="Ports\ILiveDataService.cs" />
     <Compile Include="Adapters\LiveDataService.cs" />
     <Compile Include="Adapters\SeriesService.cs" />
@@ -275,7 +278,7 @@
     <Compile Include="Views\ViewBase.Designer.cs">
       <DependentUpon>ViewBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\WeekendScheduleView\WeekendScheduleViewModel.cs" />
+    <Compile Include="WeekendScheduleView\WeekendScheduleViewModel.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>

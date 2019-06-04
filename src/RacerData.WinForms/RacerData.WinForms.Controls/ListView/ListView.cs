@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Data;
 
-namespace RacerData.WinForms.Controls
+namespace RacerData.WinForms.Controls.ListView
 {
     public partial class ListView : UserControl, IListView
     {
@@ -102,6 +102,7 @@ namespace RacerData.WinForms.Controls
 
         #region fields
 
+        private readonly ListViewModel _viewModel;
         private bool _isResizing = false;
         private ObservableCollection<ListViewRow> _rows { get; set; } = new ObservableCollection<ListViewRow>();
 
@@ -111,20 +112,6 @@ namespace RacerData.WinForms.Controls
 
         public bool AllowResize { get; set; } = true;
         public bool AllowDrag { get; set; } = true;
-
-        private ListDefinition _listDefinition;
-        public ListDefinition ListDefinition
-        {
-            get
-            {
-                return _listDefinition;
-            }
-            set
-            {
-                _listDefinition = value;
-                BuildListView(_listDefinition);
-            }
-        }
 
         private ListViewData _dataValues;
         public ListViewData DataValues
@@ -154,6 +141,12 @@ namespace RacerData.WinForms.Controls
 
         #region ctor/load
 
+        public ListView(ListViewModel viewModel)
+            : this()
+        {
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+        }
+
         public ListView()
         {
             InitializeComponent();
@@ -163,31 +156,6 @@ namespace RacerData.WinForms.Controls
 
             this.Dock = DockStyle.Fill;
             this.BorderStyle = BorderStyle.FixedSingle;
-        }
-
-        private void ListView_Load(object sender, EventArgs e)
-        {
-            if (_listDefinition != null)
-            {
-                // TODO: Remove after testing
-                if (_listDefinition.MaxRows.HasValue)
-                {
-                    var rowCount = _listDefinition.MaxRows.Value;
-                    var columnCount = _listDefinition.Columns.Count;
-
-                    ListViewData data = new ListViewData(rowCount, columnCount);
-
-                    for (int r = 0; r < rowCount; r++)
-                    {
-                        for (int c = 0; c < columnCount; c++)
-                        {
-                            data.DataValues[r, c] = $"{r}:{c}";
-                        }
-                    }
-
-                    this.DataValues = data;
-                }
-            }
         }
 
         #endregion
@@ -533,6 +501,32 @@ namespace RacerData.WinForms.Controls
             return new Size((int)size.Width, (int)size.Height + VerticalCellSpacing);
         }
 
+        protected virtual void BuildListDisplay(ListDefinition listDefinition)
+        {
+            if (listDefinition != null)
+            {
+                // TODO: >>>> FIX NAMESPACES!!!1!11!@
+                // TODO: Remove after testing
+                if (listDefinition.MaxRows.HasValue)
+                {
+                    var rowCount = listDefinition.MaxRows.Value;
+                    var columnCount = listDefinition.Columns.Count;
+
+                    ListViewData data = new ListViewData(rowCount, columnCount);
+
+                    for (int r = 0; r < rowCount; r++)
+                    {
+                        for (int c = 0; c < columnCount; c++)
+                        {
+                            data.DataValues[r, c] = $"{r}:{c}";
+                        }
+                    }
+
+                    this.DataValues = data;
+                }
+            }
+        }
+
         protected virtual void DisplayDataValues(ListViewData dataValues)
         {
             if (dataValues == null)
@@ -556,6 +550,29 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region private
+
+
+        private void View_Load(object sender, EventArgs e)
+        {
+            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+            _viewModel.GetListDefinitionCommand();
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ListViewModel.ListDefinition))
+            {
+                BuildListDisplay(_viewModel.ListDefinition);
+
+                await _viewModel.GetListDataCommandAsync();
+            }
+            if (e.PropertyName == nameof(ListViewModel.ListData))
+            {
+                DisplayDataValues(_viewModel.ListData);
+            }
+        }
+
 
         private void DraggableContainer1_ControlsResized(object sender, ControlResizedEventArgs e)
         {

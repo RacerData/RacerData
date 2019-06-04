@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 using RacerData.WinForms.Models;
 
-namespace RacerData.WinForms.Controls
+namespace RacerData.WinForms.Controls.WeekendScheduleView
 {
     public partial class WeekendScheduleView : UserControl, IWeekendScheduleView
     {

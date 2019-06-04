@@ -189,10 +189,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RacerData.WinForms.Controls\RacerData.WinForms.Controls.csproj">
-      <Project>{c69aa4ef-52e4-4e3b-8173-1f754a3279e5}</Project>
-      <Name>RacerData.WinForms.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RacerData.WinForms.Themes\RacerData.WinForms.Themes.csproj">
       <Project>{dfab52d4-4e54-4dd7-b99a-d819cbf9134a}</Project>
       <Name>RacerData.WinForms.Themes</Name>

@@ -23,6 +23,7 @@ namespace RacerData.WinForms.Controls
             services.TryAddTransient<IStaticDataService, StaticDataService>();
             services.TryAddTransient<ILiveDataService, LiveDataService>();
             services.TryAddTransient<IGraphDataService, GraphDataService>();
+            services.TryAddTransient<IListDataService, ListDataService>();
 
             return services;
         }

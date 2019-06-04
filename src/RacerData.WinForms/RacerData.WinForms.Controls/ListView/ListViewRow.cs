@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace RacerData.WinForms.Controls
@@ -50,7 +49,7 @@ namespace RacerData.WinForms.Controls
                 if (IsResizing)
                 {
                     Height = ResizeHandle.Top + e.Y;
-                    ListView parentListView = (ListView)this.Parent;
+                    ListView.ListView parentListView = (ListView.ListView)this.Parent;
                     parentListView.OnRowResizing(DisplayIndex, Size);
                 }
             };
@@ -58,7 +57,7 @@ namespace RacerData.WinForms.Controls
             ResizeHandle.MouseUp += (s, e) =>
             {
                 Height = ResizeHandle.Top + e.Y;
-                ListView parentListView = (ListView)this.Parent;
+                ListView.ListView parentListView = (ListView.ListView)this.Parent;
                 parentListView.OnRowResized(DisplayIndex, Size);
 
                 IsResizing = false;

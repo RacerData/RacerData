@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using RacerData.Commmon.Results;
 using RacerData.WinForms.Controls.Ports;
 using RacerData.WinForms.Models;
 
-namespace RacerData.WinForms.Controls.Models.GraphView
+namespace RacerData.WinForms.Controls.GraphView
 {
     public class GraphViewModel
     {
@@ -30,10 +27,47 @@ namespace RacerData.WinForms.Controls.Models.GraphView
 
         #region properties
 
-        public GraphType GraphType { get; set; }
-        public GraphSeries GraphSeries { get; set; }
+        private GraphType _graphType;
+        public GraphType GraphType
+        {
+            get
+            {
+                return _graphType;
+            }
+            set
+            {
+                _graphType = value;
+                OnPropertyChanged(nameof(GraphType));
+            }
+        }
 
-        public string GraphData { get; set; }
+        private GraphSeries _graphSeries;
+        public GraphSeries GraphSeries
+        {
+            get
+            {
+                return _graphSeries;
+            }
+            set
+            {
+                _graphSeries = value;
+                OnPropertyChanged(nameof(GraphSeries));
+            }
+        }
+
+        private string _graphData;
+        public string GraphData
+        {
+            get
+            {
+                return _graphData;
+            }
+            set
+            {
+                _graphData = value;
+                OnPropertyChanged(nameof(GraphData));
+            }
+        }
 
         #endregion
 
@@ -51,19 +85,15 @@ namespace RacerData.WinForms.Controls.Models.GraphView
 
         #region public
 
-        public virtual void GetGraphSeries()
+        public virtual void GetGraphSeriesCommand()
         {
             GraphType = _viewInfo.GraphType;
             GraphSeries = _viewInfo.GraphSeries;
-
-            OnPropertyChanged(nameof(GraphSeries));
         }
 
-        public virtual void GetGraphData()
+        public virtual void GetGraphDataCommand()
         {
             GraphData = "Hello World";
-            // TODO: move to setter
-            OnPropertyChanged(nameof(GraphData));
         }
 
         //public virtual async Task GetStaticDataCommandAsync()

@@ -2,16 +2,16 @@
 using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using RacerData.WinForms.Controls.AudioView;
-using RacerData.WinForms.Controls.VideoView;
-using RacerData.WinForms.Controls.Models.VideoView;
+using RacerData.WinForms.Controls.GraphView;
+using RacerData.WinForms.Controls.ListView;
 using RacerData.WinForms.Controls.Models.AudioView;
-using RacerData.WinForms.Controls.Models.WeekendScheduleView;
 using RacerData.WinForms.Controls.Ports;
+using RacerData.WinForms.Controls.StaticView;
+using RacerData.WinForms.Controls.VideoView;
+using RacerData.WinForms.Controls.WeekendScheduleView;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
-using ListView = RacerData.WinForms.Controls.ListView;
-using RacerData.WinForms.Controls.StaticView;
-using RacerData.WinForms.Controls.Models.GraphView;
+using ListView = RacerData.WinForms.Controls.ListView.ListView;
 
 namespace RacerData.WinForms.Factories
 {
@@ -25,6 +25,7 @@ namespace RacerData.WinForms.Factories
         private readonly IWeekendScheduleService _weekendScheduleService;
         private readonly IStaticDataService _staticDataService;
         private readonly IGraphDataService _graphDataService;
+        private readonly IListDataService _listDataService;
 
         #endregion
 
@@ -36,7 +37,8 @@ namespace RacerData.WinForms.Factories
             ISeriesService seriesService,
             IWeekendScheduleService weekendScheduleService,
             IStaticDataService staticDataService,
-            IGraphDataService graphDataService)
+            IGraphDataService graphDataService,
+            IListDataService listDataService)
         {
             _videoChannelService = videoChannelService ?? throw new ArgumentNullException(nameof(videoChannelService));
             _audioChannelService = audioChannelService ?? throw new ArgumentNullException(nameof(audioChannelService));
@@ -44,6 +46,7 @@ namespace RacerData.WinForms.Factories
             _weekendScheduleService = weekendScheduleService ?? throw new ArgumentNullException(nameof(weekendScheduleService));
             _staticDataService = staticDataService ?? throw new ArgumentNullException(nameof(staticDataService));
             _graphDataService = graphDataService ?? throw new ArgumentNullException(nameof(graphDataService));
+            _listDataService = listDataService ?? throw new ArgumentNullException(nameof(listDataService));
         }
 
         #endregion
@@ -118,13 +121,12 @@ namespace RacerData.WinForms.Factories
         protected virtual StaticView GetStaticView(StaticViewInfo viewinfo)
         {
             var viewModel = new StaticViewModel(viewinfo, _staticDataService);
-           return new StaticView(viewModel);
+            return new StaticView(viewModel);
         }
         protected virtual ListView GetListView(ListViewInfo viewinfo)
         {
-            var view = new ListView();
-            view.ListDefinition = viewinfo.ListDefinition;
-            return view;
+            var viewModel = new ListViewModel(viewinfo, _listDataService);
+            return new ListView(viewModel);
         }
         protected virtual WeekendScheduleView GetWeekendScheduleView(WeekendScheduleViewInfo viewinfo)
         {

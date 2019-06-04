@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Controls
+﻿namespace RacerData.WinForms.Controls.WeekendScheduleView
 {
     partial class WeekendScheduleView
     {

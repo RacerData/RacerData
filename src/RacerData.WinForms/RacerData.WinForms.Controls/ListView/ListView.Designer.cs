@@ -1,4 +1,4 @@
-﻿namespace RacerData.WinForms.Controls
+﻿namespace RacerData.WinForms.Controls.ListView
 {
     partial class ListView
     {
@@ -39,7 +39,7 @@
             this.Name = "ListView";
             this.Padding = new System.Windows.Forms.Padding(8);
             this.Size = new System.Drawing.Size(645, 360);
-            this.Load += new System.EventHandler(this.ListView_Load);
+            this.Load += new System.EventHandler(this.View_Load);
             this.ResumeLayout(false);
 
         }

@@ -61,6 +61,24 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region properties
+
+        private ApplicationAppearance _appearance;
+        public virtual ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
+
+        #endregion
+
         #region ctor
 
         public WeekendScheduleView(WeekendScheduleViewModel viewModel)
@@ -77,6 +95,16 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region protected
+
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance!=null)
+            {
+                this.BackColor = appearance.DialogAppearance.BackColor;
+                this.ForeColor = appearance.DialogAppearance.ForeColor;
+                this.Font = appearance.DialogAppearance.Font;
+            }
+        }
 
         protected virtual void PopulateScheduleDisplay(WeekendSchedule weekendSchedule)
         {
@@ -112,6 +140,8 @@ namespace RacerData.WinForms.Controls
                     i++;
                 }
             }
+
+            ApplyTheme(Appearance);
         }
 
         protected virtual void SetDataBindings(WeekendScheduleViewModel model)

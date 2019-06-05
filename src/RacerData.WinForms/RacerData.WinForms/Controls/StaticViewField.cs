@@ -4,7 +4,7 @@ using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
 {
-    public partial class StaticViewField : UserControl
+    public partial class StaticViewField : UserControl, IStaticViewField
     {
         #region consts
 
@@ -18,6 +18,7 @@ namespace RacerData.WinForms.Controls
 
         #region fields
 
+        private Label _captionControl = new Label();
         private Label _valueControl = new Label();
 
         #endregion
@@ -50,6 +51,72 @@ namespace RacerData.WinForms.Controls
             }
         }
 
+        public Color CaptionBackColor
+        {
+            get
+            {
+                return _captionControl.BackColor;
+            }
+            set
+            {
+                _captionControl.BackColor = value;
+            }
+        }
+        public Color CaptionForeColor
+        {
+            get
+            {
+                return _captionControl.ForeColor;
+            }
+            set
+            {
+                _captionControl.ForeColor = value;
+            }
+        }
+        public Font CaptionFont
+        {
+            get
+            {
+                return _captionControl.Font;
+            }
+            set
+            {
+                _captionControl.Font = value;
+            }
+        }
+        public Color ValueBackColor
+        {
+            get
+            {
+                return _valueControl.BackColor;
+            }
+            set
+            {
+                _valueControl.BackColor = value;
+            }
+        }
+        public Color ValueForeColor
+        {
+            get
+            {
+                return _valueControl.ForeColor;
+            }
+            set
+            {
+                _valueControl.ForeColor = value;
+            }
+        }
+        public Font ValueFont
+        {
+            get
+            {
+                return _valueControl.Font;
+            }
+            set
+            {
+                _valueControl.Font = value;
+            }
+        }
         #endregion
 
         #region ctor
@@ -130,9 +197,7 @@ namespace RacerData.WinForms.Controls
                 Text = caption,
                 Location = new Point(x, y),
                 AutoSize = false,
-                TextAlign = (System.Drawing.ContentAlignment)alignment,
-                BackColor = Color.White,
-                ForeColor = Color.Black,
+                TextAlign = alignment,
                 BorderStyle = BorderStyle.FixedSingle
             };
         }
@@ -144,9 +209,7 @@ namespace RacerData.WinForms.Controls
                 Name = ValueControlName,
                 Location = new Point(x, y),
                 AutoSize = false,
-                TextAlign = (System.Drawing.ContentAlignment)alignment,
-                BackColor = Color.Silver,
-                ForeColor = Color.Black,
+                TextAlign = alignment,
                 BorderStyle = BorderStyle.FixedSingle
             };
         }

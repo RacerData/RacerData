@@ -61,6 +61,24 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region properties
+
+        private ApplicationAppearance _appearance;
+        public virtual ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
+
+        #endregion
+
         #region ctor
 
         public StaticView(StaticViewModel viewModel)
@@ -77,6 +95,30 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region protected
+
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance != null)
+            {
+                this.BackColor = appearance.DialogAppearance.BackColor;
+                this.ForeColor = appearance.DialogAppearance.ForeColor;
+                this.Font = appearance.DialogAppearance.Font;
+
+                if (_staticViewFields != null)
+                {
+                    foreach (IStaticViewField fieldControl in _staticViewFields.Values)
+                    {
+                        fieldControl.CaptionBackColor = appearance.DarkAccentAppearance.BackColor;
+                        fieldControl.CaptionForeColor = appearance.DarkAccentAppearance.ForeColor;
+                        fieldControl.CaptionFont = appearance.DarkAccentAppearance.Font;
+
+                        fieldControl.ValueBackColor = appearance.LightAccentAppearance.BackColor;
+                        fieldControl.ValueForeColor = appearance.LightAccentAppearance.ForeColor;
+                        fieldControl.ValueFont = appearance.LightAccentAppearance.Font;
+                    }
+                }
+            }
+        }
 
         protected virtual void SetDataBindings(StaticViewModel model)
         {
@@ -106,6 +148,8 @@ namespace RacerData.WinForms.Controls
 
                 _staticViewFields.Add(field.Index, fieldControl);
             }
+
+            ApplyTheme(Appearance);
         }
 
         protected virtual void ClearControls()

@@ -9,6 +9,7 @@ namespace RacerData.WinForms.Ports
         event EventHandler<ViewAddedEventArgs> ViewAdded;
         event EventHandler<ViewRemovedEventArgs> ViewRemoved;
 
+        ApplicationAppearance Appearance { get; set; }
         int MaxColumns { get; set; }
         int MaxRows { get; set; }
 

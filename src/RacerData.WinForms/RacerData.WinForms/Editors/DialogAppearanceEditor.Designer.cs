@@ -33,6 +33,7 @@
             this.dialogButtonAppearanceEditor = new RacerData.WinForms.Editors.ButtonAppearanceEditor();
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();
+            this.dialogAppearanceEditor1 = new RacerData.WinForms.Editors.AppearanceEditor();
             this.pnlEditor.SuspendLayout();
             this.pnlCaption.SuspendLayout();
             this.SuspendLayout();
@@ -45,7 +46,7 @@
             this.dialogListAppearanceEditor.CaptionForeColor = System.Drawing.Color.Black;
             this.dialogListAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.dialogListAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dialogListAppearanceEditor.Location = new System.Drawing.Point(5, 5);
+            this.dialogListAppearanceEditor.Location = new System.Drawing.Point(5, 98);
             this.dialogListAppearanceEditor.Margin = new System.Windows.Forms.Padding(0);
             this.dialogListAppearanceEditor.Name = "dialogListAppearanceEditor";
             this.dialogListAppearanceEditor.Size = new System.Drawing.Size(768, 93);
@@ -55,11 +56,12 @@
             // 
             this.pnlEditor.Controls.Add(this.dialogButtonAppearanceEditor);
             this.pnlEditor.Controls.Add(this.dialogListAppearanceEditor);
+            this.pnlEditor.Controls.Add(this.dialogAppearanceEditor1);
             this.pnlEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEditor.Location = new System.Drawing.Point(0, 27);
             this.pnlEditor.Name = "pnlEditor";
             this.pnlEditor.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlEditor.Size = new System.Drawing.Size(778, 288);
+            this.pnlEditor.Size = new System.Drawing.Size(778, 378);
             this.pnlEditor.TabIndex = 5;
             // 
             // dialogButtonAppearanceEditor
@@ -71,7 +73,7 @@
             this.dialogButtonAppearanceEditor.CaptionForeColor = System.Drawing.Color.Black;
             this.dialogButtonAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.dialogButtonAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dialogButtonAppearanceEditor.Location = new System.Drawing.Point(5, 98);
+            this.dialogButtonAppearanceEditor.Location = new System.Drawing.Point(5, 191);
             this.dialogButtonAppearanceEditor.MaximumSize = new System.Drawing.Size(765, 187);
             this.dialogButtonAppearanceEditor.MinimumSize = new System.Drawing.Size(765, 187);
             this.dialogButtonAppearanceEditor.Name = "dialogButtonAppearanceEditor";
@@ -102,6 +104,20 @@
             this.lblCaption.Text = "Dialog Appearance";
             this.lblCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // dialogAppearanceEditor1
+            // 
+            this.dialogAppearanceEditor1.BaseAppearance = null;
+            this.dialogAppearanceEditor1.Caption = "Dialog Appearance";
+            this.dialogAppearanceEditor1.CaptionBackColor = System.Drawing.Color.Silver;
+            this.dialogAppearanceEditor1.CaptionForeColor = System.Drawing.Color.Black;
+            this.dialogAppearanceEditor1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dialogAppearanceEditor1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dialogAppearanceEditor1.Location = new System.Drawing.Point(5, 5);
+            this.dialogAppearanceEditor1.Margin = new System.Windows.Forms.Padding(0);
+            this.dialogAppearanceEditor1.Name = "dialogAppearanceEditor1";
+            this.dialogAppearanceEditor1.Size = new System.Drawing.Size(768, 93);
+            this.dialogAppearanceEditor1.TabIndex = 3;
+            // 
             // DialogAppearanceEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -111,7 +127,7 @@
             this.Controls.Add(this.pnlCaption);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "DialogAppearanceEditor";
-            this.Size = new System.Drawing.Size(778, 313);
+            this.Size = new System.Drawing.Size(778, 406);
             this.Load += new System.EventHandler(this.DialogAppearanceEditor_Load);
             this.pnlEditor.ResumeLayout(false);
             this.pnlCaption.ResumeLayout(false);
@@ -125,5 +141,6 @@
         private System.Windows.Forms.Panel pnlCaption;
         private System.Windows.Forms.Label lblCaption;
         private ButtonAppearanceEditor dialogButtonAppearanceEditor;
+        private AppearanceEditor dialogAppearanceEditor1;
     }
 }

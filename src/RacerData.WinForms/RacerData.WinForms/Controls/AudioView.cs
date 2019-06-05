@@ -61,6 +61,24 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region properties
+
+        private ApplicationAppearance _appearance;
+        public virtual ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
+
+        #endregion
+
         #region ctor
 
         public AudioView(AudioViewModel viewModel)
@@ -77,6 +95,38 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region protected
+
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance != null)
+            {
+                this.BackColor = appearance.DialogAppearance.BackColor;
+                this.ForeColor = appearance.DialogAppearance.ForeColor;
+                this.Font = appearance.DialogAppearance.Font;
+
+                pnlSelection.BackColor = appearance.DialogAppearance.BackColor;
+                pnlSelection.ForeColor = appearance.DialogAppearance.ForeColor;
+                pnlSelection.Font = appearance.DialogAppearance.Font;
+
+                lblSeries.BackColor = appearance.DialogAppearance.BackColor;
+                lblSeries.ForeColor = appearance.DialogAppearance.ForeColor;
+                lblSeries.Font = appearance.DialogAppearance.Font;
+
+                lblChannel.BackColor = appearance.DialogAppearance.BackColor;
+                lblChannel.ForeColor = appearance.DialogAppearance.ForeColor;
+                lblChannel.Font = appearance.DialogAppearance.Font;
+
+                cboSeries.BackColor = appearance.ListAppearance.BackColor;
+                cboSeries.ForeColor = appearance.ListAppearance.ForeColor;
+                cboSeries.Font = appearance.ListAppearance.Font;
+
+                cboChannel.BackColor = appearance.ListAppearance.BackColor;
+                cboChannel.ForeColor = appearance.ListAppearance.ForeColor;
+                cboChannel.Font = appearance.ListAppearance.Font;
+
+                webViewCompatible1.BackColor = appearance.DarkAccentAppearance.BackColor;
+            }
+        }
 
         protected virtual void SetDataBindings(AudioViewModel model)
         {
@@ -143,6 +193,8 @@ namespace RacerData.WinForms.Controls
         private async void AudioView_Load(object sender, EventArgs e)
         {
             SetDataBindings(_viewModel);
+
+            ApplyTheme(Appearance);
 
             await _viewModel.GetSeriesListCommandAsync();
         }

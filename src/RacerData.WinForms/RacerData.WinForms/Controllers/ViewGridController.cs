@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using RacerData.WinForms.Controls;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
+using RacerData.WinForms.Renderers;
 using View = RacerData.WinForms.Controls.View;
 
 namespace RacerData.WinForms.Controllers
@@ -55,6 +56,19 @@ namespace RacerData.WinForms.Controllers
 
         #region properties
 
+        private ApplicationAppearance _appearance;
+        public virtual ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
         public int MaxRows { get; set; }
         public int MaxColumns { get; set; }
         public int MinRows { get; set; }
@@ -62,14 +76,6 @@ namespace RacerData.WinForms.Controllers
         public int DefaultRowHeight { get; set; }
         public int DefaultColumnWidth { get; set; }
         public float CellSizeChangeFactor { get; set; }
-
-        protected IEnumerable<IViewControl> Views
-        {
-            get
-            {
-                return _gridTable.Controls.OfType<IViewControl>();
-            }
-        }
 
         #endregion
 
@@ -240,11 +246,11 @@ namespace RacerData.WinForms.Controllers
             }
         }
 
-        public void AddView(ViewInfo viewInfo)
+        public virtual void AddView(ViewInfo viewInfo)
         {
             AddViews(new List<ViewInfo>() { viewInfo });
         }
-        public void AddViews(IList<ViewInfo> viewInfos)
+        public virtual void AddViews(IList<ViewInfo> viewInfos)
         {
             try
             {
@@ -302,6 +308,40 @@ namespace RacerData.WinForms.Controllers
 
         #region protected
 
+        #region theme
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance != null)
+            {
+                _gridTable.BackColor = appearance.WorkspaceColor;
+                _gridTable.Parent.BackColor = appearance.WorkspaceColor;
+
+                foreach (Control control in _gridTable.Controls)
+                {
+                    var view = control as Controls.View;
+
+                    if (view != null)
+                    {
+                        view.Appearance = appearance;
+                    }
+                }
+
+                foreach (ToolStrip toolStrip in _parentForm.Controls.OfType<ToolStrip>())
+                {
+                    toolStrip.Renderer = new ToolStripCustomRenderer((SimpleColorTable)appearance.MenuColorTable);
+                }
+                foreach (MenuStrip menuStrip in _parentForm.Controls.OfType<MenuStrip>())
+                {
+                    menuStrip.Renderer = new ToolStripCustomRenderer((SimpleColorTable)appearance.MenuColorTable);
+                }
+                foreach (StatusStrip statusStrip in _parentForm.Controls.OfType<StatusStrip>())
+                {
+                    statusStrip.Renderer = new ToolStripCustomRenderer((SimpleColorTable)appearance.MenuColorTable);
+                }
+            }
+        }
+        #endregion
+
         #region exception handlers
         protected virtual void ExceptionHandler(string message, Exception ex)
         {
@@ -316,6 +356,8 @@ namespace RacerData.WinForms.Controllers
         #region add/remove views
         protected virtual void AddViewsToGrid(IList<ViewInfo> viewInfos)
         {
+            IList<View> addedViews = new List<View>();
+
             try
             {
                 _gridTable.Visible = false;
@@ -335,6 +377,8 @@ namespace RacerData.WinForms.Controllers
                         IViewControl viewControl = _viewControlFactory.GetViewControl(viewInfo);
 
                         view.SetViewControl(viewControl);
+
+                        view.Appearance = Appearance;
 
                         // Margin determines the spacing within the grid cells
                         view.Margin = new Padding(0);
@@ -357,9 +401,11 @@ namespace RacerData.WinForms.Controllers
 
                         ConfigureDragging(view);
 
-                        OnViewAdded(view);
-
                         view.ResumeLayout(true);
+
+                        view.Show();
+
+                        addedViews.Add(view);
 
                     }
                     catch (Exception ex)
@@ -384,6 +430,11 @@ namespace RacerData.WinForms.Controllers
 
                 SetGridRowColumnCount();
                 UpdateViewIndexes();
+
+                foreach (View view in addedViews)
+                {
+                    OnViewAdded(view);
+                }
             }
         }
 

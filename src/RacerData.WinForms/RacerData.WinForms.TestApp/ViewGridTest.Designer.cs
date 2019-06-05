@@ -47,13 +47,15 @@
             this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnApplyTheme = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButtonThemes = new System.Windows.Forms.ToolStripDropDownButton();
+            this.fooToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewGrid1 = new RacerData.WinForms.Controls.ViewGrid();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnEditThemes = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -73,7 +75,8 @@
             this.btnRemoveView,
             this.toolStripDropDownButton1,
             this.toolStripSeparator4,
-            this.btnApplyTheme});
+            this.toolStripDropDownButtonThemes,
+            this.btnEditThemes});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1104, 25);
@@ -218,15 +221,23 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnApplyTheme
+            // toolStripDropDownButtonThemes
             // 
-            this.btnApplyTheme.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnApplyTheme.Image = ((System.Drawing.Image)(resources.GetObject("btnApplyTheme.Image")));
-            this.btnApplyTheme.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnApplyTheme.Name = "btnApplyTheme";
-            this.btnApplyTheme.Size = new System.Drawing.Size(82, 22);
-            this.btnApplyTheme.Text = "Apply Theme";
-            this.btnApplyTheme.Click += new System.EventHandler(this.btnApplyTheme_Click);
+            this.toolStripDropDownButtonThemes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonThemes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fooToolStripMenuItem});
+            this.toolStripDropDownButtonThemes.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonThemes.Image")));
+            this.toolStripDropDownButtonThemes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonThemes.Name = "toolStripDropDownButtonThemes";
+            this.toolStripDropDownButtonThemes.Size = new System.Drawing.Size(66, 22);
+            this.toolStripDropDownButtonThemes.Text = "Theme...";
+            this.toolStripDropDownButtonThemes.DropDownOpening += new System.EventHandler(this.toolStripDropDownButtonThemes_DropDownOpening);
+            // 
+            // fooToolStripMenuItem
+            // 
+            this.fooToolStripMenuItem.Name = "fooToolStripMenuItem";
+            this.fooToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.fooToolStripMenuItem.Text = "foo";
             // 
             // viewGrid1
             // 
@@ -261,6 +272,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -277,6 +289,16 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(85, 17);
             this.toolStripStatusLabel1.Text = "Status... I has it";
+            // 
+            // btnEditThemes
+            // 
+            this.btnEditThemes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnEditThemes.Image = ((System.Drawing.Image)(resources.GetObject("btnEditThemes.Image")));
+            this.btnEditThemes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEditThemes.Name = "btnEditThemes";
+            this.btnEditThemes.Size = new System.Drawing.Size(76, 22);
+            this.btnEditThemes.Text = "Edit Themes";
+            this.btnEditThemes.Click += new System.EventHandler(this.btnEditThemes_Click);
             // 
             // ViewGridTest
             // 
@@ -322,11 +344,13 @@
         private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem graphToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton btnApplyTheme;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonThemes;
+        private System.Windows.Forms.ToolStripMenuItem fooToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnEditThemes;
     }
 }

@@ -31,9 +31,9 @@
             this.webViewCompatible1 = new Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible();
             this.pnlSelection = new System.Windows.Forms.Panel();
             this.cboSeries = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblSeries = new System.Windows.Forms.Label();
             this.cboChannel = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblChannel = new System.Windows.Forms.Label();
             this.pnlSelection.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,9 +50,9 @@
             // 
             this.pnlSelection.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.pnlSelection.Controls.Add(this.cboSeries);
-            this.pnlSelection.Controls.Add(this.label2);
+            this.pnlSelection.Controls.Add(this.lblSeries);
             this.pnlSelection.Controls.Add(this.cboChannel);
-            this.pnlSelection.Controls.Add(this.label1);
+            this.pnlSelection.Controls.Add(this.lblChannel);
             this.pnlSelection.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlSelection.Location = new System.Drawing.Point(0, 0);
             this.pnlSelection.Name = "pnlSelection";
@@ -69,15 +69,15 @@
             this.cboSeries.TabIndex = 3;
             this.cboSeries.SelectedIndexChanged += new System.EventHandler(this.cboSeries_SelectedIndexChanged);
             // 
-            // label2
+            // lblSeries
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 15);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Series:";
+            this.lblSeries.AutoSize = true;
+            this.lblSeries.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSeries.Location = new System.Drawing.Point(3, 9);
+            this.lblSeries.Name = "lblSeries";
+            this.lblSeries.Size = new System.Drawing.Size(47, 15);
+            this.lblSeries.TabIndex = 2;
+            this.lblSeries.Text = "Series:";
             // 
             // cboChannel
             // 
@@ -88,15 +88,15 @@
             this.cboChannel.Size = new System.Drawing.Size(162, 23);
             this.cboChannel.TabIndex = 1;
             // 
-            // label1
+            // lblChannel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(140, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Channel:";
+            this.lblChannel.AutoSize = true;
+            this.lblChannel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblChannel.Location = new System.Drawing.Point(140, 9);
+            this.lblChannel.Name = "lblChannel";
+            this.lblChannel.Size = new System.Drawing.Size(56, 15);
+            this.lblChannel.TabIndex = 0;
+            this.lblChannel.Text = "Channel:";
             // 
             // AudioView
             // 
@@ -118,8 +118,8 @@
         private Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible webViewCompatible1;
         private System.Windows.Forms.Panel pnlSelection;
         private System.Windows.Forms.ComboBox cboChannel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblChannel;
         private System.Windows.Forms.ComboBox cboSeries;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblSeries;
     }
 }

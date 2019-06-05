@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using RacerData.Commmon.Results;
 using RacerData.WinForms.Controllers;
+using RacerData.WinForms.Controls;
+using RacerData.WinForms.Dialogs;
 using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
 using RacerData.WinForms.Renderers;
@@ -17,7 +19,7 @@ namespace RacerData.WinForms
     {
         #region fields
 
-        private IThemedViewGridController _viewGridController;
+        private IViewGridController _viewGridController;
 
         #endregion
 
@@ -27,18 +29,9 @@ namespace RacerData.WinForms
         {
             InitializeComponent();
 
-            //IViewGridControllerFactory viewGridControllerFactory = ServiceProvider.Instance.GetRequiredService<IViewGridControllerFactory>();
+            IViewGridControllerFactory viewGridControllerFactory = ServiceProvider.Instance.GetRequiredService<IViewGridControllerFactory>();
 
-            //_viewGridController = (IThemedViewGridController)viewGridControllerFactory.GetViewGridController(this, viewGrid1.Grid);
-
-            //IViewFactory viewFactory = ServiceProvider.Instance.GetRequiredService<IViewFactory>();
-            //IViewControlFactory viewControlFactory = ServiceProvider.Instance.GetRequiredService<IViewControlFactory>();
-            //_viewGridController = new ThemedViewGridController(viewFactory, viewControlFactory, this, viewGrid1.Grid);
-
-            IViewGridControllerFactory viewGridControllerFactory = ServiceProvider.Instance.GetRequiredService<IThemedViewGridControllerFactory>();
-            _viewGridController = (IThemedViewGridController)viewGridControllerFactory.GetViewGridController(this, viewGrid1.Grid);
-
-            _repository = ServiceProvider.Instance.GetRequiredService<IAppAppearanceRepository>();
+            _viewGridController = (IViewGridController)viewGridControllerFactory.GetViewGridController(this, viewGrid1.Grid);
 
             _viewGridController.ViewAdded += _viewGridController_ViewAdded;
             _viewGridController.ViewRemoved += _viewGridController_ViewRemoved;
@@ -72,23 +65,20 @@ namespace RacerData.WinForms
         {
             var viewInfos = new List<ViewInfo>();
 
-            //var list1 = GetLeaderboardViewInfo();
-            //viewInfos.Add(list1);
+            var list1 = GetLeaderboardViewInfo();
+            viewInfos.Add(list1);
 
-            //var static1 = GetStaticViewInfo();
-            //viewInfos.Add(static1);
+            var static1 = GetStaticViewInfo();
+            viewInfos.Add(static1);
 
-            //var graph1 = GetGraphViewInfo();
-            //viewInfos.Add(graph1);
+            var graph1 = GetGraphViewInfo();
+            viewInfos.Add(graph1);
 
-            //var video1 = GetVideoViewInfo();
-            //viewInfos.Add(video1);
+            var video1 = GetVideoViewInfo();
+            viewInfos.Add(video1);
 
             var audio1 = GetAudioViewInfo();
             viewInfos.Add(audio1);
-
-            //var audio2 = GetAudioViewInfo();
-            //viewInfos.Add(audio2);
 
             var weekendSchedule1 = GetWeekendScheduleViewInfo();
             viewInfos.Add(weekendSchedule1);
@@ -442,34 +432,11 @@ namespace RacerData.WinForms
 
         #endregion
 
-        private async void btnApplyTheme_Click(object sender, EventArgs e)
+        protected virtual async Task<IList<ApplicationAppearance>> LoadAppearancesAsync()
         {
-            try
-            {
-                var appearance = await GetApplicationAppearance();
+            var appearanceRepository = ServiceProvider.Instance.GetRequiredService<IAppAppearanceRepository>();
 
-                _viewGridController.ApplyTheme(appearance);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler("Error applying theme", ex);
-            }
-        }
-        private async Task<ApplicationAppearance> GetApplicationAppearance()
-        {
-            var appearances = await LoadItemsAsync();
-
-            var selected = appearances.FirstOrDefault(a => a.Name == "MH2");
-
-            Console.WriteLine($">> Using appearance {selected.Name}");
-
-            return selected;
-        }
-
-        private IAppAppearanceRepository _repository;
-        protected virtual async Task<IList<ApplicationAppearance>> LoadItemsAsync()
-        {
-            var result = await _repository.SelectListAsync();
+            var result = await appearanceRepository.SelectListAsync();
 
             if (!result.IsSuccessful())
             {
@@ -480,89 +447,59 @@ namespace RacerData.WinForms
 
             return result.Value;
         }
-    }
 
-    public interface IThemedViewGridControllerFactory : IViewGridControllerFactory
-    {
-
-    }
-    public class ThemedViewGridControllerFactory : IThemedViewGridControllerFactory
-    {
-        #region fields
-
-        private readonly IViewFactory _viewFactory;
-        private readonly IViewControlFactory _viewControlFactory;
-        #endregion
-
-        #region ctor
-
-        public ThemedViewGridControllerFactory(
-            IViewFactory viewFactory,
-            IViewControlFactory viewControlFactory)
+        private void AppearanceMenu_Click(object sender, EventArgs e)
         {
-            _viewFactory = viewFactory ?? throw new ArgumentNullException(nameof(viewFactory));
-            _viewControlFactory = viewControlFactory ?? throw new ArgumentNullException(nameof(viewControlFactory));
+            ToolStripItem menuItem = (ToolStripItem)sender;
+
+            ApplicationAppearance appearance = (ApplicationAppearance)menuItem.Tag;
+
+            _viewGridController.Appearance = appearance;
         }
 
-        #endregion
-
-        #region public
-
-        public IViewGridController GetViewGridController(IViewFactory viewFactory, IViewControlFactory viewControlFactory, Form parentForm, TableLayoutPanel gridTable)
+        private async void toolStripDropDownButtonThemes_DropDownOpening(object sender, EventArgs e)
         {
-            return new ThemedViewGridController(viewFactory, viewControlFactory, parentForm, gridTable);
+            this.toolStripDropDownButtonThemes.DropDownItems.Clear();
+
+            var appearances = await LoadAppearancesAsync();
+
+            var appearanceMenuItems = new ToolStripItem[appearances.Count];
+
+            int i = 0;
+
+            foreach (ApplicationAppearance appearance in appearances)
+            {
+                var menu = new ToolStripMenuItem()
+                {
+                    Name = $"mnu{appearance.Name}",
+                    Size = new Size(180, 22),
+                    Text = appearance.Name,
+                    Tag = appearance
+                };
+
+                menu.Click += AppearanceMenu_Click;
+
+                appearanceMenuItems[i] = menu;
+
+                i++;
+            }
+
+            this.toolStripDropDownButtonThemes.DropDownItems.AddRange(appearanceMenuItems);
+
+            if (_viewGridController.Appearance != null)
+                this.toolStrip1.Renderer = new ToolStripCustomRenderer((SimpleColorTable)_viewGridController.Appearance.MenuColorTable);
         }
 
-        public IViewGridController GetViewGridController(Form parentForm, TableLayoutPanel gridTable)
+        private void btnEditThemes_Click(object sender, EventArgs e)
         {
-            return new ThemedViewGridController(_viewFactory, _viewControlFactory, parentForm, gridTable);
+            var dialog = ServiceProvider.Instance.GetRequiredService<AppearanceEditorDialog>();
+
+            dialog.ShowDialog(this);
         }
 
-        #endregion
-    }
-
-    public interface IThemedViewGridController : IViewGridController
-    {
-        void ApplyTheme(ApplicationAppearance appearance);
-    }
-
-    public class ThemedViewGridController : ViewGridController, IThemedViewGridController
-    {
-        public ThemedViewGridController(
-            IViewFactory viewFactory,
-            IViewControlFactory viewControlFactory,
-            Form parentForm,
-            TableLayoutPanel gridTable)
-            : base(viewFactory, viewControlFactory, parentForm, gridTable)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        public void ApplyTheme(ApplicationAppearance appearance)
-        {
-            _gridTable.BackColor = appearance.WorkspaceColor;
-            _gridTable.Parent.BackColor = appearance.WorkspaceColor;
-
-            foreach (var view in this.Views)
-            {
-                Control viewControl = (Control)view;
-                viewControl.BackColor = appearance.BackColor;
-                viewControl.ForeColor = appearance.ForeColor;
-                viewControl.Font = appearance.Font;
-            }
-
-            foreach (ToolStrip toolStrip in _parentForm.Controls.OfType<ToolStrip>())
-            {
-                toolStrip.Renderer = new ToolStripCustomRenderer(appearance.MenuColorTable);
-            }
-            foreach (MenuStrip menuStrip in _parentForm.Controls.OfType<MenuStrip>())
-            {
-                menuStrip.Renderer = new ToolStripCustomRenderer(appearance.MenuColorTable);
-            }
-            foreach (StatusStrip statusStrip in _parentForm.Controls.OfType<StatusStrip>())
-            {
-                statusStrip.Renderer = new ToolStripCustomRenderer(appearance.MenuColorTable);
-            }
+            this.Close();
         }
     }
 }

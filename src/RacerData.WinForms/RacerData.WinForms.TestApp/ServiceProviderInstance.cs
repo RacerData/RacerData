@@ -41,7 +41,6 @@ namespace RacerData.WinForms
             services.Configure<DirectoryConfiguration>(configuration.GetSection("directories"));
 
             services.AddCommon();
-            services.TryAddTransient<IThemedViewGridControllerFactory, ThemedViewGridControllerFactory>();
 
             services.AddWinForms();
 

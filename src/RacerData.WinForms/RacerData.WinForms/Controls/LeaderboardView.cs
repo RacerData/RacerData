@@ -107,7 +107,23 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+
+
         #region properties
+
+        private ApplicationAppearance _appearance;
+        public virtual ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
 
         public bool AllowResize { get; set; } = true;
         public bool AllowDrag { get; set; } = true;
@@ -374,6 +390,16 @@ namespace RacerData.WinForms.Controls
 
         #region protected
 
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance != null)
+            {
+                this.BackColor = appearance.DialogAppearance.BackColor;
+                this.ForeColor = appearance.DialogAppearance.ForeColor;
+                this.Font = appearance.DialogAppearance.Font;
+            }
+        }
+
         protected override CreateParams CreateParams
         {
             get
@@ -523,6 +549,8 @@ namespace RacerData.WinForms.Controls
                     this.DataValues = data;
                 }
             }
+
+            ApplyTheme(Appearance);
         }
 
         protected virtual void DisplayDataValues(ListViewData dataValues)

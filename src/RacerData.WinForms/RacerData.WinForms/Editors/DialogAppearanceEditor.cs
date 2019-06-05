@@ -93,6 +93,9 @@ namespace RacerData.WinForms.Editors
 
             dialogListAppearanceEditor.ColorRequest += OnColorRequest;
             dialogListAppearanceEditor.FontRequest += OnFontRequest;
+
+            dialogAppearanceEditor1.ColorRequest += OnColorRequest;
+            dialogAppearanceEditor1.FontRequest += OnFontRequest;
         }
 
         #endregion
@@ -103,6 +106,7 @@ namespace RacerData.WinForms.Editors
         {
             dialogButtonAppearanceEditor.ApplyChanges();
             dialogListAppearanceEditor.ApplyChanges();
+            dialogAppearanceEditor1.ApplyChanges();
 
             DialogAppearance = UpdateAppearance(DialogAppearance);
         }
@@ -120,6 +124,7 @@ namespace RacerData.WinForms.Editors
         {
             dialogButtonAppearanceEditor.Clear();
             dialogListAppearanceEditor.Clear();
+            dialogAppearanceEditor1.Clear();
         }
 
         protected virtual void DisplayDialogAppearance(DialogAppearance appearance)
@@ -129,6 +134,7 @@ namespace RacerData.WinForms.Editors
             if (appearance == null)
                 return;
 
+            dialogAppearanceEditor1.BaseAppearance = appearance;
             dialogButtonAppearanceEditor.ButtonAppearance = appearance.ButtonAppearance;
             dialogListAppearanceEditor.BaseAppearance = appearance.ListAppearance.ListItemAppearance;
         }
@@ -136,7 +142,11 @@ namespace RacerData.WinForms.Editors
         protected virtual DialogAppearance UpdateAppearance(DialogAppearance appearance)
         {
             if (appearance == null)
-                appearance= new DialogAppearance();
+                appearance = new DialogAppearance();
+
+            appearance.BackColor =  dialogAppearanceEditor1.BaseAppearance.BackColor;
+            appearance.ForeColor = dialogAppearanceEditor1.BaseAppearance.ForeColor;
+            appearance.Font = dialogAppearanceEditor1.BaseAppearance.Font;
 
             appearance.ButtonAppearance = dialogButtonAppearanceEditor.ButtonAppearance;
             appearance.ListAppearance.ListItemAppearance = dialogListAppearanceEditor.BaseAppearance;

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
-using RacerData.WinForms.Controls;
 using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
@@ -35,7 +34,7 @@ namespace RacerData.WinForms.Controls
 
         public event EventHandler<BeginViewResizeRequestEventArgs> BeginViewResizeRequest;
         protected virtual void OnBeginViewResizeRequest(Point point, ResizeDirection resizeDirection)
-        {          
+        {
             var handler = BeginViewResizeRequest;
             handler?.Invoke(this, new BeginViewResizeRequestEventArgs(point, resizeDirection));
         }
@@ -63,7 +62,27 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
+        #region fields
+
+        IViewControl _viewControl;
+
+        #endregion
+
         #region properties
+
+        private ApplicationAppearance _appearance;
+        public virtual ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
 
         protected virtual bool IsResizing { get; set; }
 
@@ -140,9 +159,9 @@ namespace RacerData.WinForms.Controls
         {
             pnlControl.Controls.Add(control as Control);
 
-            IViewControl viewControl = control as IViewControl;
+            _viewControl = control as IViewControl;
 
-            viewControl.SetViewHeaderRequest += ViewControl_SetViewHeaderRequest;
+            _viewControl.SetViewHeaderRequest += ViewControl_SetViewHeaderRequest;
 
             if (control is ILeaderboardView)
             {
@@ -159,6 +178,20 @@ namespace RacerData.WinForms.Controls
         #endregion
 
         #region protected
+
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            // TODO: BorderColor, size
+            if (appearance != null)
+            {
+                lblHeader.BackColor = appearance.DarkAccentAppearance.BackColor;
+                lblHeader.ForeColor = appearance.DarkAccentAppearance.ForeColor;
+                lblHeader.Font = appearance.DarkAccentAppearance.Font;
+
+                if (_viewControl != null)
+                    _viewControl.Appearance = appearance;
+            }
+        }
 
         protected override CreateParams CreateParams
         {

@@ -105,7 +105,7 @@
             simpleColorTable1.UseSystemColors = false;
             this.colorTableAppearanceEditor.ColorTable = simpleColorTable1;
             this.colorTableAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 994);
+            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 1086);
             this.colorTableAppearanceEditor.Name = "colorTableAppearanceEditor";
             this.colorTableAppearanceEditor.Size = new System.Drawing.Size(802, 540);
             this.colorTableAppearanceEditor.TabIndex = 10;
@@ -120,7 +120,7 @@
             this.listAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.listAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listAppearanceEditor.ListAppearance = null;
-            this.listAppearanceEditor.Location = new System.Drawing.Point(8, 770);
+            this.listAppearanceEditor.Location = new System.Drawing.Point(8, 862);
             this.listAppearanceEditor.Name = "listAppearanceEditor";
             this.listAppearanceEditor.Size = new System.Drawing.Size(802, 224);
             this.listAppearanceEditor.TabIndex = 8;
@@ -137,7 +137,7 @@
             this.dialogAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dialogAppearanceEditor.Location = new System.Drawing.Point(8, 457);
             this.dialogAppearanceEditor.Name = "dialogAppearanceEditor";
-            this.dialogAppearanceEditor.Size = new System.Drawing.Size(802, 313);
+            this.dialogAppearanceEditor.Size = new System.Drawing.Size(802, 405);
             this.dialogAppearanceEditor.TabIndex = 9;
             // 
             // buttonAppearanceEditor

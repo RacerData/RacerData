@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Adapters;
 using RacerData.WinForms.Ports;
@@ -70,6 +71,26 @@ namespace RacerData.WinForms.Dialogs
 
         private void LogFileDialog_Load(object sender, EventArgs e)
         {
+           if( Appearance!=null)
+            {
+                this.BackColor = Appearance.DialogAppearance.BackColor;
+                this.ForeColor = Appearance.DialogAppearance.ForeColor;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+
+                this.Font = Appearance.DialogAppearance.Font;
+            }
+
             Text = Title;
             lblFile.Text = FilePath;
             ReadFile();

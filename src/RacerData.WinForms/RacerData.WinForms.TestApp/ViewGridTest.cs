@@ -501,5 +501,45 @@ namespace RacerData.WinForms
         {
             this.Close();
         }
+
+        private void messageBoxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+                dialogService.Appearance = _viewGridController.Appearance;
+
+                dialogService.DisplayMessageBox(this, "Test", "This is a test", ButtonTypes.Ok);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void inputBoxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+            dialogService.Appearance = _viewGridController.Appearance;
+
+            dialogService.DisplayInputDialog(this, "Test", "This is a test");
+        }
+
+        private void exceptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+            dialogService.Appearance = _viewGridController.Appearance;
+
+            dialogService.DisplayException(this, "Test", ButtonTypes.Ok, new ArgumentNullException("NO! Bad Ubu!"));
+        }
+
+        private void fileViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
+            dialogService.Appearance = _viewGridController.Appearance;
+
+            dialogService.DisplayFileViewer(this, "Test", @"C:\Users\Rob\Documents\rNascar\SettingsappAppearances.json");
+        }
     }
 }

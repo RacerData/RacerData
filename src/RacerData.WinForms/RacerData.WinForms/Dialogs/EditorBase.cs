@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
 
@@ -6,6 +7,12 @@ namespace RacerData.WinForms.Dialogs
 {
     public partial class EditorBase : Form
     {
+        #region properties
+
+        public ApplicationAppearance Appearance { get; set; }
+
+        #endregion
+
         #region ctor
 
         public EditorBase()
@@ -81,6 +88,27 @@ namespace RacerData.WinForms.Dialogs
         /// <param name="e"></param>
         protected virtual void EditorBase_Load(object sender, EventArgs e)
         {
+            if (Appearance != null)
+            {
+                this.BackColor = Appearance.DialogAppearance.BackColor;
+                this.ForeColor = Appearance.DialogAppearance.ForeColor;
+                this.Font = Appearance.DialogAppearance.Font;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+
+                dialogButtons1.Appearance = Appearance;
+            }
+
             dialogButtons1.FormState = Models.FormStates.Ready;
         }
 

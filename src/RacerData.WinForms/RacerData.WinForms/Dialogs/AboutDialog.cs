@@ -163,6 +163,25 @@ namespace RacerData.WinForms.Dialogs
             _references = ReadAssemblyInformation();
 
             DisplayAssemblyInformation(_references);
+
+            if (Appearance!=null)
+            {
+                this.BackColor = Appearance.DialogAppearance.BackColor;
+                this.ForeColor = Appearance.DialogAppearance.ForeColor;
+                this.Font = Appearance.DialogAppearance.Font;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+            }
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

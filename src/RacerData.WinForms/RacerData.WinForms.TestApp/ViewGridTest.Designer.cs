@@ -49,13 +49,18 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButtonThemes = new System.Windows.Forms.ToolStripDropDownButton();
             this.fooToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnEditThemes = new System.Windows.Forms.ToolStripButton();
             this.viewGrid1 = new RacerData.WinForms.Controls.ViewGrid();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnEditThemes = new System.Windows.Forms.ToolStripButton();
+            this.dialogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.messageBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inputBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exceptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -239,6 +244,16 @@
             this.fooToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.fooToolStripMenuItem.Text = "foo";
             // 
+            // btnEditThemes
+            // 
+            this.btnEditThemes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnEditThemes.Image = ((System.Drawing.Image)(resources.GetObject("btnEditThemes.Image")));
+            this.btnEditThemes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEditThemes.Name = "btnEditThemes";
+            this.btnEditThemes.Size = new System.Drawing.Size(76, 22);
+            this.btnEditThemes.Text = "Edit Themes";
+            this.btnEditThemes.Click += new System.EventHandler(this.btnEditThemes_Click);
+            // 
             // viewGrid1
             // 
             this.viewGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
@@ -252,7 +267,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.dialogsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1104, 24);
@@ -270,7 +286,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -290,15 +306,44 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(85, 17);
             this.toolStripStatusLabel1.Text = "Status... I has it";
             // 
-            // btnEditThemes
+            // dialogsToolStripMenuItem
             // 
-            this.btnEditThemes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnEditThemes.Image = ((System.Drawing.Image)(resources.GetObject("btnEditThemes.Image")));
-            this.btnEditThemes.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEditThemes.Name = "btnEditThemes";
-            this.btnEditThemes.Size = new System.Drawing.Size(76, 22);
-            this.btnEditThemes.Text = "Edit Themes";
-            this.btnEditThemes.Click += new System.EventHandler(this.btnEditThemes_Click);
+            this.dialogsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.messageBoxToolStripMenuItem,
+            this.inputBoxToolStripMenuItem,
+            this.exceptionToolStripMenuItem,
+            this.fileViewerToolStripMenuItem});
+            this.dialogsToolStripMenuItem.Name = "dialogsToolStripMenuItem";
+            this.dialogsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.dialogsToolStripMenuItem.Text = "Dialogs";
+            // 
+            // messageBoxToolStripMenuItem
+            // 
+            this.messageBoxToolStripMenuItem.Name = "messageBoxToolStripMenuItem";
+            this.messageBoxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.messageBoxToolStripMenuItem.Text = "MessageBox";
+            this.messageBoxToolStripMenuItem.Click += new System.EventHandler(this.messageBoxToolStripMenuItem_Click);
+            // 
+            // inputBoxToolStripMenuItem
+            // 
+            this.inputBoxToolStripMenuItem.Name = "inputBoxToolStripMenuItem";
+            this.inputBoxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inputBoxToolStripMenuItem.Text = "InputBox";
+            this.inputBoxToolStripMenuItem.Click += new System.EventHandler(this.inputBoxToolStripMenuItem_Click);
+            // 
+            // exceptionToolStripMenuItem
+            // 
+            this.exceptionToolStripMenuItem.Name = "exceptionToolStripMenuItem";
+            this.exceptionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exceptionToolStripMenuItem.Text = "Exception";
+            this.exceptionToolStripMenuItem.Click += new System.EventHandler(this.exceptionToolStripMenuItem_Click);
+            // 
+            // fileViewerToolStripMenuItem
+            // 
+            this.fileViewerToolStripMenuItem.Name = "fileViewerToolStripMenuItem";
+            this.fileViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fileViewerToolStripMenuItem.Text = "File Viewer";
+            this.fileViewerToolStripMenuItem.Click += new System.EventHandler(this.fileViewerToolStripMenuItem_Click);
             // 
             // ViewGridTest
             // 
@@ -352,5 +397,10 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonThemes;
         private System.Windows.Forms.ToolStripMenuItem fooToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton btnEditThemes;
+        private System.Windows.Forms.ToolStripMenuItem dialogsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem messageBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inputBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exceptionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileViewerToolStripMenuItem;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
@@ -17,6 +18,7 @@ namespace RacerData.WinForms.Dialogs
 
         #region properties
 
+        public ApplicationAppearance Appearance { get; set; }
         public string Message { get; set; }
         public Exception Exception { get; set; }
 
@@ -82,6 +84,27 @@ namespace RacerData.WinForms.Dialogs
             lblMessage.Text = String.IsNullOrEmpty(Message) ? Exception.Message : $"{Message}\r\n\r\n{Exception.Message}";
 
             txtStackTrace.Text = Exception.StackTrace;
+
+            if (Appearance != null)
+            {
+                this.BackColor = Appearance.DialogAppearance.BackColor;
+                this.ForeColor = Appearance.DialogAppearance.ForeColor;
+                this.Font = Appearance.DialogAppearance.Font;
+
+                this.dialogButtons1.Appearance = Appearance;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+            }
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

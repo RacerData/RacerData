@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
 
@@ -36,6 +37,29 @@ namespace RacerData.WinForms.Dialogs
             lstItems.ValueMember = ValueMember;
             lstItems.DataSource = Items;
             lstItems.SelectedIndex = -1;
+
+            if (Appearance != null)
+            {
+                this.BackColor = Appearance.DialogAppearance.BackColor;
+                this.ForeColor = Appearance.DialogAppearance.ForeColor;
+                this.Font = Appearance.DialogAppearance.Font;
+
+                lstItems.BackColor = Appearance.ListAppearance.BackColor;
+                lstItems.ForeColor = Appearance.ListAppearance.ForeColor;
+                lstItems.Font = Appearance.ListAppearance.Font;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+            }
         }
 
         #endregion

@@ -7,6 +7,8 @@ namespace RacerData.WinForms.Ports
 {
     public interface IDialogService
     {
+        ApplicationAppearance Appearance { get; set; }
+
         DialogResult DisplayMessageBox(IWin32Window parent, string title, string message, ButtonTypes buttonTypes);
         DialogResult DisplayMessageBox(IWin32Window parent, string title, string message, ButtonTypes buttonTypes, MsgIcon messageIcon);
 

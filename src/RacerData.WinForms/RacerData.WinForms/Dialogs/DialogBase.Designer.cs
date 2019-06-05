@@ -58,6 +58,7 @@
             this.Name = "DialogBase";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "DialogBase";
+            this.Load += new System.EventHandler(this.DialogBase_Load);
             this.ResumeLayout(false);
 
         }

@@ -91,6 +91,7 @@ namespace RacerData.WinForms.Controls
 
         #region properties
 
+        public ApplicationAppearance Appearance { get; set; }
         public ButtonTypes ButtonTypes { get; set; } = ButtonTypes.Blank;
 
         private FormStates _state;
@@ -167,6 +168,25 @@ namespace RacerData.WinForms.Controls
         private void DialogButtons_Load(object sender, EventArgs e)
         {
             CreateButtons();
+
+            if (Appearance != null)
+            {
+                this.BackColor = Appearance.LightAccentAppearance .BackColor;
+                this.ForeColor = Appearance.LightAccentAppearance.ForeColor;
+                this.Font = Appearance.LightAccentAppearance.Font;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+            }
         }
 
         private void AddLeftButtons(IOrderedEnumerable<ButtonInfo> buttons)

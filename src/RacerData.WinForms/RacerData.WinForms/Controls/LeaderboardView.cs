@@ -107,8 +107,6 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
-
-
         #region properties
 
         private ApplicationAppearance _appearance;
@@ -154,7 +152,7 @@ namespace RacerData.WinForms.Controls
 
         #endregion
 
-        #region ctor/load
+        #region ctor
 
         public LeaderboardView(LeaderboardViewModel viewModel)
             : this()
@@ -394,9 +392,14 @@ namespace RacerData.WinForms.Controls
         {
             if (appearance != null)
             {
-                this.BackColor = appearance.DialogAppearance.BackColor;
-                this.ForeColor = appearance.DialogAppearance.ForeColor;
-                this.Font = appearance.DialogAppearance.Font;
+                this.BackColor = appearance.ListAppearance.BackColor;
+                this.ForeColor = appearance.ListAppearance.ForeColor;
+                this.Font = appearance.ListAppearance.Font;
+
+                foreach (LeaderboardViewRow row in OrderedControls)
+                {
+                    row.ApplyTheme(appearance);
+                }
             }
         }
 
@@ -528,26 +531,51 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void BuildListDisplay(LeaderboardViewDefinition leaderboardViewDefinition)
         {
+
             if (leaderboardViewDefinition != null)
             {
-                // TODO: Remove after testing
+
+                var rowCount = 0;
+
+                if (leaderboardViewDefinition.ShowCaptions)
+                {
+                    var captionRow = new LeaderboardViewRow()
+                    {
+                        IsColumnCaptions = true,
+                        DisplayIndex = 0
+                    };
+
+                    AddRow(captionRow);
+
+                    rowCount++;
+                }
+
                 if (leaderboardViewDefinition.MaxRows.HasValue)
                 {
-                    var rowCount = leaderboardViewDefinition.MaxRows.Value;
-                    var columnCount = leaderboardViewDefinition.Columns.Count;
+                    var dataRowCount = leaderboardViewDefinition.MaxRows.Value;
 
-                    ListViewData data = new ListViewData(rowCount, columnCount);
-
-                    for (int r = 0; r < rowCount; r++)
+                    for (int i = 0; i < dataRowCount; i++)
                     {
-                        for (int c = 0; c < columnCount; c++)
+                        var dataRow = new LeaderboardViewRow()
                         {
-                            data.DataValues[r, c] = $"{r}:{c}";
-                        }
-                    }
+                            IsColumnCaptions = false,
+                            DisplayIndex = i + rowCount
+                        };
 
-                    this.DataValues = data;
+                        AddRow(dataRow);
+                    }
                 }
+                else
+                {
+                    var dataRow0 = new LeaderboardViewRow()
+                    {
+                        IsColumnCaptions = false,
+                        DisplayIndex = rowCount
+                    };
+                    AddRow(dataRow0);
+                }
+
+                AddColumns(leaderboardViewDefinition.Columns);
             }
 
             ApplyTheme(Appearance);
@@ -580,7 +608,6 @@ namespace RacerData.WinForms.Controls
 
         #region private
 
-
         private void View_Load(object sender, EventArgs e)
         {
             _viewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -601,8 +628,7 @@ namespace RacerData.WinForms.Controls
                 DisplayDataValues(_viewModel.ListData);
             }
         }
-
-
+        
         private void DraggableContainer1_ControlsResized(object sender, ControlResizedEventArgs e)
         {
             foreach (LeaderboardViewRow row in _rows)

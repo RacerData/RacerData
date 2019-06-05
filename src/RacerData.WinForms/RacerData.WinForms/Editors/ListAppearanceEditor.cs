@@ -39,21 +39,7 @@ namespace RacerData.WinForms.Editors
                 _listAppearance = value;
                 DisplayAppearance(_listAppearance);
             }
-        }
-
-        private ListAppearance _alternatingListAppearance;
-        public ListAppearance AlternatingListAppearance
-        {
-            get
-            {
-                return _alternatingListAppearance;
-            }
-            set
-            {
-                _alternatingListAppearance = value;
-                DisplayAppearance(_alternatingListAppearance);
-            }
-        }
+        }      
 
         public string Caption
         {
@@ -107,6 +93,9 @@ namespace RacerData.WinForms.Editors
 
             baseAppearanceEditor2.ColorRequest += OnColorRequest;
             baseAppearanceEditor2.FontRequest += OnFontRequest;
+
+            captionAppearanceEditor.ColorRequest += OnColorRequest;
+            captionAppearanceEditor.FontRequest += OnFontRequest;
         }
 
         #endregion
@@ -117,9 +106,9 @@ namespace RacerData.WinForms.Editors
         {
             baseAppearanceEditor1.ApplyChanges();
             baseAppearanceEditor2.ApplyChanges();
+            captionAppearanceEditor.ApplyChanges();
 
             ListAppearance = UpdateAppearance(ListAppearance);
-            AlternatingListAppearance = UpdateAppearance(AlternatingListAppearance);
         }
 
         public void Clear()
@@ -135,6 +124,7 @@ namespace RacerData.WinForms.Editors
         {
             baseAppearanceEditor1.Clear();
             baseAppearanceEditor2.Clear();
+            captionAppearanceEditor.Clear();
         }
 
         protected virtual void DisplayAppearance(ListAppearance appearance)
@@ -146,6 +136,7 @@ namespace RacerData.WinForms.Editors
 
             baseAppearanceEditor1.BaseAppearance = appearance.ListItemAppearance;
             baseAppearanceEditor2.BaseAppearance = appearance.AlternatingListItemAppearance;
+            captionAppearanceEditor.BaseAppearance = appearance;
         }
 
         protected virtual ListAppearance UpdateAppearance(ListAppearance appearance)
@@ -155,6 +146,10 @@ namespace RacerData.WinForms.Editors
 
             appearance.ListItemAppearance = baseAppearanceEditor1.BaseAppearance;
             appearance.AlternatingListItemAppearance = baseAppearanceEditor2.BaseAppearance;
+
+            appearance.BackColor = captionAppearanceEditor.BaseAppearance.BackColor;
+            appearance.ForeColor = captionAppearanceEditor.BaseAppearance.ForeColor;
+            appearance.Font = captionAppearanceEditor.BaseAppearance.Font;
 
             return appearance;
         }

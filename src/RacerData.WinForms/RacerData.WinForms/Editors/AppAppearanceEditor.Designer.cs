@@ -105,14 +105,13 @@
             simpleColorTable1.UseSystemColors = false;
             this.colorTableAppearanceEditor.ColorTable = simpleColorTable1;
             this.colorTableAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 1086);
+            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 1180);
             this.colorTableAppearanceEditor.Name = "colorTableAppearanceEditor";
             this.colorTableAppearanceEditor.Size = new System.Drawing.Size(802, 540);
             this.colorTableAppearanceEditor.TabIndex = 10;
             // 
             // listAppearanceEditor
             // 
-            this.listAppearanceEditor.AlternatingListAppearance = null;
             this.listAppearanceEditor.BackColor = System.Drawing.Color.White;
             this.listAppearanceEditor.Caption = "List Item Appearance";
             this.listAppearanceEditor.CaptionBackColor = System.Drawing.Color.Gainsboro;
@@ -122,7 +121,7 @@
             this.listAppearanceEditor.ListAppearance = null;
             this.listAppearanceEditor.Location = new System.Drawing.Point(8, 862);
             this.listAppearanceEditor.Name = "listAppearanceEditor";
-            this.listAppearanceEditor.Size = new System.Drawing.Size(802, 224);
+            this.listAppearanceEditor.Size = new System.Drawing.Size(802, 318);
             this.listAppearanceEditor.TabIndex = 8;
             this.listAppearanceEditor.Load += new System.EventHandler(this.dialogAppearanceEditor_Load);
             // 

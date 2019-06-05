@@ -51,9 +51,16 @@ namespace RacerData.WinForms
 
         private void btnLeaderboardViewTest_Click(object sender, EventArgs e)
         {
-            var dialog = new LeaderboardViewTest();
+            try
+            {
+                var dialog = new LeaderboardViewTest();
 
-            dialog.ShowDialog(this);
+                dialog.ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
         }
 
         private void btnMaintenanceFormBase_Click(object sender, EventArgs e)

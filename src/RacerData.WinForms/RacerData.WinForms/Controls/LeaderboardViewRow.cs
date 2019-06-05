@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using RacerData.WinForms.Models;
 
 namespace RacerData.WinForms.Controls
 {
@@ -21,6 +23,36 @@ namespace RacerData.WinForms.Controls
             InitializeComponent();
 
             ConfigureResizeHandle();
+        }
+
+        #endregion
+
+        #region internal
+
+        internal void ApplyTheme(ApplicationAppearance appearance)
+        {
+            this.BackColor = appearance.ListAppearance.BackColor;
+
+            Models.Appearance listAppearance = null;
+
+            if (IsColumnCaptions)
+            {
+                listAppearance = appearance.ListAppearance;
+            }
+            else
+            {
+                listAppearance = DisplayIndex % 2 == 0 ?
+                              appearance.ListAppearance.ListItemAppearance :
+                              appearance.ListAppearance.AlternatingListItemAppearance;
+            }
+
+
+            foreach (LeaderboardViewCell field in OrderedControls.OfType<LeaderboardViewCell>().ToList())
+            {
+                field.CellLabel.BackColor = listAppearance.BackColor;
+                field.CellLabel.ForeColor = listAppearance.ForeColor;
+                field.CellLabel.Font = listAppearance.Font;
+            }
         }
 
         #endregion

@@ -37,6 +37,7 @@ namespace RacerData.WinForms.Dialogs
 
         private void InputDialog_Load(object sender, EventArgs e)
         {
+            base.
             Text = Title;
             lblPrompt.Text = Prompt;
             txtResponse.Text = Value;

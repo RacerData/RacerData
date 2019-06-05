@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using RacerData.Data.Ports;
@@ -18,6 +19,7 @@ namespace RacerData.WinForms.Models
         public virtual ButtonAppearance ButtonAppearance { get; set; }
         public virtual ToolStripCustomRenderer MenuRenderer { get; set; }
         public virtual ProfessionalColorTable MenuColorTable { get; set; }
+        public virtual IList<int> CustomColors { get; set; }
 
         public ApplicationAppearance()
         {
@@ -29,6 +31,7 @@ namespace RacerData.WinForms.Models
             ButtonAppearance = new ButtonAppearance();
             MenuColorTable = new SimpleColorTable();
             MenuRenderer = new ToolStripCustomRenderer(MenuColorTable);
+            CustomColors = new List<int>();
         }
 
         public ToolStripCustomRenderer GetRenderer()

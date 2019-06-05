@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Dialogs;
 using RacerData.WinForms.Models;
@@ -145,6 +147,56 @@ namespace RacerData.WinForms.Adapters
                     dialog.Value :
                     String.Empty
             };
+        }
+
+        public Color DisplayColorDialog(IWin32Window parent, Color defaultColor)
+        {
+            var dialog = new ColorDialog()
+            {
+                AllowFullOpen = true,
+                AnyColor = true,
+                FullOpen = true,
+                SolidColorOnly = false,
+                Color = defaultColor
+            };
+
+            var dialogResult = dialog.ShowDialog(parent);
+
+            return dialogResult == DialogResult.OK ? dialog.Color : defaultColor;
+        }
+        public Color DisplayColorDialog(IWin32Window parent, Color defaultColor, ref IList<int> customColors)
+        {
+            var dialog = new ColorDialog()
+            {
+                AllowFullOpen = true,
+                AnyColor = true,
+                FullOpen = true,
+                SolidColorOnly = false,
+                Color = defaultColor
+            };
+
+            if (customColors != null)
+                dialog.CustomColors = customColors.Take(16).ToArray();
+
+            var dialogResult = dialog.ShowDialog(parent);
+
+            if (dialogResult == DialogResult.OK)
+                customColors = dialog.CustomColors.ToList();
+
+            return dialogResult == DialogResult.OK ? dialog.Color : defaultColor;
+        }
+
+        public Font DisplayFontDialog(IWin32Window parent, Font defaultFont)
+        {
+            var dialog = new FontDialog()
+            {
+                ShowEffects = true,
+                Font = defaultFont
+            };
+
+            var dialogResult = dialog.ShowDialog(parent);
+
+            return dialogResult == DialogResult.OK ? dialog.Font : defaultFont;
         }
 
         #endregion

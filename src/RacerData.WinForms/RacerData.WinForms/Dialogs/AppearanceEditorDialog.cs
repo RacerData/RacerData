@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RacerData.Commmon.Results;
@@ -14,6 +15,7 @@ namespace RacerData.WinForms.Dialogs
         #region fields
 
         private readonly IAppAppearanceRepository _repository;
+        private readonly IDialogService _dialogService;
         private IList<ApplicationAppearance> _items;
         private bool _isLoading = true;
         private bool _isEditing = false;
@@ -48,10 +50,12 @@ namespace RacerData.WinForms.Dialogs
         #region ctor
 
         public AppearanceEditorDialog(
-            IAppAppearanceRepository repository)
+            IAppAppearanceRepository repository,
+            IDialogService dialogService)
             : this()
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         }
 
         internal AppearanceEditorDialog()
@@ -70,33 +74,15 @@ namespace RacerData.WinForms.Dialogs
 
         protected virtual void OnColorRequest(ref Color color)
         {
-            var dialog = new ColorDialog()
-            {
-                AllowFullOpen = true,
-                AnyColor = true,
-                FullOpen = true,
-                SolidColorOnly = false,
-                Color = color
-            };
-
-            if (dialog.ShowDialog(this) == DialogResult.OK)
-            {
-                color = dialog.Color;
-            }
+            var customColors = appAppearanceEditor1.AppAppearance.CustomColors;
+            color = _dialogService.DisplayColorDialog(this, color, ref customColors);
+            appAppearanceEditor1.AppAppearance.CustomColors = customColors;
         }
 
         protected virtual void OnFontRequest(ref Font font)
         {
-            var dialog = new FontDialog();
-
-            dialog.Font = font;
-
-            if (dialog.ShowDialog(this) == DialogResult.OK)
-            {
-                font = dialog.Font;
-            }
+            font = _dialogService.DisplayFontDialog(this, font);
         }
-
 
         protected virtual async Task ReloadItemsAsync(Guid? key)
         {
@@ -137,7 +123,7 @@ namespace RacerData.WinForms.Dialogs
 
             cboAppearances.DisplayMember = "Name";
             cboAppearances.ValueMember = "Key";
-            cboAppearances.DataSource = items;
+            cboAppearances.DataSource = items.OrderBy(a => a.Name).ToList();
 
             cboAppearances.SelectedIndex = -1;
         }

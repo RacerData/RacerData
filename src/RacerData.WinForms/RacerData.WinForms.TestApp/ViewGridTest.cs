@@ -455,6 +455,8 @@ namespace RacerData.WinForms
             ApplicationAppearance appearance = (ApplicationAppearance)menuItem.Tag;
 
             _viewGridController.Appearance = appearance;
+
+            toolStripStatusLabel1.Text = appearance.Name;
         }
 
         private async void toolStripDropDownButtonThemes_DropDownOpening(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using RacerData.WinForms.Models;
 
@@ -30,5 +31,9 @@ namespace RacerData.WinForms.Ports
             IList<TItem> items,
             string displayMember,
             string valueMember);
+
+        Color DisplayColorDialog(IWin32Window parent, Color defaultColor);
+        Color DisplayColorDialog(IWin32Window parent, Color defaultColor, ref IList<int> customColors);
+        Font DisplayFontDialog(IWin32Window parent, Font defaultFont);
     }
 }

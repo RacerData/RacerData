@@ -38,7 +38,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtResponse.Location = new System.Drawing.Point(12, 31);
             this.txtResponse.Name = "txtResponse";
-            this.txtResponse.Size = new System.Drawing.Size(395, 21);
+            this.txtResponse.Size = new System.Drawing.Size(458, 21);
             this.txtResponse.TabIndex = 5;
             this.txtResponse.TextChanged += new System.EventHandler(this.txtResponse_TextChanged);
             // 
@@ -55,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(419, 112);
+            this.ClientSize = new System.Drawing.Size(482, 112);
             this.Controls.Add(this.txtResponse);
             this.Controls.Add(this.lblPrompt);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

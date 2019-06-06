@@ -39,7 +39,7 @@ namespace RacerData.WinForms.Editors
                 _listAppearance = value;
                 DisplayAppearance(_listAppearance);
             }
-        }      
+        }
 
         public string Caption
         {
@@ -96,6 +96,8 @@ namespace RacerData.WinForms.Editors
 
             captionAppearanceEditor.ColorRequest += OnColorRequest;
             captionAppearanceEditor.FontRequest += OnFontRequest;
+
+            backgroundColorEditor.ColorRequest += OnColorRequest;
         }
 
         #endregion
@@ -107,6 +109,7 @@ namespace RacerData.WinForms.Editors
             baseAppearanceEditor1.ApplyChanges();
             baseAppearanceEditor2.ApplyChanges();
             captionAppearanceEditor.ApplyChanges();
+            backgroundColorEditor.ApplyChanges();
 
             ListAppearance = UpdateAppearance(ListAppearance);
         }
@@ -125,6 +128,7 @@ namespace RacerData.WinForms.Editors
             baseAppearanceEditor1.Clear();
             baseAppearanceEditor2.Clear();
             captionAppearanceEditor.Clear();
+            backgroundColorEditor.Clear();
         }
 
         protected virtual void DisplayAppearance(ListAppearance appearance)
@@ -136,7 +140,8 @@ namespace RacerData.WinForms.Editors
 
             baseAppearanceEditor1.BaseAppearance = appearance.ListItemAppearance;
             baseAppearanceEditor2.BaseAppearance = appearance.AlternatingListItemAppearance;
-            captionAppearanceEditor.BaseAppearance = appearance;
+            captionAppearanceEditor.BaseAppearance = appearance.CaptionAppearance;
+            backgroundColorEditor.BaseAppearance = appearance;
         }
 
         protected virtual ListAppearance UpdateAppearance(ListAppearance appearance)
@@ -146,10 +151,9 @@ namespace RacerData.WinForms.Editors
 
             appearance.ListItemAppearance = baseAppearanceEditor1.BaseAppearance;
             appearance.AlternatingListItemAppearance = baseAppearanceEditor2.BaseAppearance;
+            appearance.CaptionAppearance = captionAppearanceEditor.BaseAppearance;
 
-            appearance.BackColor = captionAppearanceEditor.BaseAppearance.BackColor;
-            appearance.ForeColor = captionAppearanceEditor.BaseAppearance.ForeColor;
-            appearance.Font = captionAppearanceEditor.BaseAppearance.Font;
+            appearance.BackColor = backgroundColorEditor.BaseAppearance.BackColor;
 
             return appearance;
         }

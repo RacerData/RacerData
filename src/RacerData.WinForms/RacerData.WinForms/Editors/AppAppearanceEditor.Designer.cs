@@ -105,7 +105,7 @@
             simpleColorTable1.UseSystemColors = false;
             this.colorTableAppearanceEditor.ColorTable = simpleColorTable1;
             this.colorTableAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 1180);
+            this.colorTableAppearanceEditor.Location = new System.Drawing.Point(8, 1275);
             this.colorTableAppearanceEditor.Name = "colorTableAppearanceEditor";
             this.colorTableAppearanceEditor.Size = new System.Drawing.Size(802, 540);
             this.colorTableAppearanceEditor.TabIndex = 10;
@@ -121,7 +121,7 @@
             this.listAppearanceEditor.ListAppearance = null;
             this.listAppearanceEditor.Location = new System.Drawing.Point(8, 862);
             this.listAppearanceEditor.Name = "listAppearanceEditor";
-            this.listAppearanceEditor.Size = new System.Drawing.Size(802, 318);
+            this.listAppearanceEditor.Size = new System.Drawing.Size(802, 413);
             this.listAppearanceEditor.TabIndex = 8;
             this.listAppearanceEditor.Load += new System.EventHandler(this.dialogAppearanceEditor_Load);
             // 
@@ -160,6 +160,9 @@
             this.darkAccentAppearanceEditor.Caption = "Dark Accents";
             this.darkAccentAppearanceEditor.CaptionBackColor = System.Drawing.Color.Gainsboro;
             this.darkAccentAppearanceEditor.CaptionForeColor = System.Drawing.Color.Black;
+            this.darkAccentAppearanceEditor.DisplayBackColor = true;
+            this.darkAccentAppearanceEditor.DisplayFont = true;
+            this.darkAccentAppearanceEditor.DisplayForeColor = true;
             this.darkAccentAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.darkAccentAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.darkAccentAppearanceEditor.Location = new System.Drawing.Point(8, 180);
@@ -175,6 +178,9 @@
             this.lightAccentAppearanceEditor.Caption = "Light Accents";
             this.lightAccentAppearanceEditor.CaptionBackColor = System.Drawing.Color.Gainsboro;
             this.lightAccentAppearanceEditor.CaptionForeColor = System.Drawing.Color.Black;
+            this.lightAccentAppearanceEditor.DisplayBackColor = true;
+            this.lightAccentAppearanceEditor.DisplayFont = true;
+            this.lightAccentAppearanceEditor.DisplayForeColor = true;
             this.lightAccentAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.lightAccentAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lightAccentAppearanceEditor.Location = new System.Drawing.Point(8, 92);

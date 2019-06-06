@@ -109,7 +109,6 @@
             this.LeaderboardView1.AutoScroll = true;
             this.LeaderboardView1.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.LeaderboardView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LeaderboardView1.DataValues = null;
             this.LeaderboardView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LeaderboardView1.Location = new System.Drawing.Point(0, 25);
             this.LeaderboardView1.Name = "LeaderboardView1";

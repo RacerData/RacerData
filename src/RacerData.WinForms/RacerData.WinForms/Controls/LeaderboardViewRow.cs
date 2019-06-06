@@ -37,7 +37,7 @@ namespace RacerData.WinForms.Controls
 
             if (IsColumnCaptions)
             {
-                listAppearance = appearance.ListAppearance;
+                listAppearance = appearance.ListAppearance.CaptionAppearance;
             }
             else
             {

@@ -32,7 +32,7 @@ namespace RacerData.WinForms.Adapters
 
         public virtual async Task<IResult<ListViewData>> GetListDataAsync()
         {
-            var data = new ListViewData(3, 3);
+            var data = new ListViewData(0, 0);
 
             return await Task.FromResult(_resultFactory.Success(data));
         }

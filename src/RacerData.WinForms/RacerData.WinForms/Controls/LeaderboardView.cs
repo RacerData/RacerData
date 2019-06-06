@@ -126,20 +126,6 @@ namespace RacerData.WinForms.Controls
         public bool AllowResize { get; set; } = true;
         public bool AllowDrag { get; set; } = true;
 
-        private ListViewData _dataValues;
-        public ListViewData DataValues
-        {
-            get
-            {
-                return _dataValues;
-            }
-            set
-            {
-                _dataValues = value;
-                DisplayDataValues(_dataValues);
-            }
-        }
-
         protected IEnumerable<LeaderboardViewRow> OrderedControls
         {
             get
@@ -393,8 +379,6 @@ namespace RacerData.WinForms.Controls
             if (appearance != null)
             {
                 this.BackColor = appearance.ListAppearance.BackColor;
-                this.ForeColor = appearance.ListAppearance.ForeColor;
-                this.Font = appearance.ListAppearance.Font;
 
                 foreach (LeaderboardViewRow row in OrderedControls)
                 {
@@ -628,7 +612,7 @@ namespace RacerData.WinForms.Controls
                 DisplayDataValues(_viewModel.ListData);
             }
         }
-        
+
         private void DraggableContainer1_ControlsResized(object sender, ControlResizedEventArgs e)
         {
             foreach (LeaderboardViewRow row in _rows)
@@ -666,20 +650,6 @@ namespace RacerData.WinForms.Controls
         {
             _rows[e.RowIndex].ResizeDraggableControls(e.Size.Height);
         }
-
-        //private void CellLabel_TextChanged(object sender, EventArgs e)
-        //{
-        //    var label = (Label)sender;
-        //    var cell = (ListViewCell)label.Parent;
-        //    var row = (ListViewRow)cell.Parent;
-
-        //    var textSize = GetDefaultHeight(cell, label.Text);
-
-        //    if (textSize.Width > label.Width)
-        //    {
-        //        row.Height += textSize.Height;
-        //    }
-        //}
 
         #endregion
     }

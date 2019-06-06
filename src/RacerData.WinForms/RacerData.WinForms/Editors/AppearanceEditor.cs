@@ -102,6 +102,42 @@ namespace RacerData.WinForms.Editors
             ClearAppearance();
         }
 
+        public bool DisplayFont
+        {
+            get
+            {
+                return fontEditor.Visible;
+            }
+            set
+            {
+                fontEditor.Visible = value;
+            }
+        }
+
+        public bool DisplayBackColor
+        {
+            get
+            {
+                return backColorEditor.Visible;
+            }
+            set
+            {
+                backColorEditor.Visible = value;
+            }
+        }
+
+        public bool DisplayForeColor
+        {
+            get
+            {
+                return foreColorEditor.Visible;
+            }
+            set
+            {
+                foreColorEditor.Visible = value;
+            }
+        }
+
         #endregion
 
         #region protected

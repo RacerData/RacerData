@@ -40,9 +40,9 @@
             // 
             // pnlEditor
             // 
+            this.pnlEditor.Controls.Add(this.fontEditor);
             this.pnlEditor.Controls.Add(this.foreColorEditor);
             this.pnlEditor.Controls.Add(this.backColorEditor);
-            this.pnlEditor.Controls.Add(this.fontEditor);
             this.pnlEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEditor.Location = new System.Drawing.Point(0, 27);
             this.pnlEditor.Name = "pnlEditor";
@@ -53,8 +53,9 @@
             // foreColorEditor
             // 
             this.foreColorEditor.Caption = "Fore Color";
+            this.foreColorEditor.Dock = System.Windows.Forms.DockStyle.Left;
             this.foreColorEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.foreColorEditor.Location = new System.Drawing.Point(3, 6);
+            this.foreColorEditor.Location = new System.Drawing.Point(254, 4);
             this.foreColorEditor.MaximumSize = new System.Drawing.Size(250, 50);
             this.foreColorEditor.MinimumSize = new System.Drawing.Size(250, 50);
             this.foreColorEditor.Name = "foreColorEditor";
@@ -65,8 +66,9 @@
             // backColorEditor
             // 
             this.backColorEditor.Caption = "Back Color";
+            this.backColorEditor.Dock = System.Windows.Forms.DockStyle.Left;
             this.backColorEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backColorEditor.Location = new System.Drawing.Point(259, 6);
+            this.backColorEditor.Location = new System.Drawing.Point(4, 4);
             this.backColorEditor.MaximumSize = new System.Drawing.Size(250, 50);
             this.backColorEditor.MinimumSize = new System.Drawing.Size(250, 50);
             this.backColorEditor.Name = "backColorEditor";
@@ -77,8 +79,9 @@
             // fontEditor
             // 
             this.fontEditor.Caption = "Font";
+            this.fontEditor.Dock = System.Windows.Forms.DockStyle.Left;
             this.fontEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fontEditor.Location = new System.Drawing.Point(515, 8);
+            this.fontEditor.Location = new System.Drawing.Point(504, 4);
             this.fontEditor.MaximumSize = new System.Drawing.Size(200, 47);
             this.fontEditor.MinimumSize = new System.Drawing.Size(200, 47);
             this.fontEditor.Name = "fontEditor";

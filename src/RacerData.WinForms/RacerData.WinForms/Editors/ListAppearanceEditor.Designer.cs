@@ -31,9 +31,10 @@
             this.baseAppearanceEditor1 = new RacerData.WinForms.Editors.AppearanceEditor();
             this.pnlEditor = new System.Windows.Forms.Panel();
             this.baseAppearanceEditor2 = new RacerData.WinForms.Editors.AppearanceEditor();
+            this.captionAppearanceEditor = new RacerData.WinForms.Editors.AppearanceEditor();
             this.pnlCaption = new System.Windows.Forms.Panel();
             this.lblCaption = new System.Windows.Forms.Label();
-            this.captionAppearanceEditor = new RacerData.WinForms.Editors.AppearanceEditor();
+            this.backgroundColorEditor = new RacerData.WinForms.Editors.AppearanceEditor();
             this.pnlEditor.SuspendLayout();
             this.pnlCaption.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +47,7 @@
             this.baseAppearanceEditor1.CaptionForeColor = System.Drawing.Color.Black;
             this.baseAppearanceEditor1.Dock = System.Windows.Forms.DockStyle.Top;
             this.baseAppearanceEditor1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.baseAppearanceEditor1.Location = new System.Drawing.Point(5, 100);
+            this.baseAppearanceEditor1.Location = new System.Drawing.Point(5, 195);
             this.baseAppearanceEditor1.Margin = new System.Windows.Forms.Padding(0);
             this.baseAppearanceEditor1.Name = "baseAppearanceEditor1";
             this.baseAppearanceEditor1.Size = new System.Drawing.Size(775, 95);
@@ -57,11 +58,12 @@
             this.pnlEditor.Controls.Add(this.baseAppearanceEditor2);
             this.pnlEditor.Controls.Add(this.baseAppearanceEditor1);
             this.pnlEditor.Controls.Add(this.captionAppearanceEditor);
+            this.pnlEditor.Controls.Add(this.backgroundColorEditor);
             this.pnlEditor.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEditor.Location = new System.Drawing.Point(0, 27);
             this.pnlEditor.Name = "pnlEditor";
             this.pnlEditor.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlEditor.Size = new System.Drawing.Size(785, 286);
+            this.pnlEditor.Size = new System.Drawing.Size(785, 389);
             this.pnlEditor.TabIndex = 7;
             // 
             // baseAppearanceEditor2
@@ -72,11 +74,25 @@
             this.baseAppearanceEditor2.CaptionForeColor = System.Drawing.Color.Silver;
             this.baseAppearanceEditor2.Dock = System.Windows.Forms.DockStyle.Top;
             this.baseAppearanceEditor2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.baseAppearanceEditor2.Location = new System.Drawing.Point(5, 195);
+            this.baseAppearanceEditor2.Location = new System.Drawing.Point(5, 290);
             this.baseAppearanceEditor2.Margin = new System.Windows.Forms.Padding(0);
             this.baseAppearanceEditor2.Name = "baseAppearanceEditor2";
-            this.baseAppearanceEditor2.Size = new System.Drawing.Size(775, 96);
+            this.baseAppearanceEditor2.Size = new System.Drawing.Size(775, 94);
             this.baseAppearanceEditor2.TabIndex = 13;
+            // 
+            // captionAppearanceEditor
+            // 
+            this.captionAppearanceEditor.BaseAppearance = null;
+            this.captionAppearanceEditor.Caption = "List Captions Appearance";
+            this.captionAppearanceEditor.CaptionBackColor = System.Drawing.Color.Gainsboro;
+            this.captionAppearanceEditor.CaptionForeColor = System.Drawing.Color.Black;
+            this.captionAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.captionAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.captionAppearanceEditor.Location = new System.Drawing.Point(5, 100);
+            this.captionAppearanceEditor.Margin = new System.Windows.Forms.Padding(0);
+            this.captionAppearanceEditor.Name = "captionAppearanceEditor";
+            this.captionAppearanceEditor.Size = new System.Drawing.Size(775, 95);
+            this.captionAppearanceEditor.TabIndex = 14;
             // 
             // pnlCaption
             // 
@@ -101,19 +117,22 @@
             this.lblCaption.Text = "List Appearance";
             this.lblCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // captionAppearanceEditor
+            // backgroundColorEditor
             // 
-            this.captionAppearanceEditor.BaseAppearance = null;
-            this.captionAppearanceEditor.Caption = "List Captions Appearance";
-            this.captionAppearanceEditor.CaptionBackColor = System.Drawing.Color.Gainsboro;
-            this.captionAppearanceEditor.CaptionForeColor = System.Drawing.Color.Black;
-            this.captionAppearanceEditor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.captionAppearanceEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.captionAppearanceEditor.Location = new System.Drawing.Point(5, 5);
-            this.captionAppearanceEditor.Margin = new System.Windows.Forms.Padding(0);
-            this.captionAppearanceEditor.Name = "captionAppearanceEditor";
-            this.captionAppearanceEditor.Size = new System.Drawing.Size(775, 95);
-            this.captionAppearanceEditor.TabIndex = 14;
+            this.backgroundColorEditor.BaseAppearance = null;
+            this.backgroundColorEditor.Caption = "List Background Color";
+            this.backgroundColorEditor.CaptionBackColor = System.Drawing.Color.WhiteSmoke;
+            this.backgroundColorEditor.CaptionForeColor = System.Drawing.Color.Black;
+            this.backgroundColorEditor.DisplayBackColor = true;
+            this.backgroundColorEditor.DisplayFont = false;
+            this.backgroundColorEditor.DisplayForeColor = false;
+            this.backgroundColorEditor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.backgroundColorEditor.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backgroundColorEditor.Location = new System.Drawing.Point(5, 5);
+            this.backgroundColorEditor.Margin = new System.Windows.Forms.Padding(0);
+            this.backgroundColorEditor.Name = "backgroundColorEditor";
+            this.backgroundColorEditor.Size = new System.Drawing.Size(775, 95);
+            this.backgroundColorEditor.TabIndex = 15;
             // 
             // ListAppearanceEditor
             // 
@@ -123,7 +142,7 @@
             this.Controls.Add(this.pnlCaption);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ListAppearanceEditor";
-            this.Size = new System.Drawing.Size(785, 321);
+            this.Size = new System.Drawing.Size(785, 423);
             this.Load += new System.EventHandler(this.ListAppearanceEditor_Load);
             this.pnlEditor.ResumeLayout(false);
             this.pnlCaption.ResumeLayout(false);
@@ -138,5 +157,6 @@
         private System.Windows.Forms.Label lblCaption;
         private AppearanceEditor baseAppearanceEditor2;
         private AppearanceEditor captionAppearanceEditor;
+        private AppearanceEditor backgroundColorEditor;
     }
 }

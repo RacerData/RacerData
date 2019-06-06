@@ -2,6 +2,8 @@
 {
     public interface IListAppearance : IBaseAppearance
     {
-        IBaseAppearance ListItemAppearance { get; set; }
+        Appearance ListItemAppearance { get; set; }
+        Appearance AlternatingListItemAppearance { get; set; }
+        Appearance CaptionAppearance { get; set; }
     }
 }

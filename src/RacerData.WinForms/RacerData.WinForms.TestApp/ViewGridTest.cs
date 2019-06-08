@@ -541,7 +541,7 @@ namespace RacerData.WinForms
             var dialogService = ServiceProvider.Instance.GetRequiredService<IDialogService>();
             dialogService.Appearance = _viewGridController.Appearance;
 
-            dialogService.DisplayFileViewer(this, "Test", @"C:\Users\Rob\Documents\rNascar\SettingsappAppearances.json");
+            dialogService.DisplayFileViewer(this, "Test", @"C:\Users\Rob\Documents\rNascar\Settings\appAppearances.json");
         }
     }
 }

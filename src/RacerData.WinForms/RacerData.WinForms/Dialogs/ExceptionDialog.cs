@@ -18,7 +18,19 @@ namespace RacerData.WinForms.Dialogs
 
         #region properties
 
-        public ApplicationAppearance Appearance { get; set; }
+        private ApplicationAppearance _appearance;
+        public ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
         public string Message { get; set; }
         public Exception Exception { get; set; }
 
@@ -59,7 +71,7 @@ namespace RacerData.WinForms.Dialogs
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"Message: {lblMessage.Text}");
+            sb.AppendLine($"Message: {txtMessage.Text}");
             sb.AppendLine();
             sb.AppendLine($"Stack Trace:\r\n{txtStackTrace.Text}");
             sb.AppendLine();
@@ -67,6 +79,31 @@ namespace RacerData.WinForms.Dialogs
             sb.AppendLine();
 
             Clipboard.SetText(sb.ToString());
+        }
+
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance != null)
+            {
+                this.BackColor = appearance.DialogAppearance.BackColor;
+                this.ForeColor = appearance.DialogAppearance.ForeColor;
+                this.Font = appearance.DialogAppearance.Font;
+
+
+                this.dialogButtons1.Appearance = appearance;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+            }
         }
 
         #endregion
@@ -79,32 +116,11 @@ namespace RacerData.WinForms.Dialogs
 
             this.Icon = SystemIcons.Error;
 
-            pictureBox1.Image = Bitmap.FromHicon(this.Icon.Handle);
-
-            lblMessage.Text = String.IsNullOrEmpty(Message) ? Exception.Message : $"{Message}\r\n\r\n{Exception.Message}";
+            txtMessage.Text = String.IsNullOrEmpty(Message) ? Exception.Message : $"{Message}\r\n\r\n{Exception.Message}";
 
             txtStackTrace.Text = Exception.StackTrace;
 
-            if (Appearance != null)
-            {
-                this.BackColor = Appearance.DialogAppearance.BackColor;
-                this.ForeColor = Appearance.DialogAppearance.ForeColor;
-                this.Font = Appearance.DialogAppearance.Font;
-
-                this.dialogButtons1.Appearance = Appearance;
-
-                foreach (Button button in Controls.OfType<Button>())
-                {
-                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
-                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
-                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
-                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
-                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
-                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
-                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
-                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
-                }
-            }
+            ApplyTheme(Appearance);
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

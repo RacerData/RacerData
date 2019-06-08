@@ -181,13 +181,12 @@ namespace RacerData.WinForms.Controls
 
         protected virtual void ApplyTheme(ApplicationAppearance appearance)
         {
-            // TODO: BorderColor, size
             if (appearance != null)
             {
                 lblHeader.BackColor = appearance.DarkAccentAppearance.BackColor;
                 lblHeader.ForeColor = appearance.DarkAccentAppearance.ForeColor;
                 lblHeader.Font = appearance.DarkAccentAppearance.Font;
-
+                
                 if (_viewControl != null)
                     _viewControl.Appearance = appearance;
             }

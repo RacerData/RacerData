@@ -3,7 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using RacerData.WinForms.Adapters;
+using RacerData.WinForms.Models;
 using RacerData.WinForms.Ports;
+using RacerData.WinForms.Renderers;
 
 namespace RacerData.WinForms.Dialogs
 {
@@ -81,12 +83,14 @@ namespace RacerData.WinForms.Dialogs
                     button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
                     button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
                     button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
-                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle;
                     button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
                     button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
                     button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
                     button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
                 }
+
+                toolStrip1.Renderer = new ToolStripCustomRenderer((SimpleColorTable)Appearance.MenuColorTable);
 
                 this.Font = Appearance.DialogAppearance.Font;
             }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -91,7 +90,19 @@ namespace RacerData.WinForms.Controls
 
         #region properties
 
-        public ApplicationAppearance Appearance { get; set; }
+        private ApplicationAppearance _appearance;
+        public ApplicationAppearance Appearance
+        {
+            get
+            {
+                return _appearance;
+            }
+            set
+            {
+                _appearance = value;
+                ApplyTheme(_appearance);
+            }
+        }
         public ButtonTypes ButtonTypes { get; set; } = ButtonTypes.Blank;
 
         private FormStates _state;
@@ -161,6 +172,26 @@ namespace RacerData.WinForms.Controls
             PositionRightButtons(_buttonSet.RightButtons);
         }
 
+        protected virtual void ApplyTheme(ApplicationAppearance appearance)
+        {
+            if (appearance != null)
+            {
+                this.BackColor = appearance.LightAccentAppearance.BackColor;
+
+                foreach (Button button in Controls.OfType<Button>())
+                {
+                    button.BackColor = appearance.DialogAppearance.ButtonAppearance.BackColor;
+                    button.ForeColor = appearance.DialogAppearance.ButtonAppearance.ForeColor;
+                    button.Font = appearance.DialogAppearance.ButtonAppearance.Font;
+                    button.FlatStyle = appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
+                    button.FlatAppearance.BorderColor = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
+                    button.FlatAppearance.BorderSize = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
+                    button.FlatAppearance.MouseDownBackColor = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
+                    button.FlatAppearance.MouseOverBackColor = appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
+                }
+            }
+        }
+
         #endregion
 
         #region private
@@ -169,24 +200,7 @@ namespace RacerData.WinForms.Controls
         {
             CreateButtons();
 
-            if (Appearance != null)
-            {
-                this.BackColor = Appearance.LightAccentAppearance .BackColor;
-                this.ForeColor = Appearance.LightAccentAppearance.ForeColor;
-                this.Font = Appearance.LightAccentAppearance.Font;
-
-                foreach (Button button in Controls.OfType<Button>())
-                {
-                    button.BackColor = Appearance.DialogAppearance.ButtonAppearance.BackColor;
-                    button.ForeColor = Appearance.DialogAppearance.ButtonAppearance.ForeColor;
-                    button.Font = Appearance.DialogAppearance.ButtonAppearance.Font;
-                    button.FlatStyle = Appearance.DialogAppearance.ButtonAppearance.FlatStyle; ;
-                    button.FlatAppearance.BorderColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderColor;
-                    button.FlatAppearance.BorderSize = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.BorderSize;
-                    button.FlatAppearance.MouseDownBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseDownBackColor;
-                    button.FlatAppearance.MouseOverBackColor = Appearance.DialogAppearance.ButtonAppearance.FlatAppearance.MouseOverBackColor;
-                }
-            }
+            ApplyTheme(Appearance);
         }
 
         private void AddLeftButtons(IOrderedEnumerable<ButtonInfo> buttons)

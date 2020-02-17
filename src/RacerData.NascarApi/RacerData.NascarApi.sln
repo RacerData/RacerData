@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi", "Race
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.NascarApi.Client", "RacerData.NascarApi.Client\RacerData.NascarApi.Client.csproj", "{5E1735F6-268B-4808-90B5-2CAF871C2CCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.NascarApi.TestApp", "RacerData.NascarApi.TestApp\RacerData.NascarApi.TestApp.csproj", "{D4406065-30FF-4031-B74D-7310712CE72C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.Nascar.Pages", "RacerData.Nascar.Pages\RacerData.Nascar.Pages.csproj", "{5CACFD26-F234-4D9B-9540-F15AEF995CB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E1735F6-268B-4808-90B5-2CAF871C2CCD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4406065-30FF-4031-B74D-7310712CE72C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4406065-30FF-4031-B74D-7310712CE72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4406065-30FF-4031-B74D-7310712CE72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4406065-30FF-4031-B74D-7310712CE72C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CACFD26-F234-4D9B-9540-F15AEF995CB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CACFD26-F234-4D9B-9540-F15AEF995CB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CACFD26-F234-4D9B-9540-F15AEF995CB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CACFD26-F234-4D9B-9540-F15AEF995CB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RacerData.Commmon;
 using RacerData.Data.Aws;
+using RacerData.Nascar.Pages;
 using RacerData.NascarApi.Client.Adapters;
 using RacerData.NascarApi.Client.Factories;
 using RacerData.NascarApi.Client.Internal;
@@ -13,6 +14,7 @@ namespace RacerData.NascarApi.Client
         public static IServiceCollection AddNascarApiClient(this IServiceCollection services)
         {
             services.AddAwsData();
+            services.AddPages();
 
             services.AddTransient<INascarApiClientFactory, NascarApiClientFactory>();
             services.AddTransient<INascarApiClient, NascarApiClient>();

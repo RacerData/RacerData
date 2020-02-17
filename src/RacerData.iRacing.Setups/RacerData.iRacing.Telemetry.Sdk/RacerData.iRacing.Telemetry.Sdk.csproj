@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IFrameData.cs" />
+    <Compile Remove="ILapInfo.cs" />
+    <Compile Remove="irsdk_EngineWarnings.cs" />
+    <Compile Remove="irsdk_Flags.cs" />
+    <Compile Remove="irsdk_PitSvFlags.cs" />
+    <Compile Remove="irsdk_SessionState.cs" />
+    <Compile Remove="irsdk_TrkLoc.cs" />
+    <Compile Remove="irsdk_TrkSurf.cs" />
+    <Compile Remove="irsdk_VarType.cs" />
+    <Compile Remove="ISessionInfo.cs" />
+    <Compile Remove="ITelemetryField.cs" />
+    <Compile Remove="ITelemetryFile.cs" />
+    <Compile Remove="ITelemetryFileReader.cs" />
+    <Compile Remove="ITelemetryFrame.cs" />
+    <Compile Remove="ITelemetryValue.cs" />
+    <Compile Remove="IVehicleSetup.cs" />
+    <Compile Remove="Models\TelemetryValue.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="3.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RacerData.iRacing.Telemetry\RacerData.iRacing.Telemetry.csproj" />
+    <ProjectReference Include="..\RacerData.iRacing\RacerData.iRacing.csproj" />
+  </ItemGroup>
+
+</Project>

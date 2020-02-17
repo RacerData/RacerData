@@ -1,0 +1,502 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.EntityFrameworkCore.Design.2.2.6\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\packages\Microsoft.EntityFrameworkCore.Design.2.2.6\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A92DFC7B-075D-4D69-8441-1EB2D61F39B8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RacerData.iRacing.Setups.ClassBuilder</RootNamespace>
+    <AssemblyName>RacerData.iRacing.Setups.ClassBuilder</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection, Version=0.0.0.0, Culture=neutral, PublicKeyToken=e767ac9c89543656, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.6.0.0\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics4.Shared.v14.2, Version=14.2.20142.2092, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" />
+    <Reference Include="Infragistics4.Win.v14.2, Version=14.2.20142.2092, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.EntityFrameworkCore, Version=2.2.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.2.2.6\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions, Version=2.2.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Abstractions.2.2.6\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Design, Version=2.2.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Design.2.2.6\lib\net461\Microsoft.EntityFrameworkCore.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.2.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Relational.2.2.6\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer, Version=2.2.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.SqlServer.2.2.6\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Debug, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Debug.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RacerData.Logging">
+      <HintPath>..\..\..\packages\racerdata.logging\1.0.0\RacerData.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="RacerData.Logging.Abstractions">
+      <HintPath>..\..\..\packages\racerdata.logging\1.0.0\RacerData.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.5.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.6.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive.Async, Version=3.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Interactive.Async.3.2.0\lib\net46\System.Interactive.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="UnitsNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f8601875a1f041da, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnitsNet.4.26.0\lib\net40\UnitsNet.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="YamlDotNet, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.3.7.0\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\BalanceGraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BalanceGraphView.Designer.cs">
+      <DependentUpon>BalanceGraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CompactTireSheetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CompactTireSheetView.Designer.cs">
+      <DependentUpon>CompactTireSheetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LapTimeChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LapTimeChart.Designer.cs">
+      <DependentUpon>LapTimeChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PreviousTireView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PreviousTireView.Designer.cs">
+      <DependentUpon>PreviousTireView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupRearCornerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupRearCornerView.Designer.cs">
+      <DependentUpon>SetupRearCornerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupFrontCornerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupFrontCornerView.Designer.cs">
+      <DependentUpon>SetupFrontCornerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupFrontView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupFrontView.Designer.cs">
+      <DependentUpon>SetupFrontView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupRearView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupRearView.Designer.cs">
+      <DependentUpon>SetupRearView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupView.Designer.cs">
+      <DependentUpon>SetupView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PreviousTireSheetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PreviousTireSheetView.Designer.cs">
+      <DependentUpon>PreviousTireSheetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GoodyearTireSheet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GoodyearTireSheet.Designer.cs">
+      <DependentUpon>GoodyearTireSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CompactTireView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CompactTireView.Designer.cs">
+      <DependentUpon>CompactTireView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TirePressureGraphSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TirePressureGraphSet.Designer.cs">
+      <DependentUpon>TirePressureGraphSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TirePressureView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TirePressureView.Designer.cs">
+      <DependentUpon>TirePressureView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TireWearGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TireWearGraph.Designer.cs">
+      <DependentUpon>TireWearGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TireTempGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TireTempGraph.Designer.cs">
+      <DependentUpon>TireTempGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TireTempGraphSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TireTempGraphSet.Designer.cs">
+      <DependentUpon>TireTempGraphSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TireWearGraphSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TireWearGraphSet.Designer.cs">
+      <DependentUpon>TireWearGraphSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LateModelTemeletryLoader.cs" />
+    <Compile Include="Forms\PracticeMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PracticeMonitor.Designer.cs">
+      <DependentUpon>PracticeMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PracticeSession.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PracticeSession.Designer.cs">
+      <DependentUpon>PracticeSession.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SkModifiedTelemetryLoader.cs" />
+    <Compile Include="Forms\TelemetryFileInfoView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TelemetryFileInfoView.Designer.cs">
+      <DependentUpon>TelemetryFileInfoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TelemetrySessionViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TelemetrySessionViewer.Designer.cs">
+      <DependentUpon>TelemetrySessionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TireTempAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TireTempAnalysis.Designer.cs">
+      <DependentUpon>TireTempAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mapping\TelemetryFileInfoMappingProfile.cs" />
+    <Compile Include="Models\EventData.cs" />
+    <Compile Include="Models\EventTypes.cs" />
+    <Compile Include="Models\LapData.cs" />
+    <Compile Include="Models\EventSessionData.cs" />
+    <Compile Include="Models\LapTimeSeries.cs" />
+    <Compile Include="Models\SetupFrontCornerModel.cs" />
+    <Compile Include="Models\SetupFrontModel.cs" />
+    <Compile Include="Models\SetupModel.cs" />
+    <Compile Include="Models\SetupRearCornerModel.cs" />
+    <Compile Include="Models\SetupRearModel.cs" />
+    <Compile Include="Models\TirePressureModel.cs" />
+    <Compile Include="Models\TireSheetValues.cs" />
+    <Compile Include="Models\TireSurfaceValues.cs" />
+    <Compile Include="Models\TireTemperatures.cs" />
+    <Compile Include="Models\TireViewModel.cs" />
+    <Compile Include="Models\TireWear.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\BalanceGraphView.resx">
+      <DependentUpon>BalanceGraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CompactTireSheetView.resx">
+      <DependentUpon>CompactTireSheetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LapTimeChart.resx">
+      <DependentUpon>LapTimeChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreviousTireView.resx">
+      <DependentUpon>PreviousTireView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupRearCornerView.resx">
+      <DependentUpon>SetupRearCornerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupFrontCornerView.resx">
+      <DependentUpon>SetupFrontCornerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupFrontView.resx">
+      <DependentUpon>SetupFrontView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupRearView.resx">
+      <DependentUpon>SetupRearView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupView.resx">
+      <DependentUpon>SetupView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreviousTireSheetView.resx">
+      <DependentUpon>PreviousTireSheetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GoodyearTireSheet.resx">
+      <DependentUpon>GoodyearTireSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CompactTireView.resx">
+      <DependentUpon>CompactTireView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TirePressureGraphSet.resx">
+      <DependentUpon>TirePressureGraphSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TirePressureView.resx">
+      <DependentUpon>TirePressureView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TireWearGraph.resx">
+      <DependentUpon>TireWearGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TireTempGraph.resx">
+      <DependentUpon>TireTempGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TireTempGraphSet.resx">
+      <DependentUpon>TireTempGraphSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TireWearGraphSet.resx">
+      <DependentUpon>TireWearGraphSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PracticeMonitor.resx">
+      <DependentUpon>PracticeMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PracticeSession.resx">
+      <DependentUpon>PracticeSession.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TelemetryFileInfoView.resx">
+      <DependentUpon>TelemetryFileInfoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TelemetrySessionViewer.resx">
+      <DependentUpon>TelemetrySessionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TireTempAnalysis.resx">
+      <DependentUpon>TireTempAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.Chassis.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.ChassisFrontCorner.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.ChassisRearCorner.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.Front.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.Rear.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.SkModified.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.Tire.datasource" />
+    <None Include="Properties\DataSources\RacerData.iRacing.Setups.Modifieds.Tires.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RacerData.iRacing.Service.Sessions\RacerData.iRacing.Service.Sessions.csproj">
+      <Project>{1089279a-3679-4bf5-9246-eb3123987139}</Project>
+      <Name>RacerData.iRacing.Service.Sessions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RacerData.iRacing.Sessions\RacerData.iRacing.Sessions.csproj">
+      <Project>{591D851A-AFEE-4129-863D-069B8768DB0A}</Project>
+      <Name>RacerData.iRacing.Sessions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RacerData.iRacing.Setups\RacerData.iRacing.Setups.csproj">
+      <Project>{f8a2d50e-109f-484d-9d85-e5eca54b72fb}</Project>
+      <Name>RacerData.iRacing.Setups</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RacerData.iRacing.Telemetry.Sdk\RacerData.iRacing.Telemetry.Sdk.csproj">
+      <Project>{8f6db111-67af-411a-8eea-7eb54a27d62d}</Project>
+      <Name>RacerData.iRacing.Telemetry.Sdk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RacerData.iRacing.Telemetry\RacerData.iRacing.Telemetry.csproj">
+      <Project>{6be4172e-3666-49a2-92b9-33de3fc06d67}</Project>
+      <Name>RacerData.iRacing.Telemetry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RacerData.iRacing\RacerData.iRacing.csproj">
+      <Project>{9642592f-3009-49f0-80de-cf8d9f19abca}</Project>
+      <Name>RacerData.iRacing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GoodyearLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GoodyearLogoSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenfileDialog_grey_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenFolder_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Run_16xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExportReportData_10565.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1474_Tape_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ImportCatalogPart_6777_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gyrgradient3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphGradientGYR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphGradientRYG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PressureGraphGradient.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.2.2.6\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.2.2.6\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+</Project>

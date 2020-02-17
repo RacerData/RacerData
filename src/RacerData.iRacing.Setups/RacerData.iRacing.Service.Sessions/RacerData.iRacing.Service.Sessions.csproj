@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Models\SessionViewModel.cs" />
+    <Compile Remove="Data\Models\SetupSettingModel.cs" />
+    <Compile Remove="Data\Models\SetupSettingsMetaModel.cs" />
+    <Compile Remove="Mapping\SetupPropertyConverter.cs" />
+    <Compile Remove="Mapping\SetupPropertyMappingProfile.cs" />
+    <Compile Remove="Mapping\SetupSettingMappingProfile.cs" />
+    <Compile Remove="Mapping\TireReadingsModelConverter.cs" />
+    <Compile Remove="Mapping\TireSheetConverter.cs" />
+    <Compile Remove="Mapping\TireSheetMappingProfile.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RacerData.iRacing.Sessions\RacerData.iRacing.Sessions.csproj" />
+    <ProjectReference Include="..\RacerData.iRacing\RacerData.iRacing.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logging\**" />
+    <EmbeddedResource Remove="Logging\**" />
+    <None Remove="Logging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\FormDisplayInfo.cs" />
+    <Compile Remove="Models\IFormDisplayInfo.cs" />
+    <Compile Remove="ServiceCollectionExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UnitsNet" Version="4.26.0" />
+    <PackageReference Include="YamlDotNet" Version="6.1.1" />
+  </ItemGroup>
+
+</Project>

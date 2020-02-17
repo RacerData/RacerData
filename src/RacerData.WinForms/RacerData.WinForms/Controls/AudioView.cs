@@ -181,6 +181,8 @@ namespace RacerData.WinForms.Controls
 
             var html = template.Replace(token, audioFeed.Source);
 
+            Console.WriteLine($"audioFeed.Name: {audioFeed.Name}; audioFeed.Source: {audioFeed.Source}");
+
             webViewCompatible1.NavigateToString(html);
 
             OnSetViewHeaderRequest($"Audio: {audioFeed.Name}");

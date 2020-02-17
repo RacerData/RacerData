@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7371B63-24D6-40E9-B3D0-2733B090E282}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RacerData.iRacing.Sessions.Ui</RootNamespace>
+    <AssemblyName>RacerData.iRacing.Sessions.Ui</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LapTimeChart\LapTimeChartViewModel.cs" />
+    <Compile Include="TirePressureGraph\TirePressureGraphViewModel.cs" />
+    <Compile Include="BalanceGraph\BalanceGraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BalanceGraph\BalanceGraphView.Designer.cs">
+      <DependentUpon>BalanceGraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LapTimeChart\LapTimeChartView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LapTimeChart\LapTimeChartView.Designer.cs">
+      <DependentUpon>LapTimeChartView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SetupGrid\SetupGridViewModel.cs" />
+    <Compile Include="TireSheet\TireSheetViewModel.cs" />
+    <Compile Include="TireSheet\GoodyearTireSheet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireSheet\GoodyearTireSheet.Designer.cs">
+      <DependentUpon>GoodyearTireSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireSheet\PreviousTireSheetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireSheet\PreviousTireSheetView.Designer.cs">
+      <DependentUpon>PreviousTireSheetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireSheet\PreviousTireValuesGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireSheet\PreviousTireValuesGrid.Designer.cs">
+      <DependentUpon>PreviousTireValuesGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupGrid\SetupSectionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupGrid\SetupSectionView.Designer.cs">
+      <DependentUpon>SetupSectionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupGrid\SetupGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SetupGrid\SetupGridView.Designer.cs">
+      <DependentUpon>SetupGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TirePressureGraph\TirePressureGraphSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TirePressureGraph\TirePressureGraphSet.Designer.cs">
+      <DependentUpon>TirePressureGraphSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TirePressureGraph\TirePressureGraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TirePressureGraph\TirePressureGraphView.Designer.cs">
+      <DependentUpon>TirePressureGraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireTempGraph\TireTempGraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireTempGraph\TireTempGraphView.Designer.cs">
+      <DependentUpon>TireTempGraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireTempGraph\TireTempGraphSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireTempGraph\TireTempGraphSet.Designer.cs">
+      <DependentUpon>TireTempGraphSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireSheet\TireValuesGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireSheet\TireValuesGrid.Designer.cs">
+      <DependentUpon>TireValuesGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireSheet\TireSheetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireSheet\TireSheetView.Designer.cs">
+      <DependentUpon>TireSheetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireWearGraph\TireWearGraphView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireWearGraph\TireWearGraphView.Designer.cs">
+      <DependentUpon>TireWearGraphView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TireWearGraph\TireWearGraphSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TireWearGraph\TireWearGraphSet.Designer.cs">
+      <DependentUpon>TireWearGraphSet.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BalanceGraph\BalanceGraphView.resx">
+      <DependentUpon>BalanceGraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LapTimeChart\LapTimeChartView.resx">
+      <DependentUpon>LapTimeChartView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireSheet\GoodyearTireSheet.resx">
+      <DependentUpon>GoodyearTireSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireSheet\PreviousTireSheetView.resx">
+      <DependentUpon>PreviousTireSheetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireSheet\PreviousTireValuesGrid.resx">
+      <DependentUpon>PreviousTireValuesGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupGrid\SetupSectionView.resx">
+      <DependentUpon>SetupSectionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupGrid\SetupGridView.resx">
+      <DependentUpon>SetupGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TirePressureGraph\TirePressureGraphSet.resx">
+      <DependentUpon>TirePressureGraphSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TirePressureGraph\TirePressureGraphView.resx">
+      <DependentUpon>TirePressureGraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireTempGraph\TireTempGraphView.resx">
+      <DependentUpon>TireTempGraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireTempGraph\TireTempGraphSet.resx">
+      <DependentUpon>TireTempGraphSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireSheet\TireValuesGrid.resx">
+      <DependentUpon>TireValuesGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireSheet\TireSheetView.resx">
+      <DependentUpon>TireSheetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireWearGraph\TireWearGraphView.resx">
+      <DependentUpon>TireWearGraphView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TireWearGraph\TireWearGraphSet.resx">
+      <DependentUpon>TireWearGraphSet.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RacerData.iRacing\RacerData.iRacing.csproj">
+      <Project>{9642592f-3009-49f0-80de-cf8d9f19abca}</Project>
+      <Name>RacerData.iRacing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GoodyearLogoSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PressureGraphGradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphGradientGYR.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

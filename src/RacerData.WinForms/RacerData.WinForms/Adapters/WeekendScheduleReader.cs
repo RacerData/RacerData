@@ -47,20 +47,23 @@ namespace RacerData.WinForms.Adapters
             return document;
         }
 
-        protected virtual PageReferenceModel GetCurrentScheduleUrl(IDocument document)
+        protected virtual PageReference GetCurrentScheduleUrl(IDocument document)
         {
-            PageReferenceModel result = new PageReferenceModel();
+            PageReference result = new PageReference();
 
             var elements = document.All.Where(m =>
                m.HasAttribute("class") &&
                m.GetAttribute("class")
-                .Contains("search-news-item")
+                .Contains("tease tease-weekend_schedule")//"search -news-item")
             );
 
-            result.Url = elements
+            if (elements.Count() > 0)
+            {
+                result.Url = elements
                 .ElementAt(0)
                 .Children[0]
                 .GetAttribute("Href");
+            }
 
             return result;
         }

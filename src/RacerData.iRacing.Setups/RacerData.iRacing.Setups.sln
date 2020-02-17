@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.iRacing.Setups", "RacerData.iRacing.Setups\RacerData.iRacing.Setups.csproj", "{F8A2D50E-109F-484D-9D85-E5ECA54B72FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.iRacing.Setups.ClassBuilder", "RacerData.iRacing.Setups.ClassBuilder\RacerData.iRacing.Setups.ClassBuilder.csproj", "{A92DFC7B-075D-4D69-8441-1EB2D61F39B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.iRacingTelemetry.TestApp", "RacerData.iRacingTelemetry.TestApp\RacerData.iRacingTelemetry.TestApp.csproj", "{66AA5700-C094-4641-8488-86272747B84E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.iRacing.Telemetry", "RacerData.iRacing.Telemetry\RacerData.iRacing.Telemetry.csproj", "{6BE4172E-3666-49A2-92B9-33DE3FC06D67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.iRacing.Telemetry.Sdk", "RacerData.iRacing.Telemetry.Sdk\RacerData.iRacing.Telemetry.Sdk.csproj", "{8F6DB111-67AF-411A-8EEA-7EB54A27D62D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.iRacing.Sessions", "RacerData.iRacing.Sessions\RacerData.iRacing.Sessions.csproj", "{591D851A-AFEE-4129-863D-069B8768DB0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.iRacing.Service.Sessions", "RacerData.iRacing.Service.Sessions\RacerData.iRacing.Service.Sessions.csproj", "{1089279A-3679-4BF5-9246-EB3123987139}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RacerData.iRacing", "RacerData.iRacing\RacerData.iRacing.csproj", "{9642592F-3009-49F0-80DE-CF8D9F19ABCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.iRacing.Sessions.UI", "RacerData.iRacing.Sessions.UI\RacerData.iRacing.Sessions.UI.csproj", "{C7371B63-24D6-40E9-B3D0-2733B090E282}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacerData.iRacing.SessionMonitor", "RacerData.iRacing.SessionMonitor\RacerData.iRacing.SessionMonitor.csproj", "{CE414BE6-AB02-4242-8151-F5B6FFB6495B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8A2D50E-109F-484D-9D85-E5ECA54B72FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A2D50E-109F-484D-9D85-E5ECA54B72FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A2D50E-109F-484D-9D85-E5ECA54B72FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A2D50E-109F-484D-9D85-E5ECA54B72FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A92DFC7B-075D-4D69-8441-1EB2D61F39B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A92DFC7B-075D-4D69-8441-1EB2D61F39B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A92DFC7B-075D-4D69-8441-1EB2D61F39B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A92DFC7B-075D-4D69-8441-1EB2D61F39B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66AA5700-C094-4641-8488-86272747B84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66AA5700-C094-4641-8488-86272747B84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66AA5700-C094-4641-8488-86272747B84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66AA5700-C094-4641-8488-86272747B84E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BE4172E-3666-49A2-92B9-33DE3FC06D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BE4172E-3666-49A2-92B9-33DE3FC06D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BE4172E-3666-49A2-92B9-33DE3FC06D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BE4172E-3666-49A2-92B9-33DE3FC06D67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F6DB111-67AF-411A-8EEA-7EB54A27D62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F6DB111-67AF-411A-8EEA-7EB54A27D62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F6DB111-67AF-411A-8EEA-7EB54A27D62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F6DB111-67AF-411A-8EEA-7EB54A27D62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591D851A-AFEE-4129-863D-069B8768DB0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591D851A-AFEE-4129-863D-069B8768DB0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591D851A-AFEE-4129-863D-069B8768DB0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591D851A-AFEE-4129-863D-069B8768DB0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1089279A-3679-4BF5-9246-EB3123987139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1089279A-3679-4BF5-9246-EB3123987139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1089279A-3679-4BF5-9246-EB3123987139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1089279A-3679-4BF5-9246-EB3123987139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9642592F-3009-49F0-80DE-CF8D9F19ABCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9642592F-3009-49F0-80DE-CF8D9F19ABCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9642592F-3009-49F0-80DE-CF8D9F19ABCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9642592F-3009-49F0-80DE-CF8D9F19ABCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7371B63-24D6-40E9-B3D0-2733B090E282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7371B63-24D6-40E9-B3D0-2733B090E282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7371B63-24D6-40E9-B3D0-2733B090E282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7371B63-24D6-40E9-B3D0-2733B090E282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE414BE6-AB02-4242-8151-F5B6FFB6495B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE414BE6-AB02-4242-8151-F5B6FFB6495B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE414BE6-AB02-4242-8151-F5B6FFB6495B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE414BE6-AB02-4242-8151-F5B6FFB6495B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1898D3F8-4DBF-41F6-8340-09D56A5792F8}
+	EndGlobalSection
+EndGlobal
